@@ -111,14 +111,14 @@ dependencies {
     kaptTest mobileUiDependencies.archLifecycleCompiler
 
     // Auto-Value
-    compileOnly developmentDependencies.autoValue
     annotationProcessor developmentDependencies.autoValue
+    provided developmentDependencies.autoValue
     testAnnotationProcessor developmentDependencies.autoValue
     androidTestAnnotationProcessor developmentDependencies.autoValue
 
     // AutoValue Type Adapter
-    compileOnly developmentDependencies.autoValueGson
     annotationProcessor developmentDependencies.autoValueGson
+    provided developmentDependencies.autoValueGson
     testAnnotationProcessor developmentDependencies.autoValueGson
     androidTestAnnotationProcessor developmentDependencies.autoValueGson
 
