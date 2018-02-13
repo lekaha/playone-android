@@ -14,7 +14,7 @@ android {
         minSdkVersion globalConfiguration["androidMinSdkVersion"]
         targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
         multiDexEnabled = true
-        testInstrumentationRunner "com.lekaha.android.boilerplate.ui.test.TestRunner"
+        testInstrumentationRunner "com.playone.android.ui.test.TestRunner"
     }
 
     buildTypes {

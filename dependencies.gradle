@@ -15,7 +15,6 @@ ext {
 
     //Libraries
     kotlinVersion = '1.1.51'
-    butterKnifeVersion = '7.0.1'
     recyclerViewVersion = '21.0.3'
     rxJavaVersion = '2.0.2'
     rxKotlinVersion = '2.1.0'
@@ -26,11 +25,10 @@ ext {
     okHttpVersion = '3.8.1'
     androidAnnotationsVersion = '21.0.3'
     retrofitVersion = '2.3.0'
-    roomVersion = '1.0.0-alpha6'
     supportLibraryVersion = '27.0.2'
     timberVersion = '4.5.1'
-    glideVersion = '4.0.0'
-    daggerVersion = '2.11'
+    glideVersion = '4.6.1'
+    daggerVersion = '2.14.1'
     glassfishAnnotationVersion = '10.0-b28'
     archLifecycle = '1.1.0'
     roomVersion = '1.1.0-alpha1'
