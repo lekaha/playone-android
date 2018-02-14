@@ -1,7 +1,7 @@
 package com.playone.android.cache.db.mapper
 
 import android.database.Cursor
-import android.support.multidex.BuildConfig
+import com.playone.android.cache.BuildConfig
 import com.playone.android.cache.db.Db
 import com.playone.android.cache.db.DbOpenHelper
 import com.playone.android.cache.model.CachedBufferoo
