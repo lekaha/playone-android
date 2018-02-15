@@ -11,11 +11,11 @@ android {
     buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
 
     defaultConfig {
-        applicationId "com.playone.android"
+        applicationId "com.playone.mobile"
         minSdkVersion globalConfiguration["androidMinSdkVersion"]
         targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
         multiDexEnabled = true
-        testInstrumentationRunner "com.playone.android.ui.test.TestRunner"
+        testInstrumentationRunner "com.playone.mobile.ui.test.TestRunner"
     }
 
     buildTypes {
@@ -55,7 +55,7 @@ android {
 
         standalone {
             dimension "environment"
-            applicationId "com.playone.android.local"
+            applicationId "com.playone.mobile.local"
         }
 
         dependant {
