@@ -16,6 +16,12 @@ android {
         targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
         multiDexEnabled = true
         testInstrumentationRunner "com.playone.mobile.ui.test.TestRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
     }
 
     buildTypes {
@@ -126,16 +132,17 @@ dependencies {
     kaptTest mobileUiDependencies.archLifecycleCompiler
 
     // Auto-Value
-    annotationProcessor developmentDependencies.autoValue
-    compileOnly developmentDependencies.autoValue
-    testAnnotationProcessor developmentDependencies.autoValue
-    androidTestAnnotationProcessor developmentDependencies.autoValue
+    kapt developmentDependencies.autoValue
+    compileOnly developmentDependencies.autoValueAnnotation
+    kaptTest developmentDependencies.autoValue
+    kaptAndroidTest developmentDependencies.autoValue
 
     // AutoValue Type Adapter
-    annotationProcessor developmentDependencies.autoValueGson
-    compileOnly developmentDependencies.autoValueGson
-    testAnnotationProcessor developmentDependencies.autoValueGson
-    androidTestAnnotationProcessor developmentDependencies.autoValueGson
+    kapt developmentDependencies.autoValueGson
+    kaptTest developmentDependencies.autoValueGson
+    kaptAndroidTest developmentDependencies.autoValueGson
+
+    implementation developmentDependencies.gson
 
     // Instrumentation test dependencies
     androidTestImplementation mobileUiTestDependencies.junit
