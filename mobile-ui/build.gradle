@@ -11,6 +11,7 @@ android {
     buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
 
     defaultConfig {
+        applicationId "com.playone.android"
         minSdkVersion globalConfiguration["androidMinSdkVersion"]
         targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
         multiDexEnabled = true
@@ -46,6 +47,20 @@ android {
         quiet true
         abortOnError false
         ignoreWarnings true
+    }
+
+    flavorDimensions "environment"
+
+    productFlavors {
+
+        standalone {
+            dimension "environment"
+            applicationId "com.playone.android.local"
+        }
+
+        dependant {
+            dimension "environment"
+        }
     }
 
 }
