@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lekaha/playone-android.svg?branch=master)](https://travis-ci.org/lekaha/playone-android) [![codecov](https://codecov.io/gh/lekaha/playone-android/branch/master/graph/badge.svg)](https://codecov.io/gh/lekaha/playone-android)
+
 # Playone
 This is an app solve you could not play basketball problem.
 

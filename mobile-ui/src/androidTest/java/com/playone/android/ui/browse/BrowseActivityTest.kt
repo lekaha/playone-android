@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single
 import com.playone.android.domain.model.Bufferoo
+import com.playone.android.ui.R
 import com.playone.android.ui.test.TestApplication
 import com.playone.android.ui.test.factory.BufferooFactory
 import com.playone.android.ui.test.util.RecyclerViewMatcher

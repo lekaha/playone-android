@@ -127,13 +127,13 @@ dependencies {
 
     // Auto-Value
     annotationProcessor developmentDependencies.autoValue
-    provided developmentDependencies.autoValue
+    compileOnly developmentDependencies.autoValue
     testAnnotationProcessor developmentDependencies.autoValue
     androidTestAnnotationProcessor developmentDependencies.autoValue
 
     // AutoValue Type Adapter
     annotationProcessor developmentDependencies.autoValueGson
-    provided developmentDependencies.autoValueGson
+    compileOnly developmentDependencies.autoValueGson
     testAnnotationProcessor developmentDependencies.autoValueGson
     androidTestAnnotationProcessor developmentDependencies.autoValueGson
 
