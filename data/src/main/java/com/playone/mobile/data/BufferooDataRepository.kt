@@ -18,18 +18,15 @@ class BufferooDataRepository @Inject constructor(private val factory: BufferooDa
                                                  private val bufferooMapper: BufferooMapper) :
         BufferooRepository {
 
-    override fun clearBufferoos(): Completable {
-        return factory.retrieveCacheDataStore().clearBufferoos()
-    }
+    override fun clearBufferoos() = factory.retrieveCacheDataStore().clearBufferoos()
 
     override fun saveBufferoos(bufferoos: List<Bufferoo>): Completable {
         val bufferooEntities = bufferoos.map { bufferooMapper.mapToEntity(it) }
         return saveBufferooEntities(bufferooEntities)
     }
 
-    private fun saveBufferooEntities(bufferoos: List<BufferooEntity>): Completable {
-        return factory.retrieveCacheDataStore().saveBufferoos(bufferoos)
-    }
+    private fun saveBufferooEntities(bufferoos: List<BufferooEntity>) =
+        factory.retrieveCacheDataStore().saveBufferoos(bufferoos)
 
     override fun getBufferoos(): Single<List<Bufferoo>> {
         val dataStore = factory.retrieveDataStore()

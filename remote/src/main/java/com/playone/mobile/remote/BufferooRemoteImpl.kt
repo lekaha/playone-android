@@ -18,13 +18,11 @@ class BufferooRemoteImpl @Inject constructor(private val bufferooService: Buffer
     /**
      * Retrieve a list of [BufferooEntity] instances from the [BufferooService].
      */
-    override fun getBufferoos(): Single<List<BufferooEntity>> {
-        return bufferooService.getBufferoos()
-                .map {
-                    it.team.map { listItem ->
-                        entityMapper.mapFromRemote(listItem)
-                    }
+    override fun getBufferoos() = bufferooService.getBufferoos()
+            .map {
+                it.team.map { listItem ->
+                    entityMapper.mapFromRemote(listItem)
                 }
-    }
+            }
 
 }

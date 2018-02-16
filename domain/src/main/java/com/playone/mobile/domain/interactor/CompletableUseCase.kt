@@ -24,19 +24,13 @@ abstract class CompletableUseCase<in Params> protected constructor(
     /**
      * Executes the current use case.
      */
-    fun execute(params: Params): Completable {
-        return this.buildUseCaseObservable(params)
-                .subscribeOn(Schedulers.from(threadExecutor))
-                .observeOn(postExecutionThread.scheduler)
-    }
+    fun execute(params: Params) = this.buildUseCaseObservable(params)
+            .subscribeOn(Schedulers.from(threadExecutor))
+            .observeOn(postExecutionThread.scheduler)
 
     /**
      * Unsubscribes from current [Disposable].
      */
-    fun unsubscribe() {
-        if (!subscription.isDisposed) {
-            subscription.dispose()
-        }
-    }
+    fun unsubscribe() = if (!subscription.isDisposed) subscription.dispose() else Unit
 
 }

@@ -13,9 +13,7 @@ open class BufferooMapper @Inject constructor(): Mapper<BufferooView, Bufferoo> 
     /**
      * Map a [Bufferoo] instance to a [BufferooView] instance
      */
-    override fun mapToView(type: Bufferoo): BufferooView {
-        return BufferooView(type.name, type.title, type.avatar)
-    }
+    override fun mapToView(type: Bufferoo) = BufferooView(type.name, type.title, type.avatar)
 
 
 }
