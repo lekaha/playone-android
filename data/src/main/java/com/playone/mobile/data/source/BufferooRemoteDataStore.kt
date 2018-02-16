@@ -25,8 +25,6 @@ open class BufferooRemoteDataStore @Inject constructor(private val bufferooRemot
     /**
      * Retrieve a list of [BufferooEntity] instances from the API
      */
-    override fun getBufferoos(): Single<List<BufferooEntity>> {
-        return bufferooRemote.getBufferoos()
-    }
+    override fun getBufferoos() = bufferooRemote.getBufferoos()
 
 }

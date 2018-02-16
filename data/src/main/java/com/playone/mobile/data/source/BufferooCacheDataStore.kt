@@ -17,25 +17,18 @@ open class BufferooCacheDataStore @Inject constructor(private val bufferooCache:
     /**
      * Clear all Bufferoos from the cache
      */
-    override fun clearBufferoos(): Completable {
-        return bufferooCache.clearBufferoos()
-    }
+    override fun clearBufferoos() = bufferooCache.clearBufferoos()
 
     /**
      * Save a given [List] of [BufferooEntity] instances to the cache
      */
-    override fun saveBufferoos(bufferoos: List<BufferooEntity>): Completable {
-        return bufferooCache.saveBufferoos(bufferoos)
-                .doOnComplete {
-                    bufferooCache.setLastCacheTime(System.currentTimeMillis())
-                }
-    }
+    override fun saveBufferoos(bufferoos: List<BufferooEntity>) =
+        bufferooCache.saveBufferoos(bufferoos)
+            .doOnComplete { bufferooCache.setLastCacheTime(System.currentTimeMillis()) }
 
     /**
      * Retrieve a list of [BufferooEntity] instance from the cache
      */
-    override fun getBufferoos(): Single<List<BufferooEntity>> {
-        return bufferooCache.getBufferoos()
-    }
+    override fun getBufferoos() = bufferooCache.getBufferoos()
 
 }

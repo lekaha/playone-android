@@ -50,43 +50,34 @@ open class ApplicationModule {
 
     @Provides
     @PerApplication
-    internal fun providePreferencesHelper(context: Context): PreferencesHelper {
-        return PreferencesHelper(context)
-    }
+    internal fun providePreferencesHelper(context: Context) = PreferencesHelper(context)
 
 
     @Provides
     @PerApplication
     internal fun provideBufferooRepository(factory: BufferooDataStoreFactory,
-                                           mapper: BufferooMapper): BufferooRepository {
-        return BufferooDataRepository(factory, mapper)
-    }
+                                           mapper: BufferooMapper) =
+        BufferooDataRepository(factory, mapper)
 
     @Provides
     @PerApplication
     internal fun provideBufferooCache(factory: DbOpenHelper,
                                       entityMapper: BufferooEntityMapper,
                                       mapper: com.playone.mobile.cache.db.mapper.BufferooMapper,
-                                      helper: PreferencesHelper): BufferooCache {
-        return BufferooCacheImpl(factory, entityMapper, mapper, helper)
-    }
+                                      helper: PreferencesHelper): BufferooCache =
+        BufferooCacheImpl(factory, entityMapper, mapper, helper)
 
     @Provides
     @PerApplication
     internal fun provideBufferooRemote(service: BufferooService,
-                                       factory: com.playone.mobile.remote.mapper.BufferooEntityMapper): BufferooRemote {
-        return BufferooRemoteImpl(service, factory)
-    }
+                                       factory: com.playone.mobile.remote.mapper.BufferooEntityMapper): BufferooRemote =
+        BufferooRemoteImpl(service, factory)
 
     @Provides
     @PerApplication
-    internal fun provideThreadExecutor(jobExecutor: JobExecutor): ThreadExecutor {
-        return jobExecutor
-    }
+    internal fun provideThreadExecutor(jobExecutor: JobExecutor): ThreadExecutor = jobExecutor
 
     @Provides
     @PerApplication
-    internal fun providePostExecutionThread(uiThread: UiThread): PostExecutionThread {
-        return uiThread
-    }
+    internal fun providePostExecutionThread(uiThread: UiThread): PostExecutionThread = uiThread
 }

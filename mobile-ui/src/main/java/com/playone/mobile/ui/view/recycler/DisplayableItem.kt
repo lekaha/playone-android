@@ -6,13 +6,10 @@ import com.google.auto.value.AutoValue
 abstract class DisplayableItem<out T> {
 
     companion object {
-        fun <T> builder(): Builder<T> {
-            return AutoValue_DisplayableItem.Builder()
-        }
+        fun <T> builder(): Builder<T> = AutoValue_DisplayableItem.Builder()
 
-        fun toDisplayableItem(model: Any, type: Int): DisplayableItem<*> {
-            return builder<Any>().type(type).model(model).build()
-        }
+        fun toDisplayableItem(model: Any, type: Int) =
+            builder<Any>().type(type).model(model).build()
     }
 
     abstract fun type(): Int

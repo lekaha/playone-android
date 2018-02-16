@@ -16,7 +16,6 @@ abstract class BaseFragment: DaggerFragment() {
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getLayoutId(), container, false)
-    }
+                              savedInstanceState: Bundle?) =
+        inflater.inflate(getLayoutId(), container, false)
 }

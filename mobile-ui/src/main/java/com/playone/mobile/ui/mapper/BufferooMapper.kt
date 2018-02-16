@@ -17,20 +17,16 @@ open class BufferooMapper @Inject constructor(): Mapper<BufferooViewModel, Buffe
     /**
      * Map a [BufferooView] instance to a [BufferooViewModel] instance
      */
-    override fun mapToViewModel(type: BufferooView): BufferooViewModel {
-        return BufferooViewModel(type.name, type.title, type.avatar)
-    }
+    override fun mapToViewModel(type: BufferooView) =
+        BufferooViewModel(type.name, type.title, type.avatar)
 
     @Throws(Exception::class)
-    fun mapToViewModels(views: List<BufferooView>): List<DisplayableItem<*>> {
-        return Observable.fromIterable(views)
-                .map { mapToViewModel(it) }
-                .map { wrapInDisplayableItem(it) }
-                .toList()
-                .blockingGet()
-    }
+    fun mapToViewModels(views: List<BufferooView>) = Observable.fromIterable(views)
+            .map { mapToViewModel(it) }
+            .map { wrapInDisplayableItem(it) }
+            .toList()
+            .blockingGet()
 
-    private fun wrapInDisplayableItem(viewEntity: BufferooViewModel): DisplayableItem<*> {
-        return toDisplayableItem(viewEntity, DISPLAY_TYPE_BROWSE)
-    }
+    private fun wrapInDisplayableItem(viewEntity: BufferooViewModel) =
+        toDisplayableItem(viewEntity, DISPLAY_TYPE_BROWSE)
 }

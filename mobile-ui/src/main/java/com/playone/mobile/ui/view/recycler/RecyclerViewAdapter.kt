@@ -17,22 +17,17 @@ open class RecyclerViewAdapter(private val comparator: ItemComparator,
 
     private val modelItems = ArrayList<DisplayableItem<*>>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return factoryMap[viewType]!!.createViewHolder(parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        factoryMap[viewType]!!.createViewHolder(parent)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = modelItems[position]
         binderMap[item.type()]!!.bind(holder, item)
     }
 
-    override fun getItemCount(): Int {
-        return modelItems.size
-    }
+    override fun getItemCount() = modelItems.size
 
-    override fun getItemViewType(position: Int): Int {
-        return modelItems.get(position).type()
-    }
+    override fun getItemViewType(position: Int) = modelItems[position].type()
 
     /**
      * Updates modelItems currently stored in adapter with the new modelItems.
@@ -71,16 +66,14 @@ open class RecyclerViewAdapter(private val comparator: ItemComparator,
                 .subscribe(this::updateAdapterWithDiffResult)
     }
 
-    private fun calculateDiff(newItems: List<DisplayableItem<*>>): DiffUtil.DiffResult {
-        return DiffUtil.calculateDiff(DiffUtilCallback(modelItems, newItems, comparator))
-    }
+    private fun calculateDiff(newItems: List<DisplayableItem<*>>) =
+        DiffUtil.calculateDiff(DiffUtilCallback(modelItems, newItems, comparator))
 
     private fun updateItemsInModel(items: List<DisplayableItem<*>>) {
         modelItems.clear()
         modelItems.addAll(items)
     }
 
-    private fun updateAdapterWithDiffResult(result: DiffUtil.DiffResult) {
+    private fun updateAdapterWithDiffResult(result: DiffUtil.DiffResult) =
         result.dispatchUpdatesTo(this)
-    }
 }
