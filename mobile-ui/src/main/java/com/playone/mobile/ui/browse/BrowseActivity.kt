@@ -12,7 +12,7 @@ class BrowseActivity:
         return null
     }
 
-    override fun getLayoutId(): Int = R.layout.activity_browse
+    override fun getLayoutId() = R.layout.activity_browse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -25,10 +25,8 @@ open class NetModule {
     }
 
     @Provides
-    internal fun provideChuckInterceptor(context: Context): ChuckInterceptor
-            = ChuckInterceptor(context)
+    internal fun provideChuckInterceptor(context: Context) = ChuckInterceptor(context)
 
     @Provides
-    internal fun provideStethoInterceptor(): StethoInterceptor
-            = StethoInterceptor()
+    internal fun provideStethoInterceptor() = StethoInterceptor()
 }
