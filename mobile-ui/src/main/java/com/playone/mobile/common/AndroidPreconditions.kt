@@ -23,8 +23,7 @@ class AndroidPreconditions {
             }
         }
 
-        private fun isMainThread(): Boolean =
-                Looper.getMainLooper().thread == Thread.currentThread()
+        private fun isMainThread() = Looper.getMainLooper().thread == Thread.currentThread()
     }
 
 }

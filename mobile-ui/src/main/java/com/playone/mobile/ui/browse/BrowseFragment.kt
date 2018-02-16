@@ -24,7 +24,7 @@ class BrowseFragment: BaseInjectingFragment() {
     private var viewModel: BrowseViewModel? = null
 
     companion object {
-        fun newInstance(): BrowseFragment = BrowseFragment()
+        fun newInstance() = BrowseFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +40,7 @@ class BrowseFragment: BaseInjectingFragment() {
     }
 
     @LayoutRes
-    override fun getLayoutId(): Int = R.layout.fragment_browse
+    override fun getLayoutId() = R.layout.fragment_browse
 
     private fun showProgress() {
         progress.visibility = View.GONE

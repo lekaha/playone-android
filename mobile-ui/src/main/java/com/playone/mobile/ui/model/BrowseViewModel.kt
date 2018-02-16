@@ -38,11 +38,11 @@ class BrowseViewModel(var onboardingPresenter: BrowseBufferoosContract.Presenter
         }
     }
 
-    fun isProgressing(): LiveData<Boolean> = isProgressing
+    fun isProgressing() = isProgressing
 
-    fun occurredError(): LiveData<Throwable> = occurredError
+    fun occurredError() = occurredError
 
-    fun fetchedData(): LiveData<List<BufferooView>> = bufferoos
+    fun fetchedData() = bufferoos
 
     fun load() = onboardingPresenter.start()
 
