@@ -17,9 +17,7 @@ open class BrowseActivityModule {
 
     @Provides
     internal fun provideBrowsePresenter(getBufferoos: GetBufferoos, mapper: BufferooMapper):
-            BrowseBufferoosContract.Presenter {
-        return BrowseBufferoosPresenter(getBufferoos, mapper)
-    }
+            BrowseBufferoosContract.Presenter = BrowseBufferoosPresenter(getBufferoos, mapper)
 
     @Provides
     internal fun provideBrowseViewModelFactory(presenter: BrowseBufferoosContract.Presenter)

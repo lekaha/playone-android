@@ -32,13 +32,12 @@ object BufferooServiceFactory {
         return retrofit.create(BufferooService::class.java)
     }
 
-    private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        return OkHttpClient.Builder()
-                .addInterceptor(httpLoggingInterceptor)
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .readTimeout(120, TimeUnit.SECONDS)
-                .build()
-    }
+    private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor) =
+        OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .build()
 
     private fun makeOkHttpClient(isDebug: Boolean, vararg interceptors: Interceptor): OkHttpClient {
         val builder = OkHttpClient.Builder()
@@ -50,13 +49,12 @@ object BufferooServiceFactory {
                 .build()
     }
 
-    private fun makeGson(): Gson {
-        return GsonBuilder()
-                .setLenient()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create()
-    }
+    private fun makeGson() =
+        GsonBuilder()
+            .setLenient()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .create()
 
     private fun makeLoggingInterceptor(isDebug: Boolean): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()

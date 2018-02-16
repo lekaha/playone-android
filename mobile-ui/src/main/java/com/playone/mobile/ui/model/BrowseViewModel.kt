@@ -44,13 +44,9 @@ class BrowseViewModel(var onboardingPresenter: BrowseBufferoosContract.Presenter
 
     fun fetchedData() = bufferoos
 
-    fun load() {
-        onboardingPresenter.start()
-    }
+    fun load() = onboardingPresenter.start()
 
-    override fun onCleared() {
-        onboardingPresenter.stop()
-    }
+    override fun onCleared() = onboardingPresenter.stop()
 
 
 }

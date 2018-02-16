@@ -17,12 +17,10 @@ open class NetModule {
     @PerApplication
     internal fun provideBufferooService(chuckInterceptor: ChuckInterceptor,
                                         stethoInterceptor: StethoInterceptor
-                                        ): BufferooService {
-        return BufferooServiceFactory.makeBuffeoorService(
-                BuildConfig.DEBUG,
-                chuckInterceptor,
-                stethoInterceptor)
-    }
+                                        ) = BufferooServiceFactory.makeBuffeoorService(
+                                                BuildConfig.DEBUG,
+                                                chuckInterceptor,
+                                                stethoInterceptor)
 
     @Provides
     internal fun provideChuckInterceptor(context: Context) = ChuckInterceptor(context)
