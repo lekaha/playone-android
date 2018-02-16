@@ -56,7 +56,7 @@ open class ApplicationModule {
     @Provides
     @PerApplication
     internal fun provideBufferooRepository(factory: BufferooDataStoreFactory,
-                                           mapper: BufferooMapper) =
+                                           mapper: BufferooMapper): BufferooRepository =
         BufferooDataRepository(factory, mapper)
 
     @Provides
