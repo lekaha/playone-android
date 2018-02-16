@@ -45,6 +45,6 @@ jobs:
           command: ./gradlew test
           environment:
             TERM: dumb
-      - run:
-          name: Run Tests
-          command: ./gradlew connectedAndroidTest --stacktrace
+#      - run:
+#          name: Run Tests
+#          command: ./gradlew connectedAndroidTest --stacktrace
