@@ -35,7 +35,7 @@ class BrowseViewHolder(view: View): RecyclerView.ViewHolder(view) {
     class BrowseViewHolderFactory @Inject constructor(context: Context):
             ViewHolderFactory(context) {
 
-        override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder
+        override fun createViewHolder(parent: ViewGroup)
                 = BrowseViewHolder(LayoutInflater
                     .from(context)
                     .inflate(R.layout.item_bufferoo, parent, false))

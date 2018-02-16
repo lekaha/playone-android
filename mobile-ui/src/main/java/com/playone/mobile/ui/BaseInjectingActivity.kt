@@ -12,9 +12,9 @@ abstract class BaseInjectingActivity<Component>: BaseActivity() {
     @CallSuper
     open protected fun onInject(component: Component) {}
 
-    fun hasComponent(): Boolean = component != null
+    fun hasComponent() = component != null
 
-    fun getComponent(): Component = Preconditions[component]
+    fun getComponent() = Preconditions[component]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         component = createComponent()

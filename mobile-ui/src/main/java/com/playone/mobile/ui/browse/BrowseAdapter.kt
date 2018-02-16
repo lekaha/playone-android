@@ -14,12 +14,10 @@ class BrowseAdapter(itemComparator: ItemComparator,
 
     class BrowseItemComparator: ItemComparator {
         override fun areItemsTheSame(itemLeft: DisplayableItem<*>,
-                                     itemRight: DisplayableItem<*>): Boolean
-                = itemLeft == itemRight
+                                     itemRight: DisplayableItem<*>) = itemLeft == itemRight
 
         override fun areContentsTheSame(itemLeft: DisplayableItem<*>,
-                                        itemRight: DisplayableItem<*>): Boolean
-                = itemLeft == itemRight
+                                        itemRight: DisplayableItem<*>) = itemLeft == itemRight
 
     }
 }

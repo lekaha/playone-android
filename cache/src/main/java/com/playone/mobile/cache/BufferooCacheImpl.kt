@@ -26,7 +26,7 @@ class BufferooCacheImpl @Inject constructor(dbOpenHelper: DbOpenHelper,
 
     private val EXPIRATION_TIME = (60 * 10 * 1000).toLong()
 
-    private var database: SQLiteDatabase = dbOpenHelper.writableDatabase
+    private var database = dbOpenHelper.writableDatabase
 
     /**
      * Retrieve an instance from the database, used for tests
