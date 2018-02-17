@@ -6,9 +6,6 @@ import com.playone.mobile.remote.model.PlayoneModel
 /**
  * Map a [PlayoneModel] to and from a [PlayoneEntity] instance when data is moving between
  * this layer and the data layer.
- *
- * @author  Jieyi Wu
- * @since   2018/02/17
  */
 class PlayoneEntityMapper : EntityMapper<PlayoneModel, PlayoneEntity> {
     override fun mapFromRemote(type: PlayoneModel) = type.run {
