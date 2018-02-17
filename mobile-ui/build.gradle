@@ -90,6 +90,7 @@ dependencies {
     implementation project(':data')
     implementation project(':cache')
     implementation project(':remote')
+    implementation project(':ext')
 
     implementation mobileUiDependencies.javaxAnnotation
 
@@ -143,6 +144,9 @@ dependencies {
     kaptAndroidTest developmentDependencies.autoValueGson
 
     implementation developmentDependencies.gson
+
+    // KTX
+    implementation mobileUiDependencies.ktx
 
     // Instrumentation test dependencies
     androidTestImplementation mobileUiTestDependencies.junit

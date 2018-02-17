@@ -25,4 +25,5 @@ dependencies {
     testImplementation remoteTestDependencies.assertj
 
     compile project(':data')
+    implementation project(':ext')
 }
