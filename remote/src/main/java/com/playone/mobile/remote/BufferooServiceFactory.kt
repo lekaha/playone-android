@@ -16,19 +16,18 @@ import java.util.concurrent.TimeUnit
  * and its related dependencies, such as OkHttpClient, Gson, etc.
  */
 object BufferooServiceFactory {
-
-    fun makeBuffeoorService(isDebug: Boolean, vararg interceptors: Interceptor): BufferooService {
-        val okHttpClient = makeOkHttpClient(isDebug, *interceptors)
+    fun makeBuffeoorService(isDebug: Boolean, interceptors: Array<Interceptor>): BufferooService {
+        val okHttpClient = makeOkHttpClient(isDebug, interceptors)
         return makeBufferooService(okHttpClient, makeGson())
     }
 
     private fun makeBufferooService(okHttpClient: OkHttpClient, gson: Gson): BufferooService {
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://joe-birch-dsdb.squarespace.com/s/")
-                .client(okHttpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build()
+            .baseUrl("https://joe-birch-dsdb.squarespace.com/s/")
+            .client(okHttpClient)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
         return retrofit.create(BufferooService::class.java)
     }
 
@@ -39,14 +38,14 @@ object BufferooServiceFactory {
             .readTimeout(120, TimeUnit.SECONDS)
             .build()
 
-    private fun makeOkHttpClient(isDebug: Boolean, vararg interceptors: Interceptor): OkHttpClient {
+    private fun makeOkHttpClient(isDebug: Boolean, interceptors: Array<Interceptor>): OkHttpClient {
         val builder = OkHttpClient.Builder()
         builder.addInterceptor(makeLoggingInterceptor(isDebug))
         if (isDebug) interceptors.forEach { builder.addInterceptor(it) }
         return builder
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .readTimeout(120, TimeUnit.SECONDS)
-                .build()
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .build()
     }
 
     private fun makeGson() =
@@ -58,11 +57,12 @@ object BufferooServiceFactory {
 
     private fun makeLoggingInterceptor(isDebug: Boolean): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()
-        logging.level = if (isDebug)
+        logging.level = if (isDebug) {
             HttpLoggingInterceptor.Level.BODY
-        else
-          HttpLoggingInterceptor.Level.NONE
+        }
+        else {
+            HttpLoggingInterceptor.Level.NONE
+        }
         return logging
     }
-
 }
