@@ -58,7 +58,8 @@ ext {
     leakCanary = '1.5.4'
 
     extDependencies = [
-            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}",
+            rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            kotlin  :           "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}",
     ]
 
     extTestDependencies = [

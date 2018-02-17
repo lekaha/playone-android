@@ -7,6 +7,7 @@ dependencies {
     def extDependencies = rootProject.ext.extDependencies
     def extTestDependencies = rootProject.ext.extTestDependencies
 
+    implementation extDependencies.rxKotlin
     implementation extDependencies.kotlin
 
     testImplementation extTestDependencies.junit
