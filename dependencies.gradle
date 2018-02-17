@@ -36,6 +36,7 @@ ext {
     autoValueGson = '0.7.0'
     autoValueAnnotation = autoValue
     ktxVersion = '0.1'
+    firebaseVersion = '11.8.0'
 
     //Testing
     robolectricVersion = '3.4.2'
@@ -170,6 +171,9 @@ ext {
     ]
 
     remoteDependencies = [
+            firebaseCore:       "com.google.firebase:firebase-core:${firebaseVersion}",
+            firebaseDb:         "com.google.firebase:firebase-database:${firebaseVersion}",
+            firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseVersion}",
             daggerCompiler:     "com.google.dagger:dagger-compiler:${daggerVersion}",
             dagger:             "com.google.dagger:dagger:${daggerVersion}",
             gson:               "com.google.code.gson:gson:${gsonVersion}",

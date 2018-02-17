@@ -5,6 +5,7 @@ import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneRemote
 import com.playone.mobile.remote.mapper.PlayoneEntityMapper
+import io.reactivex.Single
 
 /**
  * Remote implementation for retrieving Playone instances. This class implements the
@@ -16,7 +17,9 @@ class PlayoneRemoteImpl constructor(
     private val service: PlayoneService,
     private val entityMapper: PlayoneEntityMapper
 ) : PlayoneRemote {
-    override fun fetchPlayoneList(userId: Int) = TODO()
+    //    private val db = FirebaseFirestore
+//    private val firebaseDatabaseReference: DatabaseReference? = null
+    override fun fetchPlayoneList(userId: Int): Single<List<PlayoneEntity>> = TODO()
 
     override fun fetchJoinedPlayoneList(userId: Int) = TODO()
 
