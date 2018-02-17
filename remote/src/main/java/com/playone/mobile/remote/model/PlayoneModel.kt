@@ -1,8 +1,7 @@
 package com.playone.mobile.remote.model
 
 /**
- * @author  Jieyi Wu
- * @since   2018/02/17
+ * Representation for a [PlayoneModel] fetched from the API.
  */
 data class PlayoneModel(
     var id: String = "",

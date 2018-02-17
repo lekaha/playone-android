@@ -1,8 +1,7 @@
 package com.playone.mobile.data.model
 
 /**
- * @author  Jieyi Wu
- * @since   2018/02/17
+ * Representation for a [UserEntity] fetched from an external layer data source.
  */
 data class UserEntity(
     var id: String = "",

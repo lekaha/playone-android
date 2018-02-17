@@ -1,8 +1,7 @@
 package com.playone.mobile.remote.model
 
 /**
- * @author  Jieyi Wu
- * @since   2018/02/17
+ * Representation for a [UserModel] fetched from the API.
  */
 data class UserModel(
     var id: String = "",
