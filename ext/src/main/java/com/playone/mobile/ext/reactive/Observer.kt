@@ -1,11 +1,7 @@
 package com.playone.mobile.ext.reactive
 
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
-
 /**
- * @author  jieyi
- * @since   2/17/18
+ * An extension collections about the [io.reactivex.Observer].
  */
 fun <T> observer(): ObserverPlugin<T> = ObserverPlugin()
 
