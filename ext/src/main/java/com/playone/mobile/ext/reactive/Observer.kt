@@ -1,5 +1,8 @@
 package com.playone.mobile.ext.reactive
 
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+
 /**
  * An extension collections about the [io.reactivex.Observer].
  */
