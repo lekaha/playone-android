@@ -171,9 +171,6 @@ ext {
     ]
 
     remoteDependencies = [
-            firebaseCore:       "com.google.firebase:firebase-core:${firebaseVersion}",
-            firebaseDb:         "com.google.firebase:firebase-database:${firebaseVersion}",
-            firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseVersion}",
             daggerCompiler:     "com.google.dagger:dagger-compiler:${daggerVersion}",
             dagger:             "com.google.dagger:dagger:${daggerVersion}",
             gson:               "com.google.code.gson:gson:${gsonVersion}",
@@ -226,6 +223,11 @@ ext {
 
             // KTX
             ktx:                "androidx.core:core-ktx:${ktxVersion}",
+
+            // Firebase
+            firebaseCore:       "com.google.firebase:firebase-core:${firebaseVersion}",
+            firebaseDb:         "com.google.firebase:firebase-database:${firebaseVersion}",
+            firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseVersion}",
     ]
 
     mobileUiTestDependencies = [

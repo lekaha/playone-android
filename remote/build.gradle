@@ -9,9 +9,6 @@ dependencies {
 
     implementation remoteDependencies.javaxAnnotation
 
-    implementation remoteDependencies.firebaseCore
-    implementation remoteDependencies.firebaseDb
-    implementation remoteDependencies.firebaseMsging
     implementation remoteDependencies.kotlin
     implementation remoteDependencies.javaxInject
     implementation remoteDependencies.rxKotlin
