@@ -9,6 +9,9 @@ dependencies {
 
     implementation extDependencies.rxKotlin
     implementation extDependencies.kotlin
+    implementation extDependencies.firebaseCore
+    implementation extDependencies.firebaseDb
+    implementation extDependencies.firebaseMsging
 
     testImplementation extTestDependencies.junit
     testImplementation extTestDependencies.kotlinJUnit

@@ -61,6 +61,11 @@ ext {
     extDependencies = [
             rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
             kotlin  :           "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}",
+
+            // Firebase
+            firebaseCore:       "com.google.firebase:firebase-core:${firebaseVersion}",
+            firebaseDb:         "com.google.firebase:firebase-database:${firebaseVersion}",
+            firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseVersion}",
     ]
 
     extTestDependencies = [

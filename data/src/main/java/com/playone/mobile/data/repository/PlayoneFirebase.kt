@@ -9,7 +9,7 @@ import io.reactivex.Single
  * Interface defining methods for the retrieving of the data. This is to be implemented by the
  * remote layer, using this interface as a way of communicating.
  */
-interface PlayoneRemote {
+interface PlayoneFirebase {
     //region Playone
     fun fetchPlayoneList(userId: Int = -1): Single<List<PlayoneEntity>>
 
