@@ -8,7 +8,7 @@ import com.playone.mobile.remote.model.PlayoneModel
  * this layer and the data layer.
  */
 class PlayoneEntityMapper : EntityMapper<PlayoneModel, PlayoneEntity> {
-    override fun mapFromRemote(type: PlayoneModel) = type.run {
+    override fun mapToData(type: PlayoneModel) = type.run {
         PlayoneEntity(id,
                       name,
                       description,
@@ -21,5 +21,20 @@ class PlayoneEntityMapper : EntityMapper<PlayoneModel, PlayoneEntity> {
                       level,
                       host,
                       userId)
+    }
+
+    override fun mapFromData(type: PlayoneEntity) = type.run {
+        PlayoneModel(id,
+                     name,
+                     description,
+                     date,
+                     updated,
+                     address,
+                     longitude,
+                     latitude,
+                     limit,
+                     level,
+                     host,
+                     userId)
     }
 }

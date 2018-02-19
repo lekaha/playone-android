@@ -9,9 +9,9 @@ import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.remote.PlayoneFirebase
 import com.playone.mobile.ui.firebase.ext.addListenerForSingleValueEvent
 
-class PlayoneFirebaseV1(private val dbReference: DatabaseReference)
-    : PlayoneFirebase(), PlayoneRemote {
-
+class PlayoneFirebaseV1(
+    private val dbReference: DatabaseReference
+) : PlayoneFirebase(), PlayoneRemote {
     fun playoneDataSnapshot() {
         dbReference.child(GROUPS).addListenerForSingleValueEvent {
             onDataChange = {

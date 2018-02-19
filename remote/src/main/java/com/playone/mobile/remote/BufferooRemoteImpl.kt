@@ -21,6 +21,6 @@ class BufferooRemoteImpl @Inject constructor(
      */
     override fun getBufferoos() = bufferooService.getBufferoos()
         .map {
-            it.team.map { listItem -> entityMapper.mapFromRemote(listItem) }
+            it.team.map { listItem -> entityMapper.mapToData(listItem) }
         }
 }

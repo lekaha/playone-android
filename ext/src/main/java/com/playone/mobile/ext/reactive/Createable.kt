@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.playone.mobile.ext.reactive
 
 import io.reactivex.BackpressureStrategy
@@ -32,6 +34,8 @@ inline fun <T> flowable(
 
 inline fun <T> single(crossinline body: (SingleEmitter<T>) -> Unit): Single<T> =
     SingleCreate { body(it) }
+
+inline fun <T> single(obj: T): Single<T> = SingleCreate { it.onSuccess(obj) }
 
 inline fun <T> maybe(crossinline body: (MaybeEmitter<T>) -> Unit): Maybe<T> =
     MaybeCreate { body(it) }

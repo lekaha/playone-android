@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit
  * and its related dependencies, such as OkHttpClient, Gson, etc.
  */
 abstract class HttpServiceFactory<out S>:ServiceFactory<S> {
-
     override fun makeService(isDebug: Boolean): S {
         throw UnsupportedOperationException()
     }

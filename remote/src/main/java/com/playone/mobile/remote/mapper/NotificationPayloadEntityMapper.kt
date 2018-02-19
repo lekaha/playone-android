@@ -8,7 +8,11 @@ import com.playone.mobile.remote.model.NotificationPayloadModel
  * data is moving between this layer and the data layer.
  */
 class NotificationPayloadEntityMapper : EntityMapper<NotificationPayloadModel, NotificationPayloadEntity> {
-    override fun mapFromRemote(type: NotificationPayloadModel) = type.run {
+    override fun mapToData(type: NotificationPayloadModel) = type.run {
         NotificationPayloadEntity(groupId, senderToken, receiverToken, teamId, groupId, msg)
+    }
+
+    override fun mapFromData(type: NotificationPayloadEntity) = type.run {
+        NotificationPayloadModel(groupId, senderToken, receiverToken, teamId, groupId, msg)
     }
 }

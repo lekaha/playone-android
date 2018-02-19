@@ -1,34 +1,32 @@
 package com.playone.mobile.remote
 
 import com.playone.mobile.data.model.NotificationPayloadEntity
-import com.playone.mobile.data.model.PlayoneEntity
-import com.playone.mobile.data.model.UserEntity
+import com.playone.mobile.remote.model.PlayoneModel
+import com.playone.mobile.remote.model.UserModel
 import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.Path
 
 /**
  * Defines the interface methods used for interacting with the Playone API.
  */
 interface PlayoneService {
 //    @GET("/playones/groups")
-//    fun getPlayoneEntities(): Single<PlayoneEntity>
+//    fun getPlayoneEntities(): Single<PlayoneModel>
 //
 //    @GET("/playones/groups/{id}")
-//    fun getPlayoneEntity(@Path("id") playoneId: String): Single<List<PlayoneEntity>>
+//    fun getPlayoneModel(@Path("id") playoneId: String): Single<List<PlayoneModel>>
 
     //region Playone
-    fun fetchPlayoneList(userId: Int = -1): Single<List<PlayoneEntity>>
+    fun fetchPlayoneList(userId: Int = -1): Single<List<PlayoneModel>>
 
-    fun fetchJoinedPlayoneList(userId: Int): Single<List<PlayoneEntity>>
+    fun fetchJoinedPlayoneList(userId: Int): Single<List<PlayoneModel>>
 
-    fun fetchFavoritePlayoneList(userId: Int): Single<List<PlayoneEntity>>
+    fun fetchFavoritePlayoneList(userId: Int): Single<List<PlayoneModel>>
 
-    fun fetchPlayoneDetail(playoneId: Int): Single<PlayoneEntity>
+    fun fetchPlayoneDetail(playoneId: Int): Single<PlayoneModel>
 
-    fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity): Single<Result>
+    fun createPlayoneDetail(userId: Int, playoneModel: PlayoneModel): Single<Result>
 
-    fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity): Single<Result>
+    fun updatePlayoneDetail(userId: Int, playoneModel: PlayoneModel): Single<Result>
 
     fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean): Single<Result>
 
@@ -42,13 +40,13 @@ interface PlayoneService {
     //endregion
 
     //region User for Auth0
-    fun userEntity(userId: Int): Single<UserEntity>
+    fun userModel(userId: Int): Single<UserModel>
 
-    fun createUser(userEntity: UserEntity): Single<UserEntity>
+    fun createUser(userModel: UserModel): Single<UserModel>
 
-    fun updateUser(userEntity: UserEntity): Single<UserEntity>
+    fun updateUser(userModel: UserModel): Single<UserModel>
 
-    fun updateUser(userEntity: UserEntity, lastDeviceToken: String): Single<UserEntity>
+    fun updateUser(userModel: UserModel, lastDeviceToken: String): Single<UserModel>
     //endregion
 
     //region Notification

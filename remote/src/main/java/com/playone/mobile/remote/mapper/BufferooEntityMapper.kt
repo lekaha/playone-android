@@ -13,7 +13,8 @@ open class BufferooEntityMapper @Inject constructor(): EntityMapper<BufferooMode
     /**
      * Map an instance of a [BufferooModel] to a [BufferooEntity] model
      */
-    override fun mapFromRemote(type: BufferooModel) =
+    override fun mapToData(type: BufferooModel) =
         BufferooEntity(type.name, type.title, type.avatar)
 
+    override fun mapFromData(type: BufferooEntity) = TODO()
 }

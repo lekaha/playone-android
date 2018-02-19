@@ -5,6 +5,11 @@ import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneRemote
 import com.playone.mobile.remote.mapper.PlayoneEntityMapper
+import com.playone.mobile.remote.mapper.UserEntityMapper
+import com.playone.mobile.remote.mapper.toModel
+import com.playone.mobile.remote.model.PlayoneModel
+import com.playone.mobile.remote.model.UserModel
+import io.reactivex.Single
 
 /**
  * Remote implementation for retrieving Playone instances. This class implements the
@@ -13,19 +18,24 @@ import com.playone.mobile.remote.mapper.PlayoneEntityMapper
  * layers can carry out.
  */
 class PlayoneRemoteImpl constructor(
-        private val service: PlayoneService,
-        private val entityMapper: PlayoneEntityMapper
+    private val service: PlayoneService,
+    private val playoneMapper: PlayoneEntityMapper,
+    private val userMapper: UserEntityMapper
 ) : PlayoneRemote {
+    override fun fetchPlayoneList(userId: Int) =
+        service.fetchPlayoneList(userId).mapPlayoneToEntity()
 
-    override fun fetchPlayoneList(userId: Int) = TODO()
+    override fun fetchJoinedPlayoneList(userId: Int) =
+        service.fetchJoinedPlayoneList(userId).mapPlayoneToEntity()
 
-    override fun fetchJoinedPlayoneList(userId: Int) = TODO()
+    override fun fetchFavoritePlayoneList(userId: Int) =
+        service.fetchFavoritePlayoneList(userId).mapPlayoneToEntity()
 
-    override fun fetchFavoritePlayoneList(userId: Int) = TODO()
-
-    override fun fetchPlayoneDetail(playoneId: Int) = TODO()
+    override fun fetchPlayoneDetail(playoneId: Int) =
+        service.fetchPlayoneDetail(playoneId).map(playoneMapper::mapToData)
 
     override fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
+//        service.createPlayoneDetail(userId, playoneEntity.toModel(playoneMapper))
 
     override fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
 
@@ -33,19 +43,28 @@ class PlayoneRemoteImpl constructor(
 
     override fun sendJoinRequest(playoneId: Int, userId: Int, msg: String) = TODO()
 
-    override fun toggleFavorite(playoneId: Int, userId: Int) = TODO()
+    override fun toggleFavorite(playoneId: Int, userId: Int) =
+        service.toggleFavorite(playoneId, userId)
 
-    override fun isFavorite(playoneId: Int, userId: Int) = TODO()
+    override fun isFavorite(playoneId: Int, userId: Int) =
+        service.isFavorite(playoneId, userId)
 
-    override fun isJoint(playoneId: Int, userId: Int) = TODO()
+    override fun isJoint(playoneId: Int, userId: Int) =
+        service.isJoint(playoneId, userId)
 
-    override fun userEntity(userId: Int) = TODO()
+    //region For Auth0
+    override fun userEntity(userId: Int) = service.userModel(userId).map(userMapper::mapToData)
 
-    override fun createUser(userEntity: UserEntity) = TODO()
+    override fun createUser(userEntity: UserEntity) =
+        service.createUser(userEntity.toModel(userMapper)).map(userMapper::mapToData)
 
-    override fun updateUser(userEntity: UserEntity) = TODO()
+    override fun updateUser(userEntity: UserEntity) =
+        service.updateUser(userEntity.toModel(userMapper)).map(userMapper::mapToData)
 
-    override fun updateUser(userEntity: UserEntity, lastDeviceToken: String) = TODO()
+    override fun updateUser(userEntity: UserEntity, lastDeviceToken: String) =
+        service.updateUser(userEntity.toModel(userMapper),
+                           lastDeviceToken).map(userMapper::mapToData)
+    //endregion
 
     override fun applyNotification(payload: NotificationPayloadEntity) = TODO()
 
@@ -62,4 +81,10 @@ class PlayoneRemoteImpl constructor(
     override fun rejectedNotification(payload: NotificationPayloadEntity) = TODO()
 
     override fun rejectNotification(payload: NotificationPayloadEntity) = TODO()
+
+    private fun Single<List<PlayoneModel>>.mapPlayoneToEntity() =
+        map { it.map(playoneMapper::mapToData) }
+
+    private fun Single<List<UserModel>>.mapUserToEntity() =
+        map { it.map(userMapper::mapToData) }
 }
