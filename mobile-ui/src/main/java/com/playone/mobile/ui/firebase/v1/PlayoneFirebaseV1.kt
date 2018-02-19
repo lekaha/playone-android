@@ -1,15 +1,25 @@
-package com.playone.mobile.remote
+package com.playone.mobile.ui.firebase.v1
 
+import com.google.firebase.database.DatabaseReference
 import com.playone.mobile.data.model.NotificationPayloadEntity
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
+import com.playone.mobile.data.repository.PlayoneRemote
+import com.playone.mobile.ext.isNotNull
+import com.playone.mobile.remote.PlayoneFirebase
+import com.playone.mobile.ui.firebase.ext.addListenerForSingleValueEvent
 
-/**
- * An implementation of [com.playone.mobile.remote.PlayoneService] that retrieving
- * Playone data from Firebase and using the Firebase SDK in this class.
- */
-class PlayoneServiceFirebaseImpl(private val playoneFirebase: PlayoneFirebase)
-    : PlayoneService {
+class PlayoneFirebaseV1(private val dbReference: DatabaseReference)
+    : PlayoneFirebase(), PlayoneRemote {
+
+    fun playoneDataSnapshot() {
+        dbReference.child(GROUPS).addListenerForSingleValueEvent {
+            onDataChange = {
+                it.takeIf { it.isNotNull() }?.let {}
+            }
+            onCancelled = { }
+        }
+    }
 
     override fun fetchPlayoneList(userId: Int) = TODO()
 
@@ -56,4 +66,5 @@ class PlayoneServiceFirebaseImpl(private val playoneFirebase: PlayoneFirebase)
     override fun rejectedNotification(payload: NotificationPayloadEntity) = TODO()
 
     override fun rejectNotification(payload: NotificationPayloadEntity) = TODO()
+
 }

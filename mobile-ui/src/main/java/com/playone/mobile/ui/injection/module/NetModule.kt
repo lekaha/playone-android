@@ -2,9 +2,13 @@ package com.playone.mobile.ui.injection.module
 
 import android.content.Context
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.playone.mobile.remote.BufferooServiceFactory
+import com.playone.mobile.remote.PlayoneFirebase
 import com.playone.mobile.remote.PlayoneServiceFactory
 import com.playone.mobile.ui.BuildConfig
+import com.playone.mobile.ui.firebase.v1.PlayoneFirebaseV1
 import com.playone.mobile.ui.injection.scopes.PerApplication
 import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
@@ -37,7 +41,8 @@ open class NetModule {
 
     @Provides
     @PerApplication
-    internal fun providePlayoneService() = PlayoneServiceFactory.makeService(BuildConfig.DEBUG)
+    internal fun providePlayoneService(playoneFirebase: PlayoneFirebase)
+            = PlayoneServiceFactory.makeFirebaseService(BuildConfig.DEBUG, playoneFirebase)
 
     @Provides
     internal fun provideChuckInterceptor(context: Context) = ChuckInterceptor(context)
@@ -56,5 +61,12 @@ open class NetModule {
     @Provides
     @Named(READ_TIMEOUT)
     internal fun provideReadTimeout() = 120L
+
+    @Provides
+    internal fun provideDatabaseReference() = FirebaseDatabase.getInstance().reference
+
+    @Provides
+    internal fun providePlayoneFirebase(databaseReference: DatabaseReference) : PlayoneFirebase
+            = PlayoneFirebaseV1(databaseReference)
 
 }
