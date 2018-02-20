@@ -61,7 +61,7 @@ android {
 
         standalone {
             dimension "environment"
-            applicationId "com.playone.mobile.local"
+            applicationId "com.playone.mobile.debug"
         }
 
         dependant {
