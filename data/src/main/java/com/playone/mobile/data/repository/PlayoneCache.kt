@@ -1,11 +1,11 @@
 package com.playone.mobile.data.repository
 
-import com.playone.mobile.data.model.IPlayoneEntity
+import com.playone.mobile.data.model.PlayoneItem
 import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
- * Interface defining methods for the caching of [IPlayoneEntity]. This is to be implemented by the
+ * Interface defining methods for the caching of [PlayoneItem]. This is to be implemented by the
  * cache layer, using this interface as a way of communicating.
  */
 interface PlayoneCache {
@@ -15,21 +15,21 @@ interface PlayoneCache {
     fun clearPlayone(): Completable
 
     /**
-     * Save a given list of [IPlayoneEntity] to the cache.
+     * Save a given list of [PlayoneItem] to the cache.
      *
-     * @param playones a list of [IPlayoneEntity].
+     * @param playones a list of [PlayoneItem].
      */
-    fun savePlayone(playones: List<IPlayoneEntity>): Completable
+    fun savePlayone(playones: List<PlayoneItem>): Completable
 
     /**
-     * Retrieve a list of [IPlayoneEntity] from the cache.
+     * Retrieve a list of [PlayoneItem] from the cache.
      *
      * @return
      */
-    fun getPlayone(): Single<List<IPlayoneEntity>>
+    fun getPlayone(): Single<List<PlayoneItem>>
 
     /**
-     * Checks if an element [IPlayoneEntity] exists in the cache.
+     * Checks if an element [PlayoneItem] exists in the cache.
      *
      * @return true if the element is cached, otherwise false.
      */

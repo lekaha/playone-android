@@ -9,12 +9,6 @@ import io.reactivex.Single
  * Defines the interface methods used for interacting with the Playone API.
  */
 interface PlayoneService {
-//    @GET("/playones/groups")
-//    fun getPlayoneEntities(): Single<PlayoneModel>
-//
-//    @GET("/playones/groups/{id}")
-//    fun getPlayoneModel(@Path("id") playoneId: String): Single<List<PlayoneModel>>
-
     //region Playone
     fun fetchPlayoneList(userId: Int = -1): Single<List<PlayoneModel>>
 

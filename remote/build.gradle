@@ -27,5 +27,3 @@ dependencies {
     compile project(':data')
     implementation project(':ext')
 }
-
-apply plugin: 'com.google.gms.google-services'

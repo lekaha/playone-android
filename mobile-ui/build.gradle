@@ -27,6 +27,7 @@ android {
     buildTypes {
         debug {
             testCoverageEnabled true
+            applicationIdSuffix ".debug"
         }
     }
 
@@ -61,7 +62,7 @@ android {
 
         standalone {
             dimension "environment"
-            applicationId "com.playone.mobile.local"
+            applicationIdSuffix ".local"
         }
 
         dependant {

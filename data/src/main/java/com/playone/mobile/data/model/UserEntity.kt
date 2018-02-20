@@ -14,4 +14,4 @@ data class UserEntity(
     var level: Int = 0,
     var years: Int = 0,
     var teams: HashMap<String, Any> = hashMapOf()
-) : IPlayoneEntity
+) : PlayoneItem
