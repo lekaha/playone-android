@@ -16,4 +16,4 @@ data class PlayoneEntity(
     var level: Int = 0,
     var host: String = "",
     var userId: String = ""
-) : IPlayoneEntity
+) : PlayoneItem
