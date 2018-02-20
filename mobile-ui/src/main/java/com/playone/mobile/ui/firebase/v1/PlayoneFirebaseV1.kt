@@ -1,70 +1,88 @@
 package com.playone.mobile.ui.firebase.v1
 
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.playone.mobile.data.model.NotificationPayloadEntity
-import com.playone.mobile.data.model.PlayoneEntity
-import com.playone.mobile.data.model.UserEntity
-import com.playone.mobile.data.repository.PlayoneRemote
 import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.remote.PlayoneFirebase
+import com.playone.mobile.remote.model.PlayoneModel
+import com.playone.mobile.remote.model.UserModel
 import com.playone.mobile.ui.firebase.ext.addListenerForSingleValueEvent
 
 class PlayoneFirebaseV1(
     private val dbReference: DatabaseReference
-) : PlayoneFirebase(), PlayoneRemote {
-    fun playoneDataSnapshot() {
+) : PlayoneFirebase() {
+    override fun getPlayoneList(
+        userId: Int,
+        callback: PlayoneListCallback,
+        errorCallback: FirebaseErrorCallback
+    ) = if (0 < userId) {
+        playoneDataSnapshot(callback, errorCallback)
+    }
+    else {
+        playoneDataSnapshot(userId.toString(), callback, errorCallback)
+    }
+
+    private fun playoneDataSnapshot(
+        callback: PlayoneListCallback,
+        errorCallback: FirebaseErrorCallback
+    ) {
         dbReference.child(GROUPS).addListenerForSingleValueEvent {
             onDataChange = {
-                it.takeIf { it.isNotNull() }?.let {}
+                val listPlayone = it.takeIf { it.isNotNull() }
+                    ?.children
+                    ?.toMutableList()
+                    ?.mapNotNull(::toPlayoneModel)
+                    .orEmpty()
+                callback(listPlayone)
             }
-            onCancelled = { }
+            onCancelled = { it.makeCallback(errorCallback) }
         }
     }
 
-    override fun fetchPlayoneList(userId: Int) = TODO()
+    private fun playoneDataSnapshot(
+        userId: String,
+        callback: PlayoneListCallback,
+        errorCallback: FirebaseErrorCallback
+    ) {
+        dbReference.child(USERS).child(userId).addListenerForSingleValueEvent {
+            onDataChange = {
+                val ue = it?.getValue(UserModel::class.java)
+                val size = ue?.teams?.keys?.size ?: 0
+                val playoneList = mutableListOf<PlayoneModel>()
+                ue?.teams?.keys?.forEach {
+                    getPlayoneById(it, {
+                        playoneList.add(it)
+                        // Wait for all items collected.
+                        if (size == playoneList.size) callback(playoneList)
+                    }, errorCallback)
+                }
+            }
+            onCancelled = { it.makeCallback(errorCallback) }
+        }
+    }
 
-    override fun fetchJoinedPlayoneList(userId: Int) = TODO()
+    private fun getPlayoneById(
+        id: String,
+        callback: PlayoneCallback,
+        errorCallback: FirebaseErrorCallback
+    ) {
+        dbReference.child(GROUPS).child(id).addListenerForSingleValueEvent {
+            onDataChange = {
+                it.takeIf(DataSnapshot?::isNotNull)?.run(::toPlayoneModel)?.let(callback)
+            }
+            onCancelled = { it.makeCallback(errorCallback) }
+        }
+    }
 
-    override fun fetchFavoritePlayoneList(userId: Int) = TODO()
+    //region Extension function
+    private fun toPlayoneModel(dataSnapshot: DataSnapshot) = dataSnapshot.run {
+        getValue(PlayoneModel::class.java)
+            .takeIf { it.isNotNull() && key.isNotNull() }
+            ?.also { it.id = key }
+    }
 
-    override fun fetchPlayoneDetail(playoneId: Int) = TODO()
-
-    override fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
-
-    override fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
-
-    override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) = TODO()
-
-    override fun sendJoinRequest(playoneId: Int, userId: Int, msg: String) = TODO()
-
-    override fun toggleFavorite(playoneId: Int, userId: Int) = TODO()
-
-    override fun isFavorite(playoneId: Int, userId: Int) = TODO()
-
-    override fun isJoint(playoneId: Int, userId: Int) = TODO()
-
-    override fun userEntity(userId: Int) = TODO()
-
-    override fun createUser(userEntity: UserEntity) = TODO()
-
-    override fun updateUser(userEntity: UserEntity) = TODO()
-
-    override fun updateUser(userEntity: UserEntity, lastDeviceToken: String) = TODO()
-
-    override fun applyNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun acceptedNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun acceptNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun dismissNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun kickNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun quitNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun rejectedNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun rejectNotification(payload: NotificationPayloadEntity) = TODO()
-
+    private fun DatabaseError.makeCallback(errorCallback: FirebaseErrorCallback) =
+        errorCallback(code, message, details)
+    //endregion
 }

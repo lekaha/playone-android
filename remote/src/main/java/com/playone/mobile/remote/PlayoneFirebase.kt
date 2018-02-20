@@ -1,5 +1,7 @@
 package com.playone.mobile.remote
 
+import com.playone.mobile.remote.model.PlayoneModel
+
 abstract class PlayoneFirebase {
     protected val GROUPS = "groups"
     protected val USERS = "users"
@@ -8,4 +10,10 @@ abstract class PlayoneFirebase {
     protected val FAVORITES = "favorites"
     protected val TEAMS = "teams"
     protected val NAME = "name"
+
+    abstract fun getPlayoneList(
+        userId: Int,
+        callback: (model: List<PlayoneModel>) -> Unit,
+        errorCallback: (code: Int, msg: String, detail: String) -> Unit
+    )
 }

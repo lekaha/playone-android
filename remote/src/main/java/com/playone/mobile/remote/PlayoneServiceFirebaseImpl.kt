@@ -1,6 +1,7 @@
 package com.playone.mobile.remote
 
 import com.playone.mobile.data.model.NotificationPayloadEntity
+import com.playone.mobile.ext.reactive.single
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
 
@@ -11,7 +12,12 @@ import com.playone.mobile.remote.model.UserModel
 class PlayoneServiceFirebaseImpl(
     private val playoneFirebase: PlayoneFirebase
 ) : PlayoneService {
-    override fun fetchPlayoneList(userId: Int) = TODO()
+    override fun fetchPlayoneList(userId: Int) =
+        single<List<PlayoneModel>> { emitter ->
+            playoneFirebase.getPlayoneList(userId, emitter::onSuccess) { code, msg, detail ->
+                emitter.onError(Exception("error code: $code, msg: $msg, detail: $detail"))
+            }
+        }
 
     override fun fetchJoinedPlayoneList(userId: Int) = TODO()
 
