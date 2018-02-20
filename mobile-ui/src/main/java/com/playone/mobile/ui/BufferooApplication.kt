@@ -1,9 +1,10 @@
 package com.playone.mobile.ui
 
+import com.playone.mobile.ui.ext.debugTree
+import com.playone.mobile.ui.ext.plant
 import com.playone.mobile.ui.injection.component.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
-import timber.log.Timber
 
 class BufferooApplication : DaggerApplication() {
 
@@ -23,7 +24,9 @@ class BufferooApplication : DaggerApplication() {
 
     private fun setupTimber() {
         if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
+            plant{
+                debugTree()
+            }
         }
     }
 
