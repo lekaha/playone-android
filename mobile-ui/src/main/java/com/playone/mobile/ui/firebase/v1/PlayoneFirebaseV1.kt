@@ -12,6 +12,7 @@ import com.playone.mobile.ui.firebase.ext.addListenerForSingleValueEvent
 class PlayoneFirebaseV1(
     private val dbReference: DatabaseReference
 ) : PlayoneFirebase() {
+
     override fun getPlayoneList(
         userId: Int,
         callback: PlayoneListCallback,
