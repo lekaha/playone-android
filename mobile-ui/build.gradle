@@ -27,6 +27,7 @@ android {
     buildTypes {
         debug {
             testCoverageEnabled true
+            applicationIdSuffix ".debug"
         }
     }
 
@@ -61,7 +62,7 @@ android {
 
         standalone {
             dimension "environment"
-            applicationId "com.playone.mobile.local"
+            applicationIdSuffix ".local"
         }
 
         dependant {
@@ -109,6 +110,10 @@ dependencies {
     implementation mobileUiDependencies.dagger
     implementation mobileUiDependencies.daggerSupport
 
+    implementation mobileUiDependencies.firebaseCore
+    implementation mobileUiDependencies.firebaseDb
+    implementation mobileUiDependencies.firebaseMsging
+
     releaseImplementation developmentDependencies.chuckNoOp
     debugImplementation developmentDependencies.chuck
     implementation developmentDependencies.stetho
@@ -152,16 +157,16 @@ dependencies {
     androidTestImplementation mobileUiTestDependencies.junit
     androidTestImplementation mobileUiTestDependencies.mockito
     androidTestImplementation mobileUiTestDependencies.mockitoAndroid
-    androidTestImplementation (mobileUiTestDependencies.espressoCore) {
+    androidTestImplementation(mobileUiTestDependencies.espressoCore) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation (mobileUiTestDependencies.androidRunner) {
+    androidTestImplementation(mobileUiTestDependencies.androidRunner) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation (mobileUiTestDependencies.androidRules) {
+    androidTestImplementation(mobileUiTestDependencies.androidRules) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation (mobileUiTestDependencies.espressoIntents) {
+    androidTestImplementation(mobileUiTestDependencies.espressoIntents) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     androidTestImplementation(mobileUiTestDependencies.espressoContrib) {
@@ -192,3 +197,4 @@ configurations.all { config ->
         }
     }
 }
+apply plugin: 'com.google.gms.google-services'

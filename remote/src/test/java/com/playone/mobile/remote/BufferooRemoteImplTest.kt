@@ -2,10 +2,10 @@ package com.playone.mobile.remote
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Single
 import com.playone.mobile.data.model.BufferooEntity
 import com.playone.mobile.remote.mapper.BufferooEntityMapper
 import com.playone.mobile.remote.test.factory.BufferooFactory
+import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,7 +40,7 @@ class BufferooRemoteImplTest {
         stubBufferooServiceGetBufferoos(Single.just(bufferooResponse))
         val bufferooEntities = mutableListOf<BufferooEntity>()
         bufferooResponse.team.forEach {
-            bufferooEntities.add(entityMapper.mapFromRemote(it))
+            bufferooEntities.add(entityMapper.mapToData(it))
         }
 
         val testObserver = bufferooRemoteImpl.getBufferoos().test()

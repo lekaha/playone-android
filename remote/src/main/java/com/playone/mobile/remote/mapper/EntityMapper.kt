@@ -1,14 +1,14 @@
 package com.playone.mobile.remote.mapper
 
 /**
- * Interface for model mappers. It provides helper methods that facilitate
- * retrieving of models from outer data source layers
+ * Interface for model mappers. It provides helper methods that facilitate retrieving of models
+ * from outer data source layers.
  *
- * @param <M> the remote model input type
- * @param <E> the entity model output type
+ * @param M the remote model input type.
+ * @param E the entity model output type.
  */
-interface EntityMapper<in M, out E> {
+interface EntityMapper<M, E> {
+    fun mapToData(type: M): E
 
-    fun mapFromRemote(type: M): E
-
+    fun mapFromData(type: E): M
 }

@@ -36,6 +36,7 @@ ext {
     autoValueGson = '0.7.0'
     autoValueAnnotation = autoValue
     ktxVersion = '0.1'
+    firebaseVersion = '11.8.0'
 
     //Testing
     robolectricVersion = '3.4.2'
@@ -222,6 +223,11 @@ ext {
 
             // KTX
             ktx:                "androidx.core:core-ktx:${ktxVersion}",
+
+            // Firebase
+            firebaseCore:       "com.google.firebase:firebase-core:${firebaseVersion}",
+            firebaseDb:         "com.google.firebase:firebase-database:${firebaseVersion}",
+            firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseVersion}",
     ]
 
     mobileUiTestDependencies = [
