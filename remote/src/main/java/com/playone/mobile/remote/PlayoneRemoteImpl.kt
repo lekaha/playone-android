@@ -53,17 +53,16 @@ class PlayoneRemoteImpl constructor(
         service.isJoint(playoneId, userId)
 
     //region For Auth0
-    override fun userEntity(userId: Int) = service.userModel(userId).map(userMapper::mapToData)
+    override fun userEntity(userId: Int) = service.userModel(userId).mapUserToEntity()
 
     override fun createUser(userEntity: UserEntity) =
-        service.createUser(userEntity.toModel(userMapper)).map(userMapper::mapToData)
+        service.createUser(userEntity.toModel(userMapper)).mapUserToEntity()
 
     override fun updateUser(userEntity: UserEntity) =
-        service.updateUser(userEntity.toModel(userMapper)).map(userMapper::mapToData)
+        service.updateUser(userEntity.toModel(userMapper)).mapUserToEntity()
 
     override fun updateUser(userEntity: UserEntity, lastDeviceToken: String) =
-        service.updateUser(userEntity.toModel(userMapper),
-                           lastDeviceToken).map(userMapper::mapToData)
+        service.updateUser(userEntity.toModel(userMapper), lastDeviceToken).mapUserToEntity()
     //endregion
 
     override fun applyNotification(payload: NotificationPayloadEntity) = TODO()
@@ -85,6 +84,5 @@ class PlayoneRemoteImpl constructor(
     private fun Single<List<PlayoneModel>>.mapPlayoneToEntity() =
         map { it.map(playoneMapper::mapToData) }
 
-    private fun Single<List<UserModel>>.mapUserToEntity() =
-        map { it.map(userMapper::mapToData) }
+    private fun Single<UserModel>.mapUserToEntity() = map(userMapper::mapToData)
 }
