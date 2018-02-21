@@ -15,8 +15,7 @@ inline fun <reified T : Any> AppCompatActivity.startForResult(
     startActivityForResult(intent, requestCode)
 }
 
-inline fun <reified T : Any> newIntent(context: Context): Intent =
-        Intent(context, T::class.java)
+inline fun <reified T : Any> newIntent(context: Context) = Intent(context, T::class.java)
 
 inline fun AppCompatActivity.transact(transactions: FragmentTransaction.() -> Unit) {
     supportFragmentManager.beginTransaction().apply { transactions() }.commit()
