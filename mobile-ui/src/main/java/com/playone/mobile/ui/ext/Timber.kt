@@ -51,4 +51,4 @@ inline fun debugTree() = Timber.DebugTree()
 internal inline fun log(block: () -> Unit) = block()
 
 @PublishedApi
-internal fun joinToString(array: Array<out Any>) = array.joinToString(", ")
+internal fun joinToString(array: Array<out Any>) = array.joinToString()
