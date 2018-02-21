@@ -5,4 +5,4 @@ import com.google.firebase.database.DataSnapshot
 typealias PlayoneCallback<D> = (model: D) -> Unit
 typealias FirebaseErrorCallback = (code: Int, msg: String, detail: String) -> Unit
 
-typealias DataSnapStrategy<D> = (DataSnapshot?) -> D
+typealias DataSnapStrategy<D> = ((DataSnapshot?) -> D)?

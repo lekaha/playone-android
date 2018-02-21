@@ -76,6 +76,12 @@ kapt {
     correctErrorTypes = true
 }
 
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
+
 configurations.all {
     resolutionStrategy {
         force "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -96,6 +102,7 @@ dependencies {
     implementation mobileUiDependencies.javaxAnnotation
 
     implementation mobileUiDependencies.kotlin
+    implementation mobileUiDependencies.coroutine
     implementation mobileUiDependencies.javaxInject
     implementation mobileUiDependencies.rxKotlin
     implementation mobileUiDependencies.androidAnnotations
