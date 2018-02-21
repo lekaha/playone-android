@@ -24,9 +24,7 @@ class BufferooApplication : DaggerApplication() {
 
     private fun setupTimber() {
         if (BuildConfig.DEBUG) {
-            plant{
-                debugTree()
-            }
+            plant{ debugTree() }
         }
     }
 
