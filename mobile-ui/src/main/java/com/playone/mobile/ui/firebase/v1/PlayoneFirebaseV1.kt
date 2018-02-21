@@ -15,66 +15,94 @@ class PlayoneFirebaseV1(
 
     override fun getPlayoneList(
         userId: Int,
-        callback: PlayoneListCallback,
+        callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
     ) = if (0 < userId) {
-        playoneDataSnapshot(callback, errorCallback)
+        playoneDataSnapshot(callback, errorCallback, ::snap2Playone)
     }
     else {
-        playoneDataSnapshot(userId.toString(), callback, errorCallback)
+        userDataSnapshot(userId.toString(), callback, errorCallback, )
     }
 
-    private fun playoneDataSnapshot(
-        callback: PlayoneListCallback,
-        errorCallback: FirebaseErrorCallback
+    //region Fetching data from firebase database.
+    private fun <D> playoneDataSnapshot(
+        callback: PlayoneCallback<D>,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<D>
     ) {
         dbReference.child(GROUPS).addListenerForSingleValueEvent {
-            onDataChange = {
-                val listPlayone = it.takeIf { it.isNotNull() }
-                    ?.children
-                    ?.toMutableList()
-                    ?.mapNotNull(::toPlayoneModel)
-                    .orEmpty()
-                callback(listPlayone)
-            }
+            onDataChange = { callback(strategy(it)) }
             onCancelled = { it.makeCallback(errorCallback) }
         }
     }
 
-    private fun playoneDataSnapshot(
+    private fun <D> playoneDataSnapshot(
+        id: String,
+        callback: PlayoneCallback<D>,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<D>
+    ) {
+        dbReference.child(GROUPS).child(id).addListenerForSingleValueEvent {
+            onDataChange = { callback(strategy(it)) }
+            onCancelled = { it.makeCallback(errorCallback) }
+        }
+    }
+
+    private fun <D> userDataSnapshot(
         userId: String,
-        callback: PlayoneListCallback,
-        errorCallback: FirebaseErrorCallback
+        callback: PlayoneCallback<D>,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<D>
     ) {
         dbReference.child(USERS).child(userId).addListenerForSingleValueEvent {
             onDataChange = {
+                callback(strategy(it))
+
                 val ue = it?.getValue(UserModel::class.java)
                 val size = ue?.teams?.keys?.size ?: 0
                 val playoneList = mutableListOf<PlayoneModel>()
+
                 ue?.teams?.keys?.forEach {
-                    getPlayoneById(it, {
-                        playoneList.add(it)
-                        // Wait for all items collected.
-                        if (size == playoneList.size) callback(playoneList)
-                    }, errorCallback)
+                    playoneDataSnapshot<PlayoneModel>(it, {
+                    }, errorCallback, {})
+                    //                    playoneDataSnapshot<PlayoneModel>(it, {
+//                        playoneList.add(it)
+//                        // Wait for all items collected.
+//                        if (size == playoneList.size) callback(playoneList)
+//                    }, errorCallback)
                 }
             }
             onCancelled = { it.makeCallback(errorCallback) }
         }
     }
 
-    private fun getPlayoneById(
-        id: String,
-        callback: PlayoneCallback,
-        errorCallback: FirebaseErrorCallback
-    ) {
-        dbReference.child(GROUPS).child(id).addListenerForSingleValueEvent {
-            onDataChange = {
-                it.takeIf(DataSnapshot?::isNotNull)?.run(::toPlayoneModel)?.let(callback)
+    //endregion
+
+    private fun snap2Playone(dataSnapshot: DataSnapshot?) =
+        dataSnapshot.takeIf { it.isNotNull() }
+            ?.children
+            ?.toMutableList()
+            ?.mapNotNull(::toPlayoneModel)
+            .orEmpty()
+
+    private fun snap2PlayoneList(dataSnapshot: DataSnapshot?) = dataSnapshot.let {
+        val ue = it?.getValue(UserModel::class.java)
+        val size = ue?.teams?.keys?.size ?: 0
+        val playoneList = mutableListOf<PlayoneModel>()
+
+        ue?.teams?.keys?.forEach {
+            playoneDataSnapshot<PlayoneModel>(it, {
+                //                playoneList.add(it)
+                // Wait for all items collected.
+//                if (size == playoneList.size) callback(playoneList)
+            }, null) {
+                snap2Playone(it) {}
             }
-            onCancelled = { it.makeCallback(errorCallback) }
         }
     }
+
+    private fun snap2Playone(dataSnapshot: DataSnapshot?, callback: (PlayoneModel) -> Unit) =
+        dataSnapshot.takeIf(DataSnapshot?::isNotNull)?.run(::toPlayoneModel)?.let(callback)
 
     //region Extension function
     private fun toPlayoneModel(dataSnapshot: DataSnapshot) = dataSnapshot.run {
