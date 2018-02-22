@@ -27,16 +27,28 @@ class PlayoneFirebaseV1(
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
     ) = if (0 < userId) {
-        playoneDataSnapshot(callback, errorCallback, ::playoneSnap2PlayoneList)
+        playoneDataSnapshot(callback, errorCallback, ::snap2PlayoneList)
     }
     else {
         userDataSnapshot(userId.toString(),
                          {},  // This is redundant anonymous function for running strategy function.
-                         errorCallback,
-                         {
-                             userSnap2PlayoneList(it, errorCallback, callback)
-                             emptyList<List<PlayoneModel>>()
-                         })
+                         errorCallback) { userSnap2PlayoneList(it, errorCallback, callback) }
+    }
+
+    override fun getJoinedPlayoneList(
+        userId: Int,
+        callback: PlayoneCallback<List<PlayoneModel>>,
+        errorCallback: FirebaseErrorCallback
+    ) = joinedDataSnapshot(userId.toString(), {}, errorCallback) {
+        joinedSnap2PlayoneList(it, errorCallback, callback)
+    }
+
+    override fun getFavoritePlayoneList(
+        userId: Int,
+        callback: PlayoneCallback<List<PlayoneModel>>,
+        errorCallback: FirebaseErrorCallback
+    ) = favoriteDataSnapshot(userId.toString(), {}, errorCallback) {
+        favoriteSnap2PlayoneList(it, errorCallback, callback)
     }
 
     //region Fetching data from firebase database.
@@ -67,15 +79,39 @@ class PlayoneFirebaseV1(
         .child(USERS)
         .child(userId)
         .addStrategyListener(callback, errorCallback, strategy)
+
+    private fun <D> joinedDataSnapshot(
+        userId: String,
+        callback: PlayoneCallback<D>,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<D>
+    ) = dbReference
+        .child(JOINED)
+        .child(userId)
+        .addStrategyListener(callback, errorCallback, strategy)
+
+    private fun <D> favoriteDataSnapshot(
+        userId: String,
+        callback: PlayoneCallback<D>,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<D>
+    ) = dbReference
+        .child(USERS)
+        .child(userId)
+        .child(FAVORITES)
+        .addStrategyListener(callback, errorCallback, strategy)
     //endregion
 
-    //region Strategies of snapshot 2 the object.
-    private fun playoneSnap2PlayoneList(dataSnapshot: DataSnapshot?) =
+    //region Strategies of snapshot to the object.
+    private fun snap2PlayoneList(dataSnapshot: DataSnapshot?) =
         dataSnapshot.takeIf(DataSnapshot?::isNotNull)
             ?.children
             ?.toMutableList()
             ?.mapNotNull(::toPlayoneModel)
             .orEmpty()
+
+    private fun snap2Playone(dataSnapshot: DataSnapshot?) =
+        dataSnapshot.takeIf(DataSnapshot?::isNotNull)?.run(::toPlayoneModel)
 
     /**
      * A strategy for transforming from user snapshot to a playone list thru a method
@@ -89,7 +125,37 @@ class PlayoneFirebaseV1(
         dataSnapshot: DataSnapshot?,
         errorCallback: FirebaseErrorCallback,
         block: (List<PlayoneModel>) -> Unit
-    ) = dataSnapshot?.getValue(UserModel::class.java)?.teams?.keys?.run {
+    ) = dataSnapshot
+        ?.getValue(UserModel::class.java)
+        ?.teams
+        ?.keys
+        ?.run { byThruId(errorCallback, block) }
+
+    private fun joinedSnap2PlayoneList(
+        dataSnapshot: DataSnapshot?,
+        errorCallback: FirebaseErrorCallback,
+        block: (List<PlayoneModel>) -> Unit
+    ) = dataSnapshot
+        ?.children
+        ?.map { it.key }
+        ?.toMutableSet()
+        ?.run { byThruId(errorCallback, block) }
+
+    private fun favoriteSnap2PlayoneList(
+        dataSnapshot: DataSnapshot?,
+        errorCallback: FirebaseErrorCallback,
+        block: (List<PlayoneModel>) -> Unit
+    ) = dataSnapshot
+        ?.children
+        ?.filter { it.getValue(Boolean::class.java) ?: false }
+        ?.map { it.key }
+        ?.toMutableSet()
+        ?.run { byThruId(errorCallback, block) }
+
+    private fun MutableSet<String>.byThruId(
+        errorCallback: FirebaseErrorCallback,
+        block: (List<PlayoneModel>) -> Unit
+    ) {
         val list = mutableListOf<PlayoneModel>()
         forEachIndexed { index, id ->
             playoneDataSnapshot(id,
@@ -99,12 +165,9 @@ class PlayoneFirebaseV1(
                                     if (index == size - 1) block(list)
                                 },
                                 errorCallback,
-                                ::playoneSnap2Playone)
+                                ::snap2Playone)
         }
     }
-
-    private fun playoneSnap2Playone(dataSnapshot: DataSnapshot?) =
-        dataSnapshot.takeIf(DataSnapshot?::isNotNull)?.run(::toPlayoneModel)
     //endregion
 
     //region Extension function

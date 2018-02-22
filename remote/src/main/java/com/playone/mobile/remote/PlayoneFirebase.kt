@@ -22,4 +22,10 @@ abstract class PlayoneFirebase {
         callback: (model: List<PlayoneModel>) -> Unit,
         errorCallback: (code: Int, msg: String, detail: String) -> Unit
     )
+
+    abstract fun getFavoritePlayoneList(
+        userId: Int,
+        callback: (model: List<PlayoneModel>) -> Unit,
+        errorCallback: (code: Int, msg: String, detail: String) -> Unit
+    )
 }
