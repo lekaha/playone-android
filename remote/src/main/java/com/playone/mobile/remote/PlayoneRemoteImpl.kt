@@ -11,7 +11,6 @@ import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
 import io.reactivex.Single
 
-@Suppress("NOTHING_TO_INLINE")
 /**
  * Remote implementation for retrieving Playone instances. This class implements the
  * [com.playone.mobile.data.repository.PlayoneRemote] from the Data layer as it is that
