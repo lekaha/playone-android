@@ -4,12 +4,11 @@ import android.content.ContentValues
 import android.database.Cursor
 import com.playone.mobile.cache.db.Db
 import com.playone.mobile.cache.model.CachedBufferoo
-import javax.inject.Inject
 
 /**
  * Maps a [CachedBufferoo] instance to a database entity.
  */
-class BufferooMapper @Inject constructor(): ModelDbMapper<CachedBufferoo> {
+class BufferooMapper : ModelDbMapper<CachedBufferoo> {
 
     /**
      * Construct an instance of [ContentValues] using the given [CachedBufferoo]

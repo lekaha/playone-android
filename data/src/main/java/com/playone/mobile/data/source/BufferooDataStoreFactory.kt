@@ -2,12 +2,11 @@ package com.playone.mobile.data.source
 
 import com.playone.mobile.data.repository.BufferooCache
 import com.playone.mobile.data.repository.BufferooDataStore
-import javax.inject.Inject
 
 /**
  * Create an instance of a BufferooDataStore
  */
-open class BufferooDataStoreFactory @Inject constructor(
+open class BufferooDataStoreFactory constructor(
         private val bufferooCache: BufferooCache,
         private val bufferooCacheDataStore: BufferooCacheDataStore,
         private val bufferooRemoteDataStore: BufferooRemoteDataStore) {
