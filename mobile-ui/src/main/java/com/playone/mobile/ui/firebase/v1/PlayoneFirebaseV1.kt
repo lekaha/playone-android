@@ -1,70 +1,192 @@
 package com.playone.mobile.ui.firebase.v1
 
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.playone.mobile.data.model.NotificationPayloadEntity
-import com.playone.mobile.data.model.PlayoneEntity
-import com.playone.mobile.data.model.UserEntity
-import com.playone.mobile.data.repository.PlayoneRemote
+import com.google.firebase.database.Query
 import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.remote.PlayoneFirebase
+import com.playone.mobile.remote.model.PlayoneModel
+import com.playone.mobile.remote.model.UserModel
 import com.playone.mobile.ui.firebase.ext.addListenerForSingleValueEvent
 
 class PlayoneFirebaseV1(
     private val dbReference: DatabaseReference
-) : PlayoneFirebase(), PlayoneRemote {
-    fun playoneDataSnapshot() {
-        dbReference.child(GROUPS).addListenerForSingleValueEvent {
-            onDataChange = {
-                it.takeIf { it.isNotNull() }?.let {}
-            }
-            onCancelled = { }
-        }
+) : PlayoneFirebase() {
+
+    /**
+     * Retrieve the [List] of the [PlayoneModel] from the firebase server. We'll use
+     * the callback function for returning the value back to.
+     *
+     * @param userId user id.
+     * @param callback a function for fetching a [List] of the [PlayoneModel].
+     * @param errorCallback a function for getting a error when retrieving the data.
+     */
+    override fun getPlayoneList(
+        userId: Int,
+        callback: PlayoneCallback<List<PlayoneModel>>,
+        errorCallback: FirebaseErrorCallback
+    ) = if (0 < userId) {
+        playoneDataSnapshot(callback, errorCallback, ::snapToPlayoneList)
+    }
+    else {
+        userDataSnapshot(userId.toString(),
+                         {},  // This is redundant anonymous function for running strategy function.
+                         errorCallback) { userSnapToPlayoneList(it, errorCallback, callback) }
     }
 
-    override fun fetchPlayoneList(userId: Int) = TODO()
+    override fun getJoinedPlayoneList(
+        userId: Int,
+        callback: PlayoneCallback<List<PlayoneModel>>,
+        errorCallback: FirebaseErrorCallback
+    ) = joinedDataSnapshot(userId.toString(), {}, errorCallback) {
+        joinedSnapToPlayoneList(it, errorCallback, callback)
+    }
 
-    override fun fetchJoinedPlayoneList(userId: Int) = TODO()
+    override fun getFavoritePlayoneList(
+        userId: Int,
+        callback: PlayoneCallback<List<PlayoneModel>>,
+        errorCallback: FirebaseErrorCallback
+    ) = favoriteDataSnapshot(userId.toString(), {}, errorCallback) {
+        favoriteSnapToPlayoneList(it, errorCallback, callback)
+    }
 
-    override fun fetchFavoritePlayoneList(userId: Int) = TODO()
+    //region Fetching data from firebase database.
+    private fun <D> playoneDataSnapshot(
+        callback: PlayoneCallback<D>,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<D>
+    ) = dbReference
+        .child(GROUPS)
+        .addStrategyListener(callback, errorCallback, strategy)
 
-    override fun fetchPlayoneDetail(playoneId: Int) = TODO()
+    private fun <D> playoneDataSnapshot(
+        id: String,
+        callback: PlayoneCallback<D>,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<D>
+    ) = dbReference
+        .child(GROUPS)
+        .child(id)
+        .addStrategyListener(callback, errorCallback, strategy)
 
-    override fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
+    private fun <D> userDataSnapshot(
+        userId: String,
+        callback: PlayoneCallback<D>,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<D>
+    ) = dbReference
+        .child(USERS)
+        .child(userId)
+        .addStrategyListener(callback, errorCallback, strategy)
 
-    override fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
+    private fun <D> joinedDataSnapshot(
+        userId: String,
+        callback: PlayoneCallback<D>,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<D>
+    ) = dbReference
+        .child(JOINED)
+        .child(userId)
+        .addStrategyListener(callback, errorCallback, strategy)
 
-    override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) = TODO()
+    private fun <D> favoriteDataSnapshot(
+        userId: String,
+        callback: PlayoneCallback<D>,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<D>
+    ) = dbReference
+        .child(USERS)
+        .child(userId)
+        .child(FAVORITES)
+        .addStrategyListener(callback, errorCallback, strategy)
+    //endregion
 
-    override fun sendJoinRequest(playoneId: Int, userId: Int, msg: String) = TODO()
+    //region Strategies of snapshot to the object.
+    private fun snapToPlayoneList(dataSnapshot: DataSnapshot?) =
+        dataSnapshot.takeIf(DataSnapshot?::isNotNull)
+            ?.children
+            ?.toMutableList()
+            ?.mapNotNull(::toPlayoneModel)
+            .orEmpty()
 
-    override fun toggleFavorite(playoneId: Int, userId: Int) = TODO()
+    private fun snapToPlayone(dataSnapshot: DataSnapshot?) =
+        dataSnapshot.takeIf(DataSnapshot?::isNotNull)?.run(::toPlayoneModel)
 
-    override fun isFavorite(playoneId: Int, userId: Int) = TODO()
+    /**
+     * A strategy for transforming from user snapshot to a playone list thru a method
+     * [playoneDataSnapshot] to achieve it.
+     *
+     * @param dataSnapshot a snapshot from the firebase database.
+     * @param errorCallback a function for getting a error when retrieving the data.
+     * @param block a really block to get a [List].
+     */
+    private fun userSnapToPlayoneList(
+        dataSnapshot: DataSnapshot?,
+        errorCallback: FirebaseErrorCallback,
+        block: (List<PlayoneModel>) -> Unit
+    ) = dataSnapshot
+        ?.getValue(UserModel::class.java)
+        ?.teams
+        ?.keys
+        ?.run { byThruId(errorCallback, block) }
 
-    override fun isJoint(playoneId: Int, userId: Int) = TODO()
+    private fun joinedSnapToPlayoneList(
+        dataSnapshot: DataSnapshot?,
+        errorCallback: FirebaseErrorCallback,
+        block: (List<PlayoneModel>) -> Unit
+    ) = dataSnapshot
+        ?.children
+        ?.map { it.key }
+        ?.toMutableSet()
+        ?.run { byThruId(errorCallback, block) }
 
-    override fun userEntity(userId: Int) = TODO()
+    private fun favoriteSnapToPlayoneList(
+        dataSnapshot: DataSnapshot?,
+        errorCallback: FirebaseErrorCallback,
+        block: (List<PlayoneModel>) -> Unit
+    ) = dataSnapshot
+        ?.children
+        ?.filter { it.getValue(Boolean::class.java) ?: false }
+        ?.map { it.key }
+        ?.toMutableSet()
+        ?.run { byThruId(errorCallback, block) }
 
-    override fun createUser(userEntity: UserEntity) = TODO()
+    private fun MutableSet<String>.byThruId(
+        errorCallback: FirebaseErrorCallback,
+        block: (List<PlayoneModel>) -> Unit
+    ) {
+        val list = mutableListOf<PlayoneModel>()
+        forEachIndexed { index, id ->
+            playoneDataSnapshot(id,
+                                {
+                                    it.takeIf(PlayoneModel?::isNotNull)?.let(list::add)
+                                    // Finish the loop.
+                                    if (index == size - 1) block(list)
+                                },
+                                errorCallback,
+                                ::snapToPlayone)
+        }
+    }
+    //endregion
 
-    override fun updateUser(userEntity: UserEntity) = TODO()
+    //region Extension function
+    private fun toPlayoneModel(dataSnapshot: DataSnapshot) = dataSnapshot.run {
+        getValue(PlayoneModel::class.java)
+            .takeIf { it.isNotNull() && key.isNotNull() }
+            ?.also { it.id = key }
+    }
 
-    override fun updateUser(userEntity: UserEntity, lastDeviceToken: String) = TODO()
+    private fun DatabaseError.makeCallback(errorCallback: FirebaseErrorCallback) =
+        errorCallback(code, message, details)
 
-    override fun applyNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun acceptedNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun acceptNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun dismissNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun kickNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun quitNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun rejectedNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun rejectNotification(payload: NotificationPayloadEntity) = TODO()
-
+    private fun <D> Query.addStrategyListener(
+        callback: PlayoneCallback<D>,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<D>
+    ) = addListenerForSingleValueEvent {
+        onDataChange = { strategy?.apply { callback(this(it)) } }
+        onCancelled = { it.makeCallback(errorCallback) }
+    }
+    //endregion
 }

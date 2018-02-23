@@ -15,6 +15,7 @@ ext {
 
     //Libraries
     kotlinVersion = '1.1.51'
+    kotlinCoroutine = '0.22.2'
     recyclerViewVersion = '21.0.3'
     rxJavaVersion = '2.0.2'
     rxKotlinVersion = '2.1.0'
@@ -228,6 +229,8 @@ ext {
             firebaseCore:       "com.google.firebase:firebase-core:${firebaseVersion}",
             firebaseDb:         "com.google.firebase:firebase-database:${firebaseVersion}",
             firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseVersion}",
+
+//            coroutine:          "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutine}",
     ]
 
     mobileUiTestDependencies = [
