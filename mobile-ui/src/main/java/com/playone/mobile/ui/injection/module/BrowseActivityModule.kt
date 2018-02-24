@@ -26,7 +26,6 @@ import com.playone.mobile.ui.model.BrowseViewModelFactory
 import dagger.Module
 import dagger.Provides
 
-
 /**
  * Module used to provide dependencies at an activity-level.
  */
@@ -34,10 +33,11 @@ import dagger.Provides
 open class BrowseActivityModule {
 
     @Provides
-    internal fun provideGetBufferoos(bufferooRepository: BufferooRepository,
-                                     threadExecutor: ThreadExecutor,
-                                     postExecutionThread: PostExecutionThread)
-            = GetBufferoos(bufferooRepository, threadExecutor, postExecutionThread)
+    internal fun provideGetBufferoos(
+        bufferooRepository: BufferooRepository,
+        threadExecutor: ThreadExecutor,
+        postExecutionThread: PostExecutionThread
+    ) = GetBufferoos(bufferooRepository, threadExecutor, postExecutionThread)
 
     @Provides
     internal fun provideBufferooEntityMapper() = BufferooEntityMapper()
@@ -49,8 +49,8 @@ open class BrowseActivityModule {
     internal fun provideDbBufferooMapper() = com.playone.mobile.cache.db.mapper.BufferooMapper()
 
     @Provides
-    internal fun provideRemoteBufferooMapper()
-            = com.playone.mobile.remote.mapper.BufferooEntityMapper()
+    internal fun provideRemoteBufferooMapper() =
+        com.playone.mobile.remote.mapper.BufferooEntityMapper()
 
     @Provides
     internal fun provideDataBufferooMapper() = com.playone.mobile.data.mapper.BufferooMapper()
@@ -59,51 +59,56 @@ open class BrowseActivityModule {
     internal fun provideUiBufferooMapper() = com.playone.mobile.ui.mapper.BufferooMapper()
 
     @Provides
-    internal fun provideBufferooCache(factory: DbOpenHelper,
-                                      entityMapper: BufferooEntityMapper,
-                                      mapper: com.playone.mobile.cache.db.mapper.BufferooMapper,
-                                      helper: PreferencesHelper)
-            : BufferooCache = BufferooCacheImpl(factory, entityMapper, mapper, helper)
+    internal fun provideBufferooCache(
+        factory: DbOpenHelper,
+        entityMapper: BufferooEntityMapper,
+        mapper: com.playone.mobile.cache.db.mapper.BufferooMapper,
+        helper: PreferencesHelper
+    ): BufferooCache = BufferooCacheImpl(factory, entityMapper, mapper, helper)
 
     @Provides
     internal fun provideBufferooRemote(
-            service: BufferooService,
-            factory: com.playone.mobile.remote.mapper.BufferooEntityMapper)
-            : BufferooRemote = BufferooRemoteImpl(service, factory)
+        service: BufferooService,
+        factory: com.playone.mobile.remote.mapper.BufferooEntityMapper
+    ): BufferooRemote = BufferooRemoteImpl(service, factory)
 
     @Provides
-    internal fun provideBufferooDataStoreFactory(bufferooCache: BufferooCache,
-                                                 bufferooCacheDataStore: BufferooCacheDataStore,
-                                                 bufferooRemoteDataStore: BufferooRemoteDataStore)
-            : BufferooDataStoreFactory = BufferooDataStoreFactory(bufferooCache,
-                                                                  bufferooCacheDataStore,
-                                                                  bufferooRemoteDataStore)
+    internal fun provideBufferooDataStoreFactory(
+        bufferooCache: BufferooCache,
+        bufferooCacheDataStore: BufferooCacheDataStore,
+        bufferooRemoteDataStore: BufferooRemoteDataStore
+    ): BufferooDataStoreFactory = BufferooDataStoreFactory(
+        bufferooCache,
+        bufferooCacheDataStore,
+        bufferooRemoteDataStore
+    )
 
     @Provides
     internal fun provideBufferooCacheDataStore(bufferooCache: BufferooCache)
-            : BufferooCacheDataStore = BufferooCacheDataStore(bufferooCache)
+        : BufferooCacheDataStore = BufferooCacheDataStore(bufferooCache)
 
     @Provides
     internal fun provideBufferooRemoteDataStore(bufferooRemote: BufferooRemote)
-            : BufferooRemoteDataStore = BufferooRemoteDataStore(bufferooRemote)
+        : BufferooRemoteDataStore = BufferooRemoteDataStore(bufferooRemote)
 
     @Provides
-    internal fun provideBufferooRepository(factory: BufferooDataStoreFactory,
-                                           mapper: com.playone.mobile.data.mapper.BufferooMapper)
-            : BufferooRepository = BufferooDataRepository(factory, mapper)
+    internal fun provideBufferooRepository(
+        factory: BufferooDataStoreFactory,
+        mapper: com.playone.mobile.data.mapper.BufferooMapper
+    ): BufferooRepository = BufferooDataRepository(factory, mapper)
 
     @Provides
-    internal fun provideBrowseViewHolderFactory(@ActivityContext context: Context)
-            = BrowseViewHolder.BrowseViewHolderFactory(context)
+    internal fun provideBrowseViewHolderFactory(@ActivityContext context: Context) =
+        BrowseViewHolder.BrowseViewHolderFactory(context)
 
     @Provides
-    internal fun provideBrowseViewHolderBinder()  = BrowseViewHolder.BrowseViewHolderBinder()
+    internal fun provideBrowseViewHolderBinder() = BrowseViewHolder.BrowseViewHolderBinder()
 
     @Provides
     internal fun provideBrowsePresenter(getBufferoos: GetBufferoos, mapper: BufferooMapper)
-            : BrowseBufferoosContract.Presenter = BrowseBufferoosPresenter(getBufferoos, mapper)
+        : BrowseBufferoosContract.Presenter = BrowseBufferoosPresenter(getBufferoos, mapper)
 
     @Provides
-    internal fun provideBrowseViewModelFactory(presenter: BrowseBufferoosContract.Presenter)
-            = BrowseViewModelFactory(presenter)
+    internal fun provideBrowseViewModelFactory(presenter: BrowseBufferoosContract.Presenter) =
+        BrowseViewModelFactory(presenter)
 }
