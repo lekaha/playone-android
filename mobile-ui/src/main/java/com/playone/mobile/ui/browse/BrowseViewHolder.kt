@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.playone.mobile.ui.R
+import com.playone.mobile.ui.injection.qualifier.ActivityContext
 import com.playone.mobile.ui.model.BufferooViewModel
 import com.playone.mobile.ui.view.recycler.DisplayableItem
 import com.playone.mobile.ui.view.recycler.ViewHolderBinder
@@ -32,7 +33,7 @@ class BrowseViewHolder(view: View): RecyclerView.ViewHolder(view) {
     }
 
 
-    class BrowseViewHolderFactory @Inject constructor(context: Context):
+    class BrowseViewHolderFactory constructor(context: Context):
             ViewHolderFactory(context) {
 
         override fun createViewHolder(parent: ViewGroup)
@@ -42,7 +43,7 @@ class BrowseViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
     }
 
-    class BrowseViewHolderBinder @Inject constructor(): ViewHolderBinder {
+    class BrowseViewHolderBinder : ViewHolderBinder {
         override fun bind(viewHolder: RecyclerView.ViewHolder,
                           item: DisplayableItem<*>) {
             var browseViewHolder = BrowseViewHolder::class.java.cast(viewHolder)
