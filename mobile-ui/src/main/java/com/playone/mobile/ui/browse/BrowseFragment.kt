@@ -92,15 +92,11 @@ class BrowseFragment : BaseInjectingFragment() {
         viewModel?.fetchedData()?.observe(this, Observer { data ->
             hideErrorState()
 
-            data?.let {
-                if (data.isNotEmpty()) {
-                    hideEmptyState()
-                    showBufferoos(data)
-                }
-                else {
-                    showEmptyState()
-                    hideBufferoos()
-                }
+            data?.takeIf {
+                it.isNotEmpty()
+            }?.apply {
+                hideEmptyState()
+                showBufferoos(this)
             } ?: run {
                 showEmptyState()
                 hideBufferoos()
