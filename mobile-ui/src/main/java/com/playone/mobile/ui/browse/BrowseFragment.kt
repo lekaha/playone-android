@@ -9,11 +9,11 @@ import android.view.View
 import com.playone.mobile.presentation.model.BufferooView
 import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.R
-import com.playone.mobile.ui.R.id.recycler_browse
 import com.playone.mobile.ui.mapper.BufferooMapper
 import com.playone.mobile.ui.model.BrowseViewModel
 import com.playone.mobile.ui.model.BrowseViewModelFactory
-import kotlinx.android.synthetic.main.fragment_browse.*
+import kotlinx.android.synthetic.main.fragment_browse.progress
+import kotlinx.android.synthetic.main.fragment_browse.recycler_browse
 import javax.inject.Inject
 
 class BrowseFragment : BaseInjectingFragment() {
