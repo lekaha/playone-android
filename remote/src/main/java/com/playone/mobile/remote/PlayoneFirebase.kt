@@ -1,5 +1,7 @@
 package com.playone.mobile.remote
 
+import com.playone.mobile.remote.model.PlayoneModel
+
 abstract class PlayoneFirebase {
     protected val GROUPS = "groups"
     protected val USERS = "users"

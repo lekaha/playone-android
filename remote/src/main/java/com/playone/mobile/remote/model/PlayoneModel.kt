@@ -16,4 +16,17 @@ data class PlayoneModel(
     var level: Int = 0,
     var host: String = "",
     var userId: String = ""
-)
+) {
+    fun toMap() = hashMapOf("name" to name,
+                            "name" to name,
+                            "description" to description,
+                            "host" to host,
+                            "date" to date,
+                            "updated" to updated,
+                            "address" to address,
+                            "latitude" to latitude,
+                            "longitude" to longitude,
+                            "limit" to limit,
+                            "level" to level,
+                            "userId" to userId)
+}

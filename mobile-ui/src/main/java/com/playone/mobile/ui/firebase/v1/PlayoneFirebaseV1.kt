@@ -55,14 +55,17 @@ class PlayoneFirebaseV1(
         userId: Int,
         callback: (model: PlayoneModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
-    ) = playoneDataSnapshot(userId.toString(), callback, errorCallback, ::snap2Playone)
+    ) = playoneDataSnapshot(userId.toString(), callback, errorCallback, ::snapToPlayone)
 
     override fun createPlayone(
         userId: Int,
         model: PlayoneModel,
         callback: (isSuccess: Boolean) -> Unit,
         errorCallback: FirebaseErrorCallback
-    ) = Unit
+    ) = playoneDataSnapshotForCreation(userId.toString(),
+                                       callback,
+                                       errorCallback,
+                                       { snapToBooleanForCreation(it, userId.toString(), model) })
 
     //region Fetching data from firebase database.
     private fun <D> playoneDataSnapshot(
@@ -114,8 +117,7 @@ class PlayoneFirebaseV1(
         .child(FAVORITES)
         .addStrategyListener(callback, errorCallback, strategy)
 
-    private fun playoneDataSnapshot(
-        test: Int,
+    private fun playoneDataSnapshotForCreation(
         userId: String,
         callback: (isSuccess: Boolean) -> Unit,
         errorCallback: FirebaseErrorCallback,
@@ -180,8 +182,21 @@ class PlayoneFirebaseV1(
         ?.toMutableSet()
         ?.run { byThruId(errorCallback, block) }
 
-    private fun snapToIsSuccess() {
+    private fun snapToBooleanForCreation(
+        dataSnapshot: DataSnapshot?,
+        userId: String,
+        model: PlayoneModel
+    ) = dbReference.run {
+        val id = child(GROUPS).push().key
+        val name = dataSnapshot?.getValue(String::class.java).orEmpty()
 
+        child(USERS).child(userId).child(TEAMS).child(id).setValue(true)
+
+        val copyModel = model.copy(id = id, host = name, userId = userId)
+
+        updateChildren(hashMapOf("/$GROUPS/" to copyModel.toMap()) as Map<String, Any>)
+
+        true
     }
 
     private fun MutableSet<String>.byThruId(
