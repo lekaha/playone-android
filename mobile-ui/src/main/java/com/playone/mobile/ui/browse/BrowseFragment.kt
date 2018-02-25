@@ -9,13 +9,14 @@ import android.view.View
 import com.playone.mobile.presentation.model.BufferooView
 import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.R
+import com.playone.mobile.ui.R.id.recycler_browse
 import com.playone.mobile.ui.mapper.BufferooMapper
 import com.playone.mobile.ui.model.BrowseViewModel
 import com.playone.mobile.ui.model.BrowseViewModelFactory
 import kotlinx.android.synthetic.main.fragment_browse.*
 import javax.inject.Inject
 
-class BrowseFragment: BaseInjectingFragment() {
+class BrowseFragment : BaseInjectingFragment() {
 
     @Inject lateinit var browseAdapter: BrowseAdapter
     @Inject lateinit var mapper: BufferooMapper
@@ -78,24 +79,25 @@ class BrowseFragment: BaseInjectingFragment() {
 
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this, browseViewModelFactory)
-                .get(BrowseViewModel::class.java)
+            .get(BrowseViewModel::class.java)
 
-        viewModel?.isProgressing()!!.observe(this, Observer { progress ->
-            if (progress!!) showProgress() else hideProgress()
+        viewModel?.isProgressing()?.observe(this, Observer {
+            it?.takeIf { it }?.apply { showProgress() } ?: hideProgress()
         })
 
-        viewModel?.occurredError()!!.observe(this, Observer { _ ->
+        viewModel?.occurredError()?.observe(this, Observer { _ ->
             showErrorState()
         })
 
-        viewModel?.fetchedData()!!.observe(this, Observer { data ->
+        viewModel?.fetchedData()?.observe(this, Observer { data ->
             hideErrorState()
 
             data?.let {
                 if (data.isNotEmpty()) {
                     hideEmptyState()
                     showBufferoos(data)
-                } else {
+                }
+                else {
                     showEmptyState()
                     hideBufferoos()
                 }
