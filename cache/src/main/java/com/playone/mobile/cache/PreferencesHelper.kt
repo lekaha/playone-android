@@ -10,7 +10,7 @@ import javax.inject.Singleton
  * General Preferences Helper class, used for storing preference values using the Preference API
  */
 @Singleton
-class PreferencesHelper @Inject constructor(context: Context) {
+class PreferencesHelper constructor(context: Context) {
 
     companion object {
         private val PREF_BUFFER_PACKAGE_NAME = "com.lekaha.android.boilerplate.preferences"

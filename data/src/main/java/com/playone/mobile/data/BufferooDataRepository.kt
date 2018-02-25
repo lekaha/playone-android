@@ -1,20 +1,19 @@
 package com.playone.mobile.data
 
-import io.reactivex.Completable
-import io.reactivex.Single
 import com.playone.mobile.data.mapper.BufferooMapper
 import com.playone.mobile.data.model.BufferooEntity
 import com.playone.mobile.data.source.BufferooDataStoreFactory
 import com.playone.mobile.data.source.BufferooRemoteDataStore
 import com.playone.mobile.domain.model.Bufferoo
 import com.playone.mobile.domain.repository.BufferooRepository
-import javax.inject.Inject
+import io.reactivex.Completable
+import io.reactivex.Single
 
 /**
  * Provides an implementation of the [BufferooRepository] interface for communicating to and from
  * data sources
  */
-class BufferooDataRepository @Inject constructor(private val factory: BufferooDataStoreFactory,
+class BufferooDataRepository constructor(private val factory: BufferooDataStoreFactory,
                                                  private val bufferooMapper: BufferooMapper) :
         BufferooRepository {
 

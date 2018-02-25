@@ -1,8 +1,6 @@
 package com.playone.mobile.cache
 
 import android.database.sqlite.SQLiteDatabase
-import io.reactivex.Completable
-import io.reactivex.Single
 import com.playone.mobile.cache.db.Db
 import com.playone.mobile.cache.db.DbOpenHelper
 import com.playone.mobile.cache.db.constants.BufferooConstants
@@ -11,14 +9,15 @@ import com.playone.mobile.cache.mapper.BufferooEntityMapper
 import com.playone.mobile.cache.model.CachedBufferoo
 import com.playone.mobile.data.model.BufferooEntity
 import com.playone.mobile.data.repository.BufferooCache
-import javax.inject.Inject
+import io.reactivex.Completable
+import io.reactivex.Single
 
 /**
  * Cached implementation for retrieving and saving Bufferoo instances. This class implements the
  * [BufferooCache] from the Data layer as it is that layers responsibility for defining the
  * operations in which data store implementation layers can carry out.
  */
-class BufferooCacheImpl @Inject constructor(dbOpenHelper: DbOpenHelper,
+class BufferooCacheImpl constructor(dbOpenHelper: DbOpenHelper,
                                             private val entityMapper: BufferooEntityMapper,
                                             private val mapper: BufferooMapper,
                                             private val preferencesHelper: PreferencesHelper):

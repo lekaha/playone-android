@@ -9,6 +9,7 @@ import com.playone.mobile.remote.PlayoneFirebase
 import com.playone.mobile.remote.PlayoneServiceFactory
 import com.playone.mobile.ui.BuildConfig
 import com.playone.mobile.ui.firebase.v1.PlayoneFirebaseV1
+import com.playone.mobile.ui.injection.qualifier.ApplicationContext
 import com.playone.mobile.ui.injection.scopes.PerApplication
 import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
@@ -45,7 +46,9 @@ open class NetModule {
             = PlayoneServiceFactory.makeFirebaseService(BuildConfig.DEBUG, playoneFirebase)
 
     @Provides
-    internal fun provideChuckInterceptor(context: Context) = ChuckInterceptor(context)
+    @PerApplication
+    internal fun provideChuckInterceptor(@ApplicationContext context: Context)
+            = ChuckInterceptor(context)
 
     @Provides
     internal fun provideStethoInterceptor() = StethoInterceptor()

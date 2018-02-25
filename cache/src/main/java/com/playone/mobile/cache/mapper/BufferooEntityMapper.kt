@@ -2,13 +2,12 @@ package com.playone.mobile.cache.mapper
 
 import com.playone.mobile.cache.model.CachedBufferoo
 import com.playone.mobile.data.model.BufferooEntity
-import javax.inject.Inject
 
 /**
  * Map a [CachedBufferoo] instance to and from a [BufferooEntity] instance when data is moving between
  * this later and the Data layer
  */
-class BufferooEntityMapper @Inject constructor(): EntityMapper<CachedBufferoo, BufferooEntity> {
+class BufferooEntityMapper : EntityMapper<CachedBufferoo, BufferooEntity> {
 
     /**
      * Map a [BufferooEntity] instance to a [CachedBufferoo] instance

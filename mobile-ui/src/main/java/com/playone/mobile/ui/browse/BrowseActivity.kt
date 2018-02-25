@@ -1,12 +1,15 @@
 package com.playone.mobile.ui.browse
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import com.playone.mobile.ui.BaseInjectingActivity
+import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
+import javax.inject.Inject
 
 class BrowseActivity:
         BaseInjectingActivity<Any>() {
+
+    @Inject lateinit var navigator: Navigator
 
     override fun createComponent(): Any? {
         return null
@@ -20,13 +23,9 @@ class BrowseActivity:
         savedInstanceState?.let {
 
         } ?: run {
-            replaceFragment(BrowseFragment.newInstance())
+            navigator.navigateTo(this, {
+                replace(R.id.content, BrowseFragment.newInstance())
+            })
         }
-    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.content, fragment)
-                .commit()
     }
 }
