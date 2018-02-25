@@ -51,6 +51,19 @@ class PlayoneFirebaseV1(
         favoriteSnap2PlayoneList(it, errorCallback, callback)
     }
 
+    override fun getPlayoneDetail(
+        userId: Int,
+        callback: (model: PlayoneModel?) -> Unit,
+        errorCallback: FirebaseErrorCallback
+    ) = playoneDataSnapshot(userId.toString(), callback, errorCallback, ::snap2Playone)
+
+    override fun createPlayone(
+        userId: Int,
+        model: PlayoneModel,
+        callback: (isSuccess: Boolean) -> Unit,
+        errorCallback: FirebaseErrorCallback
+    ) = Unit
+
     //region Fetching data from firebase database.
     private fun <D> playoneDataSnapshot(
         callback: PlayoneCallback<D>,
@@ -100,6 +113,21 @@ class PlayoneFirebaseV1(
         .child(userId)
         .child(FAVORITES)
         .addStrategyListener(callback, errorCallback, strategy)
+
+    private fun playoneDataSnapshot(
+        test: Int,
+        userId: String,
+        callback: (isSuccess: Boolean) -> Unit,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<Boolean>
+    ) = dbReference
+        .child(USERS)
+        .child(userId)
+        .child(NAME)
+        .addListenerForSingleValueEvent {
+            onDataChange = { strategy?.apply { callback(this(it)) } }
+            onCancelled = { it.makeCallback(errorCallback) }
+        }
     //endregion
 
     //region Strategies of snapshot to the object.
@@ -151,6 +179,10 @@ class PlayoneFirebaseV1(
         ?.map { it.key }
         ?.toMutableSet()
         ?.run { byThruId(errorCallback, block) }
+
+    private fun snapToIsSuccess() {
+
+    }
 
     private fun MutableSet<String>.byThruId(
         errorCallback: FirebaseErrorCallback,

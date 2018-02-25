@@ -28,4 +28,17 @@ abstract class PlayoneFirebase {
         callback: (model: List<PlayoneModel>) -> Unit,
         errorCallback: (code: Int, msg: String, detail: String) -> Unit
     )
+
+    abstract fun getPlayoneDetail(
+        userId: Int,
+        callback: (model: PlayoneModel?) -> Unit,
+        errorCallback: (code: Int, msg: String, detail: String) -> Unit
+    )
+
+    abstract fun createPlayone(
+        userId: Int,
+        model: PlayoneModel,
+        callback: (isSuccess: Boolean) -> Unit,
+        errorCallback: (code: Int, msg: String, detail: String) -> Unit
+    )
 }
