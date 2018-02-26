@@ -10,19 +10,24 @@ import java.util.*
 /**
  * Implementation of [Adapter] for [DisplayableItem].
  */
-open class RecyclerViewAdapter(private val comparator: ItemComparator,
-                               private val factoryMap: Map<Int, ViewHolderFactory>,
-                               private val binderMap: Map<Int, ViewHolderBinder>)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+open class RecyclerViewAdapter(
+    private val comparator: ItemComparator,
+    private val factoryMap: Map<Int, ViewHolderFactory>,
+    private val binderMap: Map<Int, ViewHolderBinder>
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val modelItems = ArrayList<DisplayableItem<*>>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        factoryMap[viewType]!!.createViewHolder(parent)
+        factoryMap[viewType]?.createViewHolder(parent)
+        ?: throw IllegalStateException("The view factory of the type is null. " +
+                                       "viewType = $viewType")
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = modelItems[position]
-        binderMap[item.type()]!!.bind(holder, item)
+        binderMap[item.type()]?.bind(holder, item)
+        ?: throw IllegalStateException("The view binder of the type is null. " +
+                                       "viewType = ${item.type()}")
     }
 
     override fun getItemCount() = modelItems.size
@@ -39,7 +44,8 @@ open class RecyclerViewAdapter(private val comparator: ItemComparator,
 
         if (modelItems.isEmpty()) {
             updateAllItems(items)
-        } else {
+        }
+        else {
             updateDiffItemsOnly(items)
         }
     }
@@ -49,8 +55,8 @@ open class RecyclerViewAdapter(private val comparator: ItemComparator,
      */
     private fun updateAllItems(items: List<DisplayableItem<*>>) {
         Single.just<List<DisplayableItem<*>>>(items)
-                .doOnSuccess { updateItemsInModel(items) }
-                .subscribe { _ -> notifyDataSetChanged() }
+            .doOnSuccess { updateItemsInModel(items) }
+            .subscribe { _ -> notifyDataSetChanged() }
     }
 
     /**
@@ -62,8 +68,8 @@ open class RecyclerViewAdapter(private val comparator: ItemComparator,
     private fun updateDiffItemsOnly(items: List<DisplayableItem<*>>) {
         // IMPROVEMENT: The diff calculation should happen in the background
         Single.fromCallable { calculateDiff(items) }
-                .doOnSuccess { updateItemsInModel(items) }
-                .subscribe(this::updateAdapterWithDiffResult)
+            .doOnSuccess { updateItemsInModel(items) }
+            .subscribe(this::updateAdapterWithDiffResult)
     }
 
     private fun calculateDiff(newItems: List<DisplayableItem<*>>) =
