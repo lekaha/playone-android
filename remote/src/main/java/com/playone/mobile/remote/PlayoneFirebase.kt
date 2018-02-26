@@ -1,6 +1,7 @@
 package com.playone.mobile.remote
 
 import com.playone.mobile.remote.model.PlayoneModel
+import com.playone.mobile.remote.model.UserModel
 
 abstract class PlayoneFirebase {
     protected val GROUPS = "groups"
@@ -10,10 +11,25 @@ abstract class PlayoneFirebase {
     protected val FAVORITES = "favorites"
     protected val TEAMS = "teams"
     protected val NAME = "name"
+    protected val DEVICE_TOKENS = "device_tokens"
 
     abstract fun getPlayoneList(
         userId: Int,
         callback: PlayoneListCallback,
+        errorCallback: FirebaseErrorCallback
+    )
+
+    abstract fun createPlayone(
+        userId: Int,
+        model: PlayoneModel,
+        callback: OperationResultCallback,
+        errorCallback: FirebaseErrorCallback
+    )
+
+    abstract fun updatePlayone(
+        id: Int,
+        model: PlayoneModel,
+        callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     )
 
@@ -22,7 +38,6 @@ abstract class PlayoneFirebase {
         callback: PlayoneListCallback,
         errorCallback: FirebaseErrorCallback
     )
-
     abstract fun getFavoritePlayoneList(
         userId: Int,
         callback: PlayoneListCallback,
@@ -32,13 +47,25 @@ abstract class PlayoneFirebase {
     abstract fun getPlayoneDetail(
         userId: Int,
         callback: (model: PlayoneModel?) -> Unit,
-        errorCallback: (code: Int, msg: String, detail: String) -> Unit
+        errorCallback: FirebaseErrorCallback
     )
 
-    abstract fun createPlayone(
+    abstract fun getUser(
         userId: Int,
-        model: PlayoneModel,
-        callback: (isSuccess: Boolean) -> Unit,
-        errorCallback: (code: Int, msg: String, detail: String) -> Unit
+        callback: (mode: UserModel?) -> Unit,
+        errorCallback: FirebaseErrorCallback
+    )
+
+    abstract fun createUser(
+        model: UserModel,
+        callback: (mode: UserModel?) -> Unit,
+        errorCallback: FirebaseErrorCallback
+    )
+
+    abstract fun updateUser(
+        model: UserModel,
+        lastDeviceToken: String,
+        callback: OperationResultCallback,
+        errorCallback: FirebaseErrorCallback
     )
 }
