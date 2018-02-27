@@ -64,7 +64,7 @@ abstract class PlayoneFirebase {
 
     abstract fun updateUser(
         model: UserModel,
-        lastDeviceToken: String,
+        lastDeviceToken: String?,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     )

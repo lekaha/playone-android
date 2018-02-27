@@ -97,12 +97,10 @@ class PlayoneFirebaseV1(
 
     override fun updateUser(
         model: UserModel,
-        lastDeviceToken: String,
+        lastDeviceToken: String?,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
-    ) {
-
-    }
+    ) = userDataSnapshotForUpdate<Boolean>(model, lastDeviceToken, callback, errorCallback, null)
 
     //region Fetching data from firebase database.
     private fun <D> playoneDataSnapshot(
@@ -219,7 +217,14 @@ class PlayoneFirebaseV1(
         .child(USERS)
         .child(model.id)
         .runTransaction(object : Transaction.Handler {
-            override fun onComplete(de: DatabaseError, p1: Boolean, ds: DataSnapshot?) = Unit
+            override fun onComplete(de: DatabaseError, p1: Boolean, ds: DataSnapshot?) =
+                if (!p1) {
+                    de.makeCallback(errorCallback)
+                }
+                else {
+                    strategy?.invoke(de, p1, ds)
+                    callback(p1)
+                }
 
             override fun doTransaction(mutableData: MutableData?): Transaction.Result {
                 val um = mutableData?.getValue(UserModel::class.java)
