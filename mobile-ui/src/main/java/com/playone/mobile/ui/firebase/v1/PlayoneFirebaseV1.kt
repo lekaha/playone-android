@@ -154,6 +154,7 @@ class PlayoneFirebaseV1(
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     ) {
+        // TODO(jieyi): 2018/02/27 
     }
 
     override fun isJoined(
@@ -162,6 +163,7 @@ class PlayoneFirebaseV1(
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     ) {
+        // TODO(jieyi): 2018/02/27
     }
 
     //region Fetching data from firebase database.
