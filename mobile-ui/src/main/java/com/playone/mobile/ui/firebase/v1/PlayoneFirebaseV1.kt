@@ -8,6 +8,7 @@ import com.google.firebase.database.Query
 import com.google.firebase.database.Transaction
 import com.google.firebase.iid.FirebaseInstanceId
 import com.playone.mobile.ext.isNotNull
+import com.playone.mobile.remote.FirebaseErrorCallback
 import com.playone.mobile.remote.OperationResultCallback
 import com.playone.mobile.remote.PlayoneFirebase
 import com.playone.mobile.remote.model.PlayoneModel
@@ -102,6 +103,67 @@ class PlayoneFirebaseV1(
         errorCallback: FirebaseErrorCallback
     ) = userDataSnapshotForUpdate<Boolean>(model, lastDeviceToken, callback, errorCallback, null)
 
+    override fun joinTeamAsMember(
+        playoneId: Int,
+        userId: Int,
+        isJoin: Boolean,
+        callback: OperationResultCallback,
+        errorCallback: FirebaseErrorCallback
+    ) {
+        val (pId, uId) = playoneId.toString() to userId.toString()
+
+        dbReference.apply {
+            child(MEMBERS).child(pId).child(uId).setValue(isJoin)
+            child(JOINED).child(uId).child(pId).setValue(isJoin)
+        }
+        playoneOfUserDataSnap<Boolean>(pId, uId, isJoin, callback, errorCallback, null)
+    }
+
+    override fun toggleFavorite(
+        playoneId: Int,
+        userId: Int,
+        callback: OperationResultCallback,
+        errorCallback: FirebaseErrorCallback
+    ) = favoriteDataSnapshot(userId.toString(), {}, errorCallback) {
+        var isFavorite = false
+        val (pId, uId) = playoneId.toString() to userId.toString()
+
+        dbReference.apply {
+            when (it?.exists()) {
+                true -> {
+                    // OPTIMIZE(jieyi): 2018/02/27 `getValue` may be null point, this case it will
+                    // be false temporally.
+                    isFavorite = it.getValue(Boolean::class.java) ?: false
+                    child(USERS).child(uId).child(FAVORITES).child(pId).setValue(!isFavorite)
+                }
+                false -> {
+                    child(USERS).child(uId).child(FAVORITES).child(pId).setValue(true)
+                }
+                null -> {
+                    // No-op.
+                }
+            }
+        }
+
+        callback(isFavorite)
+    }
+
+    override fun isFavorite(
+        playoneId: Int,
+        userId: Int,
+        callback: OperationResultCallback,
+        errorCallback: FirebaseErrorCallback
+    ) {
+    }
+
+    override fun isJoined(
+        playoneId: Int,
+        userId: Int,
+        callback: OperationResultCallback,
+        errorCallback: FirebaseErrorCallback
+    ) {
+    }
+
     //region Fetching data from firebase database.
     private fun <D> playoneDataSnapshot(
         callback: PlayoneCallback<D>,
@@ -165,37 +227,26 @@ class PlayoneFirebaseV1(
     ) = dbReference
         .child(GROUPS)
         .child(id)
-        .runTransaction(object : Transaction.Handler {
-            override fun onComplete(de: DatabaseError, p1: Boolean, ds: DataSnapshot?) =
-                if (!p1) {
-                    de.makeCallback(errorCallback)
+        .runTransaction(callback, errorCallback, strategy) { mutableData ->
+            val pm = mutableData?.getValue(PlayoneModel::class.java)
+
+            pm?.let {
+                // Assign data from the parameter model to the remote playone model.
+                model.apply {
+                    it.name = name
+                    it.description = description
+                    it.address = address
+                    it.date = date
+                    it.updated = updated
+                    it.latitude = latitude
+                    it.longitude = longitude
+                    it.limit = limit
+                    it.level = level
                 }
-                else {
-                    strategy?.invoke(de, p1, ds)
-                    callback(p1)
-                }
 
-            override fun doTransaction(mutableData: MutableData?): Transaction.Result {
-                val pm = mutableData?.getValue(PlayoneModel::class.java)
-
-                return pm?.let {
-                    // Assign data from the parameter model to the remote playone model.
-                    model.apply {
-                        it.name = name
-                        it.description = description
-                        it.address = address
-                        it.date = date
-                        it.updated = updated
-                        it.latitude = latitude
-                        it.longitude = longitude
-                        it.limit = limit
-                        it.level = level
-                    }
-
-                    mutableData.apply { value = it }
-                }?.let(Transaction::success) ?: Transaction.success(mutableData)
-            }
-        })
+                mutableData.apply { value = it }
+            }?.let(Transaction::success) ?: Transaction.success(mutableData)
+        }
 
     private fun <D> userDataSnapshot(
         userId: String,
@@ -216,49 +267,58 @@ class PlayoneFirebaseV1(
     ) = dbReference
         .child(USERS)
         .child(model.id)
-        .runTransaction(object : Transaction.Handler {
-            override fun onComplete(de: DatabaseError, p1: Boolean, ds: DataSnapshot?) =
-                if (!p1) {
-                    de.makeCallback(errorCallback)
+        .runTransaction(callback, errorCallback, strategy) { mutableData ->
+            val um = mutableData?.getValue(UserModel::class.java)
+
+            um?.let {
+                model.apply {
+                    it.name = name
+                    it.description = description
+                    it.years = years
+                    it.grade = grade
+                    it.age = age
+                    it.level = level
                 }
-                else {
-                    strategy?.invoke(de, p1, ds)
-                    callback(p1)
+
+                mutableData.apply {
+                    value = it
+                    // Remove out of date device token.
+                    if (lastDeviceToken.isNotNull()) {
+                        child(DEVICE_TOKENS).child(lastDeviceToken).value = null
+                        model.deviceToken
+                            .takeIf { it.isNotBlank() }
+                            ?.let { child(DEVICE_TOKENS).child(it).value = true }
+                    }
+                    else {
+                        child(DEVICE_TOKENS).child(model.deviceToken).value = true
+                    }
                 }
+            }?.let(Transaction::success) ?: Transaction.success(mutableData)
+        }
 
-            override fun doTransaction(mutableData: MutableData?): Transaction.Result {
-                val um = mutableData?.getValue(UserModel::class.java)
-
-                return um?.let {
-                    model.apply {
-                        it.name = name
-                        it.description = description
-                        it.years = years
-                        it.grade = grade
-                        it.age = age
-                        it.level = level
-                    }
-
-                    mutableData.apply {
-                        value = it
-                        // Remove out of date device token.
-                        if (lastDeviceToken.isNotNull()) {
-                            child(DEVICE_TOKENS).child(lastDeviceToken).value = null
-                            model.deviceToken
-                                .takeIf { it.isNotBlank() }
-                                ?.let { child(DEVICE_TOKENS).child(it).value = true }
-                        }
-                        else {
-                            child(DEVICE_TOKENS).child(model.deviceToken).value = true
-                        }
-                    }
-                }?.let(Transaction::success) ?: Transaction.success(mutableData)
-            }
-        })
+    private fun <D> playoneOfUserDataSnap(
+        playoneId: String,
+        userId: String,
+        isJoin: Boolean,
+        callback: (isSuccess: Boolean) -> Unit,
+        errorCallback: FirebaseErrorCallback,
+        strategy: TransactionDataSnapStrategy<D>
+    ) = dbReference
+        .child(JOINED)
+        .child(userId)
+        .child(playoneId)
+        .runTransaction(callback, errorCallback, strategy) { mutableData ->
+            val join = mutableData?.getValue(Boolean::class.java)
+            // [mutableData] must not be null here.
+            if (join.isNotNull()) mutableData?.value = isJoin
+            Transaction.success(mutableData)
+        }
     //endregion
 
     //region Strategies of snapshot to the object.
-    private fun snapToPlayoneList(dataSnapshot: DataSnapshot?) =
+    private
+
+    fun snapToPlayoneList(dataSnapshot: DataSnapshot?) =
         dataSnapshot.takeIf(DataSnapshot?::isNotNull)
             ?.children
             ?.toMutableList()
@@ -362,7 +422,7 @@ class PlayoneFirebaseV1(
                                 ::snapToPlayone)
         }
     }
-    //endregion
+//endregion
 
     //region Extension function
     private fun toPlayoneModel(dataSnapshot: DataSnapshot) = dataSnapshot.run {
@@ -382,5 +442,23 @@ class PlayoneFirebaseV1(
         onDataChange = { strategy?.apply { callback(this(it)) } }
         onCancelled = { it.makeCallback(errorCallback) }
     }
+
+    private fun <D> DatabaseReference.runTransaction(
+        callback: OperationResultCallback,
+        errorCallback: FirebaseErrorCallback,
+        strategy: TransactionDataSnapStrategy<D>,
+        block: (MutableData?) -> Transaction.Result
+    ) = runTransaction(object : Transaction.Handler {
+        override fun onComplete(de: DatabaseError, p1: Boolean, ds: DataSnapshot?) =
+            if (!p1) {
+                de.makeCallback(errorCallback)
+            }
+            else {
+                strategy?.invoke(de, p1, ds)
+                callback(p1)
+            }
+
+        override fun doTransaction(mutableData: MutableData?) = block(mutableData)
+    })
     //endregion
 }

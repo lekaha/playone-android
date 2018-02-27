@@ -9,10 +9,30 @@ import com.playone.mobile.remote.model.UserModel
  */
 class UserEntityMapper : EntityMapper<UserModel, UserEntity> {
     override fun mapToData(type: UserModel) = type.run {
-        UserEntity(id, name, email, pictureURL, description, grade, age, level, years, teams)
+        UserEntity(id,
+                   name,
+                   email,
+                   pictureURL,
+                   description,
+                   grade,
+                   deviceToken,
+                   age,
+                   level,
+                   years,
+                   teams)
     }
 
     override fun mapFromData(type: UserEntity) = type.run {
-        UserModel(id, name, email, pictureURL, description, grade, age, level, years, teams)
+        UserModel(id,
+                  name,
+                  email,
+                  pictureURL,
+                  description,
+                  grade,
+                  deviceToken,
+                  age,
+                  level,
+                  years,
+                  teams)
     }
 }

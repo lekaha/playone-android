@@ -38,6 +38,7 @@ abstract class PlayoneFirebase {
         callback: PlayoneListCallback,
         errorCallback: FirebaseErrorCallback
     )
+
     abstract fun getFavoritePlayoneList(
         userId: Int,
         callback: PlayoneListCallback,
@@ -65,6 +66,35 @@ abstract class PlayoneFirebase {
     abstract fun updateUser(
         model: UserModel,
         lastDeviceToken: String?,
+        callback: OperationResultCallback,
+        errorCallback: FirebaseErrorCallback
+    )
+
+    abstract fun joinTeamAsMember(
+        playoneId: Int,
+        userId: Int,
+        isJoin: Boolean,
+        callback: OperationResultCallback,
+        errorCallback: FirebaseErrorCallback
+    )
+
+    abstract fun toggleFavorite(
+        playoneId: Int,
+        userId: Int,
+        callback: OperationResultCallback,
+        errorCallback: FirebaseErrorCallback
+    )
+
+    abstract fun isFavorite(
+        playoneId: Int,
+        userId: Int,
+        callback: OperationResultCallback,
+        errorCallback: FirebaseErrorCallback
+    )
+
+    abstract fun isJoined(
+        playoneId: Int,
+        userId: Int,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     )
