@@ -8,9 +8,8 @@ import com.google.firebase.database.Query
 import com.google.firebase.database.Transaction
 import com.google.firebase.iid.FirebaseInstanceId
 import com.playone.mobile.ext.isNotNull
-import com.playone.mobile.remote.FirebaseErrorCallback
-import com.playone.mobile.remote.OperationResultCallback
-import com.playone.mobile.remote.PlayoneFirebase
+import com.playone.mobile.remote.bridge.playone.OperationResultCallback
+import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
 import com.playone.mobile.ui.firebase.ext.addListenerForSingleValueEvent
@@ -93,7 +92,9 @@ class PlayoneFirebaseV1(
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
     ) = userDsAction(model.id, {}, errorCallback) {
-        snapToBooleanForUserCreation(it, model, callback)
+        snapToBooleanForUserCreation(it, model, { user ->
+            updateUser(user, null, { callback(user) }, errorCallback)
+        })
     }
 
     override fun updateUser(
@@ -208,25 +209,25 @@ class PlayoneFirebaseV1(
         errorCallback: FirebaseErrorCallback,
         strategy: TransactionDataSnapStrategy<D>
     ) = playoneSnapshot.child(id).runTransaction(callback, errorCallback, strategy) { mutableData ->
-            val pm = mutableData?.getValue(PlayoneModel::class.java)
+        val pm = mutableData?.getValue(PlayoneModel::class.java)
 
-            pm?.let {
-                // Assign data from the parameter model to the remote playone model.
-                model.apply {
-                    it.name = name
-                    it.description = description
-                    it.address = address
-                    it.date = date
-                    it.updated = updated
-                    it.latitude = latitude
-                    it.longitude = longitude
-                    it.limit = limit
-                    it.level = level
-                }
+        pm?.let {
+            // Assign data from the parameter model to the remote playone model.
+            model.apply {
+                it.name = name
+                it.description = description
+                it.address = address
+                it.date = date
+                it.updated = updated
+                it.latitude = latitude
+                it.longitude = longitude
+                it.limit = limit
+                it.level = level
+            }
 
-                mutableData.apply { value = it }
-            }?.let(Transaction::success) ?: Transaction.success(mutableData)
-        }
+            mutableData.apply { value = it }
+        }?.let(Transaction::success) ?: Transaction.success(mutableData)
+    }
 
     private fun <D> userDsAction(
         userId: String,
@@ -367,7 +368,6 @@ class PlayoneFirebaseV1(
     ) = dataSnapshot?.takeIf { it.exists() }?.run {
         if (child(DEVICE_TOKENS).exists()) {
             model.deviceToken = FirebaseInstanceId.getInstance().token.orEmpty()
-            // FIXME(jieyi): 2018/02/26 Something here!!  `updateUserEntity(userEntity).subscribe(emitter);`
         }
         block(model)
     } ?: let {
@@ -407,10 +407,10 @@ class PlayoneFirebaseV1(
         forEachIndexed { index, id ->
             playoneDsAction(id,
                             {
-                                    it.takeIf(PlayoneModel?::isNotNull)?.let(list::add)
-                                    // Finish the loop.
-                                    if (index == size - 1) block(list)
-                                },
+                                it.takeIf(PlayoneModel?::isNotNull)?.let(list::add)
+                                // Finish the loop.
+                                if (index == size - 1) block(list)
+                            },
                             errorCallback,
                             ::snapToPlayone)
         }

@@ -1,4 +1,4 @@
-package com.playone.mobile.remote
+package com.playone.mobile.remote.bridge.playone
 
 import com.playone.mobile.data.model.NotificationPayloadEntity
 import com.playone.mobile.ext.reactive.single
@@ -19,7 +19,12 @@ class PlayoneServiceFirebaseImpl(
             }
         }
 
-    override fun fetchJoinedPlayoneList(userId: Int) = TODO()
+    override fun fetchJoinedPlayoneList(userId: Int) =
+        single<List<PlayoneModel>> { emitter ->
+            playoneFirebase.getJoinedPlayoneList(userId, emitter::onSuccess) { code, msg, detail ->
+                emitter.onError(Exception("error code: $code, msg: $msg, detail: $detail"))
+            }
+        }
 
     override fun fetchFavoritePlayoneList(userId: Int) = TODO()
 

@@ -4,6 +4,7 @@ import com.playone.mobile.data.model.NotificationPayloadEntity
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneRemote
+import com.playone.mobile.remote.bridge.playone.PlayoneService
 import com.playone.mobile.remote.mapper.PlayoneEntityMapper
 import com.playone.mobile.remote.mapper.UserEntityMapper
 import com.playone.mobile.remote.mapper.toModel

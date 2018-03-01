@@ -1,4 +1,4 @@
-package com.playone.mobile.remote
+package com.playone.mobile.remote.bridge.playone
 
 import com.playone.mobile.remote.model.PlayoneModel
 

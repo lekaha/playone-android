@@ -1,4 +1,4 @@
-package com.playone.mobile.remote
+package com.playone.mobile.remote.bridge.playone
 
 import com.playone.mobile.remote.service.ServiceFactory
 
@@ -11,6 +11,6 @@ object PlayoneServiceFactory : ServiceFactory<PlayoneService> {
         throw UnsupportedOperationException()
     }
 
-    fun makeFirebaseService(isDebug: Boolean, playoneFirebase: PlayoneFirebase)
-            = PlayoneServiceFirebaseImpl(playoneFirebase)
+    fun makeFirebaseService(isDebug: Boolean, playoneFirebase: PlayoneFirebase) =
+        PlayoneServiceFirebaseImpl(playoneFirebase)
 }
