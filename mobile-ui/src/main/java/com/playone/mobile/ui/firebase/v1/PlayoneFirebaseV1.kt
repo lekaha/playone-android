@@ -26,7 +26,7 @@ class PlayoneFirebaseV1(
      * @param callback a function for fetching a [List] of the [PlayoneModel].
      * @param errorCallback a function for getting a error when retrieving the data.
      */
-    override fun getPlayoneList(
+    override fun obtainPlayoneList(
         userId: Int,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
@@ -59,7 +59,7 @@ class PlayoneFirebaseV1(
                                 errorCallback,
                                 null)
 
-    override fun getJoinedPlayoneList(
+    override fun obtainJoinedPlayoneList(
         userId: Int,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
@@ -67,7 +67,7 @@ class PlayoneFirebaseV1(
         joinedSnapToPlayoneList(it, errorCallback, callback)
     }
 
-    override fun getFavoritePlayoneList(
+    override fun obtainFavoritePlayoneList(
         userId: Int,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
@@ -75,13 +75,13 @@ class PlayoneFirebaseV1(
         favoriteSnapToPlayoneList(it, errorCallback, callback)
     }
 
-    override fun getPlayoneDetail(
+    override fun obtainPlayoneDetail(
         userId: Int,
         callback: (model: PlayoneModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
     ) = playoneDsAction(userId.toString(), callback, errorCallback, ::snapToPlayone)
 
-    override fun getUser(
+    override fun obtainUser(
         userId: Int,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
@@ -100,7 +100,7 @@ class PlayoneFirebaseV1(
     override fun updateUser(
         model: UserModel,
         lastDeviceToken: String?,
-        callback: OperationResultCallback,
+        callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
     ) = userDsForUpdate<Boolean>(model, lastDeviceToken, callback, errorCallback, null)
 
@@ -239,39 +239,51 @@ class PlayoneFirebaseV1(
     private fun <D> userDsForUpdate(
         model: UserModel,
         lastDeviceToken: String? = null,
-        callback: OperationResultCallback,
+        callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback,
         strategy: TransactionDataSnapStrategy<D>
     ) = userSnapshot
         .child(model.id)
-        .runTransaction(callback, errorCallback, strategy) { mutableData ->
-            val um = mutableData?.getValue(UserModel::class.java)
-
-            um?.let {
-                model.apply {
-                    it.name = name
-                    it.description = description
-                    it.years = years
-                    it.grade = grade
-                    it.age = age
-                    it.level = level
+        .runTransaction(object : Transaction.Handler {
+            override fun onComplete(de: DatabaseError, p1: Boolean, ds: DataSnapshot?) {
+                if (!p1) {
+                    de.makeCallback(errorCallback)
                 }
-
-                mutableData.apply {
-                    value = it
-                    // Remove out of date device token.
-                    if (lastDeviceToken.isNotNull()) {
-                        child(DEVICE_TOKENS).child(lastDeviceToken).value = null
-                        model.deviceToken
-                            .takeIf { it.isNotBlank() }
-                            ?.let { child(DEVICE_TOKENS).child(it).value = true }
-                    }
-                    else {
-                        child(DEVICE_TOKENS).child(model.deviceToken).value = true
-                    }
+                else {
+                    strategy?.invoke(de, p1, ds)
+                    callback(model)
                 }
-            }?.let(Transaction::success) ?: Transaction.success(mutableData)
-        }
+            }
+
+            override fun doTransaction(mutableData: MutableData?): Transaction.Result {
+                val um = mutableData?.getValue(UserModel::class.java)
+
+                return um?.let {
+                    model.apply {
+                        it.name = name
+                        it.description = description
+                        it.years = years
+                        it.grade = grade
+                        it.age = age
+                        it.level = level
+                    }
+
+                    mutableData.apply {
+                        value = it
+                        // Remove out of date device token.
+                        if (lastDeviceToken.isNotNull()) {
+                            child(DEVICE_TOKENS).child(lastDeviceToken).value = null
+                            model.deviceToken
+                                .takeIf { it.isNotBlank() }
+                                ?.let { child(DEVICE_TOKENS).child(it).value = true }
+                        }
+                        else {
+                            child(DEVICE_TOKENS).child(model.deviceToken).value = true
+                        }
+                    }
+                }?.let(Transaction::success) ?: Transaction.success(mutableData)
+            }
+        })
 
     private fun <D> playoneOfUserDsAction(
         playoneId: String,
