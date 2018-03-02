@@ -1,10 +1,7 @@
 package com.playone.mobile.ui.firebase.v1
 
 import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.MutableData
-import com.google.firebase.database.Query
 import com.google.firebase.database.Transaction
 import com.google.firebase.iid.FirebaseInstanceId
 import com.playone.mobile.ext.isNotNull
@@ -424,43 +421,11 @@ class PlayoneFirebaseV1(
                                 ::snapToPlayone)
         }
     }
-//endregion
+    //endregion
 
-    //region Extension function
     private fun toPlayoneModel(dataSnapshot: DataSnapshot) = dataSnapshot.run {
         getValue(PlayoneModel::class.java)
             .takeIf { it.isNotNull() && key.isNotNull() }
             ?.also { it.id = key }
     }
-
-    private fun DatabaseError.makeCallback(errorCallback: FirebaseErrorCallback) =
-        errorCallback(code, message, details)
-
-    private fun <D> Query.addStrategyListener(
-        callback: PlayoneCallback<D>,
-        errorCallback: FirebaseErrorCallback,
-        strategy: DataSnapStrategy<D>
-    ) = addListenerForSingleValueEvent {
-        onDataChange = { strategy?.apply { callback(this(it)) } }
-        onCancelled = { it.makeCallback(errorCallback) }
-    }
-
-    private fun <D> DatabaseReference.runTransaction(
-        callback: OperationResultCallback,
-        errorCallback: FirebaseErrorCallback,
-        strategy: TransactionDataSnapStrategy<D>,
-        block: (MutableData?) -> Transaction.Result
-    ) = runTransaction(object : Transaction.Handler {
-        override fun onComplete(de: DatabaseError, p1: Boolean, ds: DataSnapshot?) =
-            if (!p1) {
-                de.makeCallback(errorCallback)
-            }
-            else {
-                strategy?.invoke(de, p1, ds)
-                callback(p1)
-            }
-
-        override fun doTransaction(mutableData: MutableData?) = block(mutableData)
-    })
-    //endregion
 }
