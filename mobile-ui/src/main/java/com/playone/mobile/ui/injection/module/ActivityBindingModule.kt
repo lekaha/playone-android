@@ -4,6 +4,7 @@ import android.content.Context
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.browse.BrowseActivity
 import com.playone.mobile.ui.injection.qualifier.ActivityContext
+import com.playone.mobile.ui.playone.PlayoneActivity
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -13,7 +14,10 @@ abstract class ActivityBindingModule {
 
     @ContributesAndroidInjector(modules = [ActivityModule::class,
                                            FragmentBindingModule::class])
-    abstract fun bindMainActivity(): BrowseActivity
+    abstract fun bindBrowseActivity(): BrowseActivity
+
+    @ContributesAndroidInjector(modules = [])
+    abstract fun bindMainActivity(): PlayoneActivity
 
     @Binds
     abstract fun bindMainActivity(activity: BrowseActivity): BaseActivity
