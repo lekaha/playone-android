@@ -57,4 +57,35 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    <style name="VerticalMatchParentSizeLinearLayout"
+           parent="MatchParentSize">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="MatchParentSizeNoMargin" parent="MatchParentSize">
+        <item name="android:paddingLeft">@dimen/no_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/no_horizontal_padding</item>
+        <item name="android:paddingTop">@dimen/no_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/no_vertical_padding</item>
+    </style>
+
+    <style name="WrapContentSizeCenter" parent="WrapContentSize">
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_gravity">center|center_horizontal|center_vertical</item>
+        <item name="android:gravity">center|center_horizontal|center_vertical</item>
+    </style>
+
+    <style name="Center">
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_gravity">center|center_horizontal|center_vertical</item>
+        <item name="android:gravity">center|center_horizontal|center_vertical</item>
+    </style>
+
+    <style name="CenterProgressBar">
+        <item name="android:layout_height">@dimen/center_progress_bar_size</item>
+        <item name="android:layout_width">@dimen/center_progress_bar_size</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 </resources>
