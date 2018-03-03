@@ -8,4 +8,53 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MatchParentSize">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="MatchParentWidth">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="MatchParentHeight">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="MatchParentHeightWrapContentWidth">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="MatchParentWidthWrapContentHeight">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="WrapContentSize">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="WrapContentWidth">
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="WrapContentHeight">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="HorizontalWrapContentLinearLayout" parent="WrapContentSize">
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="VerticalWrapContentLinearLayout" parent="WrapContentSize">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="VerticalMatchParentWidthWrapContentHeightLinearLayout"
+           parent="MatchParentWidthWrapContentHeight">
+        <item name="android:orientation">vertical</item>
+    </style>
+
 </resources>

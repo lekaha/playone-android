@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="login_forgot_text">#99ffffff</color>
+    <color name="login_others_line">#55ffffff</color>
+    <color name="login_input_text_background">#e97b5a</color>
+</resources>

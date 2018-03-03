@@ -23,11 +23,11 @@ open class RecyclerViewMatcher constructor(var recyclerViewId: Int) {
             override fun describeTo(description: Description) {
                 var idDescription = Integer.toString(recyclerViewId)
                 if (this.resources != null) {
-                    try {
-                        idDescription = this.resources!!.getResourceName(recyclerViewId)
+                    idDescription = try {
+                        this.resources?.getResourceName(recyclerViewId)
                     } catch (var4: Resources.NotFoundException) {
-                        idDescription = String.format("%s (resource name not found)",
-                                *arrayOf<Any>(Integer.valueOf(recyclerViewId)))
+                        String.format("%s (resource name not found)",
+                                      *arrayOf<Any>(Integer.valueOf(recyclerViewId)))
                     }
 
                 }

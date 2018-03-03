@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/login_field_layout"
+            style="@style/LoginFieldLayout"
+            android:layout_above="@+id/login_forgot_layout">
+
+            <EditText
+                android:id="@+id/login_name_field"
+                style="@style/LoginUsernameField"/>
+
+            <EditText
+                android:id="@+id/login_password_field"
+                style="@style/LoginPasswordField"/>
+
+            <Button
+                android:id="@+id/login_action_button"
+                style="@style/LoginButton"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/forgot_password"
+                    style="@style/ForgetPasswordText"/>
+
+                <Button
+                    android:id="@+id/forgot_password_btn"
+                    style="@style/ForgotPasswordButton"
+                    android:layout_toRightOf="@+id/forgot_password"/>
+
+                <TextView
+                    android:id="@+id/or_signup"
+                    style="@style/SignupText"
+                    android:layout_toRightOf="@+id/forgot_password_btn"/>
+
+                <Button
+                    android:id="@+id/sign_up_btn"
+                    style="@style/SignupButton"
+                    android:layout_toRightOf="@+id/or_signup"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/login_forgot_layout"
+            style="@style/MatchParentWidthWrapContentHeight"
+            android:layout_above="@+id/login_skip_btn"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:id="@+id/login_other_title"
+                style="@style/HorizontalWrapContentLinearLayout"
+                android:layout_centerHorizontal="true">
+
+                <View
+                    style="@style/SeparateLine"/>
+
+                <TextView
+                    style="@style/SeparateLineHint"/>
+
+                <View
+                    style="@style/SeparateLine"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/HorizontalWrapContentLinearLayout"
+                android:layout_below="@+id/login_other_title"
+                android:layout_centerHorizontal="true">
+
+                <Button
+                    android:id="@+id/facebook_login_btn"
+                    style="@style/FacebookLoginButton"/>
+
+                <Button
+                    android:id="@+id/google_login_btn"
+                    style="@style/GoogleLoginButton"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/login_skip_btn"
+            style="@style/SkipLoginButton"/>
+
+    </RelativeLayout>
+
+</merge>
