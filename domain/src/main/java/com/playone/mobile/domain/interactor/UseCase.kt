@@ -9,8 +9,8 @@ import io.reactivex.disposables.Disposable
  * Abstract class for a UseCase
  */
 abstract class UseCase constructor(
-    private val threadExecutor: ThreadExecutor,
-    private val postExecutionThread: PostExecutionThread) {
+    protected val threadExecutor: ThreadExecutor,
+    protected val postExecutionThread: PostExecutionThread) {
 
     protected val disposables = CompositeDisposable()
 

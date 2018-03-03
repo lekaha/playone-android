@@ -10,8 +10,8 @@ import io.reactivex.schedulers.Schedulers
  * Abstract class for a UseCase that returns an instance of a [Single].
  */
 abstract class SingleUseCase<T, in Params> constructor(
-    private val threadExecutor: ThreadExecutor,
-    private val postExecutionThread: PostExecutionThread
+    threadExecutor: ThreadExecutor,
+    postExecutionThread: PostExecutionThread
 ) : UseCase(threadExecutor, postExecutionThread) {
 
     /**
