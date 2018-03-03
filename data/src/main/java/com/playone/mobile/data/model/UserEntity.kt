@@ -10,6 +10,7 @@ data class UserEntity(
     var pictureURL: String = "",
     var description: String = "",
     var grade: String = "",
+    var deviceToken: String = "",
     var age: Int = 0,
     var level: Int = 0,
     var years: Int = 0,
