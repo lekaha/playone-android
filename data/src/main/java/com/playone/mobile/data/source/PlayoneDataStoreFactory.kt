@@ -16,7 +16,7 @@ open class PlayoneDataStoreFactory(
      * Returns a [PlayoneDataStore] based on whether or not there is content in the
      * cache and the cache has not expired.
      */
-    open fun obtainDataStore() = if (cache.isCached() && !cache.isExpired()) {
+    open fun obtainDataStore() = if (cache.isCached("") && !cache.isExpired("")) {
         getCacheDataStore()
     }
     else {
