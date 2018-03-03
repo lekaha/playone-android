@@ -6,7 +6,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.MutableData
 import com.google.firebase.database.Query
 import com.google.firebase.database.Transaction
-import com.playone.mobile.remote.OperationResultCallback
+import com.playone.mobile.remote.bridge.playone.OperationResultCallback
 import com.playone.mobile.ui.firebase.ext.addListenerForSingleValueEvent
 
 internal fun DatabaseError.makeCallback(errorCallback: FirebaseErrorCallback) =
