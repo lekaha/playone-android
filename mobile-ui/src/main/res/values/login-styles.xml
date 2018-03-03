@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SocialLoginButton" parent="WrapContentSize">
+        <item name="android:background">@drawable/transparent</item>
+        <item name="android:textColor">@color/login_forgot_text</item>
+    </style>
+
+    <style name="FacebookLoginButton" parent="SocialLoginButton">
+        <item name="android:text">@string/login_button_text_facebook</item>
+    </style>
+
+    <style name="GoogleLoginButton" parent="SocialLoginButton">
+        <item name="android:text">@string/login_button_text_google</item>
+    </style>
+
+    <style name="LoginFieldLayout" parent="VerticalMatchParentWidthWrapContentHeightLinearLayout">
+        <item name="android:layout_marginLeft">@dimen/login_field_layout_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/login_field_layout_margin_right</item>
+    </style>
+
+    <style name="LoginField" parent="MatchParentWidth">
+        <item name="android:layout_height">@dimen/login_field_height</item>
+        <item name="android:paddingLeft">@dimen/login_field_padding</item>
+        <item name="android:paddingRight">@dimen/login_field_padding</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:background">@drawable/login_input_text</item>
+        <item name="android:textColorHint">@color/login_forgot_text</item>
+    </style>
+
+    <style name="LoginUsernameField" parent="LoginField">
+        <item name="android:hint">@string/login_sign_name_text</item>
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+
+    <style name="LoginPasswordField" parent="LoginField">
+        <item name="android:hint">@string/login_password_text</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="LoginButton" parent="MatchParentWidth">
+        <item name="android:layout_height">@dimen/login_field_height</item>
+        <item name="android:layout_marginTop">@dimen/login_button_margin_top</item>
+        <item name="android:background">@drawable/login_button</item>
+        <item name="android:text">@string/login</item>
+        <item name="android:textColor">@color/login_others_line</item>
+    </style>
+
+    <style name="ForgotSignupText" parent="WrapContentSize">
+        <item name="android:textColor">@color/login_forgot_text</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">16.5dp</item>
+        <item name="android:textSize">12.2sp</item>
+    </style>
+
+    <style name="ForgetPasswordText" parent="ForgotSignupText">
+        <item name="android:text">@string/forgot_password</item>
+    </style>
+
+    <style name="SignupText" parent="ForgotSignupText">
+        <item name="android:text">or</item>
+    </style>
+
+    <style name="ForgotSignupButton">
+        <item name="android:layout_width">@dimen/login_forgot_password_button_width</item>
+        <item name="android:layout_height">@dimen/login_forgot_password_button_height</item>
+        <item name="android:textColor">@color/login_forgot_text</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textSize">@dimen/login_forgot_password_button_text_size</item>
+        <item name="android:background">@drawable/transparent</item>
+    </style>
+
+    <style name="ForgotPasswordButton" parent="ForgotSignupButton">
+        <item name="android:text">@string/forgot_button_text</item>
+    </style>
+
+    <style name="SignupButton" parent="ForgotSignupButton">
+        <item name="android:text">@string/signup_button_text</item>
+    </style>
+
+    <style name="SeparateLine">
+        <item name="android:layout_width">@dimen/separate_line_width</item>
+        <item name="android:layout_height">@dimen/separate_line_height</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@color/login_others_line</item>
+    </style>
+
+    <style name="SeparateLineHint" parent="WrapContentSize">
+        <item name="android:textColor">@color/login_forgot_text</item>
+        <item name="android:layout_marginLeft">11.5dp</item>
+        <item name="android:layout_marginRight">11.5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">@string/login_others</item>
+    </style>
+
+    <style name="SkipLoginButton" parent="MatchParentWidth">
+        <item name="android:layout_height">@dimen/skip_button_height</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:background">@color/login_input_text_background</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:text">@string/skip_button_text</item>
+    </style>
+
+</resources>

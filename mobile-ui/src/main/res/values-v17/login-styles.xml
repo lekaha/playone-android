@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LoginField" parent="MatchParentWidth">
+        <item name="android:layout_height">@dimen/login_field_height</item>
+        <item name="android:paddingStart">@dimen/login_field_padding</item>
+        <item name="android:paddingEnd">@dimen/login_field_padding</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:background">@drawable/login_input_text</item>
+        <item name="android:textColorHint">@color/login_forgot_text</item>
+    </style>
+
+</resources>
