@@ -4,6 +4,7 @@ import com.playone.mobile.data.model.NotificationPayloadEntity
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneRemote
+import com.playone.mobile.remote.bridge.playone.PlayoneService
 import com.playone.mobile.remote.mapper.PlayoneEntityMapper
 import com.playone.mobile.remote.mapper.UserEntityMapper
 import com.playone.mobile.remote.mapper.toModel
@@ -24,25 +25,28 @@ class PlayoneRemoteImpl constructor(
 ) : PlayoneRemote {
 
     override fun fetchPlayoneList(userId: Int) =
-        service.fetchPlayoneList(userId).mapPlayoneToEntity()
+        service.retrievePlayoneList(userId).mapPlayoneToEntity()
 
     override fun fetchJoinedPlayoneList(userId: Int) =
-        service.fetchJoinedPlayoneList(userId).mapPlayoneToEntity()
+        service.retrieveJoinedPlayoneList(userId).mapPlayoneToEntity()
 
     override fun fetchFavoritePlayoneList(userId: Int) =
-        service.fetchFavoritePlayoneList(userId).mapPlayoneToEntity()
+        service.retrieveFavoritePlayoneList(userId).mapPlayoneToEntity()
 
     override fun fetchPlayoneDetail(playoneId: Int) =
-        service.fetchPlayoneDetail(playoneId).map(playoneMapper::mapToData)
+        service.retrievePlayoneDetail(playoneId).map(playoneMapper::mapToData)
 
-    override fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
-//        service.createPlayoneDetail(userId, playoneEntity.toModel(playoneMapper))
+    override fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) =
+        service.createPlayoneDetail(userId, playoneEntity.toModel(playoneMapper))
 
-    override fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
+    override fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) =
+        service.updatePlayoneDetail(userId, playoneEntity.toModel(playoneMapper))
 
-    override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) = TODO()
+    override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) =
+        service.joinTeamAsMember(playoneId, userId, isJoin)
 
-    override fun sendJoinRequest(playoneId: Int, userId: Int, msg: String) = TODO()
+    override fun sendJoinRequest(playoneId: Int, userId: Int, msg: String) =
+        service.sendJoinRequest(playoneId, userId, msg)
 
     override fun toggleFavorite(playoneId: Int, userId: Int) =
         service.toggleFavorite(playoneId, userId)
@@ -51,10 +55,10 @@ class PlayoneRemoteImpl constructor(
         service.isFavorite(playoneId, userId)
 
     override fun isJoint(playoneId: Int, userId: Int) =
-        service.isJoint(playoneId, userId)
+        service.isJoined(playoneId, userId)
 
     //region For Auth0
-    override fun userEntity(userId: Int) = service.userModel(userId).mapUserToEntity()
+    override fun fetchUserEntity(userId: Int) = service.retrieveUserModel(userId).mapUserToEntity()
 
     override fun createUser(userEntity: UserEntity) =
         service.createUser(userEntity.toModel(userMapper)).mapUserToEntity()

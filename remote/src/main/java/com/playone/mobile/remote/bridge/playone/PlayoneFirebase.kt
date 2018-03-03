@@ -1,4 +1,4 @@
-package com.playone.mobile.remote
+package com.playone.mobile.remote.bridge.playone
 
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
@@ -13,7 +13,7 @@ abstract class PlayoneFirebase {
     protected val NAME = "name"
     protected val DEVICE_TOKENS = "device_tokens"
 
-    abstract fun getPlayoneList(
+    abstract fun obtainPlayoneList(
         userId: Int,
         callback: PlayoneListCallback,
         errorCallback: FirebaseErrorCallback
@@ -33,25 +33,25 @@ abstract class PlayoneFirebase {
         errorCallback: FirebaseErrorCallback
     )
 
-    abstract fun getJoinedPlayoneList(
+    abstract fun obtainJoinedPlayoneList(
         userId: Int,
         callback: PlayoneListCallback,
         errorCallback: FirebaseErrorCallback
     )
 
-    abstract fun getFavoritePlayoneList(
+    abstract fun obtainFavoritePlayoneList(
         userId: Int,
         callback: PlayoneListCallback,
         errorCallback: FirebaseErrorCallback
     )
 
-    abstract fun getPlayoneDetail(
+    abstract fun obtainPlayoneDetail(
         userId: Int,
         callback: (model: PlayoneModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
     )
 
-    abstract fun getUser(
+    abstract fun obtainUser(
         userId: Int,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
@@ -66,7 +66,7 @@ abstract class PlayoneFirebase {
     abstract fun updateUser(
         model: UserModel,
         lastDeviceToken: String?,
-        callback: OperationResultCallback,
+        callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
     )
 

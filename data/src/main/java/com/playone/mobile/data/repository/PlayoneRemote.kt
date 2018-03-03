@@ -35,7 +35,7 @@ interface PlayoneRemote {
     //endregion
 
     //region User for Auth0
-    fun userEntity(userId: Int): Single<UserEntity>
+    fun fetchUserEntity(userId: Int): Single<UserEntity>
 
     fun createUser(userEntity: UserEntity): Single<UserEntity>
 
