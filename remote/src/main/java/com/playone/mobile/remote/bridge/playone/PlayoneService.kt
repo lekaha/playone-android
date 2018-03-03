@@ -34,7 +34,7 @@ interface PlayoneService {
     fun isJoined(playoneId: Int, userId: Int): Single<Boolean>
     //endregion
 
-    //region User for Auth0
+    //region User for Auth
     fun retrieveUserModel(userId: Int): Single<UserModel>
 
     fun createUser(userModel: UserModel): Single<UserModel>
