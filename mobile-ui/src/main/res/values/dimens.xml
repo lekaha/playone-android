@@ -10,7 +10,9 @@
     <dimen name="text_smaller_body">12sp</dimen>
     <dimen name="text_tiny_body">10sp</dimen>
 
-    <dimen name="activity_horizontal_margin">0dp</dimen>
-    <dimen name="activity_vertical_margin">0dp</dimen>
+    <dimen name="no_horizontal_padding">0dp</dimen>
+    <dimen name="no_vertical_padding">0dp</dimen>
+
+    <dimen name="center_progress_bar_size">70dp</dimen>
 
 </resources>

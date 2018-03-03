@@ -1,6 +1,7 @@
 package com.playone.mobile.ui.browse
 
 import android.os.Bundle
+import android.support.annotation.LayoutRes
 import com.playone.mobile.ui.BaseInjectingActivity
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
@@ -15,6 +16,7 @@ class BrowseActivity:
         return null
     }
 
+    @LayoutRes
     override fun getLayoutId() = R.layout.activity_browse
 
     override fun onCreate(savedInstanceState: Bundle?) {
