@@ -1,23 +1,18 @@
 package com.playone.mobile.domain.interactor
 
-import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableSingleObserver
-import io.reactivex.schedulers.Schedulers
 import com.playone.mobile.domain.executor.PostExecutionThread
 import com.playone.mobile.domain.executor.ThreadExecutor
-
-
+import io.reactivex.Single
+import io.reactivex.observers.DisposableSingleObserver
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Abstract class for a UseCase that returns an instance of a [Single].
  */
 abstract class SingleUseCase<T, in Params> constructor(
-        private val threadExecutor: ThreadExecutor,
-        private val postExecutionThread: PostExecutionThread) {
-
-    private val disposables = CompositeDisposable()
+    private val threadExecutor: ThreadExecutor,
+    private val postExecutionThread: PostExecutionThread
+) : UseCase(threadExecutor, postExecutionThread) {
 
     /**
      * Builds a [Single] which will be used when the current [SingleUseCase] is executed.
@@ -29,19 +24,8 @@ abstract class SingleUseCase<T, in Params> constructor(
      */
     open fun execute(singleObserver: DisposableSingleObserver<T>, params: Params? = null) {
         val single = this.buildUseCaseObservable(params)
-                .subscribeOn(Schedulers.from(threadExecutor))
-                .observeOn(postExecutionThread.scheduler) as Single<T>
+            .subscribeOn(Schedulers.from(threadExecutor))
+            .observeOn(postExecutionThread.scheduler) as Single<T>
         addDisposable(single.subscribeWith(singleObserver))
     }
-
-    /**
-     * Dispose from current [CompositeDisposable].
-     */
-    fun dispose() = if (!disposables.isDisposed) disposables.dispose() else Unit
-
-    /**
-     * Dispose from current [CompositeDisposable].
-     */
-    private fun addDisposable(disposable: Disposable) = disposables.add(disposable)
-
 }
