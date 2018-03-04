@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class SignUpAndSignIn constructor(
     val playoneRepository: PlayoneRepository,
-    var authenticator: Authenticator,
+    private var authenticator: Authenticator,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) :
@@ -24,20 +24,32 @@ class SignUpAndSignIn constructor(
 
     fun signIn(credential: Credential, singleObserver: DisposableSingleObserver<User>) {
 
-        val single = authenticator.signIn(credential)
-        single.map { playoneRepository.getUserByEmail(it.email) }
+        authenticator.signIn(credential, object : Authenticator.AuthResultCallBack {
+            override fun onSuccessful(user: User) {
+                val single = playoneRepository.getUserByEmail(user.email)
+                execute(single, singleObserver)
+            }
 
-        execute(single, singleObserver)
+            override fun onFailed() {
+                singleObserver.onError(Exception())
+            }
+        })
 
     }
 
     fun signUp(email: String, password: String, singleObserver: DisposableSingleObserver<User>) {
 
-        val single = authenticator.signUp(email, password).flatMap {
-            playoneRepository.createUser(it).toSingle { it }
-        }
+        authenticator.signUp(email, password, object : Authenticator.AuthResultCallBack {
+            override fun onSuccessful(user: User) {
+                val single = playoneRepository.createUser(user).toSingle { user }
+                execute(single, singleObserver)
+            }
 
-        execute(single, singleObserver)
+            override fun onFailed() {
+                singleObserver.onError(Exception())
+            }
+
+        })
     }
 
     fun isSignIn() = authenticator.isSignIn()

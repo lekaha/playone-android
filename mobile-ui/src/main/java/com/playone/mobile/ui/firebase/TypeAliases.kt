@@ -1,4 +1,4 @@
-package com.playone.mobile.ui.firebase.v1
+package com.playone.mobile.ui.firebase
 
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -8,3 +8,5 @@ typealias FirebaseErrorCallback = (code: Int, msg: String, detail: String) -> Un
 
 typealias DataSnapStrategy<D> = ((DataSnapshot?) -> D)?
 typealias TransactionDataSnapStrategy<D> = ((DatabaseError, Boolean, DataSnapshot?) -> D)?
+
+typealias AuthResultCallback = () -> Unit

@@ -11,6 +11,10 @@ import com.playone.mobile.remote.bridge.playone.OperationResultCallback
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
+import com.playone.mobile.ui.firebase.DataSnapStrategy
+import com.playone.mobile.ui.firebase.FirebaseErrorCallback
+import com.playone.mobile.ui.firebase.PlayoneCallback
+import com.playone.mobile.ui.firebase.TransactionDataSnapStrategy
 import com.playone.mobile.ui.firebase.ext.addListenerForSingleValueEvent
 
 class PlayoneFirebaseV1(
