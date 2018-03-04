@@ -8,5 +8,3 @@ typealias FirebaseErrorCallback = (code: Int, msg: String, detail: String) -> Un
 
 typealias DataSnapStrategy<D> = ((DataSnapshot?) -> D)?
 typealias TransactionDataSnapStrategy<D> = ((DatabaseError, Boolean, DataSnapshot?) -> D)?
-
-typealias AuthResultCallback = () -> Unit

@@ -52,7 +52,7 @@ class SignUpAndSignIn constructor(
         })
     }
 
-    fun isSignIn() = authenticator.isSignIn()
+    fun isSignedIn() = authenticator.isSignedIn()
 
     private fun execute(single: Single<User>, singleObserver: DisposableSingleObserver<User>) {
         single.subscribeOn(Schedulers.from(threadExecutor))
