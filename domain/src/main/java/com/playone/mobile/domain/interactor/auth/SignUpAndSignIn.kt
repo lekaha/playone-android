@@ -26,11 +26,13 @@ class SignUpAndSignIn constructor(
 
         authenticator.signIn(credential, object : Authenticator.AuthResultCallBack {
             override fun onSuccessful(user: User) {
+
                 val single = playoneRepository.getUserByEmail(user.email)
                 execute(single, singleObserver)
             }
 
             override fun onFailed() {
+
                 singleObserver.onError(Exception())
             }
         })
@@ -41,20 +43,23 @@ class SignUpAndSignIn constructor(
 
         authenticator.signUp(email, password, object : Authenticator.AuthResultCallBack {
             override fun onSuccessful(user: User) {
+
                 val single = playoneRepository.createUser(user).toSingle { user }
                 execute(single, singleObserver)
             }
 
             override fun onFailed() {
+
                 singleObserver.onError(Exception())
             }
 
         })
     }
 
-    fun isSignIn() = authenticator.isSignIn()
+    fun isSignedIn() = authenticator.isSignedIn()
 
     private fun execute(single: Single<User>, singleObserver: DisposableSingleObserver<User>) {
+
         single.subscribeOn(Schedulers.from(threadExecutor))
             .observeOn(postExecutionThread.scheduler)
         addDisposable(single.subscribeWith(singleObserver))

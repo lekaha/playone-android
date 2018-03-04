@@ -17,17 +17,18 @@ class SignOut constructor(
     private fun signOut() =
         Completable.create {
             authenticator.signOut(object : Authenticator.AuthResultCallBack {
+
                 override fun onSuccessful(user: User) {
+
                     it.onComplete()
                 }
 
                 override fun onFailed() {
+
                     it.onError(Exception())
                 }
             })
         }
 
-    override fun buildUseCaseObservable(params: Nothing): Completable {
-        return signOut()
-    }
+    override fun buildUseCaseObservable(params: Nothing) = signOut()
 }
