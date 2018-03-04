@@ -36,14 +36,14 @@ interface PlayoneRepository {
 
     fun getPlayoneDetail(playoneId: Int): Single<Playone>
 
+    fun clearUser(user: User): Completable
+
     fun createUser(user: User): Completable
+
+    fun saveUser(user: User): Completable
 
     fun getUserByEmail(email: String): Single<User>
 
     fun getUserById(userId: Int): Single<User>
-
-    fun saveUser(user: User): Completable
-
-    fun deleteUser(user: User): Completable
 
 }

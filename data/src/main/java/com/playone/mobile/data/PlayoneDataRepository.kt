@@ -2,12 +2,13 @@ package com.playone.mobile.data
 
 import com.playone.mobile.data.mapper.PlayoneMapper
 import com.playone.mobile.data.mapper.UserMapper
+import com.playone.mobile.data.model.UserEntity
+import com.playone.mobile.data.repository.PlayoneDataStore
 import com.playone.mobile.data.source.PlayoneDataStoreFactory
 import com.playone.mobile.data.source.PlayoneRemoteDataStore
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.model.User
 import com.playone.mobile.domain.repository.PlayoneRepository
-import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
@@ -73,32 +74,31 @@ class PlayoneDataRepository constructor(
     override fun getPlayoneDetail(playoneId: Int) = factory.obtainDataStore().run {
         getPlayoneDetail(playoneId)
             .flatMap { entity ->
-                (this as? PlayoneRemoteDataStore)?.savePlayoneDetail(entity)
-                ?: Single.just(entity)
+                (this as? PlayoneRemoteDataStore)?.savePlayoneDetail(entity) ?: Single.just(entity)
             }
             .map(playoneMapper::mapFromEntity)
     }
 
-    override fun createUser(user: User) = factory.getCacheDataStore().clearUserEntity()
+    override fun clearUser(user: User) =
+        factory.getCacheDataStore().clearUserEntity(userMapper.mapToEntity(user))
 
     override fun saveUser(user: User) =
         factory.getCacheDataStore().saveUserEntity(userMapper.mapToEntity(user))
 
+    override fun createUser(user: User) =
+        factory.getRemoteDataStore().createUserEntity(userMapper.mapToEntity(user)).toCompletable()
+
     override fun getUserById(userId: Int) = factory.obtainDataStore().run {
-        getUserEntity(userId)
-            .flatMap { entity ->
-                (this as? PlayoneRemoteDataStore)?.saveUserEntity(entity)
-                ?: Single.just(entity)
-            }
-            .map(userMapper::mapFromEntity)
+        getUserEntityById(userId).cacheUserEntity(this)
     }
 
-    override fun getUserByEmail(email: String): Single<User> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getUserByEmail(email: String) = factory.obtainDataStore().run {
+        getUserEntityByEmail(email).cacheUserEntity(this)
     }
 
-    override fun deleteUser(user: User): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    private fun Single<UserEntity>.cacheUserEntity(dataStore: PlayoneDataStore) =
+        flatMap {
+            (dataStore as? PlayoneRemoteDataStore)?.saveUserEntity(it) ?: Single.just(it)
+        }.map(userMapper::mapFromEntity)
 
 }

@@ -35,8 +35,10 @@ interface PlayoneRemote {
     fun isJoint(playoneId: Int, userId: Int): Single<Boolean>
     //endregion
 
-    //region User for Auth0
+    //region User for Auth
     fun fetchUserEntity(userId: Int): Single<UserEntity>
+
+    fun fetchUserEntity(email: String): Single<UserEntity>
 
     fun createUser(userEntity: UserEntity): Single<UserEntity>
 

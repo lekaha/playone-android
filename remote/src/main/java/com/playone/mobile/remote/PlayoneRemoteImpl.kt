@@ -57,8 +57,10 @@ class PlayoneRemoteImpl constructor(
     override fun isJoint(playoneId: Int, userId: Int) =
         service.isJoined(playoneId, userId)
 
-    //region For Auth0
+    //region For Auth
     override fun fetchUserEntity(userId: Int) = service.retrieveUserModel(userId).mapUserToEntity()
+
+    override fun fetchUserEntity(email: String) = service.retrieveUserModel(email).mapUserToEntity()
 
     override fun createUser(userEntity: UserEntity) =
         service.createUser(userEntity.toModel(userMapper)).mapUserToEntity()

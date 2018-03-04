@@ -37,10 +37,14 @@ interface PlayoneDataStore {
 
     fun getPlayoneDetail(playoneId: Int): Single<PlayoneEntity>
 
-    fun clearUserEntity(): Completable
+    fun clearUserEntity(userEntity: UserEntity): Completable
+
+    fun createUserEntity(userEntity: UserEntity): Single<UserEntity>
 
     fun saveUserEntity(userEntity: UserEntity): Completable
 
-    fun getUserEntity(userId: Int): Single<UserEntity>
+    fun getUserEntityById(userId: Int): Single<UserEntity>
+
+    fun getUserEntityByEmail(email: String): Single<UserEntity>
 
 }
