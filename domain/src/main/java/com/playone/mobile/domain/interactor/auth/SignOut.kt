@@ -3,13 +3,31 @@ package com.playone.mobile.domain.interactor.auth
 import com.playone.mobile.domain.Authenticator
 import com.playone.mobile.domain.executor.PostExecutionThread
 import com.playone.mobile.domain.executor.ThreadExecutor
-import com.playone.mobile.domain.interactor.UseCase
+import com.playone.mobile.domain.interactor.CompletableUseCase
+import com.playone.mobile.domain.model.User
+import io.reactivex.Completable
 
-class SignOut constructor(var authenticator: Authenticator,
-                          threadExecutor: ThreadExecutor,
-                          postExecutionThread: PostExecutionThread
+class SignOut constructor(
+    var authenticator: Authenticator,
+    threadExecutor: ThreadExecutor,
+    postExecutionThread: PostExecutionThread
 ) :
-    UseCase(threadExecutor, postExecutionThread) {
+    CompletableUseCase<Nothing>(threadExecutor, postExecutionThread) {
 
-    fun signOut() = authenticator.signOut()
+    private fun signOut() =
+        Completable.create {
+            authenticator.signOut(object : Authenticator.AuthResultCallBack {
+                override fun onSuccessful(user: User) {
+                    it.onComplete()
+                }
+
+                override fun onFailed() {
+                    it.onError(Exception())
+                }
+            })
+        }
+
+    override fun buildUseCaseObservable(params: Nothing): Completable {
+        return signOut()
+    }
 }
