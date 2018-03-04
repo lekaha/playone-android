@@ -20,8 +20,12 @@ open class JobExecutor : ThreadExecutor {
     init {
         this.workQueue = LinkedBlockingQueue()
         this.threadFactory = JobThreadFactory()
-        this.threadPoolExecutor = ThreadPoolExecutor(INITIAL_POOL_SIZE, MAX_POOL_SIZE,
-                KEEP_ALIVE_TIME.toLong(), KEEP_ALIVE_TIME_UNIT, this.workQueue, this.threadFactory)
+        this.threadPoolExecutor = ThreadPoolExecutor(INITIAL_POOL_SIZE,
+                                                     MAX_POOL_SIZE,
+                                                     KEEP_ALIVE_TIME.toLong(),
+                                                     KEEP_ALIVE_TIME_UNIT,
+                                                     this.workQueue,
+                                                     this.threadFactory)
     }
 
     override fun execute(runnable: Runnable?) {
