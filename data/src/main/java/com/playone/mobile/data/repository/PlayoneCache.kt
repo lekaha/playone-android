@@ -52,5 +52,8 @@ interface PlayoneCache : CacheChecker {
 
     fun saveUserEntity(userEntity: UserEntity): Completable
 
-    fun getUserEntity(userId: Int): Single<UserEntity>
+    fun getUserEntityById(userId: Int): Single<UserEntity>
+
+    fun getUserEntityByEmail(email: String): Single<UserEntity>
+
 }

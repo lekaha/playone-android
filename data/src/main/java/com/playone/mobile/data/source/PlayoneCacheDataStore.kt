@@ -39,11 +39,17 @@ open class PlayoneCacheDataStore(private val cache: PlayoneCache) : PlayoneDataS
 
     override fun getPlayoneDetail(playoneId: Int) = cache.getPlayoneDetail(playoneId)
 
-    override fun clearUserEntity() = cache.clearUserEntity()
+    override fun clearUserEntity(userEntity: UserEntity) = cache.clearUserEntity()
 
     override fun saveUserEntity(userEntity: UserEntity) =
         cache.saveUserEntity(userEntity).doOnComplete { cache.keepLastCacheTime("") }
 
-    override fun getUserEntity(userId: Int) = cache.getUserEntity(userId)
+    override fun getUserEntityById(userId: Int) = cache.getUserEntityById(userId)
 
+    override fun getUserEntityByEmail(email: String) = cache.getUserEntityByEmail(email)
+
+    //region Unsupported operations.
+    override fun createUserEntity(userEntity: UserEntity) =
+        throw UnsupportedOperationException()
+    //endregion
 }

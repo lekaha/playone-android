@@ -10,6 +10,7 @@ import io.reactivex.Single
  * Defines the interface methods used for interacting with the Playone API.
  */
 interface PlayoneService {
+
     //region Playone
     fun retrievePlayoneList(userId: Int = -1): Single<List<PlayoneModel>>
 
@@ -36,6 +37,8 @@ interface PlayoneService {
 
     //region User for Auth
     fun retrieveUserModel(userId: Int): Single<UserModel>
+
+    fun retrieveUserModel(email: String): Single<UserModel>
 
     fun createUser(userModel: UserModel): Single<UserModel>
 
