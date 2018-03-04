@@ -10,6 +10,7 @@ import io.reactivex.Single
  * remote layer, using this interface as a way of communicating.
  */
 interface PlayoneRemote {
+
     //region Playone
     fun fetchPlayoneList(userId: Int = -1): Single<List<PlayoneEntity>>
 

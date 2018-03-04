@@ -1,6 +1,9 @@
 package com.playone.mobile.data.repository
 
+import com.playone.mobile.data.CacheChecker
+import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.PlayoneItem
+import com.playone.mobile.data.model.UserEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -8,40 +11,46 @@ import io.reactivex.Single
  * Interface defining methods for the caching of [PlayoneItem]. This is to be implemented by the
  * cache layer, using this interface as a way of communicating.
  */
-interface PlayoneCache {
+interface PlayoneCache : CacheChecker {
+
     /**
      * Clear all elements from the cache.
      */
-    fun clearPlayone(): Completable
+    fun clearPlayoneList(): Completable
 
     /**
-     * Save a given list of [PlayoneItem] to the cache.
+     * Save a given list of [PlayoneEntity] to the cache.
      *
-     * @param playones a list of [PlayoneItem].
+     * @param playoneList a list of [PlayoneEntity].
      */
-    fun savePlayone(playones: List<PlayoneItem>): Completable
+    fun savePlayoneList(playoneList: List<PlayoneEntity>): Completable
 
     /**
-     * Retrieve a list of [PlayoneItem] from the cache.
-     *
-     * @return
+     * Retrieve a list of [PlayoneEntity] from the cache.
      */
-    fun getPlayone(): Single<List<PlayoneItem>>
+    fun getPlayoneList(userId: Int = -1): Single<List<PlayoneEntity>>
 
-    /**
-     * Checks if an element [PlayoneItem] exists in the cache.
-     *
-     * @return true if the element is cached, otherwise false.
-     */
-    fun isCached(): Boolean
+    fun clearJoinedPlayoneList(): Completable
 
-    // TODO(jieyi): 2018/02/17 Add the comment here. I'm so sorry that I don't really get the meaning of this.
-    fun setLastCacheTime(lastCache: Long)
+    fun saveJoinedPlayoneList(playoneList: List<PlayoneEntity>): Completable
 
-    /**
-     * Checks if the cache is expired.
-     *
-     * @return true, the cache is expired, otherwise false.
-     */
-    fun isExpired(): Boolean
+    fun getJoinedPlayoneList(userId: Int): Single<List<PlayoneEntity>>
+
+    fun clearFavoritePlayoneList(): Completable
+
+    fun saveFavoritePlayoneList(playoneList: List<PlayoneEntity>): Completable
+
+    fun getFavoritePlayoneList(userId: Int): Single<List<PlayoneEntity>>
+
+    fun clearPlayoneDetail(): Completable
+
+    fun savePlayoneDetail(playoneEntity: PlayoneEntity): Completable
+
+    fun getPlayoneDetail(playoneId: Int): Single<PlayoneEntity>
+
+    fun clearUserEntity(): Completable
+
+    fun saveUserEntity(userEntity: UserEntity): Completable
+
+    fun getUserEntity(userId: Int): Single<UserEntity>
 }
