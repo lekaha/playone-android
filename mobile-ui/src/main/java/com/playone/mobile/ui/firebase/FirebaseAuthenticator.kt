@@ -10,7 +10,9 @@ import com.playone.mobile.domain.model.User
 import com.playone.mobile.ui.ext.ifFalse
 import com.playone.mobile.ui.ext.ifTrue
 
-class FirebaseAuthenticator(private val firebaseAuth: FirebaseAuth) : Authenticator() {
+class FirebaseAuthenticator(
+    private val firebaseAuth: FirebaseAuth
+) : Authenticator() {
 
     val mapper = FirebaseUserMapper()
 
@@ -92,9 +94,15 @@ class FirebaseAuthenticator(private val firebaseAuth: FirebaseAuth) : Authentica
 
     class FirebaseUserMapper {
 
-        fun mapToUser(user: FirebaseUser): User {
-            TODO("Need to consider to use Auto Mapper")
-        }
+        fun mapToUser(user: FirebaseUser): User =
+            User(
+                id = user.email ?: "",
+                email = user.email ?: "",
+                name = user.displayName ?: "",
+                pictureURL = user.photoUrl.takeIf { user.photoUrl != null }
+                                 ?.let { user.photoUrl.toString() }
+                             ?: ""
+            )
 
     }
 }
