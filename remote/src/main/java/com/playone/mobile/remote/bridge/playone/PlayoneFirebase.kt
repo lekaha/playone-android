@@ -57,6 +57,12 @@ abstract class PlayoneFirebase {
         errorCallback: FirebaseErrorCallback
     )
 
+    abstract fun obtainUser(
+        email: String,
+        callback: (mode: UserModel?) -> Unit,
+        errorCallback: FirebaseErrorCallback
+    )
+
     abstract fun createUser(
         model: UserModel,
         callback: (mode: UserModel?) -> Unit,
