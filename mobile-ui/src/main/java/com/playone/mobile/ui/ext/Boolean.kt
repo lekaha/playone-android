@@ -1,6 +1,7 @@
 package com.playone.mobile.ui.ext
 
 inline fun Boolean.ifTrue(block: () -> Unit): Boolean {
+
     if (this) {
         block()
     }
@@ -9,6 +10,7 @@ inline fun Boolean.ifTrue(block: () -> Unit): Boolean {
 }
 
 inline fun Boolean.ifFalse(block: () -> Unit): Boolean {
+
     if (!this) {
         block()
     }

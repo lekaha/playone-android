@@ -13,6 +13,7 @@ abstract class Authenticator {
     abstract fun isSignedIn(): Boolean
 
     interface AuthResultCallBack {
+
         fun onSuccessful(user: User)
         fun onFailed()
     }

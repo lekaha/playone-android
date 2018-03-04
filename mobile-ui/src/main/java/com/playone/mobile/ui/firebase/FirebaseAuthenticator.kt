@@ -19,6 +19,7 @@ class FirebaseAuthenticator(private val firebaseAuth: FirebaseAuth) : Authentica
         // Difference between Activity-scoped and no-Activity scoped listener:
         // https://developers.google.com/android/reference/com/google/android/gms/tasks/Task#public-methods
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+
             it.isSuccessful.ifTrue {
                 firebaseAuth.currentUser?.let {
                     callback.onSuccessful(mapper.mapToUser(it))
@@ -37,6 +38,7 @@ class FirebaseAuthenticator(private val firebaseAuth: FirebaseAuth) : Authentica
             val content = credential.getContent<Pair<String, String>>()
             firebaseAuth.signInWithEmailAndPassword(content.first, content.second)
                 .addOnCompleteListener {
+
                     it.isSuccessful.ifTrue {
                         firebaseAuth.currentUser?.let {
                             callback.onSuccessful(mapper.mapToUser(it))
@@ -53,6 +55,7 @@ class FirebaseAuthenticator(private val firebaseAuth: FirebaseAuth) : Authentica
             val content = credential.getContent<AuthCredential>()
             firebaseAuth.signInWithCredential(content)
                 .addOnCompleteListener {
+
                     it.isSuccessful.ifTrue {
                         firebaseAuth.currentUser?.let {
                             callback.onSuccessful(mapper.mapToUser(it))
@@ -70,12 +73,16 @@ class FirebaseAuthenticator(private val firebaseAuth: FirebaseAuth) : Authentica
 
         firebaseAuth.currentUser?.let {
             firebaseAuth.signOut().apply {
+
                 Handler().post {
+
                     callback.onSuccessful(mapper.mapToUser(it))
                 }
             }
         } ?: run {
+
             Handler().post {
+
                 callback.onFailed()
             }
         }
@@ -84,6 +91,7 @@ class FirebaseAuthenticator(private val firebaseAuth: FirebaseAuth) : Authentica
     override fun isSignedIn() = firebaseAuth.currentUser != null
 
     class FirebaseUserMapper {
+
         fun mapToUser(user: FirebaseUser): User {
             TODO("Need to consider to use Auto Mapper")
         }
