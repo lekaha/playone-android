@@ -25,7 +25,7 @@ class SignUpAndSignIn constructor(
     fun signIn(credential: Credential, singleObserver: DisposableSingleObserver<User>) {
 
         val single = authenticator.signIn(credential)
-        single.map { playoneRepository.getUser(it.email) }
+        single.map { playoneRepository.getUserByEmail(it.email) }
 
         execute(single, singleObserver)
 
