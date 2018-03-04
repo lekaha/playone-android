@@ -160,6 +160,10 @@ dependencies {
     // KTX
     implementation mobileUiDependencies.ktx
 
+    // Auth
+    implementation mobileUiDependencies.firebaseAuth
+    implementation mobileUiDependencies.playAuth
+
     // Instrumentation test dependencies
     androidTestImplementation mobileUiTestDependencies.junit
     androidTestImplementation mobileUiTestDependencies.mockito

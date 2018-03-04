@@ -1,10 +1,14 @@
 package com.playone.mobile.domain.model
 
-/**
- * Representation for a [User] fetched from an external layer data source
- */
 data class User(
-    val name: String = "",
-    val title: String = "",
-    val avatar: String = ""
+    var id: String = "",
+    var name: String = "",
+    var email: String = "",
+    var pictureURL: String = "",
+    var description: String = "",
+    var grade: String = "",
+    var deviceToken: String = "",
+    var age: Int = 0,
+    var level: Int = 0,
+    var years: Int = 0
 )

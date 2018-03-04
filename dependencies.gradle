@@ -38,6 +38,7 @@ ext {
     autoValueAnnotation = autoValue
     ktxVersion = '0.1'
     firebaseVersion = '11.8.0'
+    playAuthVersion = '11.8.0'
 
     //Testing
     robolectricVersion = '3.4.2'
@@ -229,7 +230,8 @@ ext {
             firebaseCore:       "com.google.firebase:firebase-core:${firebaseVersion}",
             firebaseDb:         "com.google.firebase:firebase-database:${firebaseVersion}",
             firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseVersion}",
-            firebaseAuth:     "com.google.firebase:firebase-auth:${firebaseVersion}",
+            firebaseAuth:       "com.google.firebase:firebase-auth:${firebaseVersion}",
+            playAuth:           "com.google.android.gms:play-services-auth:${playAuthVersion}",
 
 //            coroutine:          "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutine}",
     ]

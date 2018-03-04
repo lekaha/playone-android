@@ -7,6 +7,7 @@ import com.playone.mobile.data.source.PlayoneRemoteDataStore
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.model.User
 import com.playone.mobile.domain.repository.PlayoneRepository
+import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
@@ -78,18 +79,26 @@ class PlayoneDataRepository constructor(
             .map(playoneMapper::mapFromEntity)
     }
 
-    override fun clearUserEntity() = factory.getCacheDataStore().clearUserEntity()
+    override fun createUser(user: User) = factory.getCacheDataStore().clearUserEntity()
 
-    override fun saveUserEntity(user: User) =
+    override fun saveUser(user: User) =
         factory.getCacheDataStore().saveUserEntity(userMapper.mapToEntity(user))
 
-    override fun getUserEntity(userId: Int) = factory.obtainDataStore().run {
+    override fun getUserById(userId: Int) = factory.obtainDataStore().run {
         getUserEntity(userId)
             .flatMap { entity ->
                 (this as? PlayoneRemoteDataStore)?.saveUserEntity(entity)
                 ?: Single.just(entity)
             }
             .map(userMapper::mapFromEntity)
+    }
+
+    override fun getUserByEmail(email: String): Single<User> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun deleteUser(user: User): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }
