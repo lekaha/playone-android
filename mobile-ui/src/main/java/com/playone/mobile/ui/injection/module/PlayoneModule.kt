@@ -1,10 +1,10 @@
 package com.playone.mobile.ui.injection.module
 
+import com.google.firebase.auth.FirebaseAuth
 import com.playone.mobile.cache.PlayoneCacheImpl
 import com.playone.mobile.cache.PreferencesHelper
 import com.playone.mobile.cache.db.DbOpenHelper
 import com.playone.mobile.cache.db.mapper.PlayoneMapper
-import com.playone.mobile.cache.mapper.BufferooEntityMapper
 import com.playone.mobile.data.PlayoneDataRepository
 import com.playone.mobile.data.mapper.UserMapper
 import com.playone.mobile.data.repository.PlayoneCache
@@ -21,6 +21,7 @@ import com.playone.mobile.remote.PlayoneRemoteImpl
 import com.playone.mobile.remote.bridge.playone.PlayoneService
 import com.playone.mobile.remote.mapper.PlayoneEntityMapper
 import com.playone.mobile.remote.mapper.UserEntityMapper
+import com.playone.mobile.ui.firebase.FirebaseAuthenticator
 import dagger.Module
 import dagger.Provides
 
@@ -28,12 +29,14 @@ import dagger.Provides
 class PlayoneModule {
 
     @Provides
+    internal fun providePlayoneMapper() = PlayoneMapper()
+
+    @Provides
     internal fun providePlayoneDataCache(
         factory: DbOpenHelper,
-        entityMapper: BufferooEntityMapper,
         mapper: PlayoneMapper,
         helper: PreferencesHelper
-    ) = PlayoneCacheImpl(factory, entityMapper, mapper, helper)
+    ): PlayoneCache = PlayoneCacheImpl(factory, mapper, helper)
 
     @Provides
     internal fun providePlayoneCacheDataStore(playoneCache: PlayoneCache) =
@@ -50,7 +53,7 @@ class PlayoneModule {
         service: PlayoneService,
         playoneMapper: PlayoneEntityMapper,
         userMapper: UserEntityMapper
-    ) = PlayoneRemoteImpl(service, playoneMapper, userMapper)
+    ): PlayoneRemote = PlayoneRemoteImpl(service, playoneMapper, userMapper)
 
     @Provides
     internal fun providePlayoneRemoteDataStore(playoneRemote: PlayoneRemote) =
@@ -64,11 +67,21 @@ class PlayoneModule {
     ) = PlayoneDataStoreFactory(playoneCache, playoneCacheDataStore, playoneRemoteDataStore)
 
     @Provides
+    internal fun providePlayoneDataMapper() = com.playone.mobile.data.mapper.PlayoneMapper()
+
+    @Provides
+    internal fun proideUserMapper() = UserMapper()
+
+    @Provides
     internal fun providePlayoneRepository(
         factory: PlayoneDataStoreFactory,
         playoneMapper: com.playone.mobile.data.mapper.PlayoneMapper,
         userMapper: UserMapper
-    ) = PlayoneDataRepository(factory, playoneMapper, userMapper)
+    ): PlayoneRepository = PlayoneDataRepository(factory, playoneMapper, userMapper)
+
+    @Provides
+    internal fun provideAuthenticator(firebaseAuth: FirebaseAuth)
+        : Authenticator = FirebaseAuthenticator(firebaseAuth)
 
     @Provides
     internal fun provideSignUpAndSignIn(

@@ -1,15 +1,13 @@
 package com.playone.mobile.cache
 
 import android.database.sqlite.SQLiteDatabase
-import com.playone.mobile.cache.db.Db
 import com.playone.mobile.cache.db.DbOpenHelper
-import com.playone.mobile.cache.db.constants.BufferooConstants
-import com.playone.mobile.cache.db.mapper.BufferooMapper
 import com.playone.mobile.cache.db.mapper.PlayoneMapper
 import com.playone.mobile.cache.mapper.BufferooEntityMapper
-import com.playone.mobile.cache.model.CachedBufferoo
-import com.playone.mobile.data.model.BufferooEntity
+import com.playone.mobile.data.model.PlayoneEntity
+import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.BufferooCache
+import com.playone.mobile.data.repository.PlayoneCache
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -19,10 +17,85 @@ import io.reactivex.Single
  * operations in which data store implementation layers can carry out.
  */
 class PlayoneCacheImpl constructor(dbOpenHelper: DbOpenHelper,
-                                   private val entityMapper: BufferooEntityMapper,
                                    private val mapper: PlayoneMapper,
                                    private val preferencesHelper: PreferencesHelper):
-        BufferooCache {
+    PlayoneCache {
+
+    override fun isCached(which: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun isExpired(which: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun clearPlayoneList(): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun keepLastCacheTime(which: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun savePlayoneList(playoneList: List<PlayoneEntity>): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getPlayoneList(userId: Int): Single<List<PlayoneEntity>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun clearJoinedPlayoneList(): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun saveJoinedPlayoneList(playoneList: List<PlayoneEntity>): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getJoinedPlayoneList(userId: Int): Single<List<PlayoneEntity>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun clearFavoritePlayoneList(): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun saveFavoritePlayoneList(playoneList: List<PlayoneEntity>): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getFavoritePlayoneList(userId: Int): Single<List<PlayoneEntity>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun clearPlayoneDetail(): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun savePlayoneDetail(playoneEntity: PlayoneEntity): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getPlayoneDetail(playoneId: Int): Single<PlayoneEntity> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun clearUserEntity(): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun saveUserEntity(userEntity: UserEntity): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getUserEntityById(userId: Int): Single<UserEntity> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getUserEntityByEmail(email: String): Single<UserEntity> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val EXPIRATION_TIME = (60 * 10 * 1000).toLong()
 
@@ -33,88 +106,6 @@ class PlayoneCacheImpl constructor(dbOpenHelper: DbOpenHelper,
      */
     internal fun getDatabase(): SQLiteDatabase {
         return database
-    }
-
-    /**
-     * Remove all the data from all the tables in the database.
-     */
-    override fun clearBufferoos(): Completable {
-        return Completable.defer {
-            database.beginTransaction()
-            try {
-                database.delete(Db.BufferooTable.TABLE_NAME, null, null)
-                database.setTransactionSuccessful()
-            } finally {
-                database.endTransaction()
-            }
-            Completable.complete()
-        }
-    }
-
-    /**
-     * Save the given list of [BufferooEntity] instances to the database.
-     */
-    override fun saveBufferoos(bufferoos: List<BufferooEntity>): Completable {
-        return Completable.defer {
-            database.beginTransaction()
-            try {
-                bufferoos.forEach {
-                    saveBufferoo(entityMapper.mapToCached(it))
-                }
-                database.setTransactionSuccessful()
-            } finally {
-                database.endTransaction()
-            }
-            Completable.complete()
-        }
-    }
-
-    /**
-     * Retrieve a list of [BufferooEntity] instances from the database.
-     */
-    override fun getBufferoos(): Single<List<BufferooEntity>> {
-        return Single.defer<List<BufferooEntity>> {
-            val updatesCursor = database.rawQuery(BufferooConstants.QUERY_GET_ALL_BUFFEROOS, null)
-            val bufferoos = mutableListOf<BufferooEntity>()
-
-            while (updatesCursor.moveToNext()) {
-                val cachedBufferoo = mapper.parseCursor(updatesCursor)
-                bufferoos.add(entityMapper.mapFromCached(cachedBufferoo))
-            }
-
-            updatesCursor.close()
-            Single.just<List<BufferooEntity>>(bufferoos)
-        }
-    }
-
-    /**
-     * Helper method for saving a [CachedBufferoo] instance to the database.
-     */
-    private fun saveBufferoo(cachedBufferoo: CachedBufferoo) {
-        database.insert(Db.BufferooTable.TABLE_NAME, null, mapper.toContentValues(cachedBufferoo))
-    }
-
-    /**
-     * Checked whether there are instances of [CachedBufferoo] stored in the cache
-     */
-    override fun isCached(): Boolean {
-        return database.rawQuery(BufferooConstants.QUERY_GET_ALL_BUFFEROOS, null).count > 0
-    }
-
-    /**
-     * Set a point in time at when the cache was last updated
-     */
-    override fun setLastCacheTime(lastCache: Long) {
-        preferencesHelper.lastCacheTime = lastCache
-    }
-
-    /**
-     * Check whether the current cached data exceeds the defined [EXPIRATION_TIME] time
-     */
-    override fun isExpired(): Boolean {
-        val currentTime = System.currentTimeMillis()
-        val lastUpdateTime = this.getLastCacheUpdateTimeMillis()
-        return currentTime - lastUpdateTime > EXPIRATION_TIME
     }
 
     /**

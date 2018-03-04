@@ -4,6 +4,7 @@ import android.app.Application
 import com.playone.mobile.ui.BufferooApplication
 import com.playone.mobile.ui.injection.module.ActivityBindingModule
 import com.playone.mobile.ui.injection.module.ApplicationModule
+import com.playone.mobile.ui.injection.module.FirebaseModule
 import com.playone.mobile.ui.injection.module.NetModule
 import com.playone.mobile.ui.injection.scopes.PerApplication
 import dagger.BindsInstance
@@ -13,12 +14,14 @@ import dagger.android.DaggerApplication
 import dagger.android.support.AndroidSupportInjectionModule
 
 @PerApplication
-@Component(modules = arrayOf(
+@Component(
+    modules = [
         ActivityBindingModule::class,
         ApplicationModule::class,
         NetModule::class,
-        AndroidSupportInjectionModule::class))
-interface ApplicationComponent: AndroidInjector<DaggerApplication> {
+        AndroidSupportInjectionModule::class,
+        FirebaseModule::class])
+interface ApplicationComponent : AndroidInjector<DaggerApplication> {
 
     @Component.Builder
     interface Builder {
