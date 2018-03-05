@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.playone.mobile.domain.Authenticator
 import com.playone.mobile.domain.Credential
 import com.playone.mobile.domain.model.User
+import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.ui.ext.ifFalse
 import com.playone.mobile.ui.ext.ifTrue
 
@@ -94,12 +95,12 @@ class FirebaseAuthenticator(
 
     class FirebaseUserMapper {
 
-        fun mapToUser(user: FirebaseUser): User =
+        fun mapToUser(user: FirebaseUser) =
             User(
-                id = user.email ?: "",
-                email = user.email ?: "",
-                name = user.displayName ?: "",
-                pictureURL = user.photoUrl.takeIf { user.photoUrl != null }
+                id = user.email.orEmpty(),
+                email = user.email.orEmpty(),
+                name = user.displayName.orEmpty(),
+                pictureURL = user.photoUrl.takeIf { user.photoUrl.isNotNull() }
                                  ?.let { user.photoUrl.toString() }
                              ?: ""
             )

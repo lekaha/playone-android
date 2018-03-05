@@ -18,10 +18,12 @@ import io.reactivex.Single
  * [BufferooCache] from the Data layer as it is that layers responsibility for defining the
  * operations in which data store implementation layers can carry out.
  */
-class PlayoneCacheImpl constructor(dbOpenHelper: DbOpenHelper,
-                                   private val entityMapper: BufferooEntityMapper,
-                                   private val mapper: PlayoneMapper,
-                                   private val preferencesHelper: PreferencesHelper):
+class PlayoneCacheImpl constructor(
+    dbOpenHelper: DbOpenHelper,
+    private val entityMapper: BufferooEntityMapper,
+    private val mapper: PlayoneMapper,
+    private val preferencesHelper: PreferencesHelper
+):
         BufferooCache {
 
     private val EXPIRATION_TIME = (60 * 10 * 1000).toLong()
