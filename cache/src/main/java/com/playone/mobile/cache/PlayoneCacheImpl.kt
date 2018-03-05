@@ -4,7 +4,6 @@ import android.database.sqlite.SQLiteDatabase
 import com.playone.mobile.cache.db.Db
 import com.playone.mobile.cache.db.DbOpenHelper
 import com.playone.mobile.cache.db.constants.BufferooConstants
-import com.playone.mobile.cache.db.mapper.BufferooMapper
 import com.playone.mobile.cache.db.mapper.PlayoneMapper
 import com.playone.mobile.cache.mapper.BufferooEntityMapper
 import com.playone.mobile.cache.model.CachedBufferoo
