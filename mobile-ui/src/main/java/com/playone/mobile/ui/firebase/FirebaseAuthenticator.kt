@@ -100,7 +100,7 @@ class FirebaseAuthenticator(
                 id = user.email.orEmpty(),
                 email = user.email.orEmpty(),
                 name = user.displayName.orEmpty(),
-                pictureURL = user.photoUrl?.toString() ?: ""
+                pictureURL = user.photoUrl?.toString().orEmpty()
             )
 
     }
