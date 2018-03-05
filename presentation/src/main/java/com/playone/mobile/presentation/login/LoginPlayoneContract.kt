@@ -13,8 +13,10 @@ interface LoginPlayoneContract {
 
     interface Presenter : BasePresenter {
         fun setView(view: View)
-        fun signUp()
-        fun signIn()
+        fun signUp(email: String, password: String)
+        fun signIn(email: String, password: String)
+        fun signIn(secretContent: Any)
+        fun isSignedIn(): Boolean
     }
 
 }
