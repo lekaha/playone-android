@@ -164,6 +164,9 @@ dependencies {
     implementation mobileUiDependencies.firebaseAuth
     implementation mobileUiDependencies.playAuth
 
+    // Model Mapper
+    implementation developmentDependencies.modelMapper
+
     // Instrumentation test dependencies
     androidTestImplementation mobileUiTestDependencies.junit
     androidTestImplementation mobileUiTestDependencies.mockito

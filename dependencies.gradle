@@ -39,6 +39,7 @@ ext {
     ktxVersion = '0.1'
     firebaseVersion = '11.8.0'
     playAuthVersion = '11.8.0'
+    modelMapperVersion = '1.1.0'
 
     //Testing
     robolectricVersion = '3.4.2'
@@ -266,6 +267,8 @@ ext {
 
             autoValueAnnotation:"com.jakewharton.auto.value:auto-value-annotations:${autoValueAnnotation}",
             gson:               "com.google.code.gson:gson:${gsonVersion}",
+
+            modelMapper:        "org.modelmapper:modelmapper:${modelMapperVersion}"
     ]
 
 }

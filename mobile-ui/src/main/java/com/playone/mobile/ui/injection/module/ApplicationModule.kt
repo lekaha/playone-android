@@ -14,6 +14,7 @@ import com.playone.mobile.ui.injection.scopes.PerApplication
 import com.squareup.leakcanary.LeakCanary
 import dagger.Module
 import dagger.Provides
+import org.modelmapper.ModelMapper
 
 /**
  * Module used to provide dependencies at an application-level.
@@ -64,4 +65,8 @@ open class ApplicationModule {
     @Provides
     @PerApplication
     internal fun providePostExecutionThread(uiThread: UiThread): PostExecutionThread = uiThread
+
+    @Provides
+    @PerApplication
+    internal fun provideModelMapper() = ModelMapper()
 }
