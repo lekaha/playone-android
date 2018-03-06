@@ -2,11 +2,9 @@ package com.playone.mobile.ext
 
 inline fun Boolean?.ifTrue(block: () -> Unit): Boolean {
 
-    if (this.isNotNull()) {
-        if (this!!) {
-            block()
-            return true
-        }
+    if (true == this) {
+        block()
+        return true
     }
 
     return false
@@ -14,15 +12,12 @@ inline fun Boolean?.ifTrue(block: () -> Unit): Boolean {
 
 inline fun Boolean?.ifFalse(block: () -> Unit): Boolean {
 
-    if (this.isNull()) {
-        block()
-        return true
-    } else if (this!!.not()) {
-        block()
-        return true
+    if (true == this) {
+        return false
     }
 
-    return false
+    block()
+    return true
 }
 
 inline infix fun Boolean.otherwise(block: () -> Unit) {
