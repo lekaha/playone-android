@@ -23,9 +23,9 @@ class SignOut constructor(
                     it.onComplete()
                 }
 
-                override fun onFailed() {
+                override fun onFailed(throwable: Throwable) {
 
-                    it.onError(Exception())
+                    it.onError(throwable)
                 }
             })
         }
