@@ -15,18 +15,23 @@ class LoginPlayonePresenter(
     var loginView: LoginPlayoneContract.View? = null
 
     override fun start() {
+
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun stop() {
+
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setView(view: LoginPlayoneContract.View) {
+    override fun setView(
+        view: LoginPlayoneContract.View
+    ) {
         loginView = view
     }
 
     override fun signUp(email: String, password: String) {
+
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -65,10 +70,12 @@ class LoginPlayonePresenter(
     inner class SignInSubscriber : DisposableSingleObserver<User>() {
 
         override fun onSuccess(t: User) {
+
             loginView?.onResponse(ViewResponse.success(mapper.mapToView(t)))
         }
 
         override fun onError(e: Throwable) {
+
             loginView?.onResponse(ViewResponse.error(e))
         }
     }
