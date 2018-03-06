@@ -20,6 +20,7 @@ import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.R
+import com.playone.mobile.ui.injection.module.LoginModule
 import com.playone.mobile.ui.model.LoginViewModel
 import kotlinx.android.synthetic.main.activity_main.content_layout
 import kotlinx.android.synthetic.main.activity_main.initializing
@@ -29,6 +30,7 @@ import kotlinx.android.synthetic.main.merge_login.view.login_action_button
 import kotlinx.android.synthetic.main.merge_login.view.login_name_field
 import kotlinx.android.synthetic.main.merge_login.view.login_password_field
 import javax.inject.Inject
+import javax.inject.Named
 
 class PlayoneActivity : BaseActivity() {
 
@@ -43,6 +45,8 @@ class PlayoneActivity : BaseActivity() {
     @Inject lateinit var callbackManager: CallbackManager
 
     @Inject lateinit var loginManager: LoginManager
+
+    @Inject lateinit var readPermissions: ArrayList<String>
 
     private lateinit var viewModel: LoginViewModel
 
@@ -119,7 +123,7 @@ class PlayoneActivity : BaseActivity() {
 
     private fun facebookSignIn() {
 
-        loginManager.logInWithReadPermissions(this, arrayListOf("email", "public_profile"))
+        loginManager.logInWithReadPermissions(this, readPermissions)
         loginManager.registerCallback(callbackManager, object: FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult?) {
 
