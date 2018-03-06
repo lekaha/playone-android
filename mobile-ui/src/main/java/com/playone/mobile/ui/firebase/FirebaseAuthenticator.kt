@@ -1,14 +1,19 @@
 package com.playone.mobile.ui.firebase
 
 import android.os.Handler
+import com.facebook.AccessToken
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.playone.mobile.domain.Authenticator
 import com.playone.mobile.domain.Credential
 import com.playone.mobile.domain.model.User
 import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.ext.ifTrue
+import com.playone.mobile.ext.otherwise
 
 class FirebaseAuthenticator(
     private val firebaseAuth: FirebaseAuth
@@ -46,30 +51,41 @@ class FirebaseAuthenticator(
                         firebaseAuth.currentUser?.let {
                             callback.onSuccessful(mapper.mapToUser(it))
                         }
-                    }
-
-                    it.isSuccessful.ifFalse {
-
+                    } otherwise {
                         callback.onFailed(it.exception ?: Exception("Unknown failed"))
                     }
                 }
         }
 
         credential.isSocialNetworkCredential().ifTrue {
-            val content = credential.getContent() as AuthCredential
-            firebaseAuth.signInWithCredential(content)
-                .addOnCompleteListener {
+            val content = credential.getContent()
 
-                    it.isSuccessful.ifTrue {
-                        firebaseAuth.currentUser?.let {
-                            callback.onSuccessful(mapper.mapToUser(it))
+            var socialCredential: AuthCredential? = null
+            (content is GoogleSignInAccount).ifTrue {
+                socialCredential =
+                    GoogleAuthProvider.getCredential((content as GoogleSignInAccount).idToken, null)
+            }
+
+            (content is AccessToken).ifTrue {
+                socialCredential =
+                    FacebookAuthProvider.getCredential((content as AccessToken).token)
+            }
+
+            socialCredential?.apply {
+                firebaseAuth.signInWithCredential(socialCredential!!)
+                    .addOnCompleteListener {
+
+                        it.isSuccessful.ifTrue {
+                            firebaseAuth.currentUser?.let {
+                                callback.onSuccessful(mapper.mapToUser(it))
+                            }
+                        } otherwise {
+                            callback.onFailed(it.exception ?: Exception("Unknown failed"))
                         }
                     }
-
-                    it.isSuccessful.ifFalse {
-                        callback.onFailed(it.exception ?: Exception("Unknown failed"))
-                    }
-                }
+            } ?: run {
+                throw IllegalStateException("Unidentified Credential")
+            }
         }
     }
 

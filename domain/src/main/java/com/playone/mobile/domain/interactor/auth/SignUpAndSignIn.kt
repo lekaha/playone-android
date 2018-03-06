@@ -27,8 +27,9 @@ class SignUpAndSignIn constructor(
         authenticator.signIn(credential, object : Authenticator.AuthResultCallBack {
             override fun onSuccessful(user: User) {
 
-                val single = playoneRepository.getUserByEmail(user.email)
-                execute(single, singleObserver)
+                // TODO: should get the user from repository after implementing Cache
+//                val single = playoneRepository.getUserByEmail(user.email)
+                execute(Single.just(user), singleObserver)
             }
 
             override fun onFailed(throwable: Throwable) {
