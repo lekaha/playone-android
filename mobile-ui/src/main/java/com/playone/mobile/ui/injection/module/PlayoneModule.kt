@@ -44,10 +44,12 @@ class PlayoneModule {
         PlayoneCacheDataStore(playoneCache)
 
     @Provides
-    internal fun providePlayoneEntityMapper() = PlayoneEntityMapper()
+    internal fun providePlayoneEntityMapper(modelMapper: ModelMapper) =
+        PlayoneEntityMapper(modelMapper)
 
     @Provides
-    internal fun providePlayoneUserEntityMapper() = UserEntityMapper()
+    internal fun providePlayoneUserEntityMapper(modelMapper: ModelMapper) =
+        UserEntityMapper(modelMapper)
 
     @Provides
     internal fun providePlayoneRemote(
@@ -68,10 +70,12 @@ class PlayoneModule {
     ) = PlayoneDataStoreFactory(playoneCache, playoneCacheDataStore, playoneRemoteDataStore)
 
     @Provides
-    internal fun providePlayoneDataMapper() = com.playone.mobile.data.mapper.PlayoneMapper()
+    internal fun providePlayoneDataMapper(modelMapper: ModelMapper) =
+        com.playone.mobile.data.mapper.PlayoneMapper()
 
     @Provides
-    internal fun proideDataUserMapper() = UserMapper()
+    internal fun proideDataUserMapper(modelMapper: ModelMapper) =
+        UserMapper()
 
     @Provides
     internal fun proideUserMapper(modelMapper: ModelMapper) =
