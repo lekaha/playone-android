@@ -1,19 +1,22 @@
 package com.playone.mobile.domain.model
 
+import kotlin.properties.Delegates
+
 /**
  * Representation for a [Playone] fetched from an external layer data source
  */
-data class Playone(
-    var id: String = "",
-    var name: String = "",
-    var description: String = "",
-    var date: Long = 0,
-    var updated: Long = 0,
-    var address: String = "",
-    var longitude: Double = .0,
-    var latitude: Double = .0,
-    var limit: Int = 0,
-    var level: Int = 0,
-    var host: String = "",
-    var userId: String = ""
-)
+class Playone {
+
+    lateinit var id: String
+    lateinit var name: String
+    lateinit var description: String
+    var date by Delegates.notNull<Long>()
+    var updated by Delegates.notNull<Long>()
+    lateinit var address: String
+    var longitude by Delegates.notNull<Double>()
+    var latitude by Delegates.notNull<Double>()
+    var limit by Delegates.notNull<Int>()
+    var level by Delegates.notNull<Int>()
+    lateinit var host: String
+    lateinit var userId: String
+}
