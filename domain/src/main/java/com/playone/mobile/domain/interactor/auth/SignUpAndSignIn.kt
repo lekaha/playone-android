@@ -22,7 +22,7 @@ class SignUpAndSignIn constructor(
 ) :
     UseCase(threadExecutor, postExecutionThread) {
 
-    fun signIn(credential: Credential, singleObserver: DisposableSingleObserver<User>) {
+    fun signIn(credential: Credential<*>, singleObserver: DisposableSingleObserver<User>) {
 
         authenticator.signIn(credential, object : Authenticator.AuthResultCallBack {
             override fun onSuccessful(user: User) {
@@ -31,9 +31,9 @@ class SignUpAndSignIn constructor(
                 execute(single, singleObserver)
             }
 
-            override fun onFailed() {
+            override fun onFailed(throwable: Throwable) {
 
-                singleObserver.onError(Exception())
+                singleObserver.onError(throwable)
             }
         })
 
@@ -48,9 +48,9 @@ class SignUpAndSignIn constructor(
                 execute(single, singleObserver)
             }
 
-            override fun onFailed() {
+            override fun onFailed(throwable: Throwable) {
 
-                singleObserver.onError(Exception())
+                singleObserver.onError(throwable)
             }
 
         })

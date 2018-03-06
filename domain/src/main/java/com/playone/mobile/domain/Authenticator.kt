@@ -6,7 +6,7 @@ abstract class Authenticator {
 
     abstract fun signUp(email: String, password: String, callback: AuthResultCallBack)
 
-    abstract fun signIn(credential: Credential, callback: AuthResultCallBack)
+    abstract fun signIn(credential: Credential<*>, callback: AuthResultCallBack)
 
     abstract fun signOut(callback: AuthResultCallBack)
 
@@ -15,6 +15,6 @@ abstract class Authenticator {
     interface AuthResultCallBack {
 
         fun onSuccessful(user: User)
-        fun onFailed()
+        fun onFailed(throwable: Throwable)
     }
 }

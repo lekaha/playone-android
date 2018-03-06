@@ -24,6 +24,7 @@ import com.playone.mobile.remote.mapper.UserEntityMapper
 import com.playone.mobile.ui.firebase.FirebaseAuthenticator
 import dagger.Module
 import dagger.Provides
+import org.modelmapper.ModelMapper
 
 @Module
 class PlayoneModule {
@@ -70,7 +71,11 @@ class PlayoneModule {
     internal fun providePlayoneDataMapper() = com.playone.mobile.data.mapper.PlayoneMapper()
 
     @Provides
-    internal fun proideUserMapper() = UserMapper()
+    internal fun proideDataUserMapper() = UserMapper()
+
+    @Provides
+    internal fun proideUserMapper(modelMapper: ModelMapper) =
+        com.playone.mobile.presentation.mapper.UserMapper(modelMapper)
 
     @Provides
     internal fun providePlayoneRepository(

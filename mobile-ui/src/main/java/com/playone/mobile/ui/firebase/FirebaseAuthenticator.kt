@@ -7,9 +7,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.playone.mobile.domain.Authenticator
 import com.playone.mobile.domain.Credential
 import com.playone.mobile.domain.model.User
-import com.playone.mobile.ext.isNotNull
-import com.playone.mobile.ui.ext.ifFalse
-import com.playone.mobile.ui.ext.ifTrue
+import com.playone.mobile.ext.ifFalse
+import com.playone.mobile.ext.ifTrue
 
 class FirebaseAuthenticator(
     private val firebaseAuth: FirebaseAuth
@@ -30,16 +29,17 @@ class FirebaseAuthenticator(
             }
 
             it.isSuccessful.ifFalse {
-                callback.onFailed()
+                callback.onFailed(it.exception ?: Exception("Unknown failed"))
             }
         }
     }
 
-    override fun signIn(credential: Credential, callback: AuthResultCallBack) {
+    override fun signIn(credential: Credential<*>, callback: AuthResultCallBack) {
 
         credential.isSocialNetworkCredential().ifFalse {
-            val content = credential.getContent<Pair<String, String>>()
-            firebaseAuth.signInWithEmailAndPassword(content.first, content.second)
+            val content = credential.getContent() as Pair<*, *>
+            firebaseAuth.signInWithEmailAndPassword(content.first as String,
+                                                    content.second as String)
                 .addOnCompleteListener {
 
                     it.isSuccessful.ifTrue {
@@ -49,13 +49,14 @@ class FirebaseAuthenticator(
                     }
 
                     it.isSuccessful.ifFalse {
-                        callback.onFailed()
+
+                        callback.onFailed(it.exception ?: Exception("Unknown failed"))
                     }
                 }
         }
 
         credential.isSocialNetworkCredential().ifTrue {
-            val content = credential.getContent<AuthCredential>()
+            val content = credential.getContent() as AuthCredential
             firebaseAuth.signInWithCredential(content)
                 .addOnCompleteListener {
 
@@ -66,7 +67,7 @@ class FirebaseAuthenticator(
                     }
 
                     it.isSuccessful.ifFalse {
-                        callback.onFailed()
+                        callback.onFailed(it.exception ?: Exception("Unknown failed"))
                     }
                 }
         }
@@ -86,7 +87,7 @@ class FirebaseAuthenticator(
 
             Handler().post {
 
-                callback.onFailed()
+                callback.onFailed(Exception("Already singed out"))
             }
         }
     }

@@ -12,12 +12,16 @@ configurations.all {
 dependencies {
     def presentationDependencies = rootProject.ext.cacheDependencies
     def presentationTestDependencies = rootProject.ext.cacheTestDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
 
     implementation presentationDependencies.javaxAnnotation
 
     implementation presentationDependencies.kotlin
     implementation presentationDependencies.javaxInject
     implementation presentationDependencies.rxKotlin
+
+    // Model Mapper
+    implementation developmentDependencies.modelMapper
 
     testImplementation presentationTestDependencies.junit
     testImplementation presentationTestDependencies.mockito

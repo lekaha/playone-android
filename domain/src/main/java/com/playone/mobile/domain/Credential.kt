@@ -1,7 +1,7 @@
 package com.playone.mobile.domain
 
-abstract class Credential {
+abstract class Credential<out T> {
 
     abstract fun isSocialNetworkCredential(): Boolean
-    abstract fun <R> getContent(): R
+    abstract fun getContent(): T
 }
