@@ -24,11 +24,13 @@ class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
     }
 
     override fun setPresenter(presenter: LoginPlayoneContract.Presenter) {
+
         this.presenter = presenter
         this.presenter.setView(this)
     }
 
     override fun onResponse(response: ViewResponse<UserView>) {
+
         when(response.status) {
             ViewResponse.Status.LOADING -> { isProgressing.value = true }
             ViewResponse.Status.ERROR -> {
@@ -43,6 +45,7 @@ class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
     }
 
     fun signIn(email: String, password: String) {
+
         // TODO: Need Email format verification
         (email.isEmpty() or password.isEmpty()).ifTrue {
             occurredError.value = Exception("Email or Password cannot be empty")
@@ -56,6 +59,7 @@ class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
     }
 
     fun isSignedIn() {
+
         isProgressing.value = true
 
         Handler().postDelayed(500L) {
@@ -65,10 +69,17 @@ class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
 
     }
 
+    override fun onCleared() {
+
+        super.onCleared()
+        presenter.stop()
+    }
+
     class LoginViewModelFactory(private val presenter: LoginPlayoneContract.Presenter) :
         ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+
             if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
                 return LoginViewModel(presenter) as T
             }
