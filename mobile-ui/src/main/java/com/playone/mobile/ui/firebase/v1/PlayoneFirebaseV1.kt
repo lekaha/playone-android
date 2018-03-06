@@ -7,12 +7,12 @@ import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
 import com.google.firebase.iid.FirebaseInstanceId
 import com.playone.mobile.ext.isNotNull
-import com.playone.mobile.remote.bridge.playone.OperationResultCallback
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
 import com.playone.mobile.ui.firebase.DataSnapStrategy
 import com.playone.mobile.ui.firebase.FirebaseErrorCallback
+import com.playone.mobile.ui.firebase.OperationResultCallback
 import com.playone.mobile.ui.firebase.PlayoneCallback
 import com.playone.mobile.ui.firebase.TransactionDataSnapStrategy
 import com.playone.mobile.ui.firebase.ext.addListenerForSingleValueEvent
@@ -89,6 +89,12 @@ class PlayoneFirebaseV1(
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
     ) = userDsAction(userId.toString(), callback, errorCallback, ::snapToUser)
+
+    override fun obtainUser(
+        email: String,
+        callback: (mode: UserModel?) -> Unit,
+        errorCallback: FirebaseErrorCallback
+    ) = userDsAction(-1, email, {}, errorCallback) { snapToUser(it, email, callback) }
 
     override fun createUser(
         model: UserModel,
@@ -239,6 +245,14 @@ class PlayoneFirebaseV1(
         strategy: DataSnapStrategy<D>
     ) = userSnapshot.child(userId).addStrategyListener(callback, errorCallback, strategy)
 
+    private fun <D> userDsAction(
+        userId: Int,
+        email: String,
+        callback: PlayoneCallback<D>,
+        errorCallback: FirebaseErrorCallback,
+        strategy: DataSnapStrategy<D>
+    ) = userSnapshot.child(email).addStrategyListener(callback, errorCallback, strategy)
+
     private fun <D> userDsForUpdate(
         model: UserModel,
         lastDeviceToken: String? = null,
@@ -375,6 +389,15 @@ class PlayoneFirebaseV1(
 
     private fun snapToUser(dataSnapshot: DataSnapshot?) =
         dataSnapshot?.getValue(UserModel::class.java)
+
+    private fun snapToUser(
+        dataSnapshot: DataSnapshot?,
+        email: String,
+        block: (UserModel) -> Unit
+    ) = dataSnapshot.takeIf(DataSnapshot?::isNotNull)?.children?.forEach {
+        val user = it.getValue(UserModel::class.java)
+        if (user?.email == email) block(user)
+    }
 
     private fun snapToBooleanForUserCreation(
         dataSnapshot: DataSnapshot?,
