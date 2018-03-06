@@ -1,19 +1,29 @@
 package com.playone.mobile.ui.ext
 
-inline fun Boolean.ifTrue(block: () -> Unit): Boolean {
+import com.playone.mobile.ext.isNotNull
+import com.playone.mobile.ext.isNull
 
-    if (this) {
+inline fun Boolean?.ifTrue(block: () -> Unit): Boolean {
+
+    if (this.isNotNull() and this!!) {
         block()
     }
 
-    return this
+    return true
 }
 
-inline fun Boolean.ifFalse(block: () -> Unit): Boolean {
+inline fun Boolean?.ifFalse(block: () -> Unit): Boolean {
 
-    if (!this) {
+    if (this.isNull() or this!!.not()) {
         block()
     }
 
-    return this
+    return false
+}
+
+inline infix fun Boolean.otherwise(block: () -> Unit) {
+
+    if (this.not()) {
+        block()
+    }
 }
