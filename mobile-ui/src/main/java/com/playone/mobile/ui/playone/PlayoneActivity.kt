@@ -125,9 +125,7 @@ class PlayoneActivity : BaseActivity() {
 
                 result?.apply {
                     viewModel.signIn(result.accessToken)
-                } ?: run {
-                    showErrorState(Exception("Missing token"))
-                }
+                } ?: showErrorState(Exception("Missing token"))
 
             }
 
