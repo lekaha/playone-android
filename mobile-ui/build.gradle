@@ -86,6 +86,8 @@ android {
 
 kapt {
     correctErrorTypes = true
+    useBuildCache = true  // Gradle version 4.3 and above is required
+    mapDiagnosticLocations = true
 }
 
 kotlin {
