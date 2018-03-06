@@ -17,10 +17,15 @@ android {
         multiDexEnabled = true
         testInstrumentationRunner "com.playone.mobile.ui.test.TestRunner"
 
+        def CLIENT_ID = ""
+        def FB_APP_ID = ""
         def properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        def CLIENT_ID = properties.getProperty("client_id")
-        def FB_APP_ID = properties.getProperty("fb_app_id")
+        try {
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            CLIENT_ID = properties.getProperty("client_id")
+            FB_APP_ID = properties.getProperty("fb_app_id")
+        } catch(ignored) {}
+        
         buildConfigField "String", "CLIENT_ID", "\"${CLIENT_ID}\""
         buildConfigField "String", "FB_APP_ID", "\"${FB_APP_ID}\""
 
