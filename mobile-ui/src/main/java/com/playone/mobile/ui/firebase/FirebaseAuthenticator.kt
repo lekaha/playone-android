@@ -3,7 +3,6 @@ package com.playone.mobile.ui.firebase
 import android.os.Handler
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -31,9 +30,7 @@ class FirebaseAuthenticator(
                 firebaseAuth.currentUser?.let {
                     callback.onSuccessful(mapper.mapToUser(it))
                 }
-            }
-
-            it.isSuccessful.ifFalse {
+            } otherwise {
                 callback.onFailed(it.exception ?: Exception("Unknown failed"))
             }
         }
@@ -59,32 +56,28 @@ class FirebaseAuthenticator(
 
         credential.isSocialNetworkCredential().ifTrue {
             val content = credential.getContent()
+            val socialCredential = when (content) {
 
-            var socialCredential: AuthCredential? = null
-            (content is GoogleSignInAccount).ifTrue {
-                socialCredential =
-                    GoogleAuthProvider.getCredential((content as GoogleSignInAccount).idToken, null)
+                is GoogleSignInAccount ->
+                    GoogleAuthProvider.getCredential((content).idToken, null)
+                is AccessToken -> FacebookAuthProvider.getCredential((content).token)
+                else -> throw IllegalStateException("Unidentified Credential")
             }
 
-            (content is AccessToken).ifTrue {
-                socialCredential =
-                    FacebookAuthProvider.getCredential((content as AccessToken).token)
-            }
-
-            socialCredential?.apply {
-                firebaseAuth.signInWithCredential(socialCredential!!)
+            socialCredential.apply {
+                firebaseAuth.signInWithCredential(this)
                     .addOnCompleteListener {
 
                         it.isSuccessful.ifTrue {
+
                             firebaseAuth.currentUser?.let {
                                 callback.onSuccessful(mapper.mapToUser(it))
                             }
                         } otherwise {
+
                             callback.onFailed(it.exception ?: Exception("Unknown failed"))
                         }
                     }
-            } ?: run {
-                throw IllegalStateException("Unidentified Credential")
             }
         }
     }
