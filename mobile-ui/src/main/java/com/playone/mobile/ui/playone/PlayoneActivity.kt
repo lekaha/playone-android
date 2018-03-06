@@ -7,8 +7,8 @@ import android.support.v7.app.AlertDialog
 import android.view.View
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.R
-import com.playone.mobile.ui.ext.ifTrue
-import com.playone.mobile.ui.ext.otherwise
+import com.playone.mobile.ext.ifTrue
+import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.model.LoginViewModel
 import kotlinx.android.synthetic.main.activity_main.content_layout
 import kotlinx.android.synthetic.main.activity_main.initializing
