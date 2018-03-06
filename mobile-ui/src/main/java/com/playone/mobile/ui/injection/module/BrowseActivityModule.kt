@@ -41,7 +41,8 @@ open class BrowseActivityModule {
     ) = GetBufferoos(bufferooRepository, threadExecutor, postExecutionThread)
 
     @Provides
-    internal fun provideBufferooEntityMapper() = BufferooEntityMapper()
+    internal fun provideBufferooEntityMapper(modelMapper: ModelMapper) =
+        BufferooEntityMapper(modelMapper)
 
     @Provides
     internal fun provideBufferooMapper() = com.playone.mobile.presentation.mapper.BufferooMapper()

@@ -8,7 +8,9 @@ import org.modelmapper.ModelMapper
  * Map a [BufferooModel] to and from a [BufferooEntity] instance when data is moving between
  * this later and the Data layer
  */
-open class BufferooEntityMapper(private val modelMapper: ModelMapper) : EntityMapper<BufferooModel, BufferooEntity> {
+open class BufferooEntityMapper(
+    private val modelMapper: ModelMapper
+) : EntityMapper<BufferooModel, BufferooEntity> {
 
     /**
      * Map an instance of a [BufferooModel] to a [BufferooEntity] model

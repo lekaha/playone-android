@@ -11,12 +11,16 @@ class BufferooFactory {
 
     companion object Factory {
 
-        fun makeBufferooEntity(): BufferooEntity {
-            return BufferooEntity(randomUuid(), randomUuid(), randomUuid())
+        fun makeBufferooEntity() = BufferooEntity().apply {
+            name = randomUuid()
+            title = randomUuid()
+            avatar = randomUuid()
         }
 
-        fun makeBufferoo(): Bufferoo {
-            return Bufferoo(randomUuid(), randomUuid(), randomUuid())
+        fun makeBufferoo() = Bufferoo().apply {
+            name = randomUuid()
+            title = randomUuid()
+            avatar = randomUuid()
         }
 
         fun makeBufferooEntityList(count: Int): List<BufferooEntity> {
