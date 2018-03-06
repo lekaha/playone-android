@@ -44,7 +44,7 @@ class PlayoneCacheDataStoreTest {
     fun getPlayoneList() {
 
         stubPlayoneCacheGetPlayoneList(Single.just(Factory.makePlayoneList(2)))
-        playoneCacheDataStore.getPlayoneList(4).test().assertComplete()
+        playoneCacheDataStore.getPlayoneList().test().assertComplete()
     }
 
     private fun stubPlayoneCacheSavePlayoneList(completable: Completable) {
