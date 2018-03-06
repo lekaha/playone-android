@@ -10,11 +10,13 @@ import com.google.firebase.database.ValueEventListener
  * An extension collections of the firebase database.
  */
 class WrapperValueEventListener {
+
     var onCancelled: (error: DatabaseError) -> Unit = {}
     var onDataChange: (dataSnapshot: DataSnapshot?) -> Unit = {}
 }
 
 class WrapperChildEventListener {
+
     var onCancelled: (error: DatabaseError) -> Unit = {}
     var onChildMoved: (dataSnapshot: DataSnapshot?, p1: String) -> Unit = { _, _ -> }
     var onChildChanged: (dataSnapshot: DataSnapshot?, p1: String) -> Unit = { _, _ -> }
@@ -25,8 +27,7 @@ class WrapperChildEventListener {
 fun Query.addListenerForSingleValueEvent(wrapper: WrapperValueEventListener.() -> Unit) =
     WrapperValueEventListener().apply(wrapper).let {
         addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError) =
-                it.onCancelled.invoke(error)
+            override fun onCancelled(error: DatabaseError) = it.onCancelled.invoke(error)
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) =
                 it.onDataChange.invoke(dataSnapshot)
@@ -36,8 +37,7 @@ fun Query.addListenerForSingleValueEvent(wrapper: WrapperValueEventListener.() -
 fun Query.addValueEventListener(wrapper: WrapperValueEventListener.() -> Unit) =
     WrapperValueEventListener().apply(wrapper).let {
         addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError) =
-                it.onCancelled.invoke(error)
+            override fun onCancelled(error: DatabaseError) = it.onCancelled.invoke(error)
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) =
                 it.onDataChange.invoke(dataSnapshot)

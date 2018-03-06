@@ -9,8 +9,8 @@ import androidx.os.postDelayed
 import com.playone.mobile.presentation.ViewResponse
 import com.playone.mobile.presentation.login.LoginPlayoneContract
 import com.playone.mobile.presentation.model.UserView
-import com.playone.mobile.ui.ext.ifFalse
-import com.playone.mobile.ui.ext.ifTrue
+import com.playone.mobile.ext.ifTrue
+import com.playone.mobile.ext.otherwise
 
 class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
     : ViewModel(), LifecycleObserver, LoginPlayoneContract.View {
@@ -49,7 +49,7 @@ class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
         // TODO: Need Email format verification
         (email.isEmpty() or password.isEmpty()).ifTrue {
             occurredError.value = Exception("Email or Password cannot be empty")
-        }.ifFalse {
+        } otherwise  {
             presenter.signIn(email, password)
         }
     }

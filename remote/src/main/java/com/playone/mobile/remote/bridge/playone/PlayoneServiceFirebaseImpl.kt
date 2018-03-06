@@ -7,7 +7,6 @@ import com.playone.mobile.data.repository.PlayoneRemote.Result.SUCCESS
 import com.playone.mobile.ext.reactive.single
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
-import io.reactivex.Single
 
 /**
  * An implementation of [com.playone.mobile.remote.PlayoneService] that retrieving
@@ -92,9 +91,12 @@ class PlayoneServiceFirebaseImpl(
                                        emitter::errorHandler)
         }
 
-    override fun retrieveUserModel(email: String): Single<UserModel> {
-        TODO() // TODO(jieyi): 2018/03/04 implement for retrieving from firebase.
-    }
+    override fun retrieveUserModel(email: String) =
+        single<UserModel> { emitter ->
+            playoneFirebase.obtainUser(email,
+                                       { it?.let(emitter::onSuccess) ?: emitter.errorNullObject() },
+                                       emitter::errorHandler)
+        }
 
     override fun createUser(userModel: UserModel) = single<UserModel> { emitter ->
         playoneFirebase.createUser(userModel,

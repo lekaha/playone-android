@@ -5,14 +5,16 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.R
+import com.playone.mobile.ext.ifTrue
+import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.model.LoginViewModel
 import kotlinx.android.synthetic.main.activity_main.content_layout
 import kotlinx.android.synthetic.main.activity_main.initializing
+import kotlinx.android.synthetic.main.merge_login.view.login_action_button
+import kotlinx.android.synthetic.main.merge_login.view.login_name_field
+import kotlinx.android.synthetic.main.merge_login.view.login_password_field
 import javax.inject.Inject
 
 class PlayoneActivity : BaseActivity() {
@@ -24,47 +26,59 @@ class PlayoneActivity : BaseActivity() {
     override fun getLayoutId(): Int = R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(LoginViewModel::class.java)
-        viewModel.isProgressing.observe(this, Observer {
-            it?.takeIf { it }?.apply { showProgress() } ?: hideProgress()
-        })
-        viewModel.isSignedIn.observe(this, Observer {
-            it?.takeIf { it }?.apply {
-                // TODO: proceed to the main page with logged in state
-            } ?: showSignInForms()
-        })
-        viewModel.occurredError.observe(this, Observer {
-            it?.takeIf { it.isNotNull() }?.apply { showErrorState(it) }
-        })
-        viewModel.let { lifecycle.addObserver(it) }
+            .get(LoginViewModel::class.java).apply {
 
-        viewModel.isSignedIn()
+                isProgressing.observe(this@PlayoneActivity, Observer {
+                    it.ifTrue { showProgress() } otherwise { hideProgress() }
+                })
+
+                isSignedIn.observe(this@PlayoneActivity, Observer {
+                    it.ifTrue {
+                        // TODO: proceed to the main page with logged in state
+                    } otherwise {
+                        showSignInForms()
+                    }
+                })
+
+                occurredError.observe(this@PlayoneActivity, Observer {
+                    it?.apply(::showErrorState)
+                })
+
+                lifecycle::addObserver
+
+                isSignedIn()
+            }
     }
 
     private fun showSignInForms() {
+
         val view = layoutInflater.inflate(R.layout.merge_login, content_layout, true)
 
         // Sign in with email and password
-        val emailEditText = view.findViewById<EditText>(R.id.login_name_field)
-        val passwordEditText = view.findViewById<EditText>(R.id.login_password_field)
-        view.findViewById<Button>(R.id.login_action_button).setOnClickListener {
-            viewModel.signIn(emailEditText.text.toString(), passwordEditText.text.toString())
+        view.login_action_button.setOnClickListener {
+            viewModel.signIn(
+                view.login_name_field.text.toString(),
+                view.login_password_field.text.toString())
         }
 
     }
 
     private fun showProgress() {
+
         initializing.visibility = View.VISIBLE
     }
 
     private fun hideProgress() {
+
         initializing.visibility = View.GONE
     }
 
     private fun showErrorState(throwable: Throwable) {
+
         AlertDialog.Builder(this)
             .setTitle("Error")
             .setMessage(throwable.message)

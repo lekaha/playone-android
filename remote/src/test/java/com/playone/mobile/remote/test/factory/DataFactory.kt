@@ -9,30 +9,29 @@ class DataFactory {
 
     companion object Factory {
 
-        fun randomUuid(): String {
-            return java.util.UUID.randomUUID().toString()
-        }
+        fun randomUuid() = java.util.UUID.randomUUID().toString()
 
-        fun randomInt(): Int {
-            return ThreadLocalRandom.current().nextInt(0, 1000 + 1)
-        }
+        fun randomInt() = ThreadLocalRandom.current().nextInt(0, 1000 + 1)
 
-        fun randomLong(): Long {
-            return randomInt().toLong()
-        }
+        fun randomDouble() = randomInt().toDouble() / randomInt() + randomInt()
 
-        fun randomBoolean(): Boolean {
-            return Math.random() < 0.5
-        }
+        fun randomLong() = randomInt().toLong()
+
+        fun randomBoolean() = Math.random() < 0.5
 
         fun makeStringList(count: Int): List<String> {
+
             val items: MutableList<String> = mutableListOf()
+
             repeat(count) {
                 items.add(randomUuid())
             }
+
             return items
         }
 
+        fun makeHashMap(count: Int) = hashMapOf<String, Any>().apply {
+            repeat(count) { put(randomUuid(), randomUuid()) }
+        }
     }
-
 }
