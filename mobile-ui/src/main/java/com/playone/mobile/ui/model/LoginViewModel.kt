@@ -54,6 +54,11 @@ class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
         }
     }
 
+    fun signIn(socialAccount: Any) {
+
+        presenter.signIn(socialAccount)
+    }
+
     fun signUp(email: String, password: String) {
         // TODO: Implementation
     }
