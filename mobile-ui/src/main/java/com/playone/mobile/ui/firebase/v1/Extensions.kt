@@ -31,6 +31,7 @@ internal fun <D> DatabaseReference.runTransaction(
     strategy: TransactionDataSnapStrategy<D>,
     block: (MutableData?) -> Transaction.Result
 ) = runTransaction(object : Transaction.Handler {
+
     override fun onComplete(de: DatabaseError, p1: Boolean, ds: DataSnapshot?) =
         if (!p1) {
             de.makeCallback(errorCallback)
