@@ -1,9 +1,6 @@
 package com.playone.mobile.remote.mapper
 
-import com.playone.mobile.data.model.PlayoneEntity
-import com.playone.mobile.data.model.UserEntity
-import com.playone.mobile.remote.model.PlayoneModel
-import com.playone.mobile.remote.model.UserModel
+import com.playone.mobile.remote.test.factory.Factory
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,47 +17,41 @@ class ExtensionTest {
 
         playoneEntityMapper = PlayoneEntityMapper()
         userEntityMapper = UserEntityMapper()
-
     }
 
     @Test
     fun extPlayoneEntityToModel() {
 
-        val entity = PlayoneEntity()
+        val entity = Factory.makePlayoneEntity()
         val model = entity.toModel(playoneEntityMapper)
 
         EntityMapperTest.assertTheSame(entity, model)
-
     }
 
     @Test
     fun extPlayoneModelToEntity() {
 
-        val model = PlayoneModel()
+        val model = Factory.makePlayoneModel()
         val entity = model.toEntity(playoneEntityMapper)
 
         EntityMapperTest.assertTheSame(entity, model)
-
     }
 
     @Test
     fun extUserEntityToModel() {
 
-        val entity = UserEntity()
+        val entity = Factory.makeUserEntity()
         val model = entity.toModel(userEntityMapper)
 
         EntityMapperTest.assertTheSame(entity, model)
-
     }
 
     @Test
     fun extUserModelToEntity() {
 
-        val model = UserModel()
+        val model = Factory.makeUserModel()
         val entity = model.toEntity(userEntityMapper)
 
         EntityMapperTest.assertTheSame(entity, model)
-
     }
-
 }

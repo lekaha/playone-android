@@ -4,6 +4,7 @@ import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
+import com.playone.mobile.remote.test.factory.Factory
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -44,9 +45,7 @@ class EntityMapperTest {
             assertEquals(entity.level, model.level)
             assertEquals(entity.years, model.years)
             assertEquals(entity.teams, model.teams)
-
         }
-
     }
 
     private lateinit var playoneEntityMapper: PlayoneEntityMapper
@@ -57,26 +56,41 @@ class EntityMapperTest {
 
         playoneEntityMapper = PlayoneEntityMapper()
         userEntityMapper = UserEntityMapper()
-
     }
 
     @Test
     fun playoneMapFromRemoteToData() {
 
-        val entity = PlayoneEntity()
-        val model = playoneEntityMapper.mapFromData(entity)
+        val model = Factory.makePlayoneModel()
+        val entity = playoneEntityMapper.mapToData(model)
 
         assertTheSame(entity, model)
-
     }
 
     @Test
     fun playoneMapFromDataToRemote() {
 
-        val model = UserModel()
+        val entity = Factory.makePlayoneEntity()
+        val model = playoneEntityMapper.mapFromData(entity)
+
+        assertTheSame(entity, model)
+    }
+
+    @Test
+    fun userMapFromRemoteToData() {
+
+        val model = Factory.makeUserModel()
         val entity = userEntityMapper.mapToData(model)
 
         assertTheSame(entity, model)
+    }
 
+    @Test
+    fun userMapFromDataToRemote() {
+
+        val entity = Factory.makeUserEntity()
+        val model = userEntityMapper.mapFromData(entity)
+
+        assertTheSame(entity, model)
     }
 }

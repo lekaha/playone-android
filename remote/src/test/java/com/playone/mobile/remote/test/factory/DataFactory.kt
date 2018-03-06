@@ -20,13 +20,18 @@ class DataFactory {
         fun randomBoolean() = Math.random() < 0.5
 
         fun makeStringList(count: Int): List<String> {
+
             val items: MutableList<String> = mutableListOf()
+
             repeat(count) {
                 items.add(randomUuid())
             }
+
             return items
         }
 
+        fun makeHashMap(count: Int) = hashMapOf<String, Any>().apply {
+            repeat(count) { put(randomUuid(), randomUuid()) }
+        }
     }
-
 }
