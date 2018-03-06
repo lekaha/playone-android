@@ -71,11 +71,11 @@ class PlayoneModule {
 
     @Provides
     internal fun providePlayoneDataMapper(modelMapper: ModelMapper) =
-        com.playone.mobile.data.mapper.PlayoneMapper()
+        com.playone.mobile.data.mapper.PlayoneMapper(modelMapper)
 
     @Provides
     internal fun proideDataUserMapper(modelMapper: ModelMapper) =
-        UserMapper()
+        UserMapper(modelMapper)
 
     @Provides
     internal fun proideUserMapper(modelMapper: ModelMapper) =

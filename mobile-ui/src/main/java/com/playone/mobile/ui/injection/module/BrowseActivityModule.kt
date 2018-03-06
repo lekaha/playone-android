@@ -54,7 +54,8 @@ open class BrowseActivityModule {
         com.playone.mobile.remote.mapper.BufferooEntityMapper(modelMapper)
 
     @Provides
-    internal fun provideDataBufferooMapper() = com.playone.mobile.data.mapper.BufferooMapper()
+    internal fun provideDataBufferooMapper(modelMapper: ModelMapper) =
+        com.playone.mobile.data.mapper.BufferooMapper(modelMapper)
 
     @Provides
     internal fun provideUiBufferooMapper() = com.playone.mobile.ui.mapper.BufferooMapper()

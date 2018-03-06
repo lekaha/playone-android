@@ -6,9 +6,9 @@ targetCompatibility = 1.7
 dependencies {
     def dataDependencies = rootProject.ext.dataDependencies
     def dataTestDependencies = rootProject.ext.dataTestDependencies
-//    def developmentDependencies = rootProject.ext.developmentDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
 
-    compile project(':domain')
+    implementation project(':domain')
     implementation project(':ext')
 
     compile dataDependencies.javaxAnnotation
@@ -17,7 +17,7 @@ dependencies {
     implementation dataDependencies.javaxInject
     implementation dataDependencies.rxKotlin
 
-//    implementation developmentDependencies.modelMapper
+    implementation developmentDependencies.modelMapper
 
     testImplementation dataTestDependencies.junit
     testImplementation dataTestDependencies.kotlinJUnit
