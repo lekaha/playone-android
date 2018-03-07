@@ -10,6 +10,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.modelmapper.ModelMapper
+import kotlin.test.assertEquals
 
 @RunWith(JUnit4::class)
 class BufferooRemoteImplTest {
@@ -21,7 +23,7 @@ class BufferooRemoteImplTest {
 
     @Before
     fun setup() {
-        entityMapper = mock()
+        entityMapper = BufferooEntityMapper(ModelMapper())
         bufferooService = mock()
         bufferooRemoteImpl = BufferooRemoteImpl(bufferooService, entityMapper)
     }
@@ -44,7 +46,14 @@ class BufferooRemoteImplTest {
         }
 
         val testObserver = bufferooRemoteImpl.getBufferoos().test()
-        testObserver.assertValue(bufferooEntities)
+        testObserver.assertValue {
+            it.forEachIndexed { index, entity ->
+                assertEquals(entity.name, bufferooEntities[index].name)
+                assertEquals(entity.title, bufferooEntities[index].title)
+                assertEquals(entity.avatar, bufferooEntities[index].avatar)
+            }
+            true
+        }
     }
     //</editor-fold>
 

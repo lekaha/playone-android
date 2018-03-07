@@ -28,7 +28,11 @@ class BufferooMapper : ModelDbMapper<CachedBufferoo> {
         val name = cursor.getString(cursor.getColumnIndexOrThrow(Db.BufferooTable.NAME))
         val title = cursor.getString(cursor.getColumnIndexOrThrow(Db.BufferooTable.TITLE))
         val avatar = cursor.getString(cursor.getColumnIndexOrThrow(Db.BufferooTable.AVATAR))
-        return CachedBufferoo(name, title, avatar)
+        return CachedBufferoo().apply {
+            this.name = name
+            this.title = title
+            this.avatar = avatar
+        }
     }
 
 }

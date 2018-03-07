@@ -9,6 +9,7 @@ import com.playone.mobile.cache.test.factory.BufferooFactory
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.modelmapper.ModelMapper
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
@@ -18,7 +19,7 @@ import kotlin.test.assertEquals
 @Config(sdk = intArrayOf(21))
 class BufferooCacheImplTest {
 
-    private var entityMapper = BufferooEntityMapper()
+    private var entityMapper = BufferooEntityMapper(ModelMapper())
     private var mapper = BufferooMapper()
     private var preferencesHelper = PreferencesHelper(RuntimeEnvironment.application)
 
@@ -72,7 +73,14 @@ class BufferooCacheImplTest {
         insertBufferoos(cachedBufferoos)
 
         val testObserver = databaseHelper.getBufferoos().test()
-        testObserver.assertValue(bufferooEntities)
+        testObserver.assertValue {
+            it.forEachIndexed { index, entity ->
+                assertEquals(entity.name, cachedBufferoos[index].name)
+                assertEquals(entity.title, cachedBufferoos[index].title)
+                assertEquals(entity.avatar, cachedBufferoos[index].avatar)
+            }
+            true
+        }
     }
     //</editor-fold>
 

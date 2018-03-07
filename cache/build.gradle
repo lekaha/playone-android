@@ -60,6 +60,7 @@ android {
 dependencies {
     def cacheDependencies = rootProject.ext.cacheDependencies
     def cacheTestDependencies = rootProject.ext.cacheTestDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
 
     compileOnly cacheDependencies.javaxAnnotation
 
@@ -70,6 +71,8 @@ dependencies {
     implementation cacheDependencies.javaxInject
     implementation cacheDependencies.rxKotlin
     implementation cacheDependencies.gson
+
+    implementation developmentDependencies.modelMapper
 
     testImplementation cacheTestDependencies.junit
     testImplementation cacheTestDependencies.kotlinJUnit

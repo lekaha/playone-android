@@ -1,22 +1,25 @@
 package com.playone.mobile.remote.model
 
+import kotlin.properties.Delegates
+
 /**
  * Representation for a [PlayoneModel] fetched from the API.
  */
-data class PlayoneModel(
-    var id: String = "",
-    var name: String = "",
-    var description: String = "",
-    var date: Long = 0,
-    var updated: Long = 0,
-    var address: String = "",
-    var longitude: Double = .0,
-    var latitude: Double = .0,
-    var limit: Int = 0,
-    var level: Int = 0,
-    var host: String = "",
-    var userId: String = ""
-) {
+class PlayoneModel {
+
+    lateinit var id: String
+    lateinit var name: String
+    lateinit var description: String
+    var date by Delegates.notNull<Long>()
+    var updated by Delegates.notNull<Long>()
+    lateinit var address: String
+    var longitude by Delegates.notNull<Double>()
+    var latitude by Delegates.notNull<Double>()
+    var limit by Delegates.notNull<Int>()
+    var level by Delegates.notNull<Int>()
+    lateinit var host: String
+    lateinit var userId: String
+
     fun toMap() = hashMapOf("name" to name,
                             "name" to name,
                             "description" to description,
@@ -29,4 +32,32 @@ data class PlayoneModel(
                             "limit" to limit,
                             "level" to level,
                             "userId" to userId)
+
+    fun copy(
+        id: String? = null,
+        name: String? = null,
+        description: String? = null,
+        date: Long? = null,
+        updated: Long? = null,
+        address: String? = null,
+        longitude: Double? = null,
+        latitude: Double? = null,
+        limit: Int? = null,
+        level: Int? = null,
+        host: String? = null,
+        userId: String? = null
+    ) = PlayoneModel().also {
+        it.id = id ?: this.id
+        it.name = name ?: this.name
+        it.description = description ?: this.description
+        it.date = date ?: this.date
+        it.updated = updated ?: this.updated
+        it.address = address ?: this.address
+        it.longitude = longitude ?: this.longitude
+        it.latitude = latitude ?: this.latitude
+        it.limit = limit ?: this.limit
+        it.level = level ?: this.level
+        it.host = host ?: this.host
+        it.userId = userId ?: this.userId
+    }
 }

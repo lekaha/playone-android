@@ -6,6 +6,7 @@ targetCompatibility = 1.7
 dependencies {
     def remoteDependencies = rootProject.ext.remoteDependencies
     def remoteTestDependencies = rootProject.ext.remoteTestDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
 
     implementation remoteDependencies.javaxAnnotation
 
@@ -19,11 +20,13 @@ dependencies {
     implementation remoteDependencies.retrofitConverter
     implementation remoteDependencies.retrofitAdapter
 
+    implementation developmentDependencies.modelMapper
+
     testImplementation remoteTestDependencies.junit
     testImplementation remoteTestDependencies.kotlinJUnit
     testImplementation remoteTestDependencies.mockito
     testImplementation remoteTestDependencies.assertj
 
-    compile project(':data')
+    implementation project(':data')
     implementation project(':ext')
 }

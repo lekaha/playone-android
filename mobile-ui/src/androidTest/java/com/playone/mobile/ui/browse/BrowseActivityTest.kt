@@ -3,21 +3,22 @@ package com.playone.mobile.ui.browse
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
+import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
 import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Single
 import com.playone.mobile.domain.model.Bufferoo
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.test.TestApplication
-import com.playone.mobile.ui.test.factory.BufferooFactory
+import com.playone.mobile.ui.test.factory.BufferooAndroidFactory
 import com.playone.mobile.ui.test.util.RecyclerViewMatcher
+import io.reactivex.Single
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
 
 @RunWith(AndroidJUnit4::class)
 class BrowseActivityTest {
@@ -27,13 +28,13 @@ class BrowseActivityTest {
 
     @Test
     fun activityLaunches() {
-        stubBufferooRepositoryGetBufferoos(Single.just(BufferooFactory.makeBufferooList(2)))
+        stubBufferooRepositoryGetBufferoos(Single.just(BufferooAndroidFactory.makeBufferooList(2)))
         activity.launchActivity(null)
     }
 
     @Test
     fun bufferoosDisplay() {
-        val bufferoos = BufferooFactory.makeBufferooList(1)
+        val bufferoos = BufferooAndroidFactory.makeBufferooList(1)
         stubBufferooRepositoryGetBufferoos(Single.just(bufferoos))
         activity.launchActivity(null)
 
@@ -42,7 +43,7 @@ class BrowseActivityTest {
 
     @Test
     fun bufferoosAreScrollable() {
-        val bufferoos = BufferooFactory.makeBufferooList(20)
+        val bufferoos = BufferooAndroidFactory.makeBufferooList(20)
         stubBufferooRepositoryGetBufferoos(Single.just(bufferoos))
         activity.launchActivity(null)
 

@@ -1,7 +1,7 @@
 package com.playone.mobile.ui
 
 import com.playone.mobile.ui.mapper.BufferooMapper
-import com.playone.mobile.ui.test.factory.BufferooFactory
+import com.playone.mobile.ui.test.factory.BufferooUiFactory
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +20,7 @@ class BufferooMapperTest {
 
     @Test
     fun mapToViewMapsData() {
-        val bufferooView = BufferooFactory.makeBufferooView()
+        val bufferooView = BufferooUiFactory.makeBufferooView()
         val bufferooViewModel = bufferooMapper.mapToViewModel(bufferooView)
 
         assertEquals(bufferooView.name, bufferooViewModel.name)

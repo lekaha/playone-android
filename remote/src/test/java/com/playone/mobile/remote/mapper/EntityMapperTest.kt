@@ -9,6 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.modelmapper.ModelMapper
 import kotlin.test.assertEquals
 
 @RunWith(JUnit4::class)
@@ -54,8 +55,8 @@ class EntityMapperTest {
     @Before
     fun setup() {
 
-        playoneEntityMapper = PlayoneEntityMapper()
-        userEntityMapper = UserEntityMapper()
+        playoneEntityMapper = PlayoneEntityMapper(ModelMapper())
+        userEntityMapper = UserEntityMapper(ModelMapper())
     }
 
     @Test

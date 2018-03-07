@@ -7,6 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.modelmapper.ModelMapper
 import kotlin.test.assertEquals
 
 @RunWith(JUnit4::class)
@@ -16,7 +17,7 @@ class BufferooEntityMapperTest {
 
     @Before
     fun setUp() {
-        bufferooEntityMapper = BufferooEntityMapper()
+        bufferooEntityMapper = BufferooEntityMapper(ModelMapper())
     }
 
     @Test
