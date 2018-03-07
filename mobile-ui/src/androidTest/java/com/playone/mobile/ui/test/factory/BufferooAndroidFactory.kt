@@ -1,7 +1,7 @@
 package com.playone.mobile.ui.test.factory
 
-import com.playone.mobile.data.test.factory.DataFactory
 import com.playone.mobile.domain.model.Bufferoo
+import com.playone.mobile.ui.test.factory.DataFactory.Factory.randomUuid
 
 /**
  * Factory class for Bufferoo related instances
@@ -19,9 +19,9 @@ class BufferooAndroidFactory {
         }
 
         fun makeBufferooModel() = Bufferoo().apply {
-            name = DataFactory.randomUuid()
-            title = DataFactory.randomUuid()
-            avatar = DataFactory.randomUuid()
+            name = randomUuid()
+            title = randomUuid()
+            avatar = randomUuid()
         }
 
     }
