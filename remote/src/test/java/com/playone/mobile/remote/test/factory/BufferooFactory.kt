@@ -1,6 +1,5 @@
 package com.playone.mobile.remote.test.factory
 
-import com.playone.mobile.data.test.factory.DataFactory
 import com.playone.mobile.remote.BufferooService
 import com.playone.mobile.remote.model.BufferooModel
 
