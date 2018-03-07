@@ -7,53 +7,61 @@ import com.playone.mobile.remote.model.UserModel
 
 object Factory {
 
-    fun makePlayoneModel() = PlayoneModel(DataFactory.randomUuid(),
-                                          DataFactory.randomUuid(),
-                                          DataFactory.randomUuid(),
-                                          DataFactory.randomLong(),
-                                          DataFactory.randomLong(),
-                                          DataFactory.randomUuid(),
-                                          DataFactory.randomDouble(),
-                                          DataFactory.randomDouble(),
-                                          DataFactory.randomInt(),
-                                          DataFactory.randomInt(),
-                                          DataFactory.randomUuid(),
-                                          DataFactory.randomUuid())
+    fun makePlayoneModel() = PlayoneModel().apply {
+        id = DataFactory.randomUuid()
+        name = DataFactory.randomUuid()
+        description = DataFactory.randomUuid()
+        date = DataFactory.randomLong()
+        updated = DataFactory.randomLong()
+        address = DataFactory.randomUuid()
+        longitude = DataFactory.randomDouble()
+        latitude = DataFactory.randomDouble()
+        limit = DataFactory.randomInt()
+        level = DataFactory.randomInt()
+        host = DataFactory.randomUuid()
+        userId = DataFactory.randomUuid()
+    }
 
-    fun makeUserModel() = UserModel(DataFactory.randomUuid(),
-                                    DataFactory.randomUuid(),
-                                    DataFactory.randomUuid(),
-                                    DataFactory.randomUuid(),
-                                    DataFactory.randomUuid(),
-                                    DataFactory.randomUuid(),
-                                    DataFactory.randomUuid(),
-                                    DataFactory.randomInt(),
-                                    DataFactory.randomInt(),
-                                    DataFactory.randomInt(),
-                                    DataFactory.makeHashMap(30))
+    fun makeUserModel() = UserModel().apply {
+        id = DataFactory.randomUuid()
+        name = DataFactory.randomUuid()
+        email = DataFactory.randomUuid()
+        pictureURL = DataFactory.randomUuid()
+        description = DataFactory.randomUuid()
+        grade = DataFactory.randomUuid()
+        deviceToken = DataFactory.randomUuid()
+        age = DataFactory.randomInt()
+        level = DataFactory.randomInt()
+        years = DataFactory.randomInt()
+        teams = DataFactory.makeHashMap(30)
+    }
 
-    fun makePlayoneEntity() = PlayoneEntity(DataFactory.randomUuid(),
-                                            DataFactory.randomUuid(),
-                                            DataFactory.randomUuid(),
-                                            DataFactory.randomLong(),
-                                            DataFactory.randomLong(),
-                                            DataFactory.randomUuid(),
-                                            DataFactory.randomDouble(),
-                                            DataFactory.randomDouble(),
-                                            DataFactory.randomInt(),
-                                            DataFactory.randomInt(),
-                                            DataFactory.randomUuid(),
-                                            DataFactory.randomUuid())
+    fun makePlayoneEntity() = PlayoneEntity().apply {
+        id = DataFactory.randomUuid()
+        name = DataFactory.randomUuid()
+        description = DataFactory.randomUuid()
+        date = DataFactory.randomLong()
+        updated = DataFactory.randomLong()
+        address = DataFactory.randomUuid()
+        longitude = DataFactory.randomDouble()
+        latitude = DataFactory.randomDouble()
+        limit = DataFactory.randomInt()
+        level = DataFactory.randomInt()
+        host = DataFactory.randomUuid()
+        userId = DataFactory.randomUuid()
+    }
 
-    fun makeUserEntity() = UserEntity(DataFactory.randomUuid(),
-                                      DataFactory.randomUuid(),
-                                      DataFactory.randomUuid(),
-                                      DataFactory.randomUuid(),
-                                      DataFactory.randomUuid(),
-                                      DataFactory.randomUuid(),
-                                      DataFactory.randomUuid(),
-                                      DataFactory.randomInt(),
-                                      DataFactory.randomInt(),
-                                      DataFactory.randomInt(),
-                                      DataFactory.makeHashMap(30))
+    fun makeUserEntity() = UserEntity().apply {
+        id = DataFactory.randomUuid()
+        name = DataFactory.randomUuid()
+        email = DataFactory.randomUuid()
+        pictureURL = DataFactory.randomUuid()
+        description = DataFactory.randomUuid()
+        grade = DataFactory.randomUuid()
+        deviceToken = DataFactory.randomUuid()
+        age = DataFactory.randomInt()
+        level = DataFactory.randomInt()
+        years = DataFactory.randomInt()
+        teams = DataFactory.makeHashMap(30)
+    }
 }
