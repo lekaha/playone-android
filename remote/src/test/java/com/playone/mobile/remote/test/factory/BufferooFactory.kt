@@ -1,8 +1,8 @@
 package com.playone.mobile.remote.test.factory
 
+import com.playone.mobile.data.test.factory.DataFactory
 import com.playone.mobile.remote.BufferooService
 import com.playone.mobile.remote.model.BufferooModel
-import com.playone.mobile.remote.test.factory.DataFactory.Factory.randomUuid
 
 /**
  * Factory class for Bufferoo related instances
@@ -31,6 +31,10 @@ class BufferooFactory {
             return bufferooEntities
         }
 
-        fun makeBufferooModel() = BufferooModel(randomUuid(), randomUuid(), randomUuid())
+        fun makeBufferooModel() = BufferooModel().apply {
+            name = DataFactory.randomUuid()
+            title = DataFactory.randomUuid()
+            avatar = DataFactory.randomUuid()
+        }
     }
 }
