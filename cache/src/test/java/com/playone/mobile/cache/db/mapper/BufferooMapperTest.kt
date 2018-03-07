@@ -33,7 +33,9 @@ class BufferooMapperTest {
         insertCachedBufferoo(cachedBufferoo)
 
         val cursor = retrieveCachedBufferooCursor()
-        assertEquals(cachedBufferoo, bufferooMapper.parseCursor(cursor))
+        assertEquals(cachedBufferoo.name, bufferooMapper.parseCursor(cursor).name)
+        assertEquals(cachedBufferoo.title, bufferooMapper.parseCursor(cursor).title)
+        assertEquals(cachedBufferoo.avatar, bufferooMapper.parseCursor(cursor).avatar)
     }
 
     private fun retrieveCachedBufferooCursor(): Cursor {
@@ -44,7 +46,7 @@ class BufferooMapperTest {
 
     private fun insertCachedBufferoo(cachedBufferoo: CachedBufferoo) {
         database.insertOrThrow(Db.BufferooTable.TABLE_NAME, null,
-                bufferooMapper.toContentValues(cachedBufferoo))
+                               bufferooMapper.toContentValues(cachedBufferoo))
     }
 
 }
