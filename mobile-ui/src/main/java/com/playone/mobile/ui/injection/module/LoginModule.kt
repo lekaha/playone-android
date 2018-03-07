@@ -4,10 +4,11 @@ import com.playone.mobile.domain.interactor.auth.SignUpAndSignIn
 import com.playone.mobile.presentation.login.LoginPlayoneContract
 import com.playone.mobile.presentation.login.LoginPlayonePresenter
 import com.playone.mobile.presentation.mapper.UserMapper
+import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.model.LoginViewModel
+import com.playone.mobile.ui.playone.PlayoneActivity
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 
 @Module
 class LoginModule {

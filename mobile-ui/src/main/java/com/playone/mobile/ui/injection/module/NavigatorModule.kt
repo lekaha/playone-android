@@ -2,13 +2,13 @@ package com.playone.mobile.ui.injection.module
 
 import android.content.Context
 import com.playone.mobile.ui.Navigator
-import com.playone.mobile.ui.injection.qualifier.ActivityContext
+import com.playone.mobile.ui.injection.qualifier.ApplicationContext
 import dagger.Module
 import dagger.Provides
 
 @Module
-class ActivityModule {
+class NavigatorModule {
 
     @Provides
-    fun provideNavigator(@ActivityContext context: Context) = Navigator(context)
+    fun provideNavigator(@ApplicationContext context: Context) = Navigator(context)
 }
