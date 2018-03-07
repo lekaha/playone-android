@@ -43,7 +43,6 @@ class SignUpFragment : BaseInjectingFragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(SignUpViewModel::class.java).apply {
-
                 isProgressing.observe(this@SignUpFragment, Observer {
                     it.ifTrue { showProgress() } otherwise { hideProgress() }
                 })
@@ -52,7 +51,8 @@ class SignUpFragment : BaseInjectingFragment() {
                     it.ifTrue {
                         Toast.makeText(
                             activity,
-                            "Signed In", Toast.LENGTH_LONG
+                            "Signed In",
+                            Toast.LENGTH_LONG
                         ).show()
                     } otherwise {
                         showSignUpForms()
@@ -72,7 +72,6 @@ class SignUpFragment : BaseInjectingFragment() {
     private fun showSignUpForms() {
 
         view?.apply {
-
             // Sign up with email and password
             sign_up_action_btn.setOnClickListener {
                 viewModel.signUp(
