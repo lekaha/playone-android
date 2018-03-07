@@ -2,17 +2,20 @@ package com.playone.mobile.ui.model
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import com.playone.mobile.ext.ifTrue
+import com.playone.mobile.ext.otherwise
 import com.playone.mobile.presentation.onBoarding.LoginPlayoneContract
 
 class SignUpViewModel(presenter: LoginPlayoneContract.Presenter)
     : LoginViewModel(presenter) {
 
-    init {
-        presenter.setView(this)
-    }
-
     override fun signUp(email: String, password: String) {
-        // TODO: Implementation
+
+        (email.isEmpty() or password.isEmpty()).ifTrue {
+            occurredError.value = Exception("Email or Password cannot be empty")
+        } otherwise {
+            loginPresenter.signUp(email, password)
+        }
     }
 
     class SignUpViewModelFactory(private val presenter: LoginPlayoneContract.Presenter) :
