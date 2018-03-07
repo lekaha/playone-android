@@ -4,7 +4,10 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.support.transition.Slide
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
+import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import com.facebook.AccessToken
@@ -19,6 +22,7 @@ import com.google.android.gms.common.api.ApiException
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseInjectingFragment
+import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_signin.progress
@@ -27,6 +31,7 @@ import kotlinx.android.synthetic.main.merge_login.view.google_login_btn
 import kotlinx.android.synthetic.main.merge_login.view.login_action_button
 import kotlinx.android.synthetic.main.merge_login.view.login_name_field
 import kotlinx.android.synthetic.main.merge_login.view.login_password_field
+import kotlinx.android.synthetic.main.merge_login.view.sign_up_btn
 import javax.inject.Inject
 
 class SignInFragment : BaseInjectingFragment() {
@@ -46,6 +51,8 @@ class SignInFragment : BaseInjectingFragment() {
     @Inject lateinit var loginManager: LoginManager
 
     @Inject lateinit var readPermissions: ArrayList<String>
+
+    @Inject lateinit var navigator: Navigator
 
     private lateinit var viewModel: LoginViewModel
 
@@ -106,6 +113,22 @@ class SignInFragment : BaseInjectingFragment() {
             // Sign in with Facebook
             facebook_login_btn.setOnClickListener {
                 facebookSignIn()
+            }
+
+            sign_up_btn.setOnClickListener {
+                navigator.navigateTo((activity as AppCompatActivity)) {
+
+                    val fragment = SignUpFragment.newInstance()
+                    val slideTransition = Slide(Gravity.RIGHT)
+                    slideTransition.duration = resources.getInteger(R.integer.anim_duration_long).toLong()
+                    fragment.exitTransition = slideTransition
+                    fragment.enterTransition = slideTransition
+                    fragment.allowEnterTransitionOverlap = false
+                    fragment.allowReturnTransitionOverlap = false
+
+                    replace(R.id.fragment_content, fragment)
+                    addToBackStack(null)
+                }
             }
         }
     }

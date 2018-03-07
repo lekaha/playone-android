@@ -16,7 +16,7 @@ class Navigator constructor(activityContext: Context) {
      * in [FragmentTransaction]
      */
     fun navigateTo(context: AppCompatActivity, transactions: FragmentTransaction.() -> Unit) {
-        context.transact{
+        context.transact {
             transactions()
         }
     }

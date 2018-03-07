@@ -5,6 +5,7 @@ import com.playone.mobile.presentation.onBoarding.LoginPlayoneContract
 import com.playone.mobile.presentation.onBoarding.LoginPlayonePresenter
 import com.playone.mobile.presentation.mapper.UserMapper
 import com.playone.mobile.ui.model.LoginViewModel
+import com.playone.mobile.ui.model.SignUpViewModel
 import dagger.Module
 import dagger.Provides
 
@@ -26,4 +27,8 @@ class LoginModule {
     @Provides
     internal fun provideLoginReadPermission(): ArrayList<String> =
         arrayListOf("email", "public_profile")
+
+    @Provides
+    internal fun provideSignUpViewModelFactory(presenter: LoginPlayoneContract.Presenter) =
+        SignUpViewModel.SignUpViewModelFactory(presenter)
 }
