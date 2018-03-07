@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
+import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -116,27 +117,33 @@ class SignInFragment : BaseInjectingFragment() {
     }
 
     private fun facebookSignIn() {
+        val accessToken = AccessToken.getCurrentAccessToken()
+        (accessToken != null).ifTrue {
+            
+            viewModel.signIn(accessToken)
+        } otherwise {
 
-        loginManager.logInWithReadPermissions(this, readPermissions)
-        loginManager.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(result: LoginResult?) {
+            loginManager.logInWithReadPermissions(this, readPermissions)
+            loginManager.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult?) {
 
-                result?.apply {
-                    viewModel.signIn(result.accessToken)
-                } ?: showErrorState(Exception("Missing token"))
+                    result?.apply {
+                        viewModel.signIn(result.accessToken)
+                    } ?: showErrorState(Exception("Missing token"))
 
-            }
+                }
 
-            override fun onCancel() {
+                override fun onCancel() {
 
-                showErrorState(Exception("Facebook Sign in canceled"))
-            }
+                    showErrorState(Exception("Facebook Sign in canceled"))
+                }
 
-            override fun onError(error: FacebookException?) {
+                override fun onError(error: FacebookException?) {
 
-                showErrorState(error ?: Exception("Facebook signed in error"))
-            }
-        })
+                    showErrorState(error ?: Exception("Facebook signed in error"))
+                }
+            })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
