@@ -17,6 +17,7 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
 
     val isProgressing: MutableLiveData<Boolean> = MutableLiveData()
     val isSignedIn: MutableLiveData<Boolean> = MutableLiveData()
+    val isVerifiedEmail: MutableLiveData<Boolean> = MutableLiveData()
     val occurredError: MutableLiveData<Throwable> = MutableLiveData()
 
     init {
@@ -40,6 +41,7 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
             ViewResponse.Status.SUCCESS -> {
                 isProgressing.value = false
                 isSignedIn.value = true
+                isVerifiedEmail.value = loginPresenter.isVerifiedEmail()
             }
         }
     }
@@ -64,10 +66,6 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
         loginPresenter.signIn(socialAccount)
     }
 
-    open fun signUp(email: String, password: String) {
-        // TODO: Implementation
-    }
-
     open fun isSignedIn() {
 
         isProgressing.value = true
@@ -76,7 +74,11 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
             isSignedIn.value = loginPresenter.isSignedIn()
             isProgressing.value = false
         }
+    }
 
+    open fun isVerifiedEmail() {
+
+        loginPresenter.isVerifiedEmail()
     }
 
     override fun onCleared() {

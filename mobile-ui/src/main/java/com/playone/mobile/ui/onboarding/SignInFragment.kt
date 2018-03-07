@@ -19,6 +19,7 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
+import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseInjectingFragment
@@ -85,6 +86,15 @@ class SignInFragment : BaseInjectingFragment() {
                     }
                 })
 
+                isVerifiedEmail.observe(this@SignInFragment, Observer {
+                    it.ifFalse {
+                        Toast.makeText(
+                            activity,
+                            "Not yet verified Email", Toast.LENGTH_LONG
+                        ).show()
+                    }
+                })
+
                 occurredError.observe(this@SignInFragment, Observer {
                     it?.apply(::showErrorState)
                 })
@@ -120,7 +130,8 @@ class SignInFragment : BaseInjectingFragment() {
 
                     val fragment = SignUpFragment.newInstance()
                     val slideTransition = Slide(Gravity.RIGHT)
-                    slideTransition.duration = resources.getInteger(R.integer.anim_duration_long).toLong()
+                    slideTransition.duration =
+                        resources.getInteger(R.integer.anim_duration_long).toLong()
                     fragment.exitTransition = slideTransition
                     fragment.enterTransition = slideTransition
                     fragment.allowEnterTransitionOverlap = false
@@ -203,11 +214,13 @@ class SignInFragment : BaseInjectingFragment() {
 
     private fun showErrorState(throwable: Throwable) {
 
-        activity ?: AlertDialog.Builder(activity!!)
-            .setTitle("Error")
-            .setMessage(throwable.message)
-            .setCancelable(false)
-            .setPositiveButton("OK") { dialog, _ -> dialog?.dismiss() }
-            .show()
+        activity?.apply {
+            AlertDialog.Builder(this)
+                .setTitle("Error")
+                .setMessage(throwable.message)
+                .setCancelable(false)
+                .setPositiveButton("OK") { dialog, _ -> dialog?.dismiss() }
+                .show()
+        }
     }
 }

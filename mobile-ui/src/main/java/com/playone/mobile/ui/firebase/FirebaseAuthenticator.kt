@@ -116,6 +116,8 @@ class FirebaseAuthenticator(
 
     override fun isSignedIn() = firebaseAuth.currentUser != null
 
+    override fun isVerifiedEmail() = firebaseAuth.currentUser?.isEmailVerified == true
+
     class FirebaseUserMapper {
 
         fun mapToUser(user: FirebaseUser) =

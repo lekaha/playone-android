@@ -32,27 +32,30 @@ class LoginPlayonePresenter(
 
     override fun signUp(email: String, password: String) {
 
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        loginView?.onResponse(ViewResponse.loading())
+        signUpAndSignIn.signUp(email, password, SignInUpSubscriber())
     }
 
     override fun signInAnonymously() {
 
         loginView?.onResponse(ViewResponse.loading())
-        signUpAndSignIn.signInAnonymously(SignInSubscriber())
+        signUpAndSignIn.signInAnonymously(SignInUpSubscriber())
     }
 
     override fun signIn(email: String, password: String) {
 
         loginView?.onResponse(ViewResponse.loading())
-        signUpAndSignIn.signIn(EmailPasswordCredential(email, password), SignInSubscriber())
+        signUpAndSignIn.signIn(EmailPasswordCredential(email, password), SignInUpSubscriber())
     }
 
     override fun signIn(secretContent: Any) {
 
-        signUpAndSignIn.signIn(SecretCredential(secretContent), SignInSubscriber())
+        signUpAndSignIn.signIn(SecretCredential(secretContent), SignInUpSubscriber())
     }
 
     override fun isSignedIn() = signUpAndSignIn.isSignedIn()
+
+    override fun isVerifiedEmail() = signUpAndSignIn.isVerifiedEmail()
 
     inner class EmailPasswordCredential(
         private val email: String,
@@ -73,7 +76,7 @@ class LoginPlayonePresenter(
         override fun getContent() = secret
     }
 
-    inner class SignInSubscriber : DisposableSingleObserver<User>() {
+    inner class SignInUpSubscriber : DisposableSingleObserver<User>() {
 
         override fun onSuccess(t: User) {
 
