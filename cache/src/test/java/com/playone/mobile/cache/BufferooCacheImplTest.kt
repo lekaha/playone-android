@@ -73,7 +73,14 @@ class BufferooCacheImplTest {
         insertBufferoos(cachedBufferoos)
 
         val testObserver = databaseHelper.getBufferoos().test()
-        testObserver.assertValue(bufferooEntities)
+        testObserver.assertValue {
+            it.forEachIndexed { index, entity ->
+                assertEquals(entity.name, cachedBufferoos[index].name)
+                assertEquals(entity.title, cachedBufferoos[index].title)
+                assertEquals(entity.avatar, cachedBufferoos[index].avatar)
+            }
+            true
+        }
     }
     //</editor-fold>
 
