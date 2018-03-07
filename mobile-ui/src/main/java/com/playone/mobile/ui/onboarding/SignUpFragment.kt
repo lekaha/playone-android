@@ -67,7 +67,8 @@ class SignUpFragment : BaseInjectingFragment() {
                     it.ifFalse {
                         Toast.makeText(
                             activity,
-                            "Not yet verified Email", Toast.LENGTH_LONG
+                            "Not yet verified Email",
+                            Toast.LENGTH_LONG
                         ).show()
                     }
                 })
@@ -120,7 +121,7 @@ class SignUpFragment : BaseInjectingFragment() {
     private fun showErrorState(throwable: Throwable) {
 
         activity?.apply {
-            AlertDialog.Builder(activity!!)
+            AlertDialog.Builder(this)
                 .setTitle("Error")
                 .setMessage(throwable.message)
                 .setCancelable(false)

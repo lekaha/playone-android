@@ -130,7 +130,8 @@ class SignInFragment : BaseInjectingFragment() {
 
                     val fragment = SignUpFragment.newInstance()
                     val slideTransition = Slide(Gravity.RIGHT)
-                    slideTransition.duration = resources.getInteger(R.integer.anim_duration_long).toLong()
+                    slideTransition.duration =
+                        resources.getInteger(R.integer.anim_duration_long).toLong()
                     fragment.exitTransition = slideTransition
                     fragment.enterTransition = slideTransition
                     fragment.allowEnterTransitionOverlap = false
@@ -213,11 +214,13 @@ class SignInFragment : BaseInjectingFragment() {
 
     private fun showErrorState(throwable: Throwable) {
 
-        activity ?: AlertDialog.Builder(activity!!)
-            .setTitle("Error")
-            .setMessage(throwable.message)
-            .setCancelable(false)
-            .setPositiveButton("OK") { dialog, _ -> dialog?.dismiss() }
-            .show()
+        activity?.apply {
+            AlertDialog.Builder(this)
+                .setTitle("Error")
+                .setMessage(throwable.message)
+                .setCancelable(false)
+                .setPositiveButton("OK") { dialog, _ -> dialog?.dismiss() }
+                .show()
+        }
     }
 }
