@@ -6,7 +6,6 @@ import com.playone.mobile.remote.BufferooServiceFactory
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.bridge.playone.PlayoneServiceFactory
 import com.playone.mobile.ui.BuildConfig
-import com.playone.mobile.ui.firebase.v1.StandAloneFirebaseV1
 import com.playone.mobile.ui.injection.qualifier.ApplicationContext
 import com.playone.mobile.ui.injection.scopes.PerApplication
 import com.readystatesoftware.chuck.ChuckInterceptor
@@ -14,7 +13,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Named
 
-@Module
+@Module(includes = [FirebaseModule::class])
 open class NetModule {
 
     companion object {
@@ -62,7 +61,4 @@ open class NetModule {
     @Provides
     @Named(READ_TIMEOUT)
     internal fun provideReadTimeout() = 120L
-
-    @Provides
-    internal fun providePlayoneFirebase(): PlayoneFirebase = StandAloneFirebaseV1()
 }
