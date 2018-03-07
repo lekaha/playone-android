@@ -64,8 +64,9 @@ class SignUpAndSignIn constructor(
         authenticator.signUp(email, password, object : Authenticator.AuthResultCallBack {
             override fun onSuccessful(user: User) {
 
-                val single = playoneRepository.createUser(user).toSingle { user }
-                execute(single, singleObserver)
+                // TODO: should get the user from repository after implementing Cache
+//                val single = playoneRepository.createUser(user).toSingle { user }
+                execute(Single.just(user), singleObserver)
             }
 
             override fun onFailed(throwable: Throwable) {
@@ -77,6 +78,8 @@ class SignUpAndSignIn constructor(
     }
 
     fun isSignedIn() = authenticator.isSignedIn()
+
+    fun isVerifiedEmail() = authenticator.isVerifiedEmail()
 
     private fun execute(single: Single<User>, singleObserver: DisposableSingleObserver<User>) {
 

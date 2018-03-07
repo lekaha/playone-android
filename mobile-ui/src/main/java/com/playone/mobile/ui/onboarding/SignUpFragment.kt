@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
+import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseInjectingFragment
@@ -15,6 +16,7 @@ import com.playone.mobile.ui.model.SignUpViewModel
 import kotlinx.android.synthetic.main.fragment_signup.progress
 import kotlinx.android.synthetic.main.merge_signup.login_name_field
 import kotlinx.android.synthetic.main.merge_signup.login_password_field
+import kotlinx.android.synthetic.main.merge_signup.login_repassword_field
 import kotlinx.android.synthetic.main.merge_signup.sign_up_action_btn
 import kotlinx.android.synthetic.main.merge_signup.sign_up_skip_btn
 import javax.inject.Inject
@@ -38,6 +40,7 @@ class SignUpFragment : BaseInjectingFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         hideProgress()
+        showSignUpForms()
     }
 
     private fun setupViewModel() {
@@ -56,7 +59,16 @@ class SignUpFragment : BaseInjectingFragment() {
                             "Signed In", Toast.LENGTH_LONG
                         ).show()
                     } otherwise {
-                        showSignUpForms()
+                        // TODO: Proceed to next page
+                    }
+                })
+
+                isVerifiedEmail.observe(this@SignUpFragment, Observer {
+                    it.ifFalse {
+                        Toast.makeText(
+                            activity,
+                            "Not yet verified Email", Toast.LENGTH_LONG
+                        ).show()
                     }
                 })
 
@@ -74,9 +86,20 @@ class SignUpFragment : BaseInjectingFragment() {
 
             // Sign up with email and password
             sign_up_action_btn.setOnClickListener {
-                viewModel.signUp(
-                    login_name_field.text.toString(),
-                    login_password_field.text.toString())
+
+                // Password and Re-password should be the same
+                (login_password_field.text.toString() == login_repassword_field.text.toString())
+                    .ifTrue {
+                        viewModel.signUp(
+                            login_name_field.text.toString(),
+                            login_password_field.text.toString())
+                    } otherwise {
+                        // TODO: Should use another presentation
+                        Toast.makeText(
+                            activity,
+                            "Password is not matched", Toast.LENGTH_LONG
+                        ).show()
+                    }
             }
 
             sign_up_skip_btn.setOnClickListener {
@@ -97,11 +120,13 @@ class SignUpFragment : BaseInjectingFragment() {
 
     private fun showErrorState(throwable: Throwable) {
 
-        activity ?: AlertDialog.Builder(activity!!)
-            .setTitle("Error")
-            .setMessage(throwable.message)
-            .setCancelable(false)
-            .setPositiveButton("OK") { dialog, _ -> dialog?.dismiss() }
-            .show()
+        activity?.apply {
+            AlertDialog.Builder(activity!!)
+                .setTitle("Error")
+                .setMessage(throwable.message)
+                .setCancelable(false)
+                .setPositiveButton("OK") { dialog, _ -> dialog?.dismiss() }
+                .show()
+        }
     }
 }

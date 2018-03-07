@@ -19,6 +19,7 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
+import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseInjectingFragment
@@ -82,6 +83,15 @@ class SignInFragment : BaseInjectingFragment() {
                         ).show()
                     } otherwise {
                         showSignInForms()
+                    }
+                })
+
+                isVerifiedEmail.observe(this@SignInFragment, Observer {
+                    it.ifFalse {
+                        Toast.makeText(
+                            activity,
+                            "Not yet verified Email", Toast.LENGTH_LONG
+                        ).show()
                     }
                 })
 
