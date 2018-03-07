@@ -8,6 +8,7 @@ import com.playone.mobile.data.repository.PlayoneCache
 import com.playone.mobile.data.test.factory.Factory
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.internal.operators.single.SingleJust
 import org.junit.Before
 import org.junit.Test
 
@@ -47,6 +48,31 @@ class PlayoneCacheDataStoreTest {
         playoneCacheDataStore.getPlayoneList().test().assertComplete()
     }
 
+    @Test
+    fun clearJoinedPlayoneList() {
+
+        whenever(playoneCache.clearJoinedPlayoneList()).thenReturn(Completable.complete())
+        playoneCacheDataStore.clearJoinedPlayoneList().test().assertComplete()
+    }
+
+    @Test
+    fun saveJoinedPlayoneList() {
+
+        whenever(playoneCache.saveJoinedPlayoneList(any())).thenReturn(Completable.complete())
+        playoneCacheDataStore
+            .saveJoinedPlayoneList(Factory.makePlayoneList(2))
+            .test()
+            .assertComplete()
+    }
+
+    @Test
+    fun getJoinedPlayoneList() {
+
+        whenever(playoneCache.getJoinedPlayoneList(2))
+            .thenReturn(SingleJust(Factory.makePlayoneList(3)))
+        playoneCacheDataStore.getJoinedPlayoneList(2).test().assertComplete()
+    }
+
     private fun stubPlayoneCacheSavePlayoneList(completable: Completable) {
 
         whenever(playoneCache.savePlayoneList(any())).thenReturn(completable)
@@ -61,6 +87,4 @@ class PlayoneCacheDataStoreTest {
 
         whenever(playoneCache.getPlayoneList()).thenReturn(single)
     }
-
-
 }
