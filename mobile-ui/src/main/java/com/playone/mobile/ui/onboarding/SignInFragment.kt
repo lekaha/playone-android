@@ -21,6 +21,7 @@ import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.LoginViewModel
+import kotlinx.android.synthetic.main.fragment_signin.progress
 import kotlinx.android.synthetic.main.merge_login.view.facebook_login_btn
 import kotlinx.android.synthetic.main.merge_login.view.google_login_btn
 import kotlinx.android.synthetic.main.merge_login.view.login_action_button
@@ -61,9 +62,9 @@ class SignInFragment : BaseInjectingFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(LoginViewModel::class.java).apply {
 
-                //                isProgressing.observe(this@SignInFragment, Observer {
-//                    it.ifTrue { showProgress() } otherwise { hideProgress() }
-//                })
+                isProgressing.observe(this@SignInFragment, Observer {
+                    it.ifTrue { showProgress() } otherwise { hideProgress() }
+                })
 
                 isSignedIn.observe(this@SignInFragment, Observer {
                     it.ifTrue {
@@ -107,7 +108,16 @@ class SignInFragment : BaseInjectingFragment() {
                 facebookSignIn()
             }
         }
+    }
 
+    private fun showProgress() {
+
+        progress.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+
+        progress.visibility = View.GONE
     }
 
     private fun googleSignIn() {
@@ -119,7 +129,7 @@ class SignInFragment : BaseInjectingFragment() {
     private fun facebookSignIn() {
         val accessToken = AccessToken.getCurrentAccessToken()
         (accessToken != null).ifTrue {
-            
+
             viewModel.signIn(accessToken)
         } otherwise {
 

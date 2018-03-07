@@ -4,4 +4,8 @@
 
     <include layout="@layout/merge_login" />
 
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@style/CenterProgressBar"/>
+
 </FrameLayout>
