@@ -17,6 +17,18 @@ android {
         multiDexEnabled = true
         testInstrumentationRunner "com.playone.mobile.ui.test.TestRunner"
 
+        def CLIENT_ID = ""
+        def FB_APP_ID = ""
+        def properties = new Properties()
+        try {
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            CLIENT_ID = properties.getProperty("client_id")
+            FB_APP_ID = properties.getProperty("fb_app_id")
+        } catch(ignored) {}
+        
+        buildConfigField "String", "CLIENT_ID", "\"${CLIENT_ID}\""
+        buildConfigField "String", "FB_APP_ID", "\"${FB_APP_ID}\""
+
         javaCompileOptions {
             annotationProcessorOptions {
                 includeCompileClasspath false
@@ -163,6 +175,7 @@ dependencies {
     // Auth
     implementation mobileUiDependencies.firebaseAuth
     implementation mobileUiDependencies.playAuth
+    implementation mobileUiDependencies.facebook
 
     // Model Mapper
     implementation developmentDependencies.modelMapper

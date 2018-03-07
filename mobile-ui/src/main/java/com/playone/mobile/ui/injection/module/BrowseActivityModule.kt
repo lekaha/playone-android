@@ -25,6 +25,7 @@ import com.playone.mobile.ui.injection.qualifier.ActivityContext
 import com.playone.mobile.ui.model.BrowseViewModelFactory
 import dagger.Module
 import dagger.Provides
+import org.modelmapper.ModelMapper
 
 /**
  * Module used to provide dependencies at an activity-level.
@@ -40,7 +41,8 @@ open class BrowseActivityModule {
     ) = GetBufferoos(bufferooRepository, threadExecutor, postExecutionThread)
 
     @Provides
-    internal fun provideBufferooEntityMapper() = BufferooEntityMapper()
+    internal fun provideBufferooEntityMapper(modelMapper: ModelMapper) =
+        BufferooEntityMapper(modelMapper)
 
     @Provides
     internal fun provideBufferooMapper() = com.playone.mobile.presentation.mapper.BufferooMapper()
@@ -49,11 +51,12 @@ open class BrowseActivityModule {
     internal fun provideDbBufferooMapper() = com.playone.mobile.cache.db.mapper.BufferooMapper()
 
     @Provides
-    internal fun provideRemoteBufferooMapper() =
-        com.playone.mobile.remote.mapper.BufferooEntityMapper()
+    internal fun provideRemoteBufferooMapper(modelMapper: ModelMapper) =
+        com.playone.mobile.remote.mapper.BufferooEntityMapper(modelMapper)
 
     @Provides
-    internal fun provideDataBufferooMapper() = com.playone.mobile.data.mapper.BufferooMapper()
+    internal fun provideDataBufferooMapper(modelMapper: ModelMapper) =
+        com.playone.mobile.data.mapper.BufferooMapper(modelMapper)
 
     @Provides
     internal fun provideUiBufferooMapper() = com.playone.mobile.ui.mapper.BufferooMapper()

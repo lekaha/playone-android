@@ -6,7 +6,7 @@ import com.playone.mobile.ui.test.factory.DataFactory.Factory.randomUuid
 /**
  * Factory class for Bufferoo related instances
  */
-class BufferooFactory {
+class BufferooUiFactory {
 
     companion object Factory {
 

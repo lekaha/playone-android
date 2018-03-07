@@ -18,8 +18,10 @@ class BufferooFactory {
             return bufferoos
         }
 
-        fun makeBufferooModel(): Bufferoo {
-            return Bufferoo(randomUuid(), randomUuid(), randomUuid())
+        fun makeBufferooModel() = Bufferoo().apply {
+            name = randomUuid()
+            title = randomUuid()
+            avatar = randomUuid()
         }
 
     }

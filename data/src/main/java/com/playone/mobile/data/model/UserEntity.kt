@@ -1,18 +1,21 @@
 package com.playone.mobile.data.model
 
+import kotlin.properties.Delegates
+
 /**
  * Representation for a [UserEntity] fetched from an external layer data source.
  */
-data class UserEntity(
-    var id: String = "",
-    var name: String = "",
-    var email: String = "",
-    var pictureURL: String = "",
-    var description: String = "",
-    var grade: String = "",
-    var deviceToken: String = "",
-    var age: Int = 0,
-    var level: Int = 0,
-    var years: Int = 0,
-    var teams: HashMap<String, Any> = hashMapOf()
-) : PlayoneItem
+class UserEntity : PlayoneItem {
+
+    lateinit var id: String
+    lateinit var name: String
+    lateinit var email: String
+    lateinit var pictureURL: String
+    lateinit var description: String
+    lateinit var grade: String
+    lateinit var deviceToken: String
+    var age by Delegates.notNull<Int>()
+    var level by Delegates.notNull<Int>()
+    var years by Delegates.notNull<Int>()
+    lateinit var teams: HashMap<String, Any>
+}
