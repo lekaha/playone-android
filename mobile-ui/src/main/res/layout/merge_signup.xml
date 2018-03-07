@@ -20,9 +20,17 @@
                 android:id="@+id/login_password_field"
                 style="@style/LoginPasswordField"/>
 
+            <EditText
+                android:id="@+id/login_repassword_field"
+                style="@style/SignUpReenterPasswordField"/>
+
             <Button
                 android:id="@+id/sign_up_action_btn"
                 style="@style/SignUpButton"/>
+
+            <TextView
+                style="@style/SignUpInstruction"
+                />
 
         </LinearLayout>
 

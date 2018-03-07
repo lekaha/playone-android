@@ -13,6 +13,7 @@
     <dimen name="separate_line_width">110dp</dimen>
     <dimen name="separate_line_height">1.5dp</dimen>
     <dimen name="skip_button_height">45dp</dimen>
-    <dimen name="signup_field_layout_margin_bottom">132dp</dimen>
+    <dimen name="signup_field_layout_margin_bottom">90dp</dimen>
+    <dimen name="signup_instruction_padding">10dp</dimen>
 
 </resources>

@@ -21,7 +21,6 @@
     <style name="SignUpFieldLayout" parent="VerticalMatchParentWidthWrapContentHeightLinearLayout">
         <item name="android:layout_marginLeft">@dimen/login_field_layout_margin_left</item>
         <item name="android:layout_marginRight">@dimen/login_field_layout_margin_right</item>
-        <item name="android:layout_marginBottom">@dimen/signup_field_layout_margin_bottom</item>
     </style>
 
     <style name="LoginField" parent="MatchParentWidth">
@@ -42,6 +41,12 @@
     <style name="LoginPasswordField" parent="LoginField">
         <item name="android:hint">@string/login_password_text</item>
         <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="SignUpReenterPasswordField" parent="LoginField">
+        <item name="android:hint">@string/signup_reenter_password_text</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:layout_marginTop">@dimen/login_field_layout_margin_bottom</item>
     </style>
 
     <style name="LoginButton" parent="MatchParentWidth">
@@ -115,6 +120,13 @@
         <item name="android:background">@color/login_input_text_background</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:text">@string/skip_button_text</item>
+    </style>
+
+    <style name="SignUpInstruction" parent="MatchParentWidth">
+        <item name="android:layout_height">@dimen/signup_field_layout_margin_bottom</item>
+        <item name="android:text">@string/signup_instruction</item>
+        <item name="android:textColor">@color/login_forgot_text</item>
+        <item name="android:padding">@dimen/signup_instruction_padding</item>
     </style>
 
 </resources>
