@@ -7,13 +7,11 @@ import android.arch.lifecycle.ViewModelProvider
 import android.os.Handler
 import androidx.os.postDelayed
 import com.playone.mobile.presentation.ViewResponse
-import com.playone.mobile.presentation.onBoarding.LoginPlayoneContract
 import com.playone.mobile.presentation.model.UserView
-import com.playone.mobile.ext.ifTrue
-import com.playone.mobile.ext.otherwise
+import com.playone.mobile.presentation.onBoarding.OnBoardingPlayoneContract
 
-class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
-    : ViewModel(), LifecycleObserver, LoginPlayoneContract.View {
+class OnBoardingViewModel(private var presenter: OnBoardingPlayoneContract.Presenter)
+    : ViewModel(), LifecycleObserver, OnBoardingPlayoneContract.View {
 
     val isProgressing: MutableLiveData<Boolean> = MutableLiveData()
     val isSignedIn: MutableLiveData<Boolean> = MutableLiveData()
@@ -23,7 +21,7 @@ class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
         presenter.setView(this)
     }
 
-    override fun setPresenter(presenter: LoginPlayoneContract.Presenter) {
+    override fun setPresenter(presenter: OnBoardingPlayoneContract.Presenter) {
 
         this.presenter = presenter
         this.presenter.setView(this)
@@ -44,25 +42,6 @@ class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
         }
     }
 
-    fun signIn(email: String, password: String) {
-
-        // TODO: Need Email format verification
-        (email.isEmpty() or password.isEmpty()).ifTrue {
-            occurredError.value = Exception("Email or Password cannot be empty")
-        } otherwise  {
-            presenter.signIn(email, password)
-        }
-    }
-
-    fun signIn(socialAccount: Any) {
-
-        presenter.signIn(socialAccount)
-    }
-
-    fun signUp(email: String, password: String) {
-        // TODO: Implementation
-    }
-
     fun isSignedIn() {
 
         isProgressing.value = true
@@ -74,23 +53,16 @@ class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
 
     }
 
-    override fun onCleared() {
-
-        super.onCleared()
-        presenter.stop()
-    }
-
-    class LoginViewModelFactory(private val presenter: LoginPlayoneContract.Presenter) :
-        ViewModelProvider.Factory {
+    class OnBoardingViewModelFactory(private val presenter: OnBoardingPlayoneContract.Presenter)
+        : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
-            if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-                return LoginViewModel(presenter) as T
+            if (modelClass.isAssignableFrom(OnBoardingViewModel::class.java)) {
+                return OnBoardingViewModel(presenter) as T
             }
 
             throw IllegalArgumentException("Illegal ViewModel class")
         }
-
     }
 }

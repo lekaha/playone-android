@@ -6,7 +6,6 @@
      <LinearLayout
          android:id="@+id/content_layout"
          style="@style/VerticalMatchParentWidthWrapContentHeightLinearLayout"
-         android:animateLayoutChanges="true"
          android:layout_centerVertical="true">
 
         <ImageView
@@ -19,12 +18,13 @@
 
          <FrameLayout
              android:id="@+id/fragment_content"
+             android:animateLayoutChanges="true"
              style="@style/WrapContentSize" />
 
      </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/initializing"
-        style="@style/CenterProgressBar"/>
+     <ProgressBar
+         android:id="@+id/initializing"
+         style="@style/CenterProgressBar"/>
 
 </RelativeLayout>

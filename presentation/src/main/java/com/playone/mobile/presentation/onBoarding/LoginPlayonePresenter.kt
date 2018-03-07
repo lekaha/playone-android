@@ -1,4 +1,4 @@
-package com.playone.mobile.presentation.login
+package com.playone.mobile.presentation.onBoarding
 
 import com.playone.mobile.domain.Credential
 import com.playone.mobile.domain.interactor.auth.SignUpAndSignIn

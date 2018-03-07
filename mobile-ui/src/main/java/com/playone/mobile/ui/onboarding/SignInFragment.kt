@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -21,7 +20,6 @@ import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.LoginViewModel
-import kotlinx.android.synthetic.main.activity_main.initializing
 import kotlinx.android.synthetic.main.merge_login.view.facebook_login_btn
 import kotlinx.android.synthetic.main.merge_login.view.google_login_btn
 import kotlinx.android.synthetic.main.merge_login.view.login_action_button
@@ -62,9 +60,9 @@ class SignInFragment : BaseInjectingFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(LoginViewModel::class.java).apply {
 
-                isProgressing.observe(this@SignInFragment, Observer {
-                    it.ifTrue { showProgress() } otherwise { hideProgress() }
-                })
+                //                isProgressing.observe(this@SignInFragment, Observer {
+//                    it.ifTrue { showProgress() } otherwise { hideProgress() }
+//                })
 
                 isSignedIn.observe(this@SignInFragment, Observer {
                     it.ifTrue {
@@ -91,23 +89,20 @@ class SignInFragment : BaseInjectingFragment() {
 
         view?.apply {
 
-            val signInView =
-                layoutInflater.inflate(R.layout.merge_login, view!! as ViewGroup, false)
-
             // Sign in with email and password
-            signInView.login_action_button.setOnClickListener {
+            login_action_button.setOnClickListener {
                 viewModel.signIn(
-                    signInView.login_name_field.text.toString(),
-                    signInView.login_password_field.text.toString())
+                    login_name_field.text.toString(),
+                    login_password_field.text.toString())
             }
 
             // Sign in with Google
-            signInView.google_login_btn.setOnClickListener {
+            google_login_btn.setOnClickListener {
                 googleSignIn()
             }
 
             // Sign in with Facebook
-            signInView.facebook_login_btn.setOnClickListener {
+            facebook_login_btn.setOnClickListener {
                 facebookSignIn()
             }
         }
@@ -160,16 +155,6 @@ class SignInFragment : BaseInjectingFragment() {
 
         // Pass the activity result back to the Facebook SDK
         callbackManager.onActivityResult(requestCode, resultCode, data)
-    }
-
-    private fun showProgress() {
-
-        initializing.visibility = View.VISIBLE
-    }
-
-    private fun hideProgress() {
-
-        initializing.visibility = View.GONE
     }
 
     private fun showErrorState(throwable: Throwable) {
