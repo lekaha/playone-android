@@ -4,7 +4,10 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.support.transition.Slide
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
+import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import com.facebook.AccessToken
@@ -16,17 +19,21 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
+import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseInjectingFragment
+import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_signin.progress
+import kotlinx.android.synthetic.main.merge_login.login_skip_btn
 import kotlinx.android.synthetic.main.merge_login.view.facebook_login_btn
 import kotlinx.android.synthetic.main.merge_login.view.google_login_btn
 import kotlinx.android.synthetic.main.merge_login.view.login_action_button
 import kotlinx.android.synthetic.main.merge_login.view.login_name_field
 import kotlinx.android.synthetic.main.merge_login.view.login_password_field
+import kotlinx.android.synthetic.main.merge_login.view.sign_up_btn
 import javax.inject.Inject
 
 class SignInFragment : BaseInjectingFragment() {
@@ -47,6 +54,8 @@ class SignInFragment : BaseInjectingFragment() {
 
     @Inject lateinit var readPermissions: ArrayList<String>
 
+    @Inject lateinit var navigator: Navigator
+
     private lateinit var viewModel: LoginViewModel
 
     override fun getLayoutId() = R.layout.fragment_signin
@@ -61,7 +70,6 @@ class SignInFragment : BaseInjectingFragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(LoginViewModel::class.java).apply {
-
                 isProgressing.observe(this@SignInFragment, Observer {
                     it.ifTrue { showProgress() } otherwise { hideProgress() }
                 })
@@ -70,10 +78,20 @@ class SignInFragment : BaseInjectingFragment() {
                     it.ifTrue {
                         Toast.makeText(
                             activity,
-                            "Signed In", Toast.LENGTH_LONG
+                            "Signed In",
+                            Toast.LENGTH_LONG
                         ).show()
                     } otherwise {
                         showSignInForms()
+                    }
+                })
+
+                isVerifiedEmail.observe(this@SignInFragment, Observer {
+                    it.ifFalse {
+                        Toast.makeText(
+                            activity,
+                            "Not yet verified Email", Toast.LENGTH_LONG
+                        ).show()
                     }
                 })
 
@@ -90,7 +108,6 @@ class SignInFragment : BaseInjectingFragment() {
     private fun showSignInForms() {
 
         view?.apply {
-
             // Sign in with email and password
             login_action_button.setOnClickListener {
                 viewModel.signIn(
@@ -106,6 +123,27 @@ class SignInFragment : BaseInjectingFragment() {
             // Sign in with Facebook
             facebook_login_btn.setOnClickListener {
                 facebookSignIn()
+            }
+
+            sign_up_btn.setOnClickListener {
+                navigator.navigateTo((activity as AppCompatActivity)) {
+
+                    val fragment = SignUpFragment.newInstance()
+                    val slideTransition = Slide(Gravity.RIGHT)
+                    slideTransition.duration =
+                        resources.getInteger(R.integer.anim_duration_long).toLong()
+                    fragment.exitTransition = slideTransition
+                    fragment.enterTransition = slideTransition
+                    fragment.allowEnterTransitionOverlap = false
+                    fragment.allowReturnTransitionOverlap = false
+
+                    replace(R.id.fragment_content, fragment)
+                    addToBackStack(null)
+                }
+            }
+
+            login_skip_btn.setOnClickListener {
+                viewModel.signInAnonymously()
             }
         }
     }
@@ -176,11 +214,13 @@ class SignInFragment : BaseInjectingFragment() {
 
     private fun showErrorState(throwable: Throwable) {
 
-        activity ?: AlertDialog.Builder(activity!!)
-            .setTitle("Error")
-            .setMessage(throwable.message)
-            .setCancelable(false)
-            .setPositiveButton("OK") { dialog, _ -> dialog?.dismiss() }
-            .show()
+        activity?.apply {
+            AlertDialog.Builder(this)
+                .setTitle("Error")
+                .setMessage(throwable.message)
+                .setCancelable(false)
+                .setPositiveButton("OK") { dialog, _ -> dialog?.dismiss() }
+                .show()
+        }
     }
 }

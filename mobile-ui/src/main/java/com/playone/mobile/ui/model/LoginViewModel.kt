@@ -12,21 +12,22 @@ import com.playone.mobile.presentation.model.UserView
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 
-class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
+open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Presenter)
     : ViewModel(), LifecycleObserver, LoginPlayoneContract.View {
 
     val isProgressing: MutableLiveData<Boolean> = MutableLiveData()
     val isSignedIn: MutableLiveData<Boolean> = MutableLiveData()
+    val isVerifiedEmail: MutableLiveData<Boolean> = MutableLiveData()
     val occurredError: MutableLiveData<Throwable> = MutableLiveData()
 
     init {
-        presenter.setView(this)
+        loginPresenter.setView(this)
     }
 
     override fun setPresenter(presenter: LoginPlayoneContract.Presenter) {
 
-        this.presenter = presenter
-        this.presenter.setView(this)
+        this.loginPresenter = presenter
+        this.loginPresenter.setView(this)
     }
 
     override fun onResponse(response: ViewResponse<UserView>) {
@@ -40,8 +41,14 @@ class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
             ViewResponse.Status.SUCCESS -> {
                 isProgressing.value = false
                 isSignedIn.value = true
+                isVerifiedEmail.value = loginPresenter.isVerifiedEmail()
             }
         }
+    }
+
+    fun signInAnonymously() {
+
+        loginPresenter.signInAnonymously()
     }
 
     fun signIn(email: String, password: String) {
@@ -50,34 +57,34 @@ class LoginViewModel(private var presenter: LoginPlayoneContract.Presenter)
         (email.isEmpty() or password.isEmpty()).ifTrue {
             occurredError.value = Exception("Email or Password cannot be empty")
         } otherwise  {
-            presenter.signIn(email, password)
+            loginPresenter.signIn(email, password)
         }
     }
 
     fun signIn(socialAccount: Any) {
 
-        presenter.signIn(socialAccount)
+        loginPresenter.signIn(socialAccount)
     }
 
-    fun signUp(email: String, password: String) {
-        // TODO: Implementation
-    }
-
-    fun isSignedIn() {
+    open fun isSignedIn() {
 
         isProgressing.value = true
 
         Handler().postDelayed(500L) {
-            isSignedIn.value = presenter.isSignedIn()
+            isSignedIn.value = loginPresenter.isSignedIn()
             isProgressing.value = false
         }
+    }
 
+    open fun isVerifiedEmail() {
+
+        loginPresenter.isVerifiedEmail()
     }
 
     override fun onCleared() {
 
         super.onCleared()
-        presenter.stop()
+        loginPresenter.stop()
     }
 
     class LoginViewModelFactory(private val presenter: LoginPlayoneContract.Presenter) :

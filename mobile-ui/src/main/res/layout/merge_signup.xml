@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/login_layout"
+        style="@style/WrapContentSize"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/login_field_layout"
+            style="@style/SignUpFieldLayout"
+            android:layout_above="@+id/sign_up_skip_btn">
+
+            <EditText
+                android:id="@+id/login_name_field"
+                style="@style/LoginUsernameField"/>
+
+            <EditText
+                android:id="@+id/login_password_field"
+                style="@style/LoginPasswordField"/>
+
+            <EditText
+                android:id="@+id/login_repassword_field"
+                style="@style/SignUpReenterPasswordField"/>
+
+            <Button
+                android:id="@+id/sign_up_action_btn"
+                style="@style/SignUpButton"/>
+
+            <TextView
+                style="@style/SignUpInstruction"
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/sign_up_skip_btn"
+            style="@style/SkipLoginButton"/>
+
+    </RelativeLayout>
+
+</merge>

@@ -8,9 +8,13 @@ abstract class Authenticator {
 
     abstract fun signIn(credential: Credential<*>, callback: AuthResultCallBack)
 
+    abstract fun signInAnonymously(callback: AuthResultCallBack)
+
     abstract fun signOut(callback: AuthResultCallBack)
 
     abstract fun isSignedIn(): Boolean
+
+    abstract fun isVerifiedEmail(): Boolean
 
     interface AuthResultCallBack {
 

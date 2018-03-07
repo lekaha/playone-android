@@ -14,9 +14,11 @@ interface LoginPlayoneContract {
     interface Presenter : BasePresenter {
         fun setView(view: View)
         fun signUp(email: String, password: String)
+        fun signInAnonymously()
         fun signIn(email: String, password: String)
         fun signIn(secretContent: Any)
         fun isSignedIn(): Boolean
+        fun isVerifiedEmail(): Boolean
     }
 
 }

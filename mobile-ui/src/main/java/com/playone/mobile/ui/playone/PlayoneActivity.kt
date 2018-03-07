@@ -3,6 +3,7 @@ package com.playone.mobile.ui.playone
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.transition.Slide
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
@@ -16,6 +17,7 @@ import com.playone.mobile.ui.model.OnBoardingViewModel
 import com.playone.mobile.ui.onboarding.SignInFragment
 import kotlinx.android.synthetic.main.activity_main.initializing
 import javax.inject.Inject
+import android.view.Gravity
 
 class PlayoneActivity : BaseActivity() {
 
@@ -60,8 +62,18 @@ class PlayoneActivity : BaseActivity() {
     }
 
     private fun showSignInForms() {
+
         navigator.navigateTo(this) {
-            replace(R.id.fragment_content, SignInFragment.newInstance())
+
+            val fragment = SignInFragment.newInstance()
+            val slideTransition = Slide(Gravity.START)
+            slideTransition.duration = resources.getInteger(R.integer.anim_duration_long).toLong()
+            fragment.exitTransition = slideTransition
+            fragment.reenterTransition = slideTransition
+            fragment.allowEnterTransitionOverlap = false
+            fragment.allowReturnTransitionOverlap = false
+
+            replace(R.id.fragment_content, fragment)
         }
     }
 
