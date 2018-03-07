@@ -99,5 +99,4 @@ class PlayoneModule {
         threadExecutor: ThreadExecutor,
         postExecutionThread: PostExecutionThread
     ) = SignUpAndSignIn(playoneRepository, authenticator, threadExecutor, postExecutionThread)
-
 }

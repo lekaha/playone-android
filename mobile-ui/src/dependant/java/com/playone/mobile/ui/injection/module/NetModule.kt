@@ -3,7 +3,6 @@ package com.playone.mobile.ui.injection.module
 import android.content.Context
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.playone.mobile.remote.BufferooServiceFactory
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.bridge.playone.PlayoneServiceFactory
@@ -66,10 +65,6 @@ open class NetModule {
     internal fun provideReadTimeout() = 120L
 
     @Provides
-    internal fun provideDatabaseReference() = FirebaseDatabase.getInstance().reference
-
-    @Provides
     internal fun providePlayoneFirebase(databaseReference: DatabaseReference): PlayoneFirebase =
         PlayoneFirebaseV1(databaseReference)
-
 }
