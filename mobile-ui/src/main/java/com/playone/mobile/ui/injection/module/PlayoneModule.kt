@@ -89,8 +89,8 @@ class PlayoneModule {
     ): PlayoneRepository = PlayoneDataRepository(factory, playoneMapper, userMapper)
 
     @Provides
-    internal fun provideAuthenticator(firebaseAuth: FirebaseAuth)
-        : Authenticator = FirebaseAuthenticator(firebaseAuth)
+    internal fun provideAuthenticator(firebaseAuth: FirebaseAuth): Authenticator =
+        FirebaseAuthenticator(firebaseAuth)
 
     @Provides
     internal fun provideSignUpAndSignIn(

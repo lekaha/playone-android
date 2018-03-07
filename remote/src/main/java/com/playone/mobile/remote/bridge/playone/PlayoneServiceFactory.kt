@@ -11,6 +11,6 @@ object PlayoneServiceFactory : ServiceFactory<PlayoneService> {
         throw UnsupportedOperationException()
     }
 
-    fun makeFirebaseService(isDebug: Boolean, playoneFirebase: PlayoneFirebase)
-        : PlayoneService = PlayoneServiceFirebaseImpl(playoneFirebase)
+    fun makeFirebaseService(isDebug: Boolean, playoneFirebase: PlayoneFirebase): PlayoneService =
+        PlayoneServiceFirebaseImpl(playoneFirebase)
 }
