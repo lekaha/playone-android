@@ -26,6 +26,7 @@ import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_signin.progress
+import kotlinx.android.synthetic.main.merge_login.login_skip_btn
 import kotlinx.android.synthetic.main.merge_login.view.facebook_login_btn
 import kotlinx.android.synthetic.main.merge_login.view.google_login_btn
 import kotlinx.android.synthetic.main.merge_login.view.login_action_button
@@ -129,6 +130,10 @@ class SignInFragment : BaseInjectingFragment() {
                     replace(R.id.fragment_content, fragment)
                     addToBackStack(null)
                 }
+            }
+
+            login_skip_btn.setOnClickListener {
+                viewModel.signInAnonymously()
             }
         }
     }

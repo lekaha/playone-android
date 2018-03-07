@@ -35,6 +35,12 @@ class LoginPlayonePresenter(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun signInAnonymously() {
+
+        loginView?.onResponse(ViewResponse.loading())
+        signUpAndSignIn.signInAnonymously(SignInSubscriber())
+    }
+
     override fun signIn(email: String, password: String) {
 
         loginView?.onResponse(ViewResponse.loading())

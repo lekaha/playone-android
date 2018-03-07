@@ -44,6 +44,11 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
         }
     }
 
+    fun signInAnonymously() {
+
+        loginPresenter.signInAnonymously()
+    }
+
     fun signIn(email: String, password: String) {
 
         // TODO: Need Email format verification

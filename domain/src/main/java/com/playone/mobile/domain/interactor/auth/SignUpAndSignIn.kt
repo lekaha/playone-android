@@ -22,9 +22,28 @@ class SignUpAndSignIn constructor(
 ) :
     UseCase(threadExecutor, postExecutionThread) {
 
+    fun signInAnonymously(singleObserver: DisposableSingleObserver<User>) {
+
+        authenticator.signInAnonymously(object : Authenticator.AuthResultCallBack {
+
+            override fun onSuccessful(user: User) {
+
+                // TODO: should get the user from repository after implementing Cache
+//                val single = playoneRepository.getUserByEmail(user.email)
+                execute(Single.just(user), singleObserver)
+            }
+
+            override fun onFailed(throwable: Throwable) {
+
+                singleObserver.onError(throwable)
+            }
+        })
+    }
+
     fun signIn(credential: Credential<*>, singleObserver: DisposableSingleObserver<User>) {
 
         authenticator.signIn(credential, object : Authenticator.AuthResultCallBack {
+
             override fun onSuccessful(user: User) {
 
                 // TODO: should get the user from repository after implementing Cache

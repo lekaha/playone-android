@@ -36,6 +36,19 @@ class FirebaseAuthenticator(
         }
     }
 
+    override fun signInAnonymously(callback: AuthResultCallBack) {
+
+        firebaseAuth.signInAnonymously().addOnCompleteListener {
+            it.isSuccessful.ifTrue {
+                firebaseAuth.currentUser?.let {
+                    callback.onSuccessful(mapper.mapToUser(it))
+                }
+            } otherwise {
+                callback.onFailed(it.exception ?: Exception("Unknown failed"))
+            }
+        }
+    }
+
     override fun signIn(credential: Credential<*>, callback: AuthResultCallBack) {
 
         credential.isSocialNetworkCredential().ifFalse {

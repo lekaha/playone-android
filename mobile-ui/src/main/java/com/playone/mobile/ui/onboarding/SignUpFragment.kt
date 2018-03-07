@@ -13,8 +13,8 @@ import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.SignUpViewModel
 import kotlinx.android.synthetic.main.fragment_signup.progress
-import kotlinx.android.synthetic.main.merge_login.view.login_name_field
-import kotlinx.android.synthetic.main.merge_login.view.login_password_field
+import kotlinx.android.synthetic.main.merge_signup.login_name_field
+import kotlinx.android.synthetic.main.merge_signup.login_password_field
 import kotlinx.android.synthetic.main.merge_signup.sign_up_action_btn
 import kotlinx.android.synthetic.main.merge_signup.sign_up_skip_btn
 import javax.inject.Inject
@@ -37,6 +37,7 @@ class SignUpFragment : BaseInjectingFragment() {
 
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
+        hideProgress()
     }
 
     private fun setupViewModel() {
@@ -64,8 +65,6 @@ class SignUpFragment : BaseInjectingFragment() {
                 })
 
                 lifecycle::addObserver
-
-                isSignedIn()
             }
     }
 
@@ -81,7 +80,7 @@ class SignUpFragment : BaseInjectingFragment() {
             }
 
             sign_up_skip_btn.setOnClickListener {
-
+                viewModel.signInAnonymously()
             }
         }
     }
