@@ -122,7 +122,7 @@ class FirebaseAuthenticator(
 
         fun mapToUser(user: FirebaseUser) =
             User().apply {
-                id = user.email.orEmpty()
+                id = user.uid
                 email = user.email.orEmpty()
                 name = user.displayName.orEmpty()
                 pictureURL = user.photoUrl?.toString().orEmpty()
