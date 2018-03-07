@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
+import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -20,7 +21,6 @@ import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.R
-import com.playone.mobile.ui.injection.module.LoginModule
 import com.playone.mobile.ui.model.LoginViewModel
 import kotlinx.android.synthetic.main.activity_main.content_layout
 import kotlinx.android.synthetic.main.activity_main.initializing
@@ -30,7 +30,6 @@ import kotlinx.android.synthetic.main.merge_login.view.login_action_button
 import kotlinx.android.synthetic.main.merge_login.view.login_name_field
 import kotlinx.android.synthetic.main.merge_login.view.login_password_field
 import javax.inject.Inject
-import javax.inject.Named
 
 class PlayoneActivity : BaseActivity() {
 
@@ -123,26 +122,33 @@ class PlayoneActivity : BaseActivity() {
 
     private fun facebookSignIn() {
 
-        loginManager.logInWithReadPermissions(this, readPermissions)
-        loginManager.registerCallback(callbackManager, object: FacebookCallback<LoginResult> {
-            override fun onSuccess(result: LoginResult?) {
+        val accessToken = AccessToken.getCurrentAccessToken()
+        (accessToken!= null).ifTrue {
 
-                result?.apply {
-                    viewModel.signIn(result.accessToken)
-                } ?: showErrorState(Exception("Missing token"))
+            viewModel.signIn(accessToken)
+        } otherwise {
 
-            }
+            loginManager.logInWithReadPermissions(this, readPermissions)
+            loginManager.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult?) {
 
-            override fun onCancel() {
+                    result?.apply {
+                        viewModel.signIn(result.accessToken)
+                    } ?: showErrorState(Exception("Missing token"))
 
-                showErrorState(Exception("Facebook Sign in canceled"))
-            }
+                }
 
-            override fun onError(error: FacebookException?) {
+                override fun onCancel() {
 
-                showErrorState(error ?: Exception("Facebook signed in error"))
-            }
-        })
+                    showErrorState(Exception("Facebook Sign in canceled"))
+                }
+
+                override fun onError(error: FacebookException?) {
+
+                    showErrorState(error ?: Exception("Facebook signed in error"))
+                }
+            })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
