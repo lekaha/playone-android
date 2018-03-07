@@ -1,14 +1,22 @@
 package com.playone.mobile.ui.injection.module
 
 import com.playone.mobile.ui.browse.BrowseFragment
+import com.playone.mobile.ui.onboarding.SignInFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class FragmentBindingModule {
 
-    @ContributesAndroidInjector(modules =  arrayOf(
+    @ContributesAndroidInjector(
+        modules = [
             BrowseActivityModule::class,
-            BrowseModule::class))
+            BrowseModule::class])
     abstract fun provideBrowseFragment(): BrowseFragment
+
+    @ContributesAndroidInjector(
+        modules = [
+            PlayoneModule::class,
+            LoginModule::class])
+    abstract fun provideSignInFragment(): SignInFragment
 }

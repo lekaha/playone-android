@@ -21,7 +21,7 @@ import com.playone.mobile.presentation.mapper.BufferooMapper
 import com.playone.mobile.remote.BufferooRemoteImpl
 import com.playone.mobile.remote.BufferooService
 import com.playone.mobile.ui.browse.BrowseViewHolder
-import com.playone.mobile.ui.injection.qualifier.ActivityContext
+import com.playone.mobile.ui.injection.qualifier.ApplicationContext
 import com.playone.mobile.ui.model.BrowseViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -101,7 +101,7 @@ open class BrowseActivityModule {
     ): BufferooRepository = BufferooDataRepository(factory, mapper)
 
     @Provides
-    internal fun provideBrowseViewHolderFactory(@ActivityContext context: Context) =
+    internal fun provideBrowseViewHolderFactory(@ApplicationContext context: Context) =
         BrowseViewHolder.BrowseViewHolderFactory(context)
 
     @Provides
