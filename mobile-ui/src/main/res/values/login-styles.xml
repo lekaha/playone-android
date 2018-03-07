@@ -18,6 +18,12 @@
         <item name="android:layout_marginRight">@dimen/login_field_layout_margin_right</item>
     </style>
 
+    <style name="SignUpFieldLayout" parent="VerticalMatchParentWidthWrapContentHeightLinearLayout">
+        <item name="android:layout_marginLeft">@dimen/login_field_layout_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/login_field_layout_margin_right</item>
+        <item name="android:layout_marginBottom">@dimen/signup_field_layout_margin_bottom</item>
+    </style>
+
     <style name="LoginField" parent="MatchParentWidth">
         <item name="android:layout_height">@dimen/login_field_height</item>
         <item name="android:paddingLeft">@dimen/login_field_padding</item>
@@ -30,6 +36,7 @@
     <style name="LoginUsernameField" parent="LoginField">
         <item name="android:hint">@string/login_sign_name_text</item>
         <item name="android:inputType">textEmailAddress</item>
+        <item name="android:layout_marginBottom">@dimen/login_field_layout_margin_bottom</item>
     </style>
 
     <style name="LoginPasswordField" parent="LoginField">
@@ -42,6 +49,14 @@
         <item name="android:layout_marginTop">@dimen/login_button_margin_top</item>
         <item name="android:background">@drawable/login_button</item>
         <item name="android:text">@string/login</item>
+        <item name="android:textColor">@color/login_others_line</item>
+    </style>
+
+    <style name="SignUpButton" parent="MatchParentWidth">
+        <item name="android:layout_height">@dimen/login_field_height</item>
+        <item name="android:layout_marginTop">@dimen/login_button_margin_top</item>
+        <item name="android:background">@drawable/login_button</item>
+        <item name="android:text">@string/signup</item>
         <item name="android:textColor">@color/login_others_line</item>
     </style>
 

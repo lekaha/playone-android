@@ -3,6 +3,7 @@
 
     <dimen name="login_field_layout_margin_left">32dp</dimen>
     <dimen name="login_field_layout_margin_right">32dp</dimen>
+    <dimen name="login_field_layout_margin_bottom">2dp</dimen>
     <dimen name="login_field_height">41.5dp</dimen>
     <dimen name="login_field_padding">16dp</dimen>
     <dimen name="login_button_margin_top">15.5dp</dimen>
@@ -12,5 +13,6 @@
     <dimen name="separate_line_width">110dp</dimen>
     <dimen name="separate_line_height">1.5dp</dimen>
     <dimen name="skip_button_height">45dp</dimen>
+    <dimen name="signup_field_layout_margin_bottom">132dp</dimen>
 
 </resources>
