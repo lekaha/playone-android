@@ -7,10 +7,6 @@ import com.playone.mobile.presentation.onBoarding.LoginPlayoneContract
 class SignUpViewModel(presenter: LoginPlayoneContract.Presenter)
     : LoginViewModel(presenter) {
 
-    init {
-        presenter.setView(this)
-    }
-
     override fun signUp(email: String, password: String) {
         // TODO: Implementation
     }
