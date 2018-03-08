@@ -1,6 +1,5 @@
 package com.playone.mobile.ui.injection.module
 
-import com.google.firebase.auth.FirebaseAuth
 import com.playone.mobile.cache.PlayoneCacheImpl
 import com.playone.mobile.cache.PreferencesHelper
 import com.playone.mobile.cache.db.DbOpenHelper
@@ -21,7 +20,6 @@ import com.playone.mobile.remote.PlayoneRemoteImpl
 import com.playone.mobile.remote.bridge.playone.PlayoneService
 import com.playone.mobile.remote.mapper.PlayoneEntityMapper
 import com.playone.mobile.remote.mapper.UserEntityMapper
-import com.playone.mobile.ui.firebase.FirebaseAuthenticator
 import dagger.Module
 import dagger.Provides
 import org.modelmapper.ModelMapper
@@ -89,15 +87,10 @@ class PlayoneModule {
     ): PlayoneRepository = PlayoneDataRepository(factory, playoneMapper, userMapper)
 
     @Provides
-    internal fun provideAuthenticator(firebaseAuth: FirebaseAuth)
-        : Authenticator = FirebaseAuthenticator(firebaseAuth)
-
-    @Provides
     internal fun provideSignUpAndSignIn(
         playoneRepository: PlayoneRepository,
         authenticator: Authenticator,
         threadExecutor: ThreadExecutor,
         postExecutionThread: PostExecutionThread
     ) = SignUpAndSignIn(playoneRepository, authenticator, threadExecutor, postExecutionThread)
-
 }

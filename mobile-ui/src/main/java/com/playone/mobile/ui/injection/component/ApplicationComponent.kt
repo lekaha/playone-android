@@ -4,7 +4,6 @@ import android.app.Application
 import com.playone.mobile.ui.BufferooApplication
 import com.playone.mobile.ui.injection.module.ActivityBindingModule
 import com.playone.mobile.ui.injection.module.ApplicationModule
-import com.playone.mobile.ui.injection.module.FirebaseModule
 import com.playone.mobile.ui.injection.module.NetModule
 import com.playone.mobile.ui.injection.scopes.PerApplication
 import dagger.BindsInstance
@@ -19,12 +18,12 @@ import dagger.android.support.AndroidSupportInjectionModule
         ActivityBindingModule::class,
         ApplicationModule::class,
         NetModule::class,
-        AndroidSupportInjectionModule::class,
-        FirebaseModule::class])
+        AndroidSupportInjectionModule::class])
 interface ApplicationComponent : AndroidInjector<DaggerApplication> {
 
     @Component.Builder
     interface Builder {
+
         @BindsInstance fun application(application: Application): Builder
         fun build(): ApplicationComponent
     }
