@@ -14,5 +14,5 @@
     <string name="signup_button_text">SignUp</string>
     <string name="signup_reenter_password_text">Re-Password</string>
     <string name="skip_button_text">skip</string>
-    <string name="signup_instruction">Once you signed up will receive a email that is Email verify request. Please click the link in the mail to verify and use the service completely</string>
+    <string name="signup_instruction">Please check your inbox and click the link in the mail to verify and use the service completely. Re-send the mail if you did not receive the mail</string>
 </resources>

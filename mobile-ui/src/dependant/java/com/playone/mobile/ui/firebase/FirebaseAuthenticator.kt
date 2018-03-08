@@ -118,6 +118,26 @@ class FirebaseAuthenticator(
 
     override fun isVerifiedEmail() = firebaseAuth.currentUser?.isEmailVerified == true
 
+    override fun sendEmailVerification(callback: AuthResultCallBack) {
+
+        firebaseAuth.currentUser?.apply {
+            this.sendEmailVerification().addOnCompleteListener {
+                it.isSuccessful.ifTrue {
+
+                    firebaseAuth.currentUser?.let {
+                        callback.onSuccessful(mapper.mapToUser(it))
+                    }
+                } otherwise {
+
+                    callback.onFailed(it.exception ?: Exception("Unknown failed"))
+                }
+             }
+        }
+
+
+
+    }
+
     class FirebaseUserMapper {
 
         fun mapToUser(user: FirebaseUser) =

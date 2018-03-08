@@ -20,6 +20,8 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
     val isVerifiedEmail: MutableLiveData<Boolean> = MutableLiveData()
     val occurredError: MutableLiveData<Throwable> = MutableLiveData()
 
+    protected var isSentEmailVerification = false
+
     init {
         loginPresenter.setView(this)
     }
@@ -79,6 +81,17 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
     open fun isVerifiedEmail() {
 
         loginPresenter.isVerifiedEmail()
+    }
+
+    open fun sendEmailVerification() {
+
+        isSentEmailVerification = false
+        isProgressing.value = true
+
+        Handler().post {
+            loginPresenter.sendEmailVerification()
+        }
+
     }
 
     override fun onCleared() {
