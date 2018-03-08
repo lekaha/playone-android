@@ -2,8 +2,8 @@ package com.playone.mobile.ui.injection.module
 
 import com.playone.mobile.domain.Authenticator
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
-import com.playone.mobile.ui.firebase.StandAloneAuthenticator
-import com.playone.mobile.ui.firebase.v1.StandAloneFirebaseV1
+import com.playone.mobile.ui.firebase.StandaloneAuthenticator
+import com.playone.mobile.ui.firebase.v1.StandaloneFirebaseV1
 import dagger.Module
 import dagger.Provides
 
@@ -11,8 +11,8 @@ import dagger.Provides
 class FirebaseModule {
 
     @Provides
-    internal fun providePlayoneFirebase(): PlayoneFirebase = StandAloneFirebaseV1()
+    internal fun providePlayoneFirebase(): PlayoneFirebase = StandaloneFirebaseV1()
 
     @Provides
-    internal fun provideAuthenticator(): Authenticator = StandAloneAuthenticator()
+    internal fun provideAuthenticator(): Authenticator = StandaloneAuthenticator()
 }

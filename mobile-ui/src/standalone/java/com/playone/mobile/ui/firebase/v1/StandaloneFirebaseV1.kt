@@ -7,7 +7,7 @@ import com.playone.mobile.remote.bridge.playone.PlayoneListCallback
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
 
-class StandAloneFirebaseV1 : PlayoneFirebase() {
+class StandaloneFirebaseV1 : PlayoneFirebase() {
 
     override fun obtainPlayoneList(
         userId: Int,
