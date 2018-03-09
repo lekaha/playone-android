@@ -25,7 +25,7 @@ class BrowseActivity:
         savedInstanceState?.let {
 
         } ?: run {
-            navigator.navigateTo(this, {
+            navigator.navigateToFragment(this, {
                 replace(R.id.content, BrowseFragment.newInstance())
             })
         }

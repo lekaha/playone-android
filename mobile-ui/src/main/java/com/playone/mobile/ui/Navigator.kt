@@ -1,8 +1,12 @@
 package com.playone.mobile.ui
 
 import android.content.Context
+import android.content.Intent
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
+import com.playone.mobile.ext.ifTrue
+import com.playone.mobile.ui.ext.start
 import com.playone.mobile.ui.ext.transact
 
 /**
@@ -15,9 +19,30 @@ class Navigator constructor(activityContext: Context) {
      * navigate to a Fragment with [AppCompatActivity] and the transactions
      * in [FragmentTransaction]
      */
-    fun navigateTo(context: AppCompatActivity, transactions: FragmentTransaction.() -> Unit) {
+    fun navigateToFragment(
+        context: AppCompatActivity,
+        transactions: FragmentTransaction.() -> Unit
+    ) {
         context.transact {
             transactions()
+        }
+    }
+}
+
+inline fun <reified T : AppCompatActivity> Navigator.navigateToActivity(
+    context: AppCompatActivity,
+    crossinline intent: Intent.() -> Unit = {}
+) = context.start<T> {
+    intent()
+}
+
+inline fun <reified T : AppCompatActivity> Navigator.navigateToActivity(
+    fragment: Fragment,
+    crossinline intent: Intent.() -> Unit = {}
+) = (fragment.activity)?.let {
+    (it is AppCompatActivity).ifTrue {
+        (it as AppCompatActivity).start<T> {
+            intent()
         }
     }
 }

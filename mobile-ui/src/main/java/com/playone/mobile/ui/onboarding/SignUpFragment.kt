@@ -17,6 +17,8 @@ import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.SignUpViewModel
+import com.playone.mobile.ui.navigateToActivity
+import com.playone.mobile.ui.playone.PlayoneActivity
 import kotlinx.android.synthetic.main.fragment_signup.progress
 import kotlinx.android.synthetic.main.merge_signup.instruction
 import kotlinx.android.synthetic.main.merge_signup.login_name_field
@@ -58,13 +60,9 @@ class SignUpFragment : BaseInjectingFragment() {
 
                 isSignedIn.observe(this@SignUpFragment, Observer {
                     it.ifTrue {
-                        Toast.makeText(
-                            activity,
-                            "Signed In",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    } otherwise {
-                        // TODO: Proceed to next page
+                        navigator.navigateToActivity<PlayoneActivity>(this@SignUpFragment) {
+                            // TODO: Passing User to PlayoneActivity
+                        }
                     }
                 })
 

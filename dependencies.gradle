@@ -41,6 +41,7 @@ ext {
     playAuthVersion = '11.8.0'
     modelMapperVersion = '1.1.0'
     facebookSDKVersion = '[4,5)'
+    constraintLayoutVersion = '1.0.2'
 
     //Testing
     robolectricVersion = '3.4.2'
@@ -218,6 +219,7 @@ ext {
             daggerSupport:      "com.google.dagger:dagger-android-support:${daggerVersion}",
             daggerProcessor:    "com.google.dagger:dagger-android-processor:${daggerVersion}",
             glassfishAnnotation: "org.glassfish:javax.annotation:${glassfishAnnotationVersion}",
+            constriantLayout:   "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
 
             // architecture component
             archLifecycleRuntime        : "android.arch.lifecycle:runtime:${archLifecycle}",

@@ -1,4 +1,4 @@
-package com.playone.mobile.ui.playone
+package com.playone.mobile.ui.onboarding
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.transition.Slide
 import android.support.v7.app.AlertDialog
 import android.view.View
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
@@ -14,12 +13,13 @@ import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.OnBoardingViewModel
-import com.playone.mobile.ui.onboarding.SignInFragment
 import kotlinx.android.synthetic.main.activity_main.initializing
 import javax.inject.Inject
 import android.view.Gravity
+import com.playone.mobile.ui.navigateToActivity
+import com.playone.mobile.ui.playone.PlayoneActivity
 
-class PlayoneActivity : BaseActivity() {
+class OnBoardingActivity : BaseActivity() {
 
     @Inject lateinit var navigator: Navigator
 
@@ -36,22 +36,21 @@ class PlayoneActivity : BaseActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(OnBoardingViewModel::class.java).apply {
 
-                isProgressing.observe(this@PlayoneActivity, Observer {
+                isProgressing.observe(this@OnBoardingActivity, Observer {
                     it.ifTrue { showProgress() } otherwise { hideProgress() }
                 })
 
-                isSignedIn.observe(this@PlayoneActivity, Observer {
+                isSignedIn.observe(this@OnBoardingActivity, Observer {
                     it.ifTrue {
-                        Toast.makeText(
-                            this@PlayoneActivity,
-                            "Signed In", Toast.LENGTH_LONG
-                        ).show()
+                        navigator.navigateToActivity<PlayoneActivity>(this@OnBoardingActivity) {
+                            // TODO: Passing User to PlayoneActivity
+                        }
                     } otherwise {
                         showSignInForms()
                     }
                 })
 
-                occurredError.observe(this@PlayoneActivity, Observer {
+                occurredError.observe(this@OnBoardingActivity, Observer {
                     it?.apply(::showErrorState)
                 })
 
@@ -63,7 +62,7 @@ class PlayoneActivity : BaseActivity() {
 
     private fun showSignInForms() {
 
-        navigator.navigateTo(this) {
+        navigator.navigateToFragment(this) {
 
             val fragment = SignInFragment.newInstance()
             val slideTransition = Slide(Gravity.START)
