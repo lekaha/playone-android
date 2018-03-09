@@ -15,7 +15,5 @@ class StandaloneAuthenticator : Authenticator() {
 
     override fun isSignedIn() = false
 
-    override fun isVerifiedEmail() = TODO()
-
     override fun sendEmailVerification(callback: AuthResultCallBack) = TODO()
 }
