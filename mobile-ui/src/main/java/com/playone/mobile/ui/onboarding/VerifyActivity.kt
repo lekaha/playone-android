@@ -1,4 +1,4 @@
-package com.playone.mobile.ui.playone
+package com.playone.mobile.ui.onboarding
 
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.R
