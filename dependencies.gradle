@@ -233,6 +233,7 @@ ext {
             firebaseDb:         "com.google.firebase:firebase-database:${firebaseVersion}",
             firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseVersion}",
             firebaseAuth:       "com.google.firebase:firebase-auth:${firebaseVersion}",
+            firebaseInvites:    "com.google.firebase:firebase-invites:${firebaseVersion}",
             playAuth:           "com.google.android.gms:play-services-auth:${playAuthVersion}",
             facebook:           "com.facebook.android:facebook-login:${facebookSDKVersion}",
 
