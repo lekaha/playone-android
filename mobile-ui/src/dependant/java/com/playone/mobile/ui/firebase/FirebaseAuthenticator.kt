@@ -116,8 +116,6 @@ class FirebaseAuthenticator(
 
     override fun isSignedIn() = firebaseAuth.currentUser != null
 
-    override fun isVerifiedEmail() = firebaseAuth.currentUser?.isEmailVerified == true
-
     override fun sendEmailVerification(callback: AuthResultCallBack) {
 
         firebaseAuth.currentUser?.apply {
@@ -146,6 +144,7 @@ class FirebaseAuthenticator(
                 email = user.email.orEmpty()
                 name = user.displayName.orEmpty()
                 pictureURL = user.photoUrl?.toString().orEmpty()
+                isVerified = user.isEmailVerified
             }
 
     }

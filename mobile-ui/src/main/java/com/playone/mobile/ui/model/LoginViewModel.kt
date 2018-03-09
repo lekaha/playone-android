@@ -43,7 +43,7 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
             ViewResponse.Status.SUCCESS -> {
                 isProgressing.value = false
                 isSignedIn.value = true
-                isVerifiedEmail.value = loginPresenter.isVerifiedEmail()
+                isVerifiedEmail.value = response.data?.isVerified
             }
         }
     }
@@ -78,18 +78,13 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
         }
     }
 
-    open fun isVerifiedEmail() {
-
-        loginPresenter.isVerifiedEmail()
-    }
-
     open fun sendEmailVerification() {
 
         isSentEmailVerification = false
         isProgressing.value = true
 
         Handler().post {
-            loginPresenter.sendEmailVerification()
+            loginPresenter.sendEmailVerificationToCurrentUser()
         }
 
     }

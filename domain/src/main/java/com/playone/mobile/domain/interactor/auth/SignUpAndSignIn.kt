@@ -79,8 +79,6 @@ class SignUpAndSignIn constructor(
 
     fun isSignedIn() = authenticator.isSignedIn()
 
-    fun isVerifiedEmail() = authenticator.isVerifiedEmail()
-
     fun sendEmailVerification(singleObserver: DisposableSingleObserver<User>) {
 
         authenticator.sendEmailVerification(object : Authenticator.AuthResultCallBack {

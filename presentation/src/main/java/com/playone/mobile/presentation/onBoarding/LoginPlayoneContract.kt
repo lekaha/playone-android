@@ -18,8 +18,7 @@ interface LoginPlayoneContract {
         fun signIn(email: String, password: String)
         fun signIn(secretContent: Any)
         fun isSignedIn(): Boolean
-        fun isVerifiedEmail(): Boolean
-        fun sendEmailVerification()
+        fun sendEmailVerificationToCurrentUser()
     }
 
 }
