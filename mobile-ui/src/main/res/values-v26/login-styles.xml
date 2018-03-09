@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LoginUsernameField" parent="LoginField">
+        <item name="android:hint">@string/login_sign_name_text</item>
+        <item name="android:inputType">textEmailAddress</item>
+        <item name="android:layout_marginBottom">@dimen/login_field_layout_margin_bottom</item>
+        <item name="android:autofillHints">email</item>
+    </style>
+
+    <style name="LoginPasswordField" parent="LoginField">
+        <item name="android:hint">@string/login_password_text</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:autofillHints">password</item>
+    </style>
+</resources>

@@ -43,6 +43,17 @@
         <item name="android:inputType">textPassword</item>
     </style>
 
+    <style name="SignUpUsernameField" parent="LoginField">
+        <item name="android:hint">@string/login_sign_name_text</item>
+        <item name="android:inputType">textEmailAddress</item>
+        <item name="android:layout_marginBottom">@dimen/login_field_layout_margin_bottom</item>
+    </style>
+
+    <style name="SignUpPasswordField" parent="LoginField">
+        <item name="android:hint">@string/login_password_text</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+
     <style name="SignUpReenterPasswordField" parent="LoginField">
         <item name="android:hint">@string/signup_reenter_password_text</item>
         <item name="android:inputType">textPassword</item>
