@@ -16,12 +16,14 @@ open class PlayoneDataStoreFactory(
      * Returns a [PlayoneDataStore] based on whether or not there is content in the
      * cache and the cache has not expired.
      */
-    open fun obtainDataStore() = if (cache.isCached("") && !cache.isExpired("")) {
-        getCacheDataStore()
-    }
-    else {
-        getRemoteDataStore()
-    }
+    open fun obtainDataStore() = getRemoteDataStore()
+    // TODO(jieyi): 2018/03/10 Avoiding crashing becz the cache datastore we didn't implement yet.
+//        if (cache.isCached("") && !cache.isExpired("")) {
+//            getCacheDataStore()
+//        }
+//        else {
+//            getRemoteDataStore()
+//        }
 
     /**
      * @return an instance of the Remote Data Store [PlayoneCacheDataStore].
