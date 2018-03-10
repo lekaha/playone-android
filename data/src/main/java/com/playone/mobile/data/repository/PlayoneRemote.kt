@@ -3,6 +3,7 @@ package com.playone.mobile.data.repository
 import com.playone.mobile.data.model.NotificationPayloadEntity
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
+import com.playone.mobile.ext.invalidInt
 import io.reactivex.Single
 
 /**
@@ -12,7 +13,7 @@ import io.reactivex.Single
 interface PlayoneRemote {
 
     //region Playone
-    fun fetchPlayoneList(userId: Int = -1): Single<List<PlayoneEntity>>
+    fun fetchPlayoneList(userId: Int = invalidInt): Single<List<PlayoneEntity>>
 
     fun fetchJoinedPlayoneList(userId: Int): Single<List<PlayoneEntity>>
 

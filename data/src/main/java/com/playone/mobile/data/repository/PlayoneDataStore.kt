@@ -2,6 +2,7 @@ package com.playone.mobile.data.repository
 
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
+import com.playone.mobile.ext.invalidInt
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -17,7 +18,7 @@ interface PlayoneDataStore {
 
     fun savePlayoneList(playoneList: List<PlayoneEntity>): Completable
 
-    fun getPlayoneList(userId: Int = -1): Single<List<PlayoneEntity>>
+    fun getPlayoneList(userId: Int = invalidInt): Single<List<PlayoneEntity>>
 
     fun clearJoinedPlayoneList(): Completable
 

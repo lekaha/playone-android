@@ -7,6 +7,7 @@ import kotlin.properties.Delegates
  */
 class PlayoneModel {
 
+    // OPTIMIZE(jieyi): 2018/03/10 From the data from firebase must be initialized, otherwise it will throw an error.
     lateinit var id: String
     lateinit var name: String
     lateinit var description: String
@@ -19,6 +20,9 @@ class PlayoneModel {
     var level by Delegates.notNull<Int>()
     lateinit var host: String
     lateinit var userId: String
+
+    override fun toString() =
+        "id: $id, name: $name, description: $description, data: $date, updated: $updated, address: $address, longitude: $longitude, latitude: $latitude, limit: $limit, level: $level, host: $host, userId: $userId"
 
     fun toMap() = hashMapOf("name" to name,
                             "name" to name,
