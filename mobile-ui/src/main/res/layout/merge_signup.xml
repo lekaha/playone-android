@@ -14,11 +14,11 @@
 
             <EditText
                 android:id="@+id/login_name_field"
-                style="@style/LoginUsernameField"/>
+                style="@style/SignUpUsernameField"/>
 
             <EditText
                 android:id="@+id/login_password_field"
-                style="@style/LoginPasswordField"/>
+                style="@style/SignUpPasswordField"/>
 
             <EditText
                 android:id="@+id/login_repassword_field"
