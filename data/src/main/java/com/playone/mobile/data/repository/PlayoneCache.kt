@@ -4,6 +4,7 @@ import com.playone.mobile.data.CacheChecker
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.PlayoneItem
 import com.playone.mobile.data.model.UserEntity
+import com.playone.mobile.ext.invalidInt
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -28,7 +29,7 @@ interface PlayoneCache : CacheChecker {
     /**
      * Retrieve a list of [PlayoneEntity] from the cache.
      */
-    fun getPlayoneList(userId: Int = -1): Single<List<PlayoneEntity>>
+    fun getPlayoneList(userId: Int = invalidInt): Single<List<PlayoneEntity>>
 
     fun clearJoinedPlayoneList(): Completable
 
