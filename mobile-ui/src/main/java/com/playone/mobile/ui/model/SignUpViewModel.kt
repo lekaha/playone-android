@@ -2,6 +2,7 @@ package com.playone.mobile.ui.model
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 import com.playone.mobile.presentation.ViewResponse
@@ -31,7 +32,11 @@ class SignUpViewModel(presenter: LoginPlayoneContract.Presenter)
             ViewResponse.Status.SUCCESS -> {
                 isProgressing.value = false
                 isSignedIn.value = loginPresenter.isSignedIn()
-                isVerifiedEmail.value = loginPresenter.isVerifiedEmail()
+
+                isSentEmailVerification.ifFalse {
+                    sendEmailVerification()
+                    isSentEmailVerification = true
+                }
             }
         }
     }

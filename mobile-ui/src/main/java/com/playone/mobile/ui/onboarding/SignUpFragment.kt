@@ -4,7 +4,11 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ClickableSpan
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.ext.ifTrue
@@ -14,6 +18,7 @@ import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.SignUpViewModel
 import kotlinx.android.synthetic.main.fragment_signup.progress
+import kotlinx.android.synthetic.main.merge_signup.instruction
 import kotlinx.android.synthetic.main.merge_signup.login_name_field
 import kotlinx.android.synthetic.main.merge_signup.login_password_field
 import kotlinx.android.synthetic.main.merge_signup.login_repassword_field
@@ -94,17 +99,31 @@ class SignUpFragment : BaseInjectingFragment() {
                             login_name_field.text.toString(),
                             login_password_field.text.toString())
                     } otherwise {
-                        // TODO: Should use another presentation
-                        Toast.makeText(
-                            activity,
-                            "Password is not matched", Toast.LENGTH_LONG
-                        ).show()
-                    }
+                    // TODO: Should use another presentation
+                    Toast.makeText(
+                        activity,
+                        "Password is not matched", Toast.LENGTH_LONG
+                    ).show()
+                }
             }
 
             sign_up_skip_btn.setOnClickListener {
                 viewModel.signInAnonymously()
             }
+
+            val resendString = "Re-send"
+            val instructionString = getString(R.string.signup_instruction)
+            val idxResend = instructionString.lastIndexOf(resendString)
+            val spannableString = SpannableString(instructionString)
+
+            spannableString.setSpan(object : ClickableSpan() {
+                override fun onClick(widget: View?) {
+                    viewModel.sendEmailVerification()
+                }},
+                idxResend,
+                idxResend + resendString.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            instruction.setText(spannableString, TextView.BufferType.SPANNABLE)
         }
     }
 

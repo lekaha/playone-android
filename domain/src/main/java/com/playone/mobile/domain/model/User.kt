@@ -15,4 +15,5 @@ class User {
     var level by Delegates.notNull<Int>()
     var years by Delegates.notNull<Int>()
     lateinit var teams: HashMap<String, Any>
+    var isVerified by Delegates.notNull<Boolean>()
 }

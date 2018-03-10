@@ -14,7 +14,7 @@ abstract class Authenticator {
 
     abstract fun isSignedIn(): Boolean
 
-    abstract fun isVerifiedEmail(): Boolean
+    abstract fun sendEmailVerification(callback: AuthResultCallBack)
 
     interface AuthResultCallBack {
 

@@ -79,7 +79,21 @@ class SignUpAndSignIn constructor(
 
     fun isSignedIn() = authenticator.isSignedIn()
 
-    fun isVerifiedEmail() = authenticator.isVerifiedEmail()
+    fun sendEmailVerification(singleObserver: DisposableSingleObserver<User>) {
+
+        authenticator.sendEmailVerification(object : Authenticator.AuthResultCallBack {
+            override fun onSuccessful(user: User) {
+
+                // TODO: should get the user from repository after implementing Cache
+                execute(Single.just(user), singleObserver)
+            }
+
+            override fun onFailed(throwable: Throwable) {
+
+                singleObserver.onError(throwable)
+            }
+        })
+    }
 
     private fun execute(single: Single<User>, singleObserver: DisposableSingleObserver<User>) {
 

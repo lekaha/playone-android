@@ -29,6 +29,7 @@
                 style="@style/SignUpButton"/>
 
             <TextView
+                android:id="@+id/instruction"
                 style="@style/SignUpInstruction"
                 />
 

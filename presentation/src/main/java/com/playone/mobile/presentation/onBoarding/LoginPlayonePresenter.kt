@@ -55,7 +55,11 @@ class LoginPlayonePresenter(
 
     override fun isSignedIn() = signUpAndSignIn.isSignedIn()
 
-    override fun isVerifiedEmail() = signUpAndSignIn.isVerifiedEmail()
+    override fun sendEmailVerificationToCurrentUser() {
+
+        loginView?.onResponse(ViewResponse.loading())
+        signUpAndSignIn.sendEmailVerification(SignInUpSubscriber())
+    }
 
     inner class EmailPasswordCredential(
         private val email: String,
