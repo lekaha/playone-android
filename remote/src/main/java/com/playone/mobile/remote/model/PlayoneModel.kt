@@ -7,6 +7,7 @@ import kotlin.properties.Delegates
  */
 class PlayoneModel {
 
+    // OPTIMIZE(jieyi): 2018/03/10 From the data from firebase must be initialized, otherwise it will throw an error.
     lateinit var id: String
     lateinit var name: String
     lateinit var description: String
