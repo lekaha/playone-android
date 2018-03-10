@@ -20,15 +20,20 @@ import com.playone.mobile.remote.PlayoneRemoteImpl
 import com.playone.mobile.remote.bridge.playone.PlayoneService
 import com.playone.mobile.remote.mapper.PlayoneEntityMapper
 import com.playone.mobile.remote.mapper.UserEntityMapper
+import com.playone.mobile.ui.injection.module.mapper.CacheModule
+import com.playone.mobile.ui.injection.module.mapper.DataModule
+import com.playone.mobile.ui.injection.module.mapper.PresentationModule
+import com.playone.mobile.ui.injection.module.mapper.RemoteModule
 import dagger.Module
 import dagger.Provides
-import org.modelmapper.ModelMapper
 
-@Module
+@Module(includes = [
+    RemoteModule::class,
+    CacheModule::class,
+    DataModule::class,
+    PresentationModule::class
+])
 class PlayoneModule {
-
-    @Provides
-    internal fun providePlayoneMapper() = PlayoneMapper()
 
     @Provides
     internal fun providePlayoneDataCache(
@@ -40,14 +45,6 @@ class PlayoneModule {
     @Provides
     internal fun providePlayoneCacheDataStore(playoneCache: PlayoneCache) =
         PlayoneCacheDataStore(playoneCache)
-
-    @Provides
-    internal fun providePlayoneEntityMapper(modelMapper: ModelMapper) =
-        PlayoneEntityMapper(modelMapper)
-
-    @Provides
-    internal fun providePlayoneUserEntityMapper(modelMapper: ModelMapper) =
-        UserEntityMapper(modelMapper)
 
     @Provides
     internal fun providePlayoneRemote(
@@ -66,18 +63,6 @@ class PlayoneModule {
         playoneCacheDataStore: PlayoneCacheDataStore,
         playoneRemoteDataStore: PlayoneRemoteDataStore
     ) = PlayoneDataStoreFactory(playoneCache, playoneCacheDataStore, playoneRemoteDataStore)
-
-    @Provides
-    internal fun providePlayoneDataMapper(modelMapper: ModelMapper) =
-        com.playone.mobile.data.mapper.PlayoneMapper(modelMapper)
-
-    @Provides
-    internal fun proideDataUserMapper(modelMapper: ModelMapper) =
-        UserMapper(modelMapper)
-
-    @Provides
-    internal fun proideUserMapper(modelMapper: ModelMapper) =
-        com.playone.mobile.presentation.mapper.UserMapper(modelMapper)
 
     @Provides
     internal fun providePlayoneRepository(
