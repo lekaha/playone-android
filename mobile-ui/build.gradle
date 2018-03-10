@@ -176,6 +176,7 @@ dependencies {
 
     // Auth
     implementation mobileUiDependencies.firebaseAuth
+    implementation mobileUiDependencies.firebaseInvites
     implementation mobileUiDependencies.playAuth
     implementation mobileUiDependencies.facebook
 
