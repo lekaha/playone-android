@@ -40,9 +40,5 @@ inline fun <reified T : AppCompatActivity> Navigator.navigateToActivity(
     fragment: Fragment,
     crossinline intent: Intent.() -> Unit = {}
 ) = (fragment.activity)?.let {
-    (it is AppCompatActivity).ifTrue {
-        (it as AppCompatActivity).start<T> {
-            intent()
-        }
-    }
+    (fragment.activity as? AppCompatActivity)?.let { it.start<T> { intent() } }
 }
