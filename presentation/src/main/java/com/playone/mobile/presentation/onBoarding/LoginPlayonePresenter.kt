@@ -4,12 +4,13 @@ import com.playone.mobile.domain.Credential
 import com.playone.mobile.domain.interactor.auth.SignUpAndSignIn
 import com.playone.mobile.domain.model.User
 import com.playone.mobile.presentation.ViewResponse
-import com.playone.mobile.presentation.mapper.UserViewMapper
+import com.playone.mobile.presentation.mapper.Mapper
+import com.playone.mobile.presentation.model.UserView
 import io.reactivex.observers.DisposableSingleObserver
 
 class LoginPlayonePresenter(
     val signUpAndSignIn: SignUpAndSignIn,
-    val viewMapper: UserViewMapper
+    val viewMapper: Mapper<UserView, User>
 ) : LoginPlayoneContract.Presenter {
 
     var loginView: LoginPlayoneContract.View? = null
