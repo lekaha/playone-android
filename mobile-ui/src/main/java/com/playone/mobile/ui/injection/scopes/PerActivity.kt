@@ -1,4 +1,4 @@
-package com.lekaha.android.boilerplate.ui.injection.scopes
+package com.playone.mobile.ui.injection.scopes
 
 import javax.inject.Scope
 
