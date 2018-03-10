@@ -15,7 +15,7 @@ open class GetPlayoneList constructor(
     private val repository: PlayoneRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : SingleUseCase<List<Playone>, Int>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<List<Playone>, Int?>(threadExecutor, postExecutionThread) {
 
     public override fun buildUseCaseObservable(params: Int?): Single<List<Playone>> =
         repository.getPlayoneList(params ?: -1)

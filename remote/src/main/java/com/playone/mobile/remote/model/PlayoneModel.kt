@@ -20,6 +20,9 @@ class PlayoneModel {
     lateinit var host: String
     lateinit var userId: String
 
+    override fun toString() =
+        "id: $id, name: $name, description: $description, data: $date, updated: $updated, address: $address, longitude: $longitude, latitude: $latitude, limit: $limit, level: $level, host: $host, userId: $userId"
+
     fun toMap() = hashMapOf("name" to name,
                             "name" to name,
                             "description" to description,

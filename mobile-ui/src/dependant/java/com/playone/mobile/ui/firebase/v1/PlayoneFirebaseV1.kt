@@ -33,7 +33,7 @@ class PlayoneFirebaseV1(
         userId: Int,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = if (0 < userId) {
+    ) = if (0 > userId) {
         playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
     }
     else {
