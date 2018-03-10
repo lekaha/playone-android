@@ -2,7 +2,7 @@
                  xmlns:tools="http://schemas.android.com/tools"
                  style="@style/MatchParentSizeNoMargin"
                  android:background="@drawable/login_background"
-                 tools:context=".playone.PlayoneActivity">
+                 tools:context=".onboarding.OnBoardingActivity">
      <LinearLayout
          android:id="@+id/content_layout"
          style="@style/VerticalMatchParentWidthWrapContentHeightLinearLayout"
