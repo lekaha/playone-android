@@ -113,7 +113,7 @@ class SignUpFragment : BaseInjectingFragment() {
 
             val resendString = "Re-send"
             val instructionString = getString(R.string.signup_instruction)
-            val idxResend = instructionString.lastIndexOf("Re-send")
+            val idxResend = instructionString.lastIndexOf(resendString)
             val spannableString = SpannableString(instructionString)
 
             spannableString.setSpan(object : ClickableSpan() {

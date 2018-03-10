@@ -131,9 +131,6 @@ class FirebaseAuthenticator(
                 }
              }
         }
-
-
-
     }
 
     class FirebaseUserMapper {
@@ -146,6 +143,5 @@ class FirebaseAuthenticator(
                 pictureURL = user.photoUrl?.toString().orEmpty()
                 isVerified = user.isEmailVerified
             }
-
     }
 }
