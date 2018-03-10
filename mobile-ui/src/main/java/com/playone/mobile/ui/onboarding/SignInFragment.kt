@@ -1,6 +1,5 @@
 package com.playone.mobile.ui.onboarding
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +8,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
-import android.widget.Toast
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -19,16 +17,12 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
-import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.LoginViewModel
-import com.playone.mobile.ui.navigateToActivity
-import com.playone.mobile.ui.playone.PlayoneActivity
-import kotlinx.android.synthetic.main.fragment_signin.progress
 import kotlinx.android.synthetic.main.merge_login.login_skip_btn
 import kotlinx.android.synthetic.main.merge_login.view.facebook_login_btn
 import kotlinx.android.synthetic.main.merge_login.view.google_login_btn
@@ -45,8 +39,6 @@ class SignInFragment : BaseInjectingFragment() {
 
         fun newInstance() = SignInFragment()
     }
-
-    @Inject lateinit var viewModelFactory: LoginViewModel.LoginViewModelFactory
 
     @Inject lateinit var googleSignInClient: GoogleSignInClient
 
@@ -65,44 +57,10 @@ class SignInFragment : BaseInjectingFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        setupViewModel()
-    }
-
-    private fun setupViewModel() {
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(LoginViewModel::class.java).apply {
-                isProgressing.observe(this@SignInFragment, Observer {
-                    it.ifTrue { showProgress() } otherwise { hideProgress() }
-                })
-
-                isSignedIn.observe(this@SignInFragment, Observer {
-                    it.ifTrue {
-                        navigator.navigateToActivity<PlayoneActivity>(this@SignInFragment) {
-                            // TODO: Passing User to PlayoneActivity
-                        }
-                    } otherwise {
-                        showSignInForms()
-                    }
-                })
-
-                isVerifiedEmail.observe(this@SignInFragment, Observer {
-                    it.ifFalse {
-                        Toast.makeText(
-                            activity,
-                            "Not yet verified Email", Toast.LENGTH_LONG
-                        ).show()
-                    }
-                })
-
-                occurredError.observe(this@SignInFragment, Observer {
-                    it?.apply(::showErrorState)
-                })
-
-                lifecycle::addObserver
-
-                isSignedIn()
-            }
+        activity?.let {
+            viewModel = ViewModelProviders.of(it).get(LoginViewModel::class.java)
+            showSignInForms()
+        }
     }
 
     private fun showSignInForms() {
@@ -146,16 +104,6 @@ class SignInFragment : BaseInjectingFragment() {
                 viewModel.signInAnonymously()
             }
         }
-    }
-
-    private fun showProgress() {
-
-        progress.visibility = View.VISIBLE
-    }
-
-    private fun hideProgress() {
-
-        progress.visibility = View.GONE
     }
 
     private fun googleSignIn() {

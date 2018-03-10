@@ -6,13 +6,14 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.os.Handler
 import androidx.os.postDelayed
+import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.presentation.ViewResponse
 import com.playone.mobile.presentation.onBoarding.LoginPlayoneContract
 import com.playone.mobile.presentation.model.UserView
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 
-open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Presenter)
+class LoginViewModel(private var loginPresenter: LoginPlayoneContract.Presenter)
     : ViewModel(), LifecycleObserver, LoginPlayoneContract.View {
 
     val isProgressing: MutableLiveData<Boolean> = MutableLiveData()
@@ -20,7 +21,7 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
     val isVerifiedEmail: MutableLiveData<Boolean> = MutableLiveData()
     val occurredError: MutableLiveData<Throwable> = MutableLiveData()
 
-    protected var isSentEmailVerification = false
+    private var isSentEmailVerification = true
 
     init {
         loginPresenter.setView(this)
@@ -42,8 +43,13 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
             }
             ViewResponse.Status.SUCCESS -> {
                 isProgressing.value = false
-                isSignedIn.value = true
+                isSignedIn.value = loginPresenter.isSignedIn()
                 isVerifiedEmail.value = response.data?.isVerified
+
+                isSentEmailVerification.ifFalse {
+                    sendEmailVerification()
+                    isSentEmailVerification = true
+                }
             }
         }
     }
@@ -68,7 +74,7 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
         loginPresenter.signIn(socialAccount)
     }
 
-    open fun isSignedIn() {
+    fun isSignedIn() {
 
         isProgressing.value = true
 
@@ -78,7 +84,7 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
         }
     }
 
-    open fun sendEmailVerification() {
+    fun sendEmailVerification() {
 
         isSentEmailVerification = false
         isProgressing.value = true
@@ -86,7 +92,17 @@ open class LoginViewModel(protected var loginPresenter: LoginPlayoneContract.Pre
         Handler().post {
             loginPresenter.sendEmailVerificationToCurrentUser()
         }
+    }
 
+    fun signUp(email: String, password: String) {
+
+        isSentEmailVerification = false
+
+        (email.isEmpty() or password.isEmpty()).ifTrue {
+            occurredError.value = Exception("Email or Password cannot be empty")
+        } otherwise {
+            loginPresenter.signUp(email, password)
+        }
     }
 
     override fun onCleared() {
