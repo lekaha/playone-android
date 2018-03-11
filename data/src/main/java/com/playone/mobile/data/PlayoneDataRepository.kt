@@ -4,6 +4,8 @@ import com.playone.mobile.data.mapper.PlayoneMapper
 import com.playone.mobile.data.mapper.UserMapper
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneDataStore
+import com.playone.mobile.data.repository.PlayoneRemote
+import com.playone.mobile.data.repository.PlayoneRemote.Result.SUCCESS
 import com.playone.mobile.data.source.PlayoneDataStoreFactory
 import com.playone.mobile.data.source.PlayoneRemoteDataStore
 import com.playone.mobile.domain.model.Playone
@@ -27,7 +29,7 @@ class PlayoneDataRepository constructor(
         factory.getCacheDataStore().savePlayoneList(playoneList.map(playoneMapper::mapToEntity))
 
     override fun getPlayoneList(userId: Int) = factory.obtainDataStore().run {
-        getPlayoneList(userId)
+        fetchPlayoneList(userId)
             .flatMap { playoneList ->
                 // TODO(jieyi): 2018/03/10 Avoiding crashing becz the cache datastore we didn't implement yet.
 //                (this as? PlayoneRemoteDataStore)?.savePlayoneList(playoneList)
@@ -44,7 +46,7 @@ class PlayoneDataRepository constructor(
             .saveJoinedPlayoneList(playoneList.map(playoneMapper::mapToEntity))
 
     override fun getJoinedPlayoneList(userId: Int) = factory.obtainDataStore().run {
-        getJoinedPlayoneList(userId)
+        fetchJoinedPlayoneList(userId)
             .flatMap { playoneList ->
                 (this as? PlayoneRemoteDataStore)?.saveFavoritePlayoneList(playoneList)
                 ?: Single.just(playoneList)
@@ -59,7 +61,7 @@ class PlayoneDataRepository constructor(
             .saveFavoritePlayoneList(playoneList.map(playoneMapper::mapToEntity))
 
     override fun getFavoritePlayoneList(userId: Int) = factory.obtainDataStore().run {
-        getFavoritePlayoneList(userId)
+        fetchFavoritePlayoneList(userId)
             .flatMap { playoneList ->
                 (this as? PlayoneRemoteDataStore)?.saveFavoritePlayoneList(playoneList)
                 ?: Single.just(playoneList)
@@ -74,7 +76,7 @@ class PlayoneDataRepository constructor(
             .savePlayoneDetail(playoneMapper.mapToEntity(playone))
 
     override fun getPlayoneDetail(playoneId: Int) = factory.obtainDataStore().run {
-        getPlayoneDetail(playoneId)
+        fetchPlayoneDetail(playoneId)
             .flatMap { entity ->
                 (this as? PlayoneRemoteDataStore)?.savePlayoneDetail(entity) ?: Single.just(entity)
             }
@@ -88,19 +90,42 @@ class PlayoneDataRepository constructor(
         factory.getCacheDataStore().saveUserEntity(userMapper.mapToEntity(user))
 
     override fun createUser(user: User) =
-        factory.getRemoteDataStore().createUserEntity(userMapper.mapToEntity(user)).toCompletable()
+        factory.getRemoteDataStore().createUser(userMapper.mapToEntity(user)).toCompletable()
 
     override fun getUserById(userId: Int) = factory.obtainDataStore().run {
-        getUserEntityById(userId).cacheUserEntity(this)
+        fetchUserEntity(userId).cacheUserEntity(this)
     }
 
     override fun getUserByEmail(email: String) = factory.obtainDataStore().run {
-        getUserEntityByEmail(email).cacheUserEntity(this)
+        fetchUserEntity(email).cacheUserEntity(this)
     }
+
+    override fun createPlayone(userId: Int, playone: Playone) =
+        singleBooleanRequest { createPlayoneDetail(userId, playoneMapper.mapToEntity(playone)) }
+
+    override fun updatePlayone(userId: Int, playone: Playone) =
+        singleBooleanRequest { updatePlayoneDetail(userId, playoneMapper.mapToEntity(playone)) }
+
+    override fun joinTeam(playoneId: Int, userId: Int, isJoin: Boolean) =
+        singleBooleanRequest { joinTeamAsMember(playoneId, userId, isJoin) }
+
+    override fun sendJoinRequest(playoneId: Int, userId: Int, msg: String) =
+        singleBooleanRequest { sendJoinRequest(playoneId, userId, msg) }
+
+    override fun toggleFavorite(playoneId: Int, userId: Int) =
+        factory.getRemoteDataStore().toggleFavorite(playoneId, userId)
+
+    override fun isFavorite(playoneId: Int, userId: Int) =
+        factory.getRemoteDataStore().isFavorite(playoneId, userId)
+
+    override fun isJoined(playoneId: Int, userId: Int) =
+        factory.getRemoteDataStore().isJoint(playoneId, userId)
 
     private fun Single<UserEntity>.cacheUserEntity(dataStore: PlayoneDataStore) =
         flatMap {
             (dataStore as? PlayoneRemoteDataStore)?.saveUserEntity(it) ?: Single.just(it)
         }.map(userMapper::mapFromEntity)
 
+    private fun singleBooleanRequest(request: PlayoneDataStore.() -> Single<PlayoneRemote.Result>) =
+        factory.getRemoteDataStore().run(request).map { SUCCESS == it }
 }
