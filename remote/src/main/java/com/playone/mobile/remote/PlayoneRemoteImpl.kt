@@ -54,7 +54,7 @@ class PlayoneRemoteImpl constructor(
     override fun isFavorite(playoneId: Int, userId: Int) =
         service.isFavorite(playoneId, userId)
 
-    override fun isJoint(playoneId: Int, userId: Int) =
+    override fun isJoined(playoneId: Int, userId: Int) =
         service.isJoined(playoneId, userId)
 
     //region For Auth

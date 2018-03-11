@@ -33,7 +33,7 @@ interface PlayoneRemote {
 
     fun isFavorite(playoneId: Int, userId: Int): Single<Boolean>
 
-    fun isJoint(playoneId: Int, userId: Int): Single<Boolean>
+    fun isJoined(playoneId: Int, userId: Int): Single<Boolean>
     //endregion
 
     //region User for Auth

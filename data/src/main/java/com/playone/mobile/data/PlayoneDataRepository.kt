@@ -119,7 +119,7 @@ class PlayoneDataRepository constructor(
         factory.getRemoteDataStore().isFavorite(playoneId, userId)
 
     override fun isJoined(playoneId: Int, userId: Int) =
-        factory.getRemoteDataStore().isJoint(playoneId, userId)
+        factory.getRemoteDataStore().isJoined(playoneId, userId)
 
     private fun Single<UserEntity>.cacheUserEntity(dataStore: PlayoneDataStore) =
         flatMap {

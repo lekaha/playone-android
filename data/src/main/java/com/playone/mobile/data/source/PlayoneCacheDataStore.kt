@@ -71,7 +71,7 @@ open class PlayoneCacheDataStore(private val cache: PlayoneCache) : PlayoneDataS
     override fun isFavorite(playoneId: Int, userId: Int): Single<Boolean> =
         throw UnsupportedOperationException()
 
-    override fun isJoint(playoneId: Int, userId: Int): Single<Boolean> =
+    override fun isJoined(playoneId: Int, userId: Int): Single<Boolean> =
         throw UnsupportedOperationException()
 
     override fun updateUser(userEntity: UserEntity) =
