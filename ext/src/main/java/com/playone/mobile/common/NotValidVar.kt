@@ -3,7 +3,7 @@ package com.playone.mobile.common
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-private class NotValidVar<T : Any>(private val invalidVal: T) : ReadWriteProperty<Any?, T> {
+class NotValidVar<T : Any>(private val invalidVal: T) : ReadWriteProperty<Any?, T> {
     private var value: T = invalidVal
 
     public override fun getValue(thisRef: Any?, property: KProperty<*>): T =
