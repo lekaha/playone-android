@@ -1,7 +1,7 @@
 package com.playone.mobile.data
 
-import com.playone.mobile.data.mapper.PlayoneMapper
-import com.playone.mobile.data.mapper.UserMapper
+import com.playone.mobile.data.mapper.Mapper
+import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneDataStore
 import com.playone.mobile.data.source.PlayoneDataStoreFactory
@@ -17,8 +17,8 @@ import io.reactivex.Single
  */
 class PlayoneDataRepository constructor(
     private val factory: PlayoneDataStoreFactory,
-    private val playoneMapper: PlayoneMapper,
-    private val userMapper: UserMapper
+    private val playoneMapper: Mapper<PlayoneEntity, Playone>,
+    private val userMapper: Mapper<UserEntity, User>
 ) : PlayoneRepository {
 
     override fun clearPlayoneList() = factory.getCacheDataStore().clearPlayoneList()
@@ -29,8 +29,10 @@ class PlayoneDataRepository constructor(
     override fun getPlayoneList(userId: Int) = factory.obtainDataStore().run {
         getPlayoneList(userId)
             .flatMap { playoneList ->
-                (this as? PlayoneRemoteDataStore)?.savePlayoneList(playoneList)
-                ?: Single.just(playoneList)
+                // TODO(jieyi): 2018/03/10 Avoiding crashing becz the cache datastore we didn't implement yet.
+//                (this as? PlayoneRemoteDataStore)?.savePlayoneList(playoneList)
+//                ?:
+                Single.just(playoneList)
             }
             .map { it.map(playoneMapper::mapFromEntity) }
     }
