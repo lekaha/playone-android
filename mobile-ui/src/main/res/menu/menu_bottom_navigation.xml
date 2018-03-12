@@ -15,10 +15,10 @@
         android:title="@string/menu_list"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_music"
+        android:id="@+id/action_sign_out"
         android:enabled="true"
         android:icon="@drawable/ic_format_list_bulleted_black_24dp"
-        android:title="@string/menu_list"
+        android:title="@string/menu_sign_out"
         app:showAsAction="ifRoom" />
 
 </menu>

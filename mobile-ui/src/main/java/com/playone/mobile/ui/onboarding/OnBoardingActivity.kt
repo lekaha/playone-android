@@ -5,27 +5,28 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.transition.Slide
 import android.support.v7.app.AlertDialog
+import android.view.Gravity
 import android.view.View
-import com.google.firebase.auth.FirebaseAuth
+import android.widget.Toast
+import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
-import com.playone.mobile.ui.model.OnBoardingViewModel
-import kotlinx.android.synthetic.main.activity_main.initializing
-import javax.inject.Inject
-import android.view.Gravity
+import com.playone.mobile.ui.model.LoginViewModel
 import com.playone.mobile.ui.navigateToActivity
 import com.playone.mobile.ui.playone.PlayoneActivity
+import kotlinx.android.synthetic.main.activity_main.initializing
+import javax.inject.Inject
 
 class OnBoardingActivity : BaseActivity() {
 
     @Inject lateinit var navigator: Navigator
 
-    @Inject lateinit var viewModelFactory: OnBoardingViewModel.OnBoardingViewModelFactory
+    @Inject lateinit var viewModelFactory: LoginViewModel.LoginViewModelFactory
 
-    private lateinit var viewModel: OnBoardingViewModel
+    private lateinit var viewModel: LoginViewModel
 
     override fun getLayoutId(): Int = R.layout.activity_main
 
@@ -34,7 +35,7 @@ class OnBoardingActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(OnBoardingViewModel::class.java).apply {
+            .get(LoginViewModel::class.java).apply {
 
                 isProgressing.observe(this@OnBoardingActivity, Observer {
                     it.ifTrue { showProgress() } otherwise { hideProgress() }
@@ -44,9 +45,21 @@ class OnBoardingActivity : BaseActivity() {
                     it.ifTrue {
                         navigator.navigateToActivity<PlayoneActivity>(this@OnBoardingActivity) {
                             // TODO: Passing User to PlayoneActivity
+
+                            finish()
                         }
                     } otherwise {
                         showSignInForms()
+                    }
+                })
+
+                isVerifiedEmail.observe(this@OnBoardingActivity, Observer {
+                    it.ifFalse {
+                        Toast.makeText(
+                            this@OnBoardingActivity,
+                            "Not yet verified Email",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 })
 
@@ -94,13 +107,5 @@ class OnBoardingActivity : BaseActivity() {
             .setCancelable(false)
             .setPositiveButton("OK") { dialog, _ -> dialog?.dismiss() }
             .show()
-    }
-
-    override fun onStop() {
-
-        super.onStop()
-
-        // TODO: Only for testing since now only have one page
-        FirebaseAuth.getInstance().signOut()
     }
 }

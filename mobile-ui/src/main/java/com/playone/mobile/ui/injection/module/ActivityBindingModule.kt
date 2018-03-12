@@ -19,7 +19,7 @@ abstract class ActivityBindingModule {
         modules = [
             NavigatorModule::class,
             FragmentBindingModule::class,
-            OnBoardingModule::class,
+            LoginModule::class,
             PlayoneModule::class])
     abstract fun bindMainActivity(): OnBoardingActivity
 

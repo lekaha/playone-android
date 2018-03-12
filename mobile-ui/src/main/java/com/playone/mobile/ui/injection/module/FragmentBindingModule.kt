@@ -17,13 +17,10 @@ abstract class FragmentBindingModule {
 
     @ContributesAndroidInjector(
         modules = [
-            PlayoneModule::class,
             LoginModule::class])
     abstract fun provideSignInFragment(): SignInFragment
 
     @ContributesAndroidInjector(
-        modules = [
-            PlayoneModule::class,
-            LoginModule::class])
+        modules = [])
     abstract fun provideSignUpFragment(): SignUpFragment
 }

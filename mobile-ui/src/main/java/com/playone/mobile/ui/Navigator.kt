@@ -5,7 +5,6 @@ import android.content.Intent
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
-import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ui.ext.start
 import com.playone.mobile.ui.ext.transact
 
