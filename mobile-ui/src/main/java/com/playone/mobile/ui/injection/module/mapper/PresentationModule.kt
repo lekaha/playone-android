@@ -1,6 +1,9 @@
 package com.playone.mobile.ui.injection.module.mapper
 
+import com.playone.mobile.domain.model.User
+import com.playone.mobile.presentation.mapper.Mapper
 import com.playone.mobile.presentation.mapper.UserViewMapper
+import com.playone.mobile.presentation.model.UserView
 import dagger.Module
 import dagger.Provides
 import org.modelmapper.ModelMapper
@@ -9,6 +12,6 @@ import org.modelmapper.ModelMapper
 class PresentationModule {
 
     @Provides
-    internal fun proideUserMapper(modelMapper: ModelMapper) =
+    internal fun proideUserMapper(modelMapper: ModelMapper): Mapper<UserView, User> =
         UserViewMapper(modelMapper)
 }

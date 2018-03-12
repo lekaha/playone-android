@@ -5,8 +5,7 @@ import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneRemote
 import com.playone.mobile.remote.bridge.playone.PlayoneService
-import com.playone.mobile.remote.mapper.PlayoneEntityMapper
-import com.playone.mobile.remote.mapper.UserEntityMapper
+import com.playone.mobile.remote.mapper.EntityMapper
 import com.playone.mobile.remote.mapper.toModel
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
@@ -20,8 +19,8 @@ import io.reactivex.Single
  */
 class PlayoneRemoteImpl constructor(
     private val service: PlayoneService,
-    private val playoneMapper: PlayoneEntityMapper,
-    private val userMapper: UserEntityMapper
+    private val playoneMapper: EntityMapper<PlayoneModel, PlayoneEntity>,
+    private val userMapper: EntityMapper<UserModel, UserEntity>
 ) : PlayoneRemote {
 
     override fun fetchPlayoneList(userId: Int) =

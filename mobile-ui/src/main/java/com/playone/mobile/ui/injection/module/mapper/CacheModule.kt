@@ -7,6 +7,7 @@ import dagger.Provides
 @Module
 class CacheModule {
 
+    // TODO(jieyi): 2018/03/10 Just don't care cache layer's mapper temporally.
     @Provides
     internal fun providePlayoneMapper() = PlayoneMapper()
 }
