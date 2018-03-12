@@ -26,6 +26,8 @@ import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.LoginViewModel
+import com.playone.mobile.ui.navigateToActivity
+import com.playone.mobile.ui.playone.PlayoneActivity
 import kotlinx.android.synthetic.main.fragment_signin.progress
 import kotlinx.android.synthetic.main.merge_login.login_skip_btn
 import kotlinx.android.synthetic.main.merge_login.view.facebook_login_btn
@@ -76,11 +78,9 @@ class SignInFragment : BaseInjectingFragment() {
 
                 isSignedIn.observe(this@SignInFragment, Observer {
                     it.ifTrue {
-                        Toast.makeText(
-                            activity,
-                            "Signed In",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        navigator.navigateToActivity<PlayoneActivity>(this@SignInFragment) {
+                            // TODO: Passing User to PlayoneActivity
+                        }
                     } otherwise {
                         showSignInForms()
                     }
@@ -126,7 +126,7 @@ class SignInFragment : BaseInjectingFragment() {
             }
 
             sign_up_btn.setOnClickListener {
-                navigator.navigateTo((activity as AppCompatActivity)) {
+                navigator.navigateToFragment((activity as AppCompatActivity)) {
 
                     val fragment = SignUpFragment.newInstance()
                     val slideTransition = Slide(Gravity.RIGHT)

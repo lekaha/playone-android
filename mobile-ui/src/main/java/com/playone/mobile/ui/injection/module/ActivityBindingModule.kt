@@ -2,6 +2,7 @@ package com.playone.mobile.ui.injection.module
 
 import com.playone.mobile.ui.browse.BrowseActivity
 import com.playone.mobile.ui.onboarding.OnBoardingActivity
+import com.playone.mobile.ui.playone.PlayoneActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -21,4 +22,11 @@ abstract class ActivityBindingModule {
             OnBoardingModule::class,
             PlayoneModule::class])
     abstract fun bindMainActivity(): OnBoardingActivity
+
+    @ContributesAndroidInjector(
+        modules = [
+            NavigatorModule::class,
+            FragmentBindingModule::class,
+            PlayoneModule::class])
+    abstract fun bindPlayoneActivity(): PlayoneActivity
 }

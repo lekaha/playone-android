@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.transition.Slide
 import android.support.v7.app.AlertDialog
 import android.view.View
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
@@ -17,6 +16,8 @@ import com.playone.mobile.ui.model.OnBoardingViewModel
 import kotlinx.android.synthetic.main.activity_main.initializing
 import javax.inject.Inject
 import android.view.Gravity
+import com.playone.mobile.ui.navigateToActivity
+import com.playone.mobile.ui.playone.PlayoneActivity
 
 class OnBoardingActivity : BaseActivity() {
 
@@ -41,10 +42,9 @@ class OnBoardingActivity : BaseActivity() {
 
                 isSignedIn.observe(this@OnBoardingActivity, Observer {
                     it.ifTrue {
-                        Toast.makeText(
-                            this@OnBoardingActivity,
-                            "Signed In", Toast.LENGTH_LONG
-                        ).show()
+                        navigator.navigateToActivity<PlayoneActivity>(this@OnBoardingActivity) {
+                            // TODO: Passing User to PlayoneActivity
+                        }
                     } otherwise {
                         showSignInForms()
                     }
@@ -62,7 +62,7 @@ class OnBoardingActivity : BaseActivity() {
 
     private fun showSignInForms() {
 
-        navigator.navigateTo(this) {
+        navigator.navigateToFragment(this) {
 
             val fragment = SignInFragment.newInstance()
             val slideTransition = Slide(Gravity.START)
