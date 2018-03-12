@@ -31,14 +31,14 @@ class Navigator constructor(activityContext: Context) {
 
 inline fun <reified T : AppCompatActivity> Navigator.navigateToActivity(
     context: AppCompatActivity,
-    crossinline intent: Intent.() -> Unit = {}
+    noinline intent: Intent.() -> Unit = {}
 ) = context.start<T> {
     intent()
 }
 
 inline fun <reified T : AppCompatActivity> Navigator.navigateToActivity(
     fragment: Fragment,
-    crossinline intent: Intent.() -> Unit = {}
+    noinline intent: Intent.() -> Unit = {}
 ) = (fragment.activity)?.let {
     (fragment.activity as? AppCompatActivity)?.let { it.start<T> { intent() } }
 }
