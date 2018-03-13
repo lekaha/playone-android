@@ -25,6 +25,7 @@ class CreatePlayonePresenter(
     }
 
     override fun create(parameters: CreatePlayoneContract.CreatePlayoneParameters) {
+
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 //        createPlayoneView?.onResponse(ViewResponse.loading())
     }
