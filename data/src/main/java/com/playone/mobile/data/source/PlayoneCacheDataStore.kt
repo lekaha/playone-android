@@ -1,9 +1,11 @@
 package com.playone.mobile.data.source
 
+import com.playone.mobile.data.model.NotificationPayloadEntity
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneCache
 import com.playone.mobile.data.repository.PlayoneDataStore
+import io.reactivex.Single
 
 /**
  * Implementation of the [PlayoneDataStore] interface to provide a means of communicating
@@ -13,43 +15,93 @@ open class PlayoneCacheDataStore(private val cache: PlayoneCache) : PlayoneDataS
 
     override fun clearPlayoneList() = cache.clearPlayoneList()
 
-    override fun savePlayoneList(playoneList: List<PlayoneEntity>) =
-        cache.savePlayoneList(playoneList).doOnComplete { cache.keepLastCacheTime("") }
+    override fun savePlayoneList(playoneList: List<PlayoneEntity>) = TODO()
+//        cache.savePlayoneList(playoneList).doOnComplete { cache.keepLastCacheTime("") }
 
-    override fun getPlayoneList(userId: Int) = cache.getPlayoneList(userId)
+    override fun fetchPlayoneList(userId: Int) = cache.fetchPlayoneList(userId)
 
     override fun clearJoinedPlayoneList() = cache.clearJoinedPlayoneList()
 
-    override fun saveJoinedPlayoneList(playoneList: List<PlayoneEntity>) =
-        cache.saveJoinedPlayoneList(playoneList).doOnComplete { cache.keepLastCacheTime("") }
+    override fun saveJoinedPlayoneList(playoneList: List<PlayoneEntity>) = TODO()
+//        cache.saveJoinedPlayoneList(playoneList).doOnComplete { cache.keepLastCacheTime("") }
 
-    override fun getJoinedPlayoneList(userId: Int) = cache.getJoinedPlayoneList(userId)
+    override fun fetchJoinedPlayoneList(userId: Int) = cache.fetchJoinedPlayoneList(userId)
 
     override fun clearFavoritePlayoneList() = cache.clearFavoritePlayoneList()
 
-    override fun saveFavoritePlayoneList(playoneList: List<PlayoneEntity>) =
-        cache.saveFavoritePlayoneList(playoneList).doOnComplete { cache.keepLastCacheTime("") }
+    override fun saveFavoritePlayoneList(playoneList: List<PlayoneEntity>) = TODO()
+//        cache.saveFavoritePlayoneList(playoneList).doOnComplete { cache.keepLastCacheTime("") }
 
-    override fun getFavoritePlayoneList(userId: Int) = cache.getFavoritePlayoneList(userId)
+    override fun fetchFavoritePlayoneList(userId: Int) = cache.fetchFavoritePlayoneList(userId)
 
     override fun clearPlayoneDetail() = cache.clearPlayoneDetail()
 
-    override fun savePlayoneDetail(playoneEntity: PlayoneEntity) =
-        cache.savePlayoneDetail(playoneEntity).doOnComplete { cache.keepLastCacheTime("") }
+    override fun savePlayoneDetail(playoneEntity: PlayoneEntity) = TODO()
+//        cache.savePlayoneDetail(playoneEntity).doOnComplete { cache.keepLastCacheTime("") }
 
-    override fun getPlayoneDetail(playoneId: Int) = cache.getPlayoneDetail(playoneId)
+    override fun fetchPlayoneDetail(playoneId: Int) = cache.fetchPlayoneDetail(playoneId)
 
-    override fun clearUserEntity(userEntity: UserEntity) = cache.clearUserEntity()
+    override fun clearUserEntity(userEntity: UserEntity) = cache.clearUserEntity(userEntity)
 
-    override fun saveUserEntity(userEntity: UserEntity) =
-        cache.saveUserEntity(userEntity).doOnComplete { cache.keepLastCacheTime("") }
+    override fun saveUserEntity(userEntity: UserEntity) = TODO()
+//        cache.saveUserEntity(userEntity).doOnComplete { cache.keepLastCacheTime("") }
 
-    override fun getUserEntityById(userId: Int) = cache.getUserEntityById(userId)
+    override fun fetchUserEntity(userId: Int) = cache.fetchUserEntity(userId)
 
-    override fun getUserEntityByEmail(email: String) = cache.getUserEntityByEmail(email)
+    override fun fetchUserEntity(email: String) = cache.fetchUserEntity(email)
 
-    //region Unsupported operations.
-    override fun createUserEntity(userEntity: UserEntity) =
+    //region Unsupported Operations
+    override fun createUser(userEntity: UserEntity) = throw UnsupportedOperationException()
+
+    override fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) =
+        throw UnsupportedOperationException()
+
+    override fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) =
+        throw UnsupportedOperationException()
+
+    override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) =
+        throw UnsupportedOperationException()
+
+    override fun sendJoinRequest(playoneId: Int, userId: Int, msg: String) =
+        throw UnsupportedOperationException()
+
+    override fun toggleFavorite(playoneId: Int, userId: Int): Single<Boolean> =
+        throw UnsupportedOperationException()
+
+    override fun isFavorite(playoneId: Int, userId: Int): Single<Boolean> =
+        throw UnsupportedOperationException()
+
+    override fun isJoint(playoneId: Int, userId: Int): Single<Boolean> =
+        throw UnsupportedOperationException()
+
+    override fun updateUser(userEntity: UserEntity) =
+        throw UnsupportedOperationException()
+
+    override fun updateUser(userEntity: UserEntity, lastDeviceToken: String) =
+        throw UnsupportedOperationException()
+
+    override fun applyNotification(payload: NotificationPayloadEntity) =
+        throw UnsupportedOperationException()
+
+    override fun acceptedNotification(payload: NotificationPayloadEntity) =
+        throw UnsupportedOperationException()
+
+    override fun acceptNotification(payload: NotificationPayloadEntity) =
+        throw UnsupportedOperationException()
+
+    override fun dismissNotification(payload: NotificationPayloadEntity) =
+        throw UnsupportedOperationException()
+
+    override fun kickNotification(payload: NotificationPayloadEntity) =
+        throw UnsupportedOperationException()
+
+    override fun quitNotification(payload: NotificationPayloadEntity) =
+        throw UnsupportedOperationException()
+
+    override fun rejectedNotification(payload: NotificationPayloadEntity) =
+        throw UnsupportedOperationException()
+
+    override fun rejectNotification(payload: NotificationPayloadEntity) =
         throw UnsupportedOperationException()
     //endregion
 }
