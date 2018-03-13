@@ -12,14 +12,17 @@ interface CreatePlayoneContract {
 
     interface Presenter : BasePresenter {
 
-        fun create(name: String,
-                   description: String,
-                   playoneDate: Date,
-                   location: PlayonePlace,
-                   limitPeople: Int,
-                   level: Int
-        )
+        fun create(parameters: CreatePlayoneParameters)
     }
 
     data class PlayonePlace(val longitude: Long, var latitude: Long, var address: String)
+
+    data class CreatePlayoneParameters(
+        var name: String,
+        var description: String,
+        var playoneDate: Date,
+        var location: PlayonePlace,
+        var limitPeople: Int,
+        var level: Int
+    )
 }
