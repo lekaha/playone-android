@@ -13,6 +13,7 @@ import io.reactivex.Single
  */
 interface PlayoneRepository {
 
+    //region For caching the data by the cache layer.
     fun clearPlayoneList(): Completable
 
     fun savePlayoneList(playoneList: List<Playone>): Completable
@@ -46,5 +47,19 @@ interface PlayoneRepository {
     fun getUserByEmail(email: String): Single<User>
 
     fun getUserById(userId: Int): Single<User>
+    //endregion
 
+    fun createPlayone(userId: Int, playone: Playone): Single<Boolean>
+
+    fun updatePlayone(userId: Int, playone: Playone): Single<Boolean>
+
+    fun joinTeam(playoneId: Int, userId: Int, isJoin: Boolean): Single<Boolean>
+
+    fun sendJoinRequest(playoneId: Int, userId: Int, msg: String): Single<Boolean>
+
+    fun toggleFavorite(playoneId: Int, userId: Int): Single<Boolean>
+
+    fun isFavorite(playoneId: Int, userId: Int): Single<Boolean>
+
+    fun isJoined(playoneId: Int, userId: Int): Single<Boolean>
 }
