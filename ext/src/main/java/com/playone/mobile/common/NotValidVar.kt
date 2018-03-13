@@ -18,6 +18,7 @@ class NotValidVar<T : Any>(private val invalidVal: T) : ReadWriteProperty<Any?, 
         }
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+        
         this.value = value
     }
 }
