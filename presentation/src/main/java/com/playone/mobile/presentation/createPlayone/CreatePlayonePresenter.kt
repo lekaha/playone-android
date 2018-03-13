@@ -6,7 +6,6 @@ import com.playone.mobile.presentation.ViewResponse
 import com.playone.mobile.presentation.mapper.Mapper
 import com.playone.mobile.presentation.model.PlayoneView
 import io.reactivex.observers.DisposableSingleObserver
-import java.util.Date
 
 class CreatePlayonePresenter(
     val signUpAndSignIn: SignUpAndSignIn,
@@ -25,14 +24,7 @@ class CreatePlayonePresenter(
         createPlayoneView = null
     }
 
-    override fun create(
-        name: String,
-        description: String,
-        playoneDate: Date,
-        location: CreatePlayoneContract.PlayonePlace,
-        limitPeople: Int,
-        level: Int
-    ) {
+    override fun create(parameters: CreatePlayoneContract.CreatePlayoneParameters) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 //        createPlayoneView?.onResponse(ViewResponse.loading())
     }
