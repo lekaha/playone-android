@@ -96,7 +96,7 @@ class PlayoneCacheImpl constructor(
 
     override fun isFavorite(playoneId: Int, userId: Int) = TODO()
 
-    override fun isJoint(playoneId: Int, userId: Int) = TODO()
+    override fun isJoined(playoneId: Int, userId: Int) = TODO()
 
     override fun createUser(userEntity: UserEntity) = TODO()
 

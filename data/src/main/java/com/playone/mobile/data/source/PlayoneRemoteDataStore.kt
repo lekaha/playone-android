@@ -68,7 +68,7 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
 
     override fun isFavorite(playoneId: Int, userId: Int) = TODO()
 
-    override fun isJoint(playoneId: Int, userId: Int) = TODO()
+    override fun isJoined(playoneId: Int, userId: Int) = TODO()
 
     override fun updateUser(userEntity: UserEntity) = TODO()
 
