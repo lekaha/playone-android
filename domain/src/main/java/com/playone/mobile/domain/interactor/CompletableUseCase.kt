@@ -17,7 +17,7 @@ abstract class CompletableUseCase<in Params> protected constructor(
     /**
      * Builds a [Completable] which will be used when the current [CompletableUseCase] is executed.
      */
-    protected abstract fun buildUseCaseObservable(params: Params): Completable
+    abstract fun buildUseCaseObservable(params: Params): Completable
 
     /**
      * Executes the current use case.
