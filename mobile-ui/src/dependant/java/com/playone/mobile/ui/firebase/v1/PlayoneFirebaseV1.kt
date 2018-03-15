@@ -34,13 +34,20 @@ class PlayoneFirebaseV1(
         userId: String,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = if (userId.isNotEmpty()) {
+    ) {
+        println("=================================================")
+        println(userId)
+        println("=================================================")
+//        if (userId == "invalidString") {
+        println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
         playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
-    }
-    else {
-        userDsAction(userId.toString(),
-                     {},  // This is redundant anonymous function for running strategy function.
-                     errorCallback) { userSnapToPlayoneList(it, errorCallback, callback) }
+//        }
+//        else {
+//            println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
+//            userDsAction(userId,§
+//                         {},  // This is redundant anonymous function for running strategy function.
+//                         errorCallback) { userSnapToPlayoneList(it, errorCallback, callback) }
+//        }
     }
 
     override fun createPlayone(

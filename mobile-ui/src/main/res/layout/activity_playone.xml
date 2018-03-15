@@ -11,9 +11,8 @@
         app:menu="@menu/menu_bottom_navigation"/>
 
     <FrameLayout
-        android:id="@+id/content"
-        style="@style/MatchParentSize"
-        />
+        android:id="@+id/list_content"
+        style="@style/MatchParentSize"/>
 
     <android.support.design.widget.FloatingActionButton
         android:src="@drawable/ic_action_create"
