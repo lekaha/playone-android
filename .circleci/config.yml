@@ -36,7 +36,8 @@ jobs:
       - run:
           name: Wait for emulator
           command: |
-            circle-android wait-for-boot
+            cp /bin/circle-android .
+            ./circle-android wait-for-boot
             adb shell input keyevent 82
           environment:
             TERM: dumb
