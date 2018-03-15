@@ -31,10 +31,10 @@ class PlayoneFirebaseV1(
      * @param errorCallback a function for getting a error when retrieving the data.
      */
     override fun obtainPlayoneList(
-        userId: Int,
+        userId: String,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = if (0 > userId) {
+    ) = if (userId.isNotEmpty()) {
         playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
     }
     else {

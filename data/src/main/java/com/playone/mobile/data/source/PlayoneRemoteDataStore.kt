@@ -17,7 +17,7 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
      *
      * @param userId user id.
      */
-    override fun fetchPlayoneList(userId: Int) = remote.fetchPlayoneList(userId)
+    override fun fetchPlayoneList(userId: String) = remote.fetchPlayoneList(userId)
 
     /**
      * Retrieve a list of the joined [PlayoneEntity] instances from the API.

@@ -8,7 +8,7 @@ import com.playone.mobile.domain.repository.BufferooRepository
 import com.playone.mobile.presentation.browse.BrowseBufferoosContract
 import com.playone.mobile.presentation.browse.BrowseBufferoosPresenter
 import com.playone.mobile.presentation.mapper.BufferooMapper
-import com.playone.mobile.ui.browse.BrowseViewHolder
+import com.playone.mobile.ui.playone.PlayoneViewHolder
 import com.playone.mobile.ui.injection.qualifier.ActivityContext
 import com.playone.mobile.ui.model.BrowseViewModelFactory
 import dagger.Module
@@ -33,10 +33,10 @@ open class TestBrowseActivityModule {
 
     @Provides
     internal fun provideBrowseViewHolderFactory(@ActivityContext context: Context) =
-        BrowseViewHolder.BrowseViewHolderFactory(context)
+        PlayoneViewHolder.BrowseViewHolderFactory(context)
 
     @Provides
-    internal fun provideBrowseViewHolderBinder() = BrowseViewHolder.BrowseViewHolderBinder()
+    internal fun provideBrowseViewHolderBinder() = PlayoneViewHolder.BrowseViewHolderBinder()
 
     @Provides
     internal fun provideBrowsePresenter(getBufferoos: GetBufferoos, mapper: BufferooMapper)

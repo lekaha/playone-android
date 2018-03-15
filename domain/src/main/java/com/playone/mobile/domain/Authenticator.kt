@@ -16,6 +16,8 @@ abstract class Authenticator {
 
     abstract fun sendEmailVerification(callback: AuthResultCallBack)
 
+    abstract fun getCurrentUser(): User?
+
     interface AuthResultCallBack {
 
         fun onSuccessful(user: User)

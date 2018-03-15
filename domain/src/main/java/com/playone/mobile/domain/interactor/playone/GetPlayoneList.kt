@@ -16,10 +16,10 @@ open class GetPlayoneList constructor(
     private val repository: PlayoneRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : SingleUseCase<List<Playone>, Int?>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<List<Playone>, String?>(threadExecutor, postExecutionThread) {
 
-    public override fun buildUseCaseObservable(params: Int?) =
+    public override fun buildUseCaseObservable(params: String?) =
         params
-            .takeIf(Int?::isNotNull)
+            .takeIf(String?::isNotNull)
             ?.let(repository::getPlayoneList) ?: throw InvalidParameterException()
 }

@@ -13,7 +13,7 @@ import io.reactivex.Single
 interface PlayoneService {
 
     //region Playone
-    fun retrievePlayoneList(userId: Int = invalidInt): Single<List<PlayoneModel>>
+    fun retrievePlayoneList(userId: String): Single<List<PlayoneModel>>
 
     fun retrieveJoinedPlayoneList(userId: Int): Single<List<PlayoneModel>>
 

@@ -27,6 +27,7 @@ abstract class ActivityBindingModule {
         modules = [
             NavigatorModule::class,
             FragmentBindingModule::class,
-            PlayoneModule::class])
+            PlayoneModule::class,
+            PlayoneListModule::class])
     abstract fun bindPlayoneActivity(): PlayoneActivity
 }

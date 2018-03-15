@@ -133,6 +133,8 @@ class FirebaseAuthenticator(
         }
     }
 
+    override fun getCurrentUser(): User? = firebaseAuth.currentUser?.let(mapper::mapToUser)
+
     class FirebaseUserMapper {
 
         fun mapToUser(user: FirebaseUser) =
