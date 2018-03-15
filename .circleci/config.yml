@@ -37,7 +37,7 @@ jobs:
           name: Change permission
           command: |
             sudo chmod +x /bin/circle-android
-            sudo chown circleci:circleci circle-android
+            sudo chown circleci:circleci /bin/circle-android
           environment:
             TERM: dumb
       - run:
