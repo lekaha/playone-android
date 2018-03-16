@@ -2,7 +2,6 @@ package com.playone.mobile.remote.bridge.playone
 
 import com.playone.mobile.data.model.NotificationPayloadEntity
 import com.playone.mobile.data.repository.PlayoneRemote
-import com.playone.mobile.ext.invalidInt
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
 import io.reactivex.Single

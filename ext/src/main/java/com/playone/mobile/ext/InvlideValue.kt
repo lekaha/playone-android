@@ -1,3 +1,3 @@
 package com.playone.mobile.ext
 
-const val invalidInt = -1
+const val defaultInt = -1
