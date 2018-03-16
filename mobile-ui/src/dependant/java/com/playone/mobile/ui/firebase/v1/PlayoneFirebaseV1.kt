@@ -7,6 +7,7 @@ import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
 import com.google.firebase.iid.FirebaseInstanceId
 import com.playone.mobile.ext.defaultInt
+import com.playone.mobile.ext.defaultStr
 import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.model.PlayoneModel
@@ -34,7 +35,7 @@ class PlayoneFirebaseV1(
         userId: String,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = if ("invalidString" == userId) {
+    ) = if (defaultStr == userId) {
         playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
     }
     else {
