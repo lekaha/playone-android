@@ -11,7 +11,9 @@ import org.modelmapper.ModelMapper
  * Map a [PlayoneView] to and from a [PlayoneListItemViewModel] instance when data is moving between
  * this layer and the Domain layer
  */
-open class PlayoneMapper : Mapper<PlayoneListItemViewModel, PlayoneView> {
+open class PlayoneMapper(
+    private val modelMapper: ModelMapper
+) : Mapper<PlayoneListItemViewModel, PlayoneView> {
 
     /**
      * Map a [PlayoneView] instance to a [PlayoneListItemViewModel] instance
@@ -20,7 +22,7 @@ open class PlayoneMapper : Mapper<PlayoneListItemViewModel, PlayoneView> {
 
     @Throws(Exception::class)
     fun mapToViewModels(views: List<PlayoneView>) = Observable.fromIterable(views)
-        .map { ModelMapper().map(it, PlayoneListItemViewModel::class.java) }
+        .map { modelMapper.map(it, PlayoneListItemViewModel::class.java) }
         .map { wrapInDisplayableItem(it) }
         .toList()
         .blockingGet()

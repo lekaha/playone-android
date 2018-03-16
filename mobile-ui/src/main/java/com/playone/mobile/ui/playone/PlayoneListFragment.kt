@@ -12,7 +12,7 @@ import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.mapper.PlayoneMapper
 import com.playone.mobile.ui.model.PlayoneListViewModel
-import kotlinx.android.synthetic.main.fragment_playone_list.list_view
+import kotlinx.android.synthetic.main.fragment_playone_list.rv_playone_list
 import javax.inject.Inject
 
 class PlayoneListFragment : BaseInjectingFragment() {
@@ -26,7 +26,7 @@ class PlayoneListFragment : BaseInjectingFragment() {
     }
 
     @Inject lateinit var playoneAdapter: PlayoneAdapter
-    var mapper: PlayoneMapper = PlayoneMapper()
+    @Inject lateinit var mapper: PlayoneMapper
 
     private var viewModel: PlayoneListViewModel? = null
     private val userId by lazy { arguments?.getString(PARAMETER_USER_ID) ?: defaultStr }
@@ -52,6 +52,7 @@ class PlayoneListFragment : BaseInjectingFragment() {
     }
 
     private fun initViewModel() {
+
         activity?.let {
             viewModel = ViewModelProviders.of(it).get(PlayoneListViewModel::class.java).apply {
                 fetchListData().observe(this@PlayoneListFragment, Observer {
@@ -66,7 +67,9 @@ class PlayoneListFragment : BaseInjectingFragment() {
 
     private fun setupRecycler() {
 
-        list_view.layoutManager = LinearLayoutManager(activity)
-        list_view.adapter = playoneAdapter
+        rv_playone_list.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = playoneAdapter
+        }
     }
 }
