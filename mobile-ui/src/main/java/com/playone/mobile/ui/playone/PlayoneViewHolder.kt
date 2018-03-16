@@ -10,10 +10,10 @@ import com.playone.mobile.ui.model.PlayoneListItemViewModel
 import com.playone.mobile.ui.view.recycler.DisplayableItem
 import com.playone.mobile.ui.view.recycler.ViewHolderBinder
 import com.playone.mobile.ui.view.recycler.ViewHolderFactory
-import kotlinx.android.synthetic.main.item_playone_constrant.view.cl_playone
-import kotlinx.android.synthetic.main.item_playone_constrant.view.tv_distance
-import kotlinx.android.synthetic.main.item_playone_constrant.view.tv_limit
-import kotlinx.android.synthetic.main.item_playone_constrant.view.tv_title
+import kotlinx.android.synthetic.main.item_playone_constraint.view.cl_playone
+import kotlinx.android.synthetic.main.item_playone_constraint.view.tv_distance
+import kotlinx.android.synthetic.main.item_playone_constraint.view.tv_limit
+import kotlinx.android.synthetic.main.item_playone_constraint.view.tv_title
 
 class PlayoneViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     //    var avatarImage: ImageView = view.findViewById(R.id.image_avatar)
