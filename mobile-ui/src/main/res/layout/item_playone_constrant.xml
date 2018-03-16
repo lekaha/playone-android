@@ -6,45 +6,44 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
     android:background="@drawable/item_background"
-    android:clickable="true"
-    android:focusable="true"
     android:transitionName="@string/playone_item"
+    android:id="@+id/cl_playone"
     tools:context=".playone.PlayoneListFragment"
     tools:ignore="UseCompoundDrawables">
 
     <ImageView
-        android:id="@+id/playone_shirt"
+        android:id="@+id/iv_playone_shirt"
         style="@style/PlayoneIconTShirt"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/tv_title"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/playone_limit"
+        android:id="@+id/tv_limit"
         style="@style/PlayoneTeamNumberLimit"
-        app:layout_constraintBottom_toBottomOf="@+id/playone_shirt"
-        app:layout_constraintEnd_toEndOf="@+id/playone_shirt"
-        app:layout_constraintStart_toStartOf="@+id/playone_shirt"
-        app:layout_constraintTop_toTopOf="@+id/playone_shirt"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_playone_shirt"
+        app:layout_constraintEnd_toEndOf="@+id/iv_playone_shirt"
+        app:layout_constraintStart_toStartOf="@+id/iv_playone_shirt"
+        app:layout_constraintTop_toTopOf="@+id/iv_playone_shirt"
         tools:text="5"/>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_title"
         style="@style/PlayoneTeamTitle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView"
-        app:layout_constraintStart_toEndOf="@+id/playone_shirt"
+        app:layout_constraintEnd_toStartOf="@+id/tv_distance"
+        app:layout_constraintStart_toEndOf="@+id/iv_playone_shirt"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="test_title"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_distance"
         style="@style/PlayoneDistanceFromHere"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/tv_title"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="500    KM"/>
 </android.support.constraint.ConstraintLayout>
