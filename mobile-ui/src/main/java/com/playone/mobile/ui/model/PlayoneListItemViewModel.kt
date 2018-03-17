@@ -22,4 +22,8 @@ class PlayoneListItemViewModel {
     companion object {
         const val DISPLAY_TYPE_PLAYONE: Int = 4
     }
+
+    override fun toString() =
+        "id: $id, name: $name, totalNumber: $totalNumber, description: $description, data: $date, updated: $updated, address: $address, longitude: $longitude, latitude: $latitude, limit: $limit, level: $level, host: $host, userId: $userId"
+
 }

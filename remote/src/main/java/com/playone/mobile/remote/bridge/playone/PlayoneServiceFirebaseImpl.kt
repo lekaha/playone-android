@@ -9,7 +9,7 @@ import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
 
 /**
- * An implementation of [com.playone.mobile.remote.PlayoneService] that retrieving
+ * An implementation of [com.playone.mobile.remote.bridge.playone.PlayoneService] that retrieving
  * Playone data from Firebase and using the Firebase SDK in this class.
  */
 class PlayoneServiceFirebaseImpl(
