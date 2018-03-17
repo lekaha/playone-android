@@ -2,10 +2,12 @@ package com.playone.mobile.ui
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import com.playone.mobile.ui.ext.start
+import com.playone.mobile.ui.ext.startForResult
 import com.playone.mobile.ui.ext.transact
 
 /**
@@ -32,6 +34,15 @@ inline fun <reified T : AppCompatActivity> Navigator.navigateToActivity(
     context: AppCompatActivity,
     noinline intent: Intent.() -> Unit = {}
 ) = context.start<T> {
+    intent()
+}
+
+inline fun <reified T : AppCompatActivity> Navigator.navigateToActivityWithResult(
+    context: AppCompatActivity,
+    resultCode: Int = -1,
+    options: Bundle = Bundle(),
+    noinline intent: Intent.() -> Unit = {}
+) = context.startForResult<T>(resultCode, options) {
     intent()
 }
 

@@ -1,6 +1,7 @@
 package com.playone.mobile.ui.injection.module
 
 import com.playone.mobile.ui.browse.BrowseActivity
+import com.playone.mobile.ui.create.CreatePlayoneActivity
 import com.playone.mobile.ui.onboarding.OnBoardingActivity
 import com.playone.mobile.ui.playone.PlayoneActivity
 import dagger.Module
@@ -30,4 +31,11 @@ abstract class ActivityBindingModule {
             PlayoneModule::class,
             PlayoneListModule::class])
     abstract fun bindPlayoneActivity(): PlayoneActivity
+
+    @ContributesAndroidInjector(
+        modules = [
+            NavigatorModule::class,
+            FragmentBindingModule::class,
+            PlayoneModule::class])
+    abstract fun bindCreatePlayoneActivity(): CreatePlayoneActivity
 }
