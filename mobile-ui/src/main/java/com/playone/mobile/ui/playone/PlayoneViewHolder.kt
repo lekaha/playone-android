@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.item_playone_constraint.view.tv_limit
 import kotlinx.android.synthetic.main.item_playone_constraint.view.tv_title
 
 class PlayoneViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
     //    var avatarImage: ImageView = view.findViewById(R.id.image_avatar)
     private val clPlayone by lazy { view.cl_playone }
     private val tvName by lazy { view.tv_title }
@@ -23,6 +24,7 @@ class PlayoneViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val tvDistance by lazy { view.tv_distance }
 
     fun bind(playoneListItem: PlayoneListItemViewModel) {
+
         clPlayone.setOnClickListener { }
         tvName.text = playoneListItem.name
         tvLimit.text = playoneListItem.totalNumber.toString()
@@ -43,10 +45,12 @@ class PlayoneViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 
     class PlayoneViewHolderBinder : ViewHolderBinder {
+
         override fun bind(
             viewHolder: RecyclerView.ViewHolder,
             item: DisplayableItem<*>
         ) {
+
             val playoneViewHolder = PlayoneViewHolder::class.java.cast(viewHolder)
             val playoneViewModel = PlayoneListItemViewModel::class.java.cast(item.model())
             playoneViewHolder.bind(playoneViewModel)
