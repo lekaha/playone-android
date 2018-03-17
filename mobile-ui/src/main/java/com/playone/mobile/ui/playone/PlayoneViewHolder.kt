@@ -38,7 +38,7 @@ class PlayoneViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         override fun createViewHolder(parent: ViewGroup) =
             PlayoneViewHolder(LayoutInflater
                                   .from(context)
-                                  .inflate(R.layout.item_playone_constrant, parent, false))
+                                  .inflate(R.layout.item_playone_constraint, parent, false))
 
     }
 
