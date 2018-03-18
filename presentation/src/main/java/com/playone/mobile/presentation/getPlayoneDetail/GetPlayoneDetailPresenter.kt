@@ -49,7 +49,7 @@ class GetPlayoneDetailPresenter(
 
         override fun onSuccess(t: Playone) {
 
-//            getPlayoneDetailView?.onResponse(ViewResponse.success(viewMapper.mapToView(it))
+            getPlayoneDetailView?.onResponse(ViewResponse.success(viewMapper.mapToView(t)))
         }
 
         override fun onError(e: Throwable) {
