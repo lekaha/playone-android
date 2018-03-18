@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.playone.mobile.ui.R
-import com.playone.mobile.ui.ext.logw
+import com.playone.mobile.ui.ext.w
 import com.playone.mobile.ui.model.PlayoneListItemViewModel
 import com.playone.mobile.ui.view.recycler.DisplayableItem
 import com.playone.mobile.ui.view.recycler.ViewHolderBinder
@@ -26,7 +26,7 @@ class PlayoneViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(playoneListItem: PlayoneListItemViewModel) {
 
-        logw(playoneListItem)
+        w(playoneListItem)
         clPlayone.setOnClickListener { }
         tvName.text = playoneListItem.name
         tvLimit.text = playoneListItem.totalNumber.toString()
