@@ -1,83 +1,41 @@
 package com.playone.mobile.remote.model
 
+import com.playone.mobile.common.NotValidVar
+import com.playone.mobile.ext.defaultDouble
+import com.playone.mobile.ext.defaultInt
+import com.playone.mobile.ext.defaultLong
+import com.playone.mobile.ext.defaultStr
+
 /**
  * Representation for a [PlayoneModel] fetched from the API.
  */
-//class PlayoneModel {
-//
-//    // OPTIMIZE(jieyi): 2018/03/10 From the data from firebase must be initialized, otherwise it will throw an error.
-//    lateinit var id: String
-//    lateinit var name: String
-//    lateinit var description: String
-//    var date by Delegates.notNull<Long>()
-//    var updated by Delegates.notNull<Long>()
-//    lateinit var address: String
-//    var longitude by Delegates.notNull<Double>()
-//    var latitude by Delegates.notNull<Double>()
-//    var limit by Delegates.notNull<Int>()
-//    var level by Delegates.notNull<Int>()
-//    lateinit var host: String
-//    lateinit var userId: String
-//
-//    override fun toString() =
-//        "id: $id, name: $name, description: $description, data: $date, updated: $updated, address: $address, longitude: $longitude, latitude: $latitude, limit: $limit, level: $level, host: $host, userId: $userId"
-//
-//    fun toMap() = hashMapOf("name" to name,
-//                            "name" to name,
-//                            "description" to description,
-//                            "host" to host,
-//                            "date" to date,
-//                            "updated" to updated,
-//                            "address" to address,
-//                            "latitude" to latitude,
-//                            "longitude" to longitude,
-//                            "limit" to limit,
-//                            "level" to level,
-//                            "userId" to userId)
-//
-//    fun copy(
-//        id: String? = null,
-//        name: String? = null,
-//        description: String? = null,
-//        date: Long? = null,
-//        updated: Long? = null,
-//        address: String? = null,
-//        longitude: Double? = null,
-//        latitude: Double? = null,
-//        limit: Int? = null,
-//        level: Int? = null,
-//        host: String? = null,
-//        userId: String? = null
-//    ) = PlayoneModel().also {
-//        it.id = id ?: this.id
-//        it.name = name ?: this.name
-//        it.description = description ?: this.description
-//        it.date = date ?: this.date
-//        it.updated = updated ?: this.updated
-//        it.address = address ?: this.address
-//        it.longitude = longitude ?: this.longitude
-//        it.latitude = latitude ?: this.latitude
-//        it.limit = limit ?: this.limit
-//        it.level = level ?: this.level
-//        it.host = host ?: this.host
-//        it.userId = userId ?: this.userId
-//    }
-//}
-
 data class PlayoneModel(
-    var id: String = "",
-    var name: String = "",
-    var description: String = "",
-    var date: Long = -1L,
-    var updated: Long = -1L,
-    var address: String = "",
-    var longitude: Double = -1.0,
-    var latitude: Double = -1.0,
-    var limit: Int = -1,
-    var level: Int = -1,
-    var host: String = "",
-    var userId: String = ""
+    var id: String = defaultStr,
+    var name: String = defaultStr,
+    var description: String = defaultStr,
+    var date: Long = defaultLong,
+    var updated: Long = defaultLong,
+    var address: String = defaultStr,
+    var longitude: Double = defaultDouble,
+    var latitude: Double = defaultDouble,
+    var limit: Int = defaultInt,
+    var level: Int = defaultInt,
+    var host: String = defaultStr,
+    var userId: String = defaultStr
 ) {
+
+    var _id by NotValidVar(id)
+    var _name by NotValidVar(name)
+    var _description by NotValidVar(description)
+    var _date by NotValidVar(date)
+    var _updated by NotValidVar(updated)
+    var _address by NotValidVar(address)
+    var _longitude by NotValidVar(longitude)
+    var _latitude by NotValidVar(latitude)
+    var _limit by NotValidVar(limit)
+    var _level by NotValidVar(level)
+    var _host by NotValidVar(host)
+    var _userId by NotValidVar(userId)
 
     fun toMap() = hashMapOf("name" to name,
                             "name" to name,
