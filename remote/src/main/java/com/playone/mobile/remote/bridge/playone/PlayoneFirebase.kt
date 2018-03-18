@@ -14,7 +14,7 @@ abstract class PlayoneFirebase {
     protected val DEVICE_TOKENS = "device_tokens"
 
     abstract fun obtainPlayoneList(
-        userId: String,
+        userId: String? = null,
         callback: PlayoneListCallback,
         errorCallback: FirebaseErrorCallback
     )

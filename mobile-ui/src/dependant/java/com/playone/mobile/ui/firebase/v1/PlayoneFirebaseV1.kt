@@ -7,7 +7,6 @@ import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
 import com.google.firebase.iid.FirebaseInstanceId
 import com.playone.mobile.ext.defaultInt
-import com.playone.mobile.ext.defaultStr
 import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.model.PlayoneModel
@@ -32,17 +31,14 @@ class PlayoneFirebaseV1(
      * @param errorCallback a function for getting a error when retrieving the data.
      */
     override fun obtainPlayoneList(
-        userId: String,
+        userId: String?,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = if (defaultStr == userId) {
-        playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
-    }
-    else {
-        userDsAction(userId,
+    ) = userId.takeIf(String?::isNotNull)?.let {
+        userDsAction(it,
                      {},  // This is redundant anonymous function for running strategy function.
                      errorCallback) { userSnapToPlayoneList(it, errorCallback, callback) }
-    }
+    } ?: playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
 
     override fun createPlayone(
         userId: Int,

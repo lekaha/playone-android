@@ -18,6 +18,7 @@ class GetPlayoneListPresenter(
     var getPlayoneListView: GetPlayoneListContract.View? = null
 
     override fun setView(view: GetPlayoneListContract.View) {
+
         getPlayoneListView = view
     }
 
@@ -36,15 +37,15 @@ class GetPlayoneListPresenter(
         getCurrentUser.execute(object : DisposableSingleObserver<User>() {
 
             override fun onError(e: Throwable) {
+
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onSuccess(t: User) {
-                getPlayoneList.execute(GetListSubscriber(), t.id)
+
+                getPlayoneList.execute(GetListSubscriber(), if (t.isVerified) t.id else null)
             }
-
         })
-
     }
 
     inner class GetListSubscriber : DisposableSingleObserver<List<Playone>>() {
