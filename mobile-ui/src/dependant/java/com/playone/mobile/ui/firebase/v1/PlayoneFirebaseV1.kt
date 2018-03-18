@@ -6,7 +6,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
 import com.google.firebase.iid.FirebaseInstanceId
-import com.playone.mobile.ext.invalidInt
+import com.playone.mobile.ext.defaultInt
+import com.playone.mobile.ext.defaultStr
 import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.model.PlayoneModel
@@ -31,14 +32,14 @@ class PlayoneFirebaseV1(
      * @param errorCallback a function for getting a error when retrieving the data.
      */
     override fun obtainPlayoneList(
-        userId: Int,
+        userId: String,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = if (0 > userId) {
+    ) = if (defaultStr == userId) {
         playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
     }
     else {
-        userDsAction(userId.toString(),
+        userDsAction(userId,
                      {},  // This is redundant anonymous function for running strategy function.
                      errorCallback) { userSnapToPlayoneList(it, errorCallback, callback) }
     }
@@ -95,7 +96,7 @@ class PlayoneFirebaseV1(
         email: String,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
-    ) = userDsAction(invalidInt, email, {}, errorCallback) { snapToUser(it, email, callback) }
+    ) = userDsAction(defaultInt, email, {}, errorCallback) { snapToUser(it, email, callback) }
 
     override fun createUser(
         model: UserModel,

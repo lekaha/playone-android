@@ -2,7 +2,6 @@ package com.playone.mobile.remote.bridge.playone
 
 import com.playone.mobile.data.model.NotificationPayloadEntity
 import com.playone.mobile.data.repository.PlayoneRemote
-import com.playone.mobile.ext.invalidInt
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
 import io.reactivex.Single
@@ -13,7 +12,7 @@ import io.reactivex.Single
 interface PlayoneService {
 
     //region Playone
-    fun retrievePlayoneList(userId: Int = invalidInt): Single<List<PlayoneModel>>
+    fun retrievePlayoneList(userId: String): Single<List<PlayoneModel>>
 
     fun retrieveJoinedPlayoneList(userId: Int): Single<List<PlayoneModel>>
 

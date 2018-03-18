@@ -23,7 +23,7 @@ class PlayoneRemoteImpl constructor(
     private val userMapper: EntityMapper<UserModel, UserEntity>
 ) : PlayoneRemote {
 
-    override fun fetchPlayoneList(userId: Int) =
+    override fun fetchPlayoneList(userId: String) =
         service.retrievePlayoneList(userId).mapPlayoneToEntity()
 
     override fun fetchJoinedPlayoneList(userId: Int) =

@@ -9,14 +9,14 @@ import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
 
 /**
- * An implementation of [com.playone.mobile.remote.PlayoneService] that retrieving
+ * An implementation of [com.playone.mobile.remote.bridge.playone.PlayoneService] that retrieving
  * Playone data from Firebase and using the Firebase SDK in this class.
  */
 class PlayoneServiceFirebaseImpl(
     private val playoneFirebase: PlayoneFirebase
 ) : PlayoneService {
 
-    override fun retrievePlayoneList(userId: Int) =
+    override fun retrievePlayoneList(userId: String) =
         single<List<PlayoneModel>> { emitter ->
             playoneFirebase.obtainPlayoneList(userId, emitter::onSuccess, emitter::errorHandler)
         }

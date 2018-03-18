@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.playone.mobile.common.AndroidPreconditions
 import io.reactivex.Single
-import java.util.*
+import java.util.ArrayList
 
 /**
  * Implementation of [Adapter] for [DisplayableItem].
