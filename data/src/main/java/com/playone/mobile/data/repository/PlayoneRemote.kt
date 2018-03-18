@@ -3,7 +3,6 @@ package com.playone.mobile.data.repository
 import com.playone.mobile.data.model.NotificationPayloadEntity
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
-import com.playone.mobile.ext.invalidInt
 import io.reactivex.Single
 
 /**

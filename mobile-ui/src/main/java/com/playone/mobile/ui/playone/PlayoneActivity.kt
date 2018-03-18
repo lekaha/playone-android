@@ -40,6 +40,10 @@ class PlayoneActivity : BaseActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(PlayoneListViewModel::class.java)
 
+        navigator.navigateToFragment(this, {
+            replace(R.id.list_content, PlayoneListFragment.newInstance())
+        })
+
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_sign_out -> {

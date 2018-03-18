@@ -15,13 +15,15 @@ open class PlayoneMapper(
     /**
      * Map a [PlayoneEntity] instance to a [Playone] instance.
      */
-    override fun mapFromEntity(type: PlayoneEntity) =
-        modelMapper.map(type, Playone::class.java)
+    override fun mapFromEntity(type: PlayoneEntity): Playone =
+        modelMapper.map(type, Playone.Detail::class.java)
 
     /**
      * Map a [Playone] instance to a [PlayoneEntity] instance.
      */
     override fun mapToEntity(type: Playone) =
-        modelMapper.map(type, PlayoneEntity::class.java)
-
+        when (type) {
+            is Playone.Detail -> modelMapper.map(type, PlayoneEntity::class.java)
+            else -> throw IllegalArgumentException("Data type is wrong!!!")
+        }
 }

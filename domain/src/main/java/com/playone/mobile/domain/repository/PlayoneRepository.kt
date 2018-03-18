@@ -2,7 +2,6 @@ package com.playone.mobile.domain.repository
 
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.model.User
-import com.playone.mobile.ext.invalidInt
 import io.reactivex.Completable
 import io.reactivex.Single
 
