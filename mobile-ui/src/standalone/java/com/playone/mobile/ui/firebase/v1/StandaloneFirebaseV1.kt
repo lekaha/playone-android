@@ -10,7 +10,7 @@ import com.playone.mobile.remote.model.UserModel
 class StandaloneFirebaseV1 : PlayoneFirebase() {
 
     override fun obtainPlayoneList(
-        userId: String,
+        userId: String?,
         callback: PlayoneListCallback,
         errorCallback: FirebaseErrorCallback
     ) = TODO()
