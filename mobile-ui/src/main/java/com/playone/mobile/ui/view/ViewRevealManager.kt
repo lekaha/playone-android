@@ -180,7 +180,7 @@ class ViewRevealManager {
         Property<RevealValues, Float>(Float::class.java, "supportCircularReveal") {
 
         override fun set(data: RevealValues, value: Float?) {
-            
+
             data.radius(value!!)
             data.target().invalidate()
         }
