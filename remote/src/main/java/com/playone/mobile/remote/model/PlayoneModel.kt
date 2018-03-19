@@ -1,27 +1,27 @@
 package com.playone.mobile.remote.model
 
 import com.playone.mobile.common.NotValidVar
-import com.playone.mobile.ext.defaultDouble
-import com.playone.mobile.ext.defaultInt
-import com.playone.mobile.ext.defaultLong
-import com.playone.mobile.ext.defaultStr
+import com.playone.mobile.ext.DEFAULT_DOUBLE
+import com.playone.mobile.ext.DEFAULT_INT
+import com.playone.mobile.ext.DEFAULT_LONG
+import com.playone.mobile.ext.DEFAULT_STR
 
 /**
  * Representation for a [PlayoneModel] fetched from the API.
  */
 data class PlayoneModel(
-    var id: String = defaultStr,
-    var name: String = defaultStr,
-    var description: String = defaultStr,
-    var date: Long = defaultLong,
-    var updated: Long = defaultLong,
-    var address: String = defaultStr,
-    var longitude: Double = defaultDouble,
-    var latitude: Double = defaultDouble,
-    var limit: Int = defaultInt,
-    var level: Int = defaultInt,
-    var host: String = defaultStr,
-    var userId: String = defaultStr
+    var id: String = DEFAULT_STR,
+    var name: String = DEFAULT_STR,
+    var description: String = DEFAULT_STR,
+    var date: Long = DEFAULT_LONG,
+    var updated: Long = DEFAULT_LONG,
+    var address: String = DEFAULT_STR,
+    var longitude: Double = DEFAULT_DOUBLE,
+    var latitude: Double = DEFAULT_DOUBLE,
+    var limit: Int = DEFAULT_INT,
+    var level: Int = DEFAULT_INT,
+    var host: String = DEFAULT_STR,
+    var userId: String = DEFAULT_STR
 ) {
 
     var _id by NotValidVar(id)

@@ -6,8 +6,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
 import com.google.firebase.iid.FirebaseInstanceId
-import com.playone.mobile.ext.defaultInt
-import com.playone.mobile.ext.defaultStr
+import com.playone.mobile.ext.DEFAULT_INT
+import com.playone.mobile.ext.DEFAULT_STR
 import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.model.PlayoneModel
@@ -35,7 +35,7 @@ class PlayoneFirebaseV1(
         userId: String,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = if (defaultStr == userId) {
+    ) = if (DEFAULT_STR == userId) {
         playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
     }
     else {
@@ -96,7 +96,7 @@ class PlayoneFirebaseV1(
         email: String,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
-    ) = userDsAction(defaultInt, email, {}, errorCallback) { snapToUser(it, email, callback) }
+    ) = userDsAction(DEFAULT_INT, email, {}, errorCallback) { snapToUser(it, email, callback) }
 
     override fun createUser(
         model: UserModel,
