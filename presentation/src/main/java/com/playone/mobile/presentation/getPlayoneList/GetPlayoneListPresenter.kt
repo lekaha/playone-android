@@ -1,6 +1,7 @@
 package com.playone.mobile.presentation.getPlayoneList
 
 import com.playone.mobile.domain.interactor.playone.GetCurrentUser
+import com.playone.mobile.domain.interactor.playone.GetOwnPlayoneList
 import com.playone.mobile.domain.interactor.playone.GetPlayoneList
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.model.User
@@ -12,6 +13,7 @@ import io.reactivex.observers.DisposableSingleObserver
 class GetPlayoneListPresenter(
     val getCurrentUser: GetCurrentUser,
     val getPlayoneList: GetPlayoneList,
+    val getOwnPlayoneList: GetOwnPlayoneList,
     val viewMapper: Mapper<PlayoneView, Playone>
 ) : GetPlayoneListContract.Presenter {
 
@@ -43,7 +45,12 @@ class GetPlayoneListPresenter(
 
             override fun onSuccess(t: User) {
 
-                getPlayoneList.execute(GetListSubscriber(), if (t.isVerified) t.id else null)
+                if (t.isVerified) {
+                    getPlayoneList.execute(GetListSubscriber())
+                }
+                else {
+                    getOwnPlayoneList.execute(GetListSubscriber(), t.id)
+                }
             }
         })
     }

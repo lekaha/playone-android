@@ -28,7 +28,17 @@ class PlayoneDataRepository constructor(
     override fun savePlayoneList(playoneList: List<Playone>) =
         factory.getCacheDataStore().savePlayoneList(playoneList.map(playoneMapper::mapToEntity))
 
-    override fun getPlayoneList(userId: String?) = factory.obtainDataStore().run {
+    override fun getPlayoneList() = factory.obtainDataStore().run {
+        fetchPlayoneList().flatMap { playoneList ->
+            // TODO(jieyi): 2018/03/10 Avoiding crashing becz the cache datastore we didn't implement yet.
+//                (this as? PlayoneRemoteDataStore)?.savePlayoneList(playoneList)
+//                ?:
+            Single.just(playoneList)
+        }
+            .map { it.map(playoneMapper::mapFromEntity) }
+    }
+
+    override fun getPlayoneList(userId: String) = factory.obtainDataStore().run {
         fetchPlayoneList(userId)
             .flatMap { playoneList ->
                 // TODO(jieyi): 2018/03/10 Avoiding crashing becz the cache datastore we didn't implement yet.

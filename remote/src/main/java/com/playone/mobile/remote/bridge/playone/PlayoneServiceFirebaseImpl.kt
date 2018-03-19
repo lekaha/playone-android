@@ -16,7 +16,11 @@ class PlayoneServiceFirebaseImpl(
     private val playoneFirebase: PlayoneFirebase
 ) : PlayoneService {
 
-    override fun retrievePlayoneList(userId: String?) =
+    override fun retrievePlayoneList() = single<List<PlayoneModel>> { emitter ->
+        playoneFirebase.obtainPlayoneList(emitter::onSuccess, emitter::errorHandler)
+    }
+
+    override fun retrievePlayoneList(userId: String) =
         single<List<PlayoneModel>> { emitter ->
             playoneFirebase.obtainPlayoneList(userId, emitter::onSuccess, emitter::errorHandler)
         }

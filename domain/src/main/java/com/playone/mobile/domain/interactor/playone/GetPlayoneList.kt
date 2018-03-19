@@ -2,7 +2,7 @@ package com.playone.mobile.domain.interactor.playone
 
 import com.playone.mobile.domain.executor.PostExecutionThread
 import com.playone.mobile.domain.executor.ThreadExecutor
-import com.playone.mobile.domain.interactor.SingleUseCase
+import com.playone.mobile.domain.interactor.SingleUseCaseWithoutParams
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.repository.PlayoneRepository
 
@@ -14,8 +14,7 @@ open class GetPlayoneList constructor(
     private val repository: PlayoneRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : SingleUseCase<List<Playone>, String?>(threadExecutor, postExecutionThread) {
+) : SingleUseCaseWithoutParams<List<Playone>>(threadExecutor, postExecutionThread) {
 
-    public override fun buildUseCaseObservable(params: String?) =
-        params.let(repository::getPlayoneList)
+    public override fun buildUseCaseObservable() = repository.getPlayoneList()
 }

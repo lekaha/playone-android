@@ -22,6 +22,11 @@ class PlayoneFirebaseV1(
     private val dbReference: DatabaseReference
 ) : PlayoneFirebase() {
 
+    override fun obtainPlayoneList(
+        callback: PlayoneCallback<List<PlayoneModel>>,
+        errorCallback: FirebaseErrorCallback
+    ) = playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
+
     /**
      * Retrieve the [List] of the [PlayoneModel] from the firebase server. We'll use
      * the callback function for returning the value back to.
@@ -31,14 +36,12 @@ class PlayoneFirebaseV1(
      * @param errorCallback a function for getting a error when retrieving the data.
      */
     override fun obtainPlayoneList(
-        userId: String?,
+        userId: String,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = userId.takeIf(String?::isNotNull)?.let {
-        userDsAction(it,
+    ) = userDsAction(userId,
                      {},  // This is redundant anonymous function for running strategy function.
                      errorCallback) { userSnapToPlayoneList(it, errorCallback, callback) }
-    } ?: playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
 
     override fun createPlayone(
         userId: Int,

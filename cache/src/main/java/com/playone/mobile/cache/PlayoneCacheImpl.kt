@@ -30,7 +30,9 @@ class PlayoneCacheImpl constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun fetchPlayoneList(userId: String?) = TODO()
+    override fun fetchPlayoneList() = TODO()
+
+    override fun fetchPlayoneList(userId: String) = TODO()
 
     override fun clearJoinedPlayoneList(): Completable {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

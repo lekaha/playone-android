@@ -13,9 +13,9 @@ import io.reactivex.Single
 open class GetBufferoos constructor(val bufferooRepository: BufferooRepository,
                                             threadExecutor: ThreadExecutor,
                                             postExecutionThread: PostExecutionThread):
-        SingleUseCase<List<Bufferoo>, Void?>(threadExecutor, postExecutionThread) {
+    SingleUseCase<List<Bufferoo>, Unit?>(threadExecutor, postExecutionThread) {
 
-    public override fun buildUseCaseObservable(params: Void?): Single<List<Bufferoo>> {
+    public override fun buildUseCaseObservable(params: Unit?): Single<List<Bufferoo>> {
         return bufferooRepository.getBufferoos()
     }
 
