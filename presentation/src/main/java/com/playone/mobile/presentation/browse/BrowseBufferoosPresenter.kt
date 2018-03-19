@@ -30,8 +30,7 @@ class BrowseBufferoosPresenter
     }
 
     override fun retrieveBufferoos() {
-        val a =
-            getBufferoosUseCase.execute(BufferooSubscriber(), {}())
+        getBufferoosUseCase.execute(BufferooSubscriber(), {}())
     }
 
     internal fun handleGetBufferoosSuccess(bufferoos: List<Bufferoo>) {
