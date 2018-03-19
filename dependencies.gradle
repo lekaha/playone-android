@@ -214,7 +214,6 @@ ext {
             appCompatV7                 : "com.android.support:appcompat-v7:${supportLibraryVersion}",
             supportRecyclerView         : "com.android.support:recyclerview-v7:${supportLibraryVersion}",
             supportDesign               : "com.android.support:design:${supportLibraryVersion}",
-            googleMap                   : "com.google.android.gms:play-services-maps:${googleMapVersion}",
             timber                      : "com.jakewharton.timber:timber:${timberVersion}",
             daggerSupport               : "com.google.dagger:dagger-android-support:${daggerVersion}",
             daggerProcessor             : "com.google.dagger:dagger-android-processor:${daggerVersion}",
@@ -231,15 +230,15 @@ ext {
             ktx                         : "androidx.core:core-ktx:${ktxVersion}",
 
             // Firebase
-            firebaseCore:       "com.google.firebase:firebase-core:${firebaseVersion}",
-            firebaseDb:         "com.google.firebase:firebase-database:${firebaseVersion}",
-            firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseVersion}",
-            firebaseAuth:       "com.google.firebase:firebase-auth:${firebaseVersion}",
-            firebaseInvites:    "com.google.firebase:firebase-invites:${firebaseVersion}",
-            facebook:           "com.facebook.android:facebook-login:${facebookSDKVersion}",
+            firebaseCore                : "com.google.firebase:firebase-core:${firebaseVersion}",
+            firebaseDb                  : "com.google.firebase:firebase-database:${firebaseVersion}",
+            firebaseMsging              : "com.google.firebase:firebase-messaging:${firebaseVersion}",
+            firebaseAuth                : "com.google.firebase:firebase-auth:${firebaseVersion}",
+            firebaseInvites             : "com.google.firebase:firebase-invites:${firebaseVersion}",
+            facebook                    : "com.facebook.android:facebook-login:${facebookSDKVersion}",
 
-            playAuth:           "com.google.android.gms:play-services-auth:${googleApiVersion}",
-            googleMap:           "com.google.android.gms:play-services-maps:${googleApiVersion}",
+            playAuth                    : "com.google.android.gms:play-services-auth:${googleApiVersion}",
+            googleMap                   : "com.google.android.gms:play-services-maps:${googleApiVersion}",
 
 //            coroutine:          "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutine}",
     ]
