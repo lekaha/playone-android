@@ -19,15 +19,19 @@ android {
 
         def CLIENT_ID = ""
         def FB_APP_ID = ""
+        def GOOGLE_MAP_API_KEY = ""
         def properties = new Properties()
         try {
             properties.load(project.rootProject.file('local.properties').newDataInputStream())
             CLIENT_ID = properties.getProperty("client_id")
             FB_APP_ID = properties.getProperty("fb_app_id")
+            GOOGLE_MAP_API_KEY = properties.getProperty("google_map_api_key")
         } catch(ignored) {}
         
         buildConfigField "String", "CLIENT_ID", "\"${CLIENT_ID}\""
         buildConfigField "String", "FB_APP_ID", "\"${FB_APP_ID}\""
+
+        manifestPlaceholders = [googleMapApi: "${GOOGLE_MAP_API_KEY}"]
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -181,6 +185,8 @@ dependencies {
     implementation mobileUiDependencies.firebaseInvites
     implementation mobileUiDependencies.playAuth
     implementation mobileUiDependencies.facebook
+
+    implementation mobileUiDependencies.googleMap
 
     // Model Mapper
     implementation developmentDependencies.modelMapper

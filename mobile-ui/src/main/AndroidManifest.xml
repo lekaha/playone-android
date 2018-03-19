@@ -29,7 +29,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.playone.mobile.ui.playone.PlayoneActivity"/>
+        <activity android:name="com.playone.mobile.ui.playone.PlayoneActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name="com.playone.mobile.ui.create.CreatePlayoneActivity"
+            android:theme="@style/AppTheme"/>
 
         <activity android:name="com.playone.mobile.ui.browse.BrowseActivity"/>
 
@@ -39,6 +42,9 @@
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"/>
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${googleMapApi}"/>
     </application>
 
 </manifest>

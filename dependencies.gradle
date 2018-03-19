@@ -36,9 +36,8 @@ ext {
     autoValueGson = '0.7.0'
     autoValueAnnotation = autoValue
     ktxVersion = '0.1'
-    firebaseVersion = '11.8.0'
-    playAuthVersion = '11.8.0'
-    googleMapVersion = '11.8.0'
+    googleApiVersion = '11.8.0'
+    firebaseVersion = googleApiVersion
     modelMapperVersion = '1.1.0'
     facebookSDKVersion = '[4,5)'
     constraintLayoutVersion = '1.0.2'
@@ -232,13 +231,15 @@ ext {
             ktx                         : "androidx.core:core-ktx:${ktxVersion}",
 
             // Firebase
-            firebaseCore                : "com.google.firebase:firebase-core:${firebaseVersion}",
-            firebaseDb                  : "com.google.firebase:firebase-database:${firebaseVersion}",
-            firebaseMsging              : "com.google.firebase:firebase-messaging:${firebaseVersion}",
-            firebaseAuth                : "com.google.firebase:firebase-auth:${firebaseVersion}",
-            firebaseInvites             : "com.google.firebase:firebase-invites:${firebaseVersion}",
-            playAuth                    : "com.google.android.gms:play-services-auth:${playAuthVersion}",
-            facebook                    : "com.facebook.android:facebook-login:${facebookSDKVersion}",
+            firebaseCore:       "com.google.firebase:firebase-core:${firebaseVersion}",
+            firebaseDb:         "com.google.firebase:firebase-database:${firebaseVersion}",
+            firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseVersion}",
+            firebaseAuth:       "com.google.firebase:firebase-auth:${firebaseVersion}",
+            firebaseInvites:    "com.google.firebase:firebase-invites:${firebaseVersion}",
+            facebook:           "com.facebook.android:facebook-login:${facebookSDKVersion}",
+
+            playAuth:           "com.google.android.gms:play-services-auth:${googleApiVersion}",
+            googleMap:           "com.google.android.gms:play-services-maps:${googleApiVersion}",
 
 //            coroutine:          "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutine}",
     ]
