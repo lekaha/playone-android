@@ -382,7 +382,7 @@ class PlayoneFirebaseV1(
 
         teamSnapshot(userId).child(id).setValue(true)
 
-        val copyModel = model.copy(id = id, host = name, userId = userId)
+        val copyModel = model.copy(_id = id, _host = name, _userId = userId)
 
         dbReference.updateChildren(hashMapOf("/$GROUPS/" to copyModel.toMap()) as Map<String, Any>)
 
