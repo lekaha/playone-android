@@ -1,6 +1,5 @@
 package com.playone.mobile.common
 
-import com.playone.mobile.ext.defaultStr
 import org.junit.Test
 
 const val INVALID_INT = -1
@@ -13,7 +12,7 @@ class MockClass {
 }
 
 data class MockDataClass(var _abc: Int = INVALID_INT) {
-    var abc by NotValidVar(if (_abc != INVALID_INT) _abc else INVALID_INT)
+    var abc by NotValidVar(_abc.takeIf { INVALID_INT != it } ?: INVALID_INT)
 }
 
 class NotValidValueTest {
