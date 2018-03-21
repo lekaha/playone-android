@@ -38,7 +38,8 @@ abstract class FragmentBindingModule {
     @ContributesAndroidInjector(
         modules = [
             ViewModule::class,
-            PlayoneDetailModule::class
+            PlayoneDetailModule::class,
+            PlayoneDetailBindModule::class
         ])
     abstract fun providePlayoneDetailFragment(): PlayoneDetailFragment
 }

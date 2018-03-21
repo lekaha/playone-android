@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import androidx.os.bundleOf
-import com.playone.mobile.ext.defaultInt
+import com.playone.mobile.ext.DEFAULT_INT
 import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.mapper.PlayoneMapper
@@ -17,18 +17,16 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
     companion object {
         const val PARAMETER_PLAYONE_ID = "parameter playone id"
 
-        fun newInstance(playoneId: Int = defaultInt) = PlayoneDetailFragment().apply {
+        fun newInstance(playoneId: Int = DEFAULT_INT) = PlayoneDetailFragment().apply {
             arguments = bundleOf(PARAMETER_PLAYONE_ID to userId)
         }
     }
 
-    // TODO(jieyi): 2018/03/18 Inject the objects.
-    //    @Inject
-    lateinit var playoneAdapter: PlayoneAdapter
+    @Inject lateinit var playoneAdapter: PlayoneAdapter
     @Inject lateinit var mapper: PlayoneMapper
 
     private var viewModel: PlayoneListViewModel? = null
-    private val userId by lazy { arguments?.getInt(PARAMETER_PLAYONE_ID) ?: defaultInt }
+    private val userId by lazy { arguments?.getInt(PARAMETER_PLAYONE_ID) ?: DEFAULT_INT }
 
     override fun getLayoutId() = R.layout.fragment_playone_detail
 

@@ -1,8 +1,8 @@
 package com.playone.mobile.ui.injection.module
 
-import com.playone.mobile.ui.model.PlayoneListItemViewModel.Companion.DISPLAY_TYPE_PLAYONE
+import com.playone.mobile.ui.model.PlayoneParticipatorItemViewModel.Companion.DISPLAY_TYPE_PARTICIPATOR
 import com.playone.mobile.ui.playone.PlayoneAdapter
-import com.playone.mobile.ui.playone.PlayoneViewHolder
+import com.playone.mobile.ui.playone.PlayoneDetailViewHolder
 import com.playone.mobile.ui.view.recycler.ItemComparator
 import com.playone.mobile.ui.view.recycler.ViewHolderBinder
 import com.playone.mobile.ui.view.recycler.ViewHolderFactory
@@ -17,29 +17,32 @@ abstract class PlayoneDetailBindModule {
 
     @Binds
     @IntoMap
-    @IntKey(DISPLAY_TYPE_PLAYONE)
+    @IntKey(DISPLAY_TYPE_PARTICIPATOR)
     abstract fun providePlayoneDetailViewHolderFactory(
-        factory: PlayoneViewHolder.PlayoneViewHolderFactory
+        factory: PlayoneDetailViewHolder.PlayoneViewHolderFactory
     ): ViewHolderFactory
 
     @Binds
     @IntoMap
-    @IntKey(DISPLAY_TYPE_PLAYONE)
+    @IntKey(DISPLAY_TYPE_PARTICIPATOR)
     abstract fun providePlayoneDetailViewHolderBinder(
-        binder: PlayoneViewHolder.PlayoneViewHolderBinder
+        binder: PlayoneDetailViewHolder.PlayoneViewHolderBinder
     ): ViewHolderBinder
 
     @Module
     companion object {
 
-        @JvmStatic @Provides
+        @JvmStatic
+        @Provides
+        @JvmSuppressWildcards
         fun provideRecyclerAdapter(
             itemComparator: ItemComparator,
-            factoryMap: Map<Int, @JvmSuppressWildcards ViewHolderFactory>,
-            binderMap: Map<Int, @JvmSuppressWildcards ViewHolderBinder>
+            factoryMap: Map<Int, ViewHolderFactory>,
+            binderMap: Map<Int, ViewHolderBinder>
         ) = PlayoneAdapter(itemComparator, factoryMap, binderMap)
 
-        @JvmStatic @Provides
+        @JvmStatic
+        @Provides
         fun provideComparator(): ItemComparator = PlayoneAdapter.PlayoneItemComparator()
     }
 }

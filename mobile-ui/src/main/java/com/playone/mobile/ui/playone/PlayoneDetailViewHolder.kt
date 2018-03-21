@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.playone.mobile.ui.R
-import com.playone.mobile.ui.model.PlayoneListItemViewModel
+import com.playone.mobile.ui.model.PlayoneParticipatorItemViewModel
 import com.playone.mobile.ui.view.recycler.DisplayableItem
 import com.playone.mobile.ui.view.recycler.ViewHolderBinder
 import com.playone.mobile.ui.view.recycler.ViewHolderFactory
 
 class PlayoneDetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    fun bind(playoneListItem: PlayoneListItemViewModel) {
+    fun bind(playoneParticipatorItemViewModel: PlayoneParticipatorItemViewModel) {
 
 //        Glide.with(itemView.context)
 //                .load(bufferoo.avatar)
@@ -27,7 +27,6 @@ class PlayoneDetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             PlayoneViewHolder(LayoutInflater
                                   .from(context)
                                   .inflate(R.layout.item_playone_constraint, parent, false))
-
     }
 
     class PlayoneViewHolderBinder : ViewHolderBinder {
