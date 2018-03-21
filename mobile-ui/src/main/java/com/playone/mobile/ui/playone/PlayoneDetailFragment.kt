@@ -10,6 +10,7 @@ import com.playone.mobile.ui.R
 import com.playone.mobile.ui.mapper.PlayoneMapper
 import com.playone.mobile.ui.model.PlayoneListViewModel
 import kotlinx.android.synthetic.main.fragment_playone_list.rv_playone_list
+import javax.inject.Inject
 
 class PlayoneDetailFragment : BaseInjectingFragment() {
 
@@ -24,8 +25,7 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
     // TODO(jieyi): 2018/03/18 Inject the objects.
     //    @Inject
     lateinit var playoneAdapter: PlayoneAdapter
-    //    @Inject
-    lateinit var mapper: PlayoneMapper
+    @Inject lateinit var mapper: PlayoneMapper
 
     private var viewModel: PlayoneListViewModel? = null
     private val userId by lazy { arguments?.getInt(PARAMETER_PLAYONE_ID) ?: defaultInt }

@@ -4,6 +4,7 @@ import com.playone.mobile.ui.browse.BrowseFragment
 import com.playone.mobile.ui.injection.module.mapper.ViewModule
 import com.playone.mobile.ui.onboarding.SignInFragment
 import com.playone.mobile.ui.onboarding.SignUpFragment
+import com.playone.mobile.ui.playone.PlayoneDetailFragment
 import com.playone.mobile.ui.playone.PlayoneListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -33,4 +34,11 @@ abstract class FragmentBindingModule {
             PlayoneListBindModule::class
         ])
     abstract fun providePlayoneListFragment(): PlayoneListFragment
+
+    @ContributesAndroidInjector(
+        modules = [
+            ViewModule::class,
+            PlayoneDetailModule::class
+        ])
+    abstract fun providePlayoneDetailFragment(): PlayoneDetailFragment
 }
