@@ -1,5 +1,6 @@
 package com.playone.mobile.ui.view.recycler
 
+import android.support.v4.app.Fragment
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ open class RecyclerViewAdapter(
     private val binderMap: Map<Int, ViewHolderBinder>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var fragment: Fragment? = null
     private val modelItems = ArrayList<DisplayableItem<*>>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -25,7 +27,7 @@ open class RecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = modelItems[position]
-        binderMap[item.type()]?.bind(holder, item)
+        binderMap[item.type()]?.bind(holder, item, fragment)
         ?: throw IllegalStateException("The view binder of the type is null. " +
                                        "viewType = ${item.type()}")
     }
@@ -48,6 +50,10 @@ open class RecyclerViewAdapter(
         else {
             updateDiffItemsOnly(items)
         }
+    }
+
+    fun register(fragment: Fragment) {
+        this.fragment = fragment
     }
 
     /**

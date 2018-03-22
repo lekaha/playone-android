@@ -1,6 +1,7 @@
 package com.playone.mobile.ui.playone
 
 import android.content.Context
+import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +34,8 @@ class PlayoneDetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         override fun bind(
             viewHolder: RecyclerView.ViewHolder,
-            item: DisplayableItem<*>
+            item: DisplayableItem<*>,
+            fragment: Fragment?
         ) {
 
 //            val playoneViewHolder = PlayoneDetailViewHolder::class.java.cast(viewHolder)

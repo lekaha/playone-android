@@ -37,6 +37,7 @@ class PlayoneListFragment : BaseInjectingFragment() {
 
         super.onCreate(savedInstanceState)
 
+        playoneAdapter.register(this)
         initViewModel()
     }
 
@@ -49,6 +50,14 @@ class PlayoneListFragment : BaseInjectingFragment() {
             setupRecycler()
             viewModel?.load()
         }
+    }
+
+    fun navigateToDetail(playoneId: String) {
+
+        val keyOfFragment = PlayoneDetailFragment::class.java.simpleName
+
+        (activity as PlayoneActivity).gotoFragment(keyOfFragment,
+                                                   hashMapOf(keyOfFragment to playoneId))
     }
 
     private fun initViewModel() {
