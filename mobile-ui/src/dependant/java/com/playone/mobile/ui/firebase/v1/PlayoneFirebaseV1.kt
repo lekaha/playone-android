@@ -7,7 +7,6 @@ import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
 import com.google.firebase.iid.FirebaseInstanceId
 import com.playone.mobile.ext.DEFAULT_INT
-import com.playone.mobile.ext.DEFAULT_STR
 import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.model.PlayoneModel
@@ -23,6 +22,11 @@ class PlayoneFirebaseV1(
     private val dbReference: DatabaseReference
 ) : PlayoneFirebase() {
 
+    override fun obtainPlayoneList(
+        callback: PlayoneCallback<List<PlayoneModel>>,
+        errorCallback: FirebaseErrorCallback
+    ) = playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
+
     /**
      * Retrieve the [List] of the [PlayoneModel] from the firebase server. We'll use
      * the callback function for returning the value back to.
@@ -35,14 +39,9 @@ class PlayoneFirebaseV1(
         userId: String,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = if (DEFAULT_STR == userId) {
-        playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
-    }
-    else {
-        userDsAction(userId,
+    ) = userDsAction(userId,
                      {},  // This is redundant anonymous function for running strategy function.
                      errorCallback) { userSnapToPlayoneList(it, errorCallback, callback) }
-    }
 
     override fun createPlayone(
         userId: Int,

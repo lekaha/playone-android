@@ -13,7 +13,7 @@ import com.playone.mobile.domain.executor.PostExecutionThread
 import com.playone.mobile.domain.executor.ThreadExecutor
 import com.playone.mobile.domain.interactor.auth.SignUpAndSignIn
 import com.playone.mobile.domain.interactor.playone.GetCurrentUser
-import com.playone.mobile.domain.interactor.playone.GetPlayoneDetail
+import com.playone.mobile.domain.interactor.playone.GetOwnPlayoneList
 import com.playone.mobile.domain.interactor.playone.GetPlayoneList
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.model.User
@@ -68,6 +68,13 @@ class PlayoneModule {
         threadExecutor: ThreadExecutor,
         postExecutionThread: PostExecutionThread
     ) = GetPlayoneList(playoneRepository, threadExecutor, postExecutionThread)
+
+    @Provides
+    internal fun provideGetOwnPlayoneList(
+        playoneRepository: PlayoneRepository,
+        threadExecutor: ThreadExecutor,
+        postExecutionThread: PostExecutionThread
+    ) = GetOwnPlayoneList(playoneRepository, threadExecutor, postExecutionThread)
 
     @Provides
     internal fun provideGetPlayoneDetail(

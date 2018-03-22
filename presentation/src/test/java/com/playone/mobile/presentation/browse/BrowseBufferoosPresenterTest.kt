@@ -1,12 +1,19 @@
 package com.playone.mobile.presentation.browse
 
+import com.nhaarman.mockito_kotlin.KArgumentCaptor
+import com.nhaarman.mockito_kotlin.anyVararg
+import com.nhaarman.mockito_kotlin.argumentCaptor
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.never
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
 import com.playone.mobile.domain.interactor.browse.GetBufferoos
 import com.playone.mobile.domain.model.Bufferoo
 import com.playone.mobile.presentation.ViewResponse
 import com.playone.mobile.presentation.mapper.BufferooMapper
 import com.playone.mobile.presentation.model.BufferooView
 import com.playone.mobile.presentation.test.factory.BufferooFactory
-import com.nhaarman.mockito_kotlin.*
 import io.reactivex.observers.DisposableSingleObserver
 import org.junit.Before
 import org.junit.Test
@@ -39,7 +46,7 @@ class BrowseBufferoosPresenterTest {
         val bufferoos = BufferooFactory.makeBufferooList(2)
         browseBufferoosPresenter.retrieveBufferoos()
 
-        verify(mockGetBufferoos).execute(captor.capture(), eq(null))
+        verify(mockGetBufferoos).execute(captor.capture(), eq(Unit))
         captor.firstValue.onSuccess(bufferoos)
         verify(mockBufferooMapper, times(2)).mapToView(anyVararg<Bufferoo>())
         verify(mockBrowseBufferoosView).onResponse(anyVararg<ViewResponse<List<BufferooView>>>())
@@ -49,7 +56,7 @@ class BrowseBufferoosPresenterTest {
     fun retrieveBufferoosHidesEmptyStateWhenErrorThrown() {
         browseBufferoosPresenter.retrieveBufferoos()
 
-        verify(mockGetBufferoos).execute(captor.capture(), eq(null))
+        verify(mockGetBufferoos).execute(captor.capture(), eq(Unit))
         captor.firstValue.onError(RuntimeException())
         verify(mockBufferooMapper, never()).mapToView(anyVararg<Bufferoo>())
         verify(mockBrowseBufferoosView).onResponse(anyVararg<ViewResponse<List<BufferooView>>>())
