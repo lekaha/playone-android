@@ -78,7 +78,9 @@ class PlayoneActivity : BaseActivity() {
             PlayoneDetailFragment::class.java.simpleName -> {
                 navigator.navigateToFragment(this) {
                     replace(R.id.list_content,
-                            PlayoneDetailFragment.newInstance(params[PlayoneDetailFragment::class.java.simpleName] as String))
+                            PlayoneDetailFragment.newInstance(params[fragmentName] as String),
+                            fragmentName)
+                    addToBackStack(null)
                 }
             }
         }
