@@ -44,7 +44,7 @@ class PlayoneDetailViewModel(
         }
     }
 
-    fun load(playoneId: Int) {
+    fun load(playoneId: String) {
 
         isProgressing.value = true
         getPlayoneListPresenter.getPlayoneDetail(playoneId)

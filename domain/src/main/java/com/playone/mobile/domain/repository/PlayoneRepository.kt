@@ -37,7 +37,7 @@ interface PlayoneRepository {
 
     fun savePlayoneDetail(playone: Playone): Completable
 
-    fun getPlayoneDetail(playoneId: Int): Single<Playone>
+    fun getPlayoneDetail(playoneId: String): Single<Playone>
 
     fun clearUser(user: User): Completable
 
@@ -50,9 +50,9 @@ interface PlayoneRepository {
     fun getUserById(userId: Int): Single<User>
     //endregion
 
-    fun createPlayone(userId: Int, playone: Playone): Single<Boolean>
+    fun createPlayone(userId: String, playone: Playone): Single<Boolean>
 
-    fun updatePlayone(userId: Int, playone: Playone): Single<Boolean>
+    fun updatePlayone(userId: String, playone: Playone): Single<Boolean>
 
     fun joinTeam(playoneId: Int, userId: Int, isJoin: Boolean): Single<Boolean>
 

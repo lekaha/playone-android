@@ -44,7 +44,7 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
      *
      * @param playoneId playone id.
      */
-    override fun fetchPlayoneDetail(playoneId: Int) = remote.fetchPlayoneDetail(playoneId)
+    override fun fetchPlayoneDetail(playoneId: String) = remote.fetchPlayoneDetail(playoneId)
 
     override fun createUser(userEntity: UserEntity) = remote.createUser(userEntity)
 
@@ -62,9 +62,9 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
      */
     override fun fetchUserEntity(email: String) = remote.fetchUserEntity(email)
 
-    override fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
+    override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) = TODO()
 
-    override fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
+    override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) = TODO()
 
     override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) = TODO()
 

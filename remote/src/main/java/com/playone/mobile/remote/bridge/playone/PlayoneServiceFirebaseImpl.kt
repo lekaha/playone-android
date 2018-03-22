@@ -39,23 +39,23 @@ class PlayoneServiceFirebaseImpl(
                                                       emitter::errorHandler)
         }
 
-    override fun retrievePlayoneDetail(playoneId: Int) =
+    override fun retrievePlayoneDetail(playoneId: String) =
         single<PlayoneModel> { emitter ->
             playoneFirebase.obtainPlayoneDetail(playoneId,
                                                 { it?.let(emitter::onSuccess) ?: emitter.errorNullObject() },
                                                 emitter::errorHandler)
         }
 
-    override fun createPlayoneDetail(userId: Int, playoneModel: PlayoneModel) =
+    override fun createPlayoneDetail(playoneId: String, playoneModel: PlayoneModel) =
         single<PlayoneRemote.Result> { emitter ->
-            playoneFirebase.createPlayone(userId, playoneModel, {
+            playoneFirebase.createPlayone(playoneId, playoneModel, {
                 emitter.onSuccess(if (it) SUCCESS else ERROR)
             }, emitter::errorHandler)
         }
 
-    override fun updatePlayoneDetail(userId: Int, playoneModel: PlayoneModel) =
+    override fun updatePlayoneDetail(playoneId: String, playoneModel: PlayoneModel) =
         single<PlayoneRemote.Result> { emitter ->
-            playoneFirebase.updatePlayone(userId, playoneModel, {
+            playoneFirebase.updatePlayone(playoneId, playoneModel, {
                 emitter.onSuccess(if (it) SUCCESS else ERROR)
             }, emitter::errorHandler)
         }

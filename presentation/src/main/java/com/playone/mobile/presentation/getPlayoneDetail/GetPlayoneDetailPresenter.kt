@@ -29,7 +29,7 @@ class GetPlayoneDetailPresenter(
         getPlayoneDetailView = null
     }
 
-    override fun getPlayoneDetail(playoneId: Int) {
+    override fun getPlayoneDetail(playoneId: String) {
 
         getPlayoneDetail.execute(object : DisposableSingleObserver<Playone>() {
 

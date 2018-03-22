@@ -11,6 +11,6 @@ interface GetPlayoneDetailContract {
     interface Presenter : BasePresenter {
 
         fun setView(view: GetPlayoneDetailContract.View)
-        fun getPlayoneDetail(playoneId: Int)
+        fun getPlayoneDetail(playoneId: String)
     }
 }

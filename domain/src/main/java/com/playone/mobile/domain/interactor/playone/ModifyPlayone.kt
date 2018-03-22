@@ -23,6 +23,6 @@ open class ModifyPlayone constructor(
 
     public override fun buildUseCaseObservable(params: HashMap<String, Any>) =
         params.let {
-            repository.updatePlayone(it[PARAMS_ID] as Int, it[PARAMS_PLAYONE] as Playone)
+            repository.updatePlayone(it[PARAMS_ID] as String, it[PARAMS_PLAYONE] as Playone)
         }
 }

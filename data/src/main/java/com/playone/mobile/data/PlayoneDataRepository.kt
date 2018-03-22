@@ -85,7 +85,7 @@ class PlayoneDataRepository constructor(
         factory.getCacheDataStore()
             .savePlayoneDetail(playoneMapper.mapToEntity(playone))
 
-    override fun getPlayoneDetail(playoneId: Int) = factory.obtainDataStore().run {
+    override fun getPlayoneDetail(playoneId: String) = factory.obtainDataStore().run {
         fetchPlayoneDetail(playoneId)
             .flatMap { entity ->
                 (this as? PlayoneRemoteDataStore)?.savePlayoneDetail(entity) ?: Single.just(entity)
@@ -110,10 +110,10 @@ class PlayoneDataRepository constructor(
         fetchUserEntity(email).cacheUserEntity(this)
     }
 
-    override fun createPlayone(userId: Int, playone: Playone) =
+    override fun createPlayone(userId: String, playone: Playone) =
         singleBooleanRequest { createPlayoneDetail(userId, playoneMapper.mapToEntity(playone)) }
 
-    override fun updatePlayone(userId: Int, playone: Playone) =
+    override fun updatePlayone(userId: String, playone: Playone) =
         singleBooleanRequest { updatePlayoneDetail(userId, playoneMapper.mapToEntity(playone)) }
 
     override fun joinTeam(playoneId: Int, userId: Int, isJoin: Boolean) =
