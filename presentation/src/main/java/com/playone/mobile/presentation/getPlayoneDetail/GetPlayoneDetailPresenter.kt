@@ -42,7 +42,7 @@ class GetPlayoneDetailPresenter(
 
                 getPlayoneDetail.execute(GetDetailSubscriber(), playoneId)
             }
-        })
+        }, playoneId)
     }
 
     inner class GetDetailSubscriber : DisposableSingleObserver<Playone>() {
