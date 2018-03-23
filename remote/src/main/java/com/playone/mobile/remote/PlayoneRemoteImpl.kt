@@ -23,6 +23,8 @@ class PlayoneRemoteImpl constructor(
     private val userMapper: EntityMapper<UserModel, UserEntity>
 ) : PlayoneRemote {
 
+    override fun fetchPlayoneList() = service.retrievePlayoneList().mapPlayoneToEntity()
+
     override fun fetchPlayoneList(userId: String) =
         service.retrievePlayoneList(userId).mapPlayoneToEntity()
 
@@ -32,13 +34,13 @@ class PlayoneRemoteImpl constructor(
     override fun fetchFavoritePlayoneList(userId: Int) =
         service.retrieveFavoritePlayoneList(userId).mapPlayoneToEntity()
 
-    override fun fetchPlayoneDetail(playoneId: Int) =
+    override fun fetchPlayoneDetail(playoneId: String) =
         service.retrievePlayoneDetail(playoneId).map(playoneMapper::mapToData)
 
-    override fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) =
+    override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
         service.createPlayoneDetail(userId, playoneEntity.toModel(playoneMapper))
 
-    override fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) =
+    override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
         service.updatePlayoneDetail(userId, playoneEntity.toModel(playoneMapper))
 
     override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) =

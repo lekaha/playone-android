@@ -1,10 +1,8 @@
 package com.playone.mobile.ui.playone
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Build
 import android.os.Bundle
-import android.transition.Fade
 import com.google.firebase.auth.FirebaseAuth
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.Navigator
@@ -69,6 +67,20 @@ class PlayoneActivity : BaseActivity() {
                     this.putExtra("CX", cx)
                     this.putExtra("CY", cy)
 //                    this@PlayoneActivity.overridePendingTransition(R.anim.scale_up, R.anim.scale_down)
+                }
+            }
+        }
+    }
+
+    fun gotoFragment(fragmentName: String, params: HashMap<String, Any>) {
+
+        when (fragmentName) {
+            PlayoneDetailFragment::class.java.simpleName -> {
+                navigator.navigateToFragment(this) {
+                    replace(R.id.list_content,
+                            PlayoneDetailFragment.newInstance(params[fragmentName] as String),
+                            fragmentName)
+                    addToBackStack(null)
                 }
             }
         }

@@ -12,17 +12,19 @@ import io.reactivex.Single
 interface PlayoneRemote {
 
     //region Playone
+    fun fetchPlayoneList(): Single<List<PlayoneEntity>>
+
     fun fetchPlayoneList(userId: String): Single<List<PlayoneEntity>>
 
     fun fetchJoinedPlayoneList(userId: Int): Single<List<PlayoneEntity>>
 
     fun fetchFavoritePlayoneList(userId: Int): Single<List<PlayoneEntity>>
 
-    fun fetchPlayoneDetail(playoneId: Int): Single<PlayoneEntity>
+    fun fetchPlayoneDetail(playoneId: String): Single<PlayoneEntity>
 
-    fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity): Single<Result>
+    fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<Result>
 
-    fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity): Single<Result>
+    fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<Result>
 
     fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean): Single<Result>
 

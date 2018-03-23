@@ -1,6 +1,7 @@
 package com.playone.mobile.ui.browse
 
 import android.content.Context
+import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +11,10 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.playone.mobile.ui.R
-import com.playone.mobile.ui.injection.qualifier.ActivityContext
 import com.playone.mobile.ui.model.BufferooViewModel
 import com.playone.mobile.ui.view.recycler.DisplayableItem
 import com.playone.mobile.ui.view.recycler.ViewHolderBinder
 import com.playone.mobile.ui.view.recycler.ViewHolderFactory
-import javax.inject.Inject
 
 class BrowseViewHolder(view: View): RecyclerView.ViewHolder(view) {
     var avatarImage: ImageView = view.findViewById(R.id.image_avatar)
@@ -44,8 +43,11 @@ class BrowseViewHolder(view: View): RecyclerView.ViewHolder(view) {
     }
 
     class BrowseViewHolderBinder : ViewHolderBinder {
-        override fun bind(viewHolder: RecyclerView.ViewHolder,
-                          item: DisplayableItem<*>) {
+        override fun bind(
+            viewHolder: RecyclerView.ViewHolder,
+            item: DisplayableItem<*>,
+            fragment: Fragment?
+        ) {
             var browseViewHolder = BrowseViewHolder::class.java.cast(viewHolder)
             var bufferooViewModel = BufferooViewModel::class.java.cast(item.model())
             browseViewHolder.bind(bufferooViewModel)

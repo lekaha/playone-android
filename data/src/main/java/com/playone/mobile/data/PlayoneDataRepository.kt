@@ -28,6 +28,16 @@ class PlayoneDataRepository constructor(
     override fun savePlayoneList(playoneList: List<Playone>) =
         factory.getCacheDataStore().savePlayoneList(playoneList.map(playoneMapper::mapToEntity))
 
+    override fun getPlayoneList() = factory.obtainDataStore().run {
+        fetchPlayoneList().flatMap { playoneList ->
+            // TODO(jieyi): 2018/03/10 Avoiding crashing becz the cache datastore we didn't implement yet.
+//                (this as? PlayoneRemoteDataStore)?.savePlayoneList(playoneList)
+//                ?:
+            Single.just(playoneList)
+        }
+            .map { it.map(playoneMapper::mapFromEntity) }
+    }
+
     override fun getPlayoneList(userId: String) = factory.obtainDataStore().run {
         fetchPlayoneList(userId)
             .flatMap { playoneList ->
@@ -75,7 +85,7 @@ class PlayoneDataRepository constructor(
         factory.getCacheDataStore()
             .savePlayoneDetail(playoneMapper.mapToEntity(playone))
 
-    override fun getPlayoneDetail(playoneId: Int) = factory.obtainDataStore().run {
+    override fun getPlayoneDetail(playoneId: String) = factory.obtainDataStore().run {
         fetchPlayoneDetail(playoneId)
             .flatMap { entity ->
                 (this as? PlayoneRemoteDataStore)?.savePlayoneDetail(entity) ?: Single.just(entity)
@@ -100,10 +110,10 @@ class PlayoneDataRepository constructor(
         fetchUserEntity(email).cacheUserEntity(this)
     }
 
-    override fun createPlayone(userId: Int, playone: Playone) =
+    override fun createPlayone(userId: String, playone: Playone) =
         singleBooleanRequest { createPlayoneDetail(userId, playoneMapper.mapToEntity(playone)) }
 
-    override fun updatePlayone(userId: Int, playone: Playone) =
+    override fun updatePlayone(userId: String, playone: Playone) =
         singleBooleanRequest { updatePlayoneDetail(userId, playoneMapper.mapToEntity(playone)) }
 
     override fun joinTeam(playoneId: Int, userId: Int, isJoin: Boolean) =

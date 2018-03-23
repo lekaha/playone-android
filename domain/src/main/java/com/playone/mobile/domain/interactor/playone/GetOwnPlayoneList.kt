@@ -5,21 +5,17 @@ import com.playone.mobile.domain.executor.ThreadExecutor
 import com.playone.mobile.domain.interactor.SingleUseCase
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.repository.PlayoneRepository
-import com.playone.mobile.ext.isNotNull
-import java.security.InvalidParameterException
 
 /**
- * Use case used for retrieving a [com.playone.mobile.domain.model.Playone]'s detail
+ * Use case used for retrieving a [List] of [com.playone.mobile.domain.model.Playone]
  * instances from the [com.playone.mobile.domain.repository.PlayoneRepository]
  */
-open class GetPlayoneDetail constructor(
+open class GetOwnPlayoneList constructor(
     private val repository: PlayoneRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : SingleUseCase<Playone, String?>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<List<Playone>, String>(threadExecutor, postExecutionThread) {
 
-    public override fun buildUseCaseObservable(params: String?) =
-        params
-            .takeIf(Any?::isNotNull)
-            ?.let(repository::getPlayoneDetail) ?: throw InvalidParameterException()
+    public override fun buildUseCaseObservable(params: String) =
+        repository.getPlayoneList(params)
 }
