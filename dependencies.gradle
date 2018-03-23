@@ -50,7 +50,7 @@ ext {
     dexmakerVersion = '1.0'
     espressoVersion = '3.0.0'
     testingSupportLibVersion = '0.1'
-    mockitoKotlinVersion = '1.5.0'
+    mockitoKotlinVersion = '2.0.0-alpha03'
     mockitoAndroidVersion = '2.8.47'
     androidSupportRunnerVersion = '1.0.0'
     androidSupportRulesVersion = '1.0.0'
@@ -71,7 +71,7 @@ ext {
             junit      : "junit:junit:${jUnitVersion}",
             kotlinJUnit: "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
             assertj    : "org.assertj:assertj-core:${assertJVersion}",
-            mockito    : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            mockito    : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
             robolectric: "org.robolectric:robolectric:${robolectricVersion}",
     ]
 
@@ -84,7 +84,7 @@ ext {
 
     domainTestDependencies = [
             junit  : "junit:junit:${jUnitVersion}",
-            mockito: "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            mockito: "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
             assertj: "org.assertj:assertj-core:${assertJVersion}"
     ]
 
@@ -119,7 +119,7 @@ ext {
             junit      : "junit:junit:${jUnitVersion}",
             kotlinJUnit: "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
             assertj    : "org.assertj:assertj-core:${assertJVersion}",
-            mockito    : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            mockito    : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
             robolectric: "org.robolectric:robolectric:${robolectricVersion}"
     ]
 
@@ -144,7 +144,7 @@ ext {
             junit      : "junit:junit:${jUnitVersion}",
             kotlinJUnit: "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
             assertj    : "org.assertj:assertj-core:${assertJVersion}",
-            mockito    : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            mockito    : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
             robolectric: "org.robolectric:robolectric:${robolectricVersion}"
     ]
 
@@ -166,7 +166,7 @@ ext {
             junit        : "junit:junit:${jUnitVersion}",
             kotlinJUnit  : "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
             assertj      : "org.assertj:assertj-core:${assertJVersion}",
-            mockito      : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            mockito      : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
             robolectric  : "org.robolectric:robolectric:${robolectricVersion}",
             roomTesting  : "android.arch.persistence.room:testing:${roomVersion}",
             archTesting  : "android.arch.core:core-testing:${roomVersion}",
@@ -194,7 +194,7 @@ ext {
             junit        : "junit:junit:${jUnitVersion}",
             kotlinJUnit  : "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
             assertj      : "org.assertj:assertj-core:${assertJVersion}",
-            mockito      : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            mockito      : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
             supportRunner: "com.android.support.test:runner:${androidSupportRunnerVersion}",
             supportRules : "com.android.support.test:rules:${androidSupportRulesVersion}"
     ]
@@ -247,7 +247,7 @@ ext {
             junit          : "junit:junit:${jUnitVersion}",
             kotlinJUnit    : "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
             assertj        : "org.assertj:assertj-core:${assertJVersion}",
-            mockito        : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            mockito        : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
             supportRunner  : "com.android.support.test:runner:${androidSupportRunnerVersion}",
             supportRules   : "com.android.support.test:rules:${androidSupportRulesVersion}",
             mockitoAndroid : "org.mockito:mockito-android:${mockitoAndroidVersion}",
