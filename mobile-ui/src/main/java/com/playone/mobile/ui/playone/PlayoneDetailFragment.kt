@@ -1,5 +1,7 @@
 package com.playone.mobile.ui.playone
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.View
 import androidx.os.bundleOf
@@ -25,6 +27,7 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
 
     private var viewModel: PlayoneDetailViewModel? = null
     private val playoneId by lazy { arguments?.getString(PARAMETER_PLAYONE_ID) ?: DEFAULT_STR }
+    private lateinit var staticMapUri: String
 
     override fun getLayoutId() = R.layout.fragment_playone_detail
 
@@ -49,6 +52,19 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
     private fun initViewModel() {
 
         activity?.let {
+            viewModel = ViewModelProviders.of(it).get(PlayoneDetailViewModel::class.java).also {
+                it.fetchDetailData().observe(this, Observer {
+                    it?.let {
+                        staticMapUri = getString(R.string.static_map,
+                                                 it.latitude,
+                                                 it.longitude,
+                                                 getString(R.string.map_zoom).toInt(),
+                                                 getString(R.string.map_width).toInt(),
+                                                 getString(R.string.map_height).toInt(),
+                                                 getString(R.string.map_mark_color))
+                    }
+                })
+            }
         }
     }
 
