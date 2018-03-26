@@ -9,21 +9,21 @@ import io.reactivex.schedulers.Schedulers
 /**
  * Abstract class for a UseCase that returns an instance of a [Single].
  */
-abstract class SingleUseCase<T, in Params> constructor(
+abstract class SingleUseCaseWithoutParams<T> constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) : UseCase(threadExecutor, postExecutionThread) {
 
     /**
-     * Builds a [Single] which will be used when the current [SingleUseCase] is executed.
+     * Builds a [Single] which will be used when the current [SingleUseCaseWithoutParams] is executed.
      */
-    protected abstract fun buildUseCaseObservable(params: Params): Single<T>
+    protected abstract fun buildUseCaseObservable(): Single<T>
 
     /**
      * Executes the current use case.
      */
-    open fun execute(singleObserver: DisposableSingleObserver<T>, params: Params) {
-        val single = this.buildUseCaseObservable(params)
+    open fun execute(singleObserver: DisposableSingleObserver<T>) {
+        val single = this.buildUseCaseObservable()
             .subscribeOn(Schedulers.from(threadExecutor))
             .observeOn(postExecutionThread.scheduler) as Single<T>
         addDisposable(single.subscribeWith(singleObserver))

@@ -18,6 +18,8 @@ open class PlayoneCacheDataStore(private val cache: PlayoneCache) : PlayoneDataS
     override fun savePlayoneList(playoneList: List<PlayoneEntity>) = TODO()
 //        cache.savePlayoneList(playoneList).doOnComplete { cache.keepLastCacheTime("") }
 
+    override fun fetchPlayoneList() = cache.fetchPlayoneList()
+
     override fun fetchPlayoneList(userId: String) = cache.fetchPlayoneList(userId)
 
     override fun clearJoinedPlayoneList() = cache.clearJoinedPlayoneList()

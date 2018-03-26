@@ -12,6 +12,12 @@ import com.playone.mobile.data.repository.PlayoneRemote
  */
 open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDataStore {
 
+
+    /**
+     * Retrieve a list of [PlayoneEntity] instances from the API.
+     */
+    override fun fetchPlayoneList() = remote.fetchPlayoneList()
+
     /**
      * Retrieve a list of [PlayoneEntity] instances from the API.
      *
