@@ -8,6 +8,7 @@ import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.create.CreatePlayoneActivity
+import com.playone.mobile.ui.model.PlayoneDetailViewModel
 import com.playone.mobile.ui.model.PlayoneListViewModel
 import com.playone.mobile.ui.navigateToActivityWithResult
 import com.playone.mobile.ui.view.TransitionHelper
@@ -20,6 +21,8 @@ class PlayoneActivity : BaseActivity() {
     @Inject lateinit var navigator: Navigator
 
     @Inject lateinit var viewModelFactory: PlayoneListViewModel.PlayoneListViewModelFactory
+
+    @Inject lateinit var detailViewModelFactory: PlayoneDetailViewModel.PlayoneDetailViewModelFactory
 
     private lateinit var viewModel: PlayoneListViewModel
 
@@ -37,6 +40,9 @@ class PlayoneActivity : BaseActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(PlayoneListViewModel::class.java)
+
+        ViewModelProviders.of(this, detailViewModelFactory)
+            .get(PlayoneDetailViewModel::class.java)
 
         navigator.navigateToFragment(this, {
             replace(R.id.list_content, PlayoneListFragment.newInstance())

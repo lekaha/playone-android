@@ -52,19 +52,20 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
     private fun initViewModel() {
 
         activity?.let {
-            viewModel = ViewModelProviders.of(it).get(PlayoneDetailViewModel::class.java).also {
-                it.fetchDetailData().observe(this, Observer {
-                    it?.let {
-                        staticMapUri = getString(R.string.static_map,
-                                                 it.latitude,
-                                                 it.longitude,
-                                                 getString(R.string.map_zoom).toInt(),
-                                                 getString(R.string.map_width).toInt(),
-                                                 getString(R.string.map_height).toInt(),
-                                                 getString(R.string.map_mark_color))
-                    }
-                })
-            }
+            viewModel =
+                ViewModelProviders.of(it).get(PlayoneDetailViewModel::class.java).also {
+                    it.fetchDetailData().observe(this, Observer {
+                        it?.let {
+                            staticMapUri = getString(R.string.static_map,
+                                                     it.latitude,
+                                                     it.longitude,
+                                                     getString(R.string.map_zoom).toInt(),
+                                                     getString(R.string.map_width).toInt(),
+                                                     getString(R.string.map_height).toInt(),
+                                                     getString(R.string.map_mark_color))
+                        }
+                    })
+                }
         }
     }
 

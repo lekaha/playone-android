@@ -35,11 +35,12 @@ class GetPlayoneDetailPresenter(
 
             override fun onError(e: Throwable) {
 
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                getPlayoneDetailView?.onResponse(ViewResponse.error(e))
             }
 
             override fun onSuccess(t: Playone) {
 
+                TODO("Why need to call again `getPlayoneDetail.execute`")
                 getPlayoneDetail.execute(GetDetailSubscriber(), playoneId)
             }
         }, playoneId)

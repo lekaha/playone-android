@@ -29,7 +29,8 @@ abstract class ActivityBindingModule {
             NavigatorModule::class,
             FragmentBindingModule::class,
             PlayoneModule::class,
-            PlayoneListModule::class])
+            PlayoneListModule::class,
+            PlayoneDetailModule::class])
     abstract fun bindPlayoneActivity(): PlayoneActivity
 
     @ContributesAndroidInjector(
