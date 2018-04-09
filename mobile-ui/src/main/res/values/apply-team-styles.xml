@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PlayoneApplyFormTitle" parent="WrapContentSize">
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
+    <style name="PlayoneApplyFormColumn" parent="WrapContentSize">
+        <item name="android:layout_marginLeft">40dp</item>
+        <item name="android:layout_marginStart">40dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
+</resources>
