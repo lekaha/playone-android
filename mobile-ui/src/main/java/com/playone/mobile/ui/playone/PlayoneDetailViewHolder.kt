@@ -27,7 +27,7 @@ class PlayoneDetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         override fun createViewHolder(parent: ViewGroup) =
             PlayoneViewHolder(LayoutInflater
                                   .from(context)
-                                  .inflate(R.layout.item_playone_constraint, parent, false))
+                                  .inflate(R.layout.item_participation, parent, false))
     }
 
     class PlayoneViewHolderBinder : ViewHolderBinder {
@@ -38,9 +38,9 @@ class PlayoneDetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             fragment: Fragment?
         ) {
 
-//            val playoneViewHolder = PlayoneDetailViewHolder::class.java.cast(viewHolder)
-//            val playoneViewModel = PlayoneListItemViewModel::class.java.cast(item.model())
-//            playoneViewHolder.bind(playoneViewModel)
+            val playoneViewHolder = PlayoneDetailViewHolder::class.java.cast(viewHolder)
+            val playoneViewModel = PlayoneParticipatorItemViewModel::class.java.cast(item.model())
+            playoneViewHolder.bind(playoneViewModel)
         }
     }
 }

@@ -10,6 +10,9 @@ import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.mapper.PlayoneMapper
 import com.playone.mobile.ui.model.PlayoneDetailViewModel
+import com.playone.mobile.ui.model.PlayoneParticipatorItemViewModel
+import com.playone.mobile.ui.model.PlayoneParticipatorItemViewModel.Companion.DISPLAY_TYPE_PARTICIPATOR
+import com.playone.mobile.ui.view.recycler.DisplayableItem.Companion.toDisplayableItem
 import javax.inject.Inject
 
 class PlayoneDetailFragment : BaseInjectingFragment() {
@@ -67,6 +70,12 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
                     })
                 }
         }
+
+        playoneAdapter.update(listOf(toDisplayableItem(PlayoneParticipatorItemViewModel(),
+                                                       DISPLAY_TYPE_PARTICIPATOR),
+                                     toDisplayableItem(PlayoneParticipatorItemViewModel(),
+                                                       DISPLAY_TYPE_PARTICIPATOR)))
+        playoneAdapter.notifyDataSetChanged()
     }
 
     private fun setupRecycler() {
