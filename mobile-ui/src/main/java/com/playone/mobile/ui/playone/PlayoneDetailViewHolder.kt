@@ -25,7 +25,7 @@ class PlayoneDetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     class PlayoneViewHolderFactory constructor(context: Context) : ViewHolderFactory(context) {
 
         override fun createViewHolder(parent: ViewGroup) =
-            PlayoneViewHolder(LayoutInflater
+            PlayoneDetailViewHolder(LayoutInflater
                                   .from(context)
                                   .inflate(R.layout.item_participation, parent, false))
     }

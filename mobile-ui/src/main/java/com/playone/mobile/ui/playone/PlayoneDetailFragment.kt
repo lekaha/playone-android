@@ -3,6 +3,7 @@ package com.playone.mobile.ui.playone
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import androidx.os.bundleOf
 import com.playone.mobile.ext.DEFAULT_STR
@@ -11,8 +12,8 @@ import com.playone.mobile.ui.R
 import com.playone.mobile.ui.mapper.PlayoneMapper
 import com.playone.mobile.ui.model.PlayoneDetailViewModel
 import com.playone.mobile.ui.model.PlayoneParticipatorItemViewModel
-import com.playone.mobile.ui.model.PlayoneParticipatorItemViewModel.Companion.DISPLAY_TYPE_PARTICIPATOR
-import com.playone.mobile.ui.view.recycler.DisplayableItem.Companion.toDisplayableItem
+import com.playone.mobile.ui.view.recycler.DisplayableItem
+import kotlinx.android.synthetic.main.fragment_playone_list.rv_playone_list
 import javax.inject.Inject
 
 class PlayoneDetailFragment : BaseInjectingFragment() {
@@ -50,6 +51,14 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
             setupRecycler()
             viewModel?.load(playoneId)
         }
+
+        playoneAdapter.update(listOf(DisplayableItem.toDisplayableItem(
+            PlayoneParticipatorItemViewModel(),
+            PlayoneParticipatorItemViewModel.DISPLAY_TYPE_PARTICIPATOR),
+                                     DisplayableItem.toDisplayableItem(
+                                         PlayoneParticipatorItemViewModel(),
+                                         PlayoneParticipatorItemViewModel.DISPLAY_TYPE_PARTICIPATOR)))
+        playoneAdapter.notifyDataSetChanged()
     }
 
     private fun initViewModel() {
@@ -70,19 +79,13 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
                     })
                 }
         }
-
-        playoneAdapter.update(listOf(toDisplayableItem(PlayoneParticipatorItemViewModel(),
-                                                       DISPLAY_TYPE_PARTICIPATOR),
-                                     toDisplayableItem(PlayoneParticipatorItemViewModel(),
-                                                       DISPLAY_TYPE_PARTICIPATOR)))
-        playoneAdapter.notifyDataSetChanged()
     }
 
     private fun setupRecycler() {
 
-//        rv_playone_list.apply {
-//            layoutManager = LinearLayoutManager(activity)
-//            adapter = playoneAdapter
-//        }
+        rv_playone_list.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = playoneAdapter
+        }
     }
 }
