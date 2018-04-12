@@ -12,7 +12,7 @@ class MockClass {
 }
 
 data class MockDataClass(var _abc: Int = INVALID_INT) {
-    var abc by NotValidVar(_abc)
+    var abc by NotValidVar(_abc.takeIf { INVALID_INT != it } ?: INVALID_INT)
 }
 
 class NotValidValueTest {

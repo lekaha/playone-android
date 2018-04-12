@@ -4,4 +4,53 @@
     <style name="BottomNavigationView" parent="MatchParentWidthWrapContentHeight">
 
     </style>
+
+    <style name="PlayoneIcon">
+        <item name="android:layout_width">@dimen/item_playone_list_team_t_shirt_width</item>
+        <item name="android:layout_height">@dimen/item_playone_list_team_t_shirt_height</item>
+    </style>
+
+    <style name="PlayoneIconTShirt" parent="PlayoneIcon">
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_marginBottom">@dimen/md_one_unit</item>
+        <item name="android:layout_marginLeft">@dimen/md_two_unit</item>
+        <item name="android:layout_marginStart">@dimen/md_two_unit</item>
+        <item name="android:layout_marginTop">@dimen/md_one_unit</item>
+        <item name="android:contentDescription">No accessible view</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:src">@drawable/cloth_joined</item>
+    </style>
+
+    <style name="PlayoneTeamNumberLimit" parent="WrapContentSize">
+        <item name="android:paddingTop">@dimen/md_one_unit</item>
+        <item name="android:textColor">@color/item_background</item>
+        <item name="android:textSize">@dimen/item_playone_list_team_limitation_text_size</item>
+    </style>
+
+    <style name="PlayoneTeamTitle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/md_one_unit</item>
+        <item name="android:layout_marginLeft">@dimen/md_two_unit</item>
+        <item name="android:layout_marginStart">@dimen/md_two_unit</item>
+        <item name="android:layout_marginTop">@dimen/md_one_unit</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/item_title</item>
+        <item name="android:textSize">@dimen/item_playone_list_team_title_text_size</item>
+    </style>
+
+    <style name="PlayoneDistanceFromHere" parent="WrapContentSize">
+        <item name="android:layout_marginBottom">@dimen/md_one_unit</item>
+        <item name="android:layout_marginEnd">@dimen/md_two_unit</item>
+        <item name="android:layout_marginLeft">@dimen/md_one_unit</item>
+        <item name="android:layout_marginRight">@dimen/md_two_unit</item>
+        <item name="android:layout_marginStart">@dimen/md_one_unit</item>
+        <item name="android:layout_marginTop">@dimen/md_one_unit</item>
+        <item name="android:drawableEnd">@drawable/triangle_1</item>
+        <item name="android:drawablePadding">@dimen/md_two_unit</item>
+        <item name="android:drawableRight">@drawable/triangle_1</item>
+        <item name="android:textColor">@color/item_title</item>
+        <item name="android:textSize">@dimen/item_playone_list_team_distance_text_size</item>
+    </style>
 </resources>

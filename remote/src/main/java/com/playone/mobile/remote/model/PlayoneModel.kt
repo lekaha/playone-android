@@ -1,28 +1,41 @@
 package com.playone.mobile.remote.model
 
-import kotlin.properties.Delegates
+import com.playone.mobile.common.NotValidVar
+import com.playone.mobile.ext.DEFAULT_DOUBLE
+import com.playone.mobile.ext.DEFAULT_INT
+import com.playone.mobile.ext.DEFAULT_LONG
+import com.playone.mobile.ext.DEFAULT_STR
 
 /**
  * Representation for a [PlayoneModel] fetched from the API.
  */
-class PlayoneModel {
+data class PlayoneModel(
+    private var _id: String = DEFAULT_STR,
+    private var _name: String = DEFAULT_STR,
+    private var _description: String = DEFAULT_STR,
+    private var _date: Long = DEFAULT_LONG,
+    private var _updated: Long = DEFAULT_LONG,
+    private var _address: String = DEFAULT_STR,
+    private var _longitude: Double = DEFAULT_DOUBLE,
+    private var _latitude: Double = DEFAULT_DOUBLE,
+    private var _limit: Int = DEFAULT_INT,
+    private var _level: Int = DEFAULT_INT,
+    private var _host: String = DEFAULT_STR,
+    private var _userId: String = DEFAULT_STR
+) {
 
-    // OPTIMIZE(jieyi): 2018/03/10 From the data from firebase must be initialized, otherwise it will throw an error.
-    lateinit var id: String
-    lateinit var name: String
-    lateinit var description: String
-    var date by Delegates.notNull<Long>()
-    var updated by Delegates.notNull<Long>()
-    lateinit var address: String
-    var longitude by Delegates.notNull<Double>()
-    var latitude by Delegates.notNull<Double>()
-    var limit by Delegates.notNull<Int>()
-    var level by Delegates.notNull<Int>()
-    lateinit var host: String
-    lateinit var userId: String
-
-    override fun toString() =
-        "id: $id, name: $name, description: $description, data: $date, updated: $updated, address: $address, longitude: $longitude, latitude: $latitude, limit: $limit, level: $level, host: $host, userId: $userId"
+    var id by NotValidVar(if (_id != DEFAULT_STR) _id else DEFAULT_STR)
+    var name by NotValidVar(if (_name != DEFAULT_STR) _name else DEFAULT_STR)
+    var description by NotValidVar(if (_description != DEFAULT_STR) _description else DEFAULT_STR)
+    var date by NotValidVar(if (_date != DEFAULT_LONG) _date else DEFAULT_LONG)
+    var updated by NotValidVar(if (_updated != DEFAULT_LONG) _updated else DEFAULT_LONG)
+    var address by NotValidVar(if (_address != DEFAULT_STR) _address else DEFAULT_STR)
+    var longitude by NotValidVar(if (_longitude != DEFAULT_DOUBLE) _longitude else DEFAULT_DOUBLE)
+    var latitude by NotValidVar(if (_latitude != DEFAULT_DOUBLE) _latitude else DEFAULT_DOUBLE)
+    var limit by NotValidVar(if (_limit != DEFAULT_INT) _limit else DEFAULT_INT)
+    var level by NotValidVar(if (_level != DEFAULT_INT) _level else DEFAULT_INT)
+    var host by NotValidVar(if (_host != DEFAULT_STR) _host else DEFAULT_STR)
+    var userId by NotValidVar(if (_userId != DEFAULT_STR) _userId else DEFAULT_STR)
 
     fun toMap() = hashMapOf("name" to name,
                             "name" to name,
@@ -36,32 +49,4 @@ class PlayoneModel {
                             "limit" to limit,
                             "level" to level,
                             "userId" to userId)
-
-    fun copy(
-        id: String? = null,
-        name: String? = null,
-        description: String? = null,
-        date: Long? = null,
-        updated: Long? = null,
-        address: String? = null,
-        longitude: Double? = null,
-        latitude: Double? = null,
-        limit: Int? = null,
-        level: Int? = null,
-        host: String? = null,
-        userId: String? = null
-    ) = PlayoneModel().also {
-        it.id = id ?: this.id
-        it.name = name ?: this.name
-        it.description = description ?: this.description
-        it.date = date ?: this.date
-        it.updated = updated ?: this.updated
-        it.address = address ?: this.address
-        it.longitude = longitude ?: this.longitude
-        it.latitude = latitude ?: this.latitude
-        it.limit = limit ?: this.limit
-        it.level = level ?: this.level
-        it.host = host ?: this.host
-        it.userId = userId ?: this.userId
-    }
 }

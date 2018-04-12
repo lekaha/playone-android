@@ -5,7 +5,6 @@ import com.playone.mobile.domain.executor.ThreadExecutor
 import com.playone.mobile.domain.interactor.SingleUseCase
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.repository.PlayoneRepository
-import java.security.InvalidParameterException
 
 /**
  * Use case used for modifying a [Playone] team group instances from the
@@ -23,10 +22,10 @@ open class JoinPlayone constructor(
         const val PARAMS_IS_JOINED = "is joined"
     }
 
-    public override fun buildUseCaseObservable(params: HashMap<String, Any>?) =
-        params?.let {
+    public override fun buildUseCaseObservable(params: HashMap<String, Any>) =
+        params.let {
             repository.joinTeam(it[PARAMS_PLAYONE_ID] as Int,
                                 it[PARAMS_USER_ID] as Int,
                                 it[PARAMS_IS_JOINED] as Boolean)
-        } ?: throw InvalidParameterException()
+        }
 }

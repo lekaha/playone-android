@@ -1,22 +1,44 @@
 package com.playone.mobile.ui.playone
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import androidx.os.bundleOf
+import com.playone.mobile.ext.DEFAULT_STR
+import com.playone.mobile.presentation.model.PlayoneView
 import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.R
+import com.playone.mobile.ui.mapper.PlayoneMapper
 import com.playone.mobile.ui.model.PlayoneListViewModel
-import kotlinx.android.synthetic.main.fragment_browse.recycler_browse
+import kotlinx.android.synthetic.main.fragment_playone_list.rv_playone_list
 import javax.inject.Inject
 
 class PlayoneListFragment : BaseInjectingFragment() {
 
-    @Inject lateinit var playoneAdapter: PlayoneAdapter
+    companion object {
+        const val PARAMETER_USER_ID = "parameter playone list user id"
 
-    private lateinit var viewModel: PlayoneListViewModel
+        fun newInstance(userId: String = DEFAULT_STR) = PlayoneListFragment().apply {
+            arguments = bundleOf(PARAMETER_USER_ID to userId)
+        }
+    }
+
+    @Inject lateinit var playoneAdapter: PlayoneAdapter
+    @Inject lateinit var mapper: PlayoneMapper
+
+    private var viewModel: PlayoneListViewModel? = null
+    private val userId by lazy { arguments?.getString(PARAMETER_USER_ID) ?: DEFAULT_STR }
 
     override fun getLayoutId() = R.layout.fragment_playone_list
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        super.onCreate(savedInstanceState)
+
+        initViewModel()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -25,14 +47,29 @@ class PlayoneListFragment : BaseInjectingFragment() {
         // get ViewModel from activity
         activity?.let {
             setupRecycler()
-            viewModel = ViewModelProviders.of(it).get(PlayoneListViewModel::class.java)
-            viewModel.load()
+            viewModel?.load()
+        }
+    }
+
+    private fun initViewModel() {
+
+        activity?.let {
+            viewModel = ViewModelProviders.of(it).get(PlayoneListViewModel::class.java).apply {
+                fetchListData().observe(this@PlayoneListFragment, Observer {
+                    it?.takeIf(List<PlayoneView>::isNotEmpty)?.let {
+                        playoneAdapter.update(mapper.mapToViewModels(it))
+                        playoneAdapter.notifyDataSetChanged()
+                    }
+                })
+            }
         }
     }
 
     private fun setupRecycler() {
 
-        recycler_browse.layoutManager = LinearLayoutManager(activity)
-        recycler_browse.adapter = playoneAdapter
+        rv_playone_list.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = playoneAdapter
+        }
     }
 }

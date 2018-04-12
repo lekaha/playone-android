@@ -6,7 +6,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
 import com.google.firebase.iid.FirebaseInstanceId
-import com.playone.mobile.ext.invalidInt
+import com.playone.mobile.ext.DEFAULT_INT
 import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.model.PlayoneModel
@@ -22,6 +22,11 @@ class PlayoneFirebaseV1(
     private val dbReference: DatabaseReference
 ) : PlayoneFirebase() {
 
+    override fun obtainPlayoneList(
+        callback: PlayoneCallback<List<PlayoneModel>>,
+        errorCallback: FirebaseErrorCallback
+    ) = playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
+
     /**
      * Retrieve the [List] of the [PlayoneModel] from the firebase server. We'll use
      * the callback function for returning the value back to.
@@ -34,14 +39,9 @@ class PlayoneFirebaseV1(
         userId: String,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = if (userId.isNotEmpty()) {
-        playoneDsAction(callback, errorCallback, ::snapToPlayoneList)
-    }
-    else {
-        userDsAction(userId.toString(),
+    ) = userDsAction(userId,
                      {},  // This is redundant anonymous function for running strategy function.
                      errorCallback) { userSnapToPlayoneList(it, errorCallback, callback) }
-    }
 
     override fun createPlayone(
         userId: Int,
@@ -95,7 +95,7 @@ class PlayoneFirebaseV1(
         email: String,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
-    ) = userDsAction(invalidInt, email, {}, errorCallback) { snapToUser(it, email, callback) }
+    ) = userDsAction(DEFAULT_INT, email, {}, errorCallback) { snapToUser(it, email, callback) }
 
     override fun createUser(
         model: UserModel,
@@ -381,7 +381,7 @@ class PlayoneFirebaseV1(
 
         teamSnapshot(userId).child(id).setValue(true)
 
-        val copyModel = model.copy(id = id, host = name, userId = userId)
+        val copyModel = model.copy(_id = id, _host = name, _userId = userId)
 
         dbReference.updateChildren(hashMapOf("/$GROUPS/" to copyModel.toMap()) as Map<String, Any>)
 

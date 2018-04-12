@@ -1,15 +1,17 @@
 package com.playone.mobile.presentation.browse
 
-import io.reactivex.observers.DisposableSingleObserver
 import com.playone.mobile.domain.interactor.SingleUseCase
 import com.playone.mobile.domain.model.Bufferoo
 import com.playone.mobile.presentation.ViewResponse
 import com.playone.mobile.presentation.mapper.BufferooMapper
+import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 
 class BrowseBufferoosPresenter
-        @Inject constructor(val getBufferoosUseCase: SingleUseCase<List<Bufferoo>, Void>,
-                            val bufferooMapper: BufferooMapper):
+@Inject constructor(
+    val getBufferoosUseCase: SingleUseCase<List<Bufferoo>, Unit>,
+    val bufferooMapper: BufferooMapper
+) :
         BrowseBufferoosContract.Presenter {
 
     var browseView: BrowseBufferoosContract.View? = null
@@ -28,7 +30,7 @@ class BrowseBufferoosPresenter
     }
 
     override fun retrieveBufferoos() {
-        getBufferoosUseCase.execute(BufferooSubscriber())
+        getBufferoosUseCase.execute(BufferooSubscriber(), {}())
     }
 
     internal fun handleGetBufferoosSuccess(bufferoos: List<Bufferoo>) {

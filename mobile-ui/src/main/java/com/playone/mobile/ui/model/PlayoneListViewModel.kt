@@ -46,6 +46,8 @@ class PlayoneListViewModel(private var getPlayoneListPresenter: GetPlayoneListCo
         getPlayoneListPresenter.getAllPlayoneList()
     }
 
+    fun fetchListData() = playoneList
+
     class PlayoneListViewModelFactory(private var presenter: GetPlayoneListContract.Presenter) :
         ViewModelProvider.Factory {
 

@@ -1,6 +1,7 @@
 package com.playone.mobile.presentation.getPlayoneList
 
 import com.playone.mobile.domain.interactor.playone.GetCurrentUser
+import com.playone.mobile.domain.interactor.playone.GetOwnPlayoneList
 import com.playone.mobile.domain.interactor.playone.GetPlayoneList
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.model.User
@@ -12,12 +13,14 @@ import io.reactivex.observers.DisposableSingleObserver
 class GetPlayoneListPresenter(
     val getCurrentUser: GetCurrentUser,
     val getPlayoneList: GetPlayoneList,
+    val getOwnPlayoneList: GetOwnPlayoneList,
     val viewMapper: Mapper<PlayoneView, Playone>
 ) : GetPlayoneListContract.Presenter {
 
     var getPlayoneListView: GetPlayoneListContract.View? = null
 
     override fun setView(view: GetPlayoneListContract.View) {
+
         getPlayoneListView = view
     }
 
@@ -36,15 +39,20 @@ class GetPlayoneListPresenter(
         getCurrentUser.execute(object : DisposableSingleObserver<User>() {
 
             override fun onError(e: Throwable) {
+
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onSuccess(t: User) {
-                getPlayoneList.execute(GetListSubscriber(), t.id)
+
+                if (t.isVerified) {
+                    getPlayoneList.execute(GetListSubscriber())
+                }
+                else {
+                    getOwnPlayoneList.execute(GetListSubscriber(), t.id)
+                }
             }
-
         })
-
     }
 
     inner class GetListSubscriber : DisposableSingleObserver<List<Playone>>() {
