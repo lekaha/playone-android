@@ -31,19 +31,7 @@ class GetPlayoneDetailPresenter(
 
     override fun getPlayoneDetail(playoneId: String) {
 
-        getPlayoneDetail.execute(object : DisposableSingleObserver<Playone>() {
-
-            override fun onError(e: Throwable) {
-
-                getPlayoneDetailView?.onResponse(ViewResponse.error(e))
-            }
-
-            override fun onSuccess(t: Playone) {
-
-                TODO("Why need to call again `getPlayoneDetail.execute`")
-                getPlayoneDetail.execute(GetDetailSubscriber(), playoneId)
-            }
-        }, playoneId)
+        getPlayoneDetail.execute(GetDetailSubscriber(), playoneId)
     }
 
     inner class GetDetailSubscriber : DisposableSingleObserver<Playone>() {

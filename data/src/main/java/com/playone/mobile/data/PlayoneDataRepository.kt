@@ -88,7 +88,9 @@ class PlayoneDataRepository constructor(
     override fun getPlayoneDetail(playoneId: String) = factory.obtainDataStore().run {
         fetchPlayoneDetail(playoneId)
             .flatMap { entity ->
-                (this as? PlayoneRemoteDataStore)?.savePlayoneDetail(entity) ?: Single.just(entity)
+                // TODO(jieyi): 2018/04/14 `savePlayoneDetail` is not supported yet.
+                //                (this as? PlayoneRemoteDataStore)?.savePlayoneDetail(entity) ?:
+                Single.just(entity)
             }
             .map(playoneMapper::mapFromEntity)
     }
