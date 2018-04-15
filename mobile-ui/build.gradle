@@ -187,6 +187,8 @@ dependencies {
 
     implementation mobileUiDependencies.googleMap
 
+    implementation mobileUiDependencies.bubbleLayout
+
     // Model Mapper
     implementation developmentDependencies.modelMapper
 

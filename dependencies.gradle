@@ -242,6 +242,8 @@ ext {
             googleMap:           "com.google.android.gms:play-services-maps:${googleApiVersion}",
 
 //            coroutine:          "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutine}",
+
+            bubbleLayout: 'com.daasuu:BubbleLayout:1.2.0'
     ]
 
     mobileUiTestDependencies = [
