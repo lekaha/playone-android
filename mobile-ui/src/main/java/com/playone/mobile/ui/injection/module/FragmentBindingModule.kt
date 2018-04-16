@@ -36,6 +36,7 @@ abstract class FragmentBindingModule {
     abstract fun providePlayoneListFragment(): PlayoneListFragment
 
     @ContributesAndroidInjector(
-        modules = [])
+        modules = [
+            CreatePlayoneModule::class])
     abstract fun provideSelectLocationFragment(): SelectLocationFragment
 }

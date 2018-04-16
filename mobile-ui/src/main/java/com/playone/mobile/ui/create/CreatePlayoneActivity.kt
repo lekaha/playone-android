@@ -1,12 +1,17 @@
 package com.playone.mobile.ui.create
 
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GooglePlayServicesUtil
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
+import com.playone.mobile.ui.ext.v
+import com.playone.mobile.ui.model.CreatePlayoneViewModel
 import com.playone.mobile.ui.view.TransitionHelper
 import kotlinx.android.synthetic.main.activity_create.create_layout
 import javax.inject.Inject
@@ -20,6 +25,9 @@ class CreatePlayoneActivity : BaseActivity(), TransitionHelper.Listener {
 
     @Inject
     lateinit var navigator: Navigator
+
+    @Inject
+    lateinit var createPlayoneViewModelFactory: CreatePlayoneViewModel.CreatePlayoneViewModelFactory
 
     override fun onAfterEnter() {
 
@@ -64,6 +72,13 @@ class CreatePlayoneActivity : BaseActivity(), TransitionHelper.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        isGooglePlayServicesAvailable()
+
+        ViewModelProviders.of(this, createPlayoneViewModelFactory)
+            .get(CreatePlayoneViewModel::class.java)
+
+
         navigator.navigateToFragment(this) {
             replace(R.id.create_layout, SelectLocationFragment.newInstance())
         }
@@ -83,6 +98,27 @@ class CreatePlayoneActivity : BaseActivity(), TransitionHelper.Listener {
         }
     }
 
+    private fun isGooglePlayServicesAvailable(): Boolean {
+        // Check that Google Play services is available
+        val resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this)
+        // If Google Play services is available
+        if (ConnectionResult.SUCCESS == resultCode) {
+            // In debug mode, log the status
+            v("Location Updates", "Google Play services is available.")
+            return true
+        }
+        else {
+            // Get the error dialog from Google Play services
+
+            // If Google Play services can provide an error dialog
+            GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                                                  CONNECTION_FAILURE_RESOLUTION_REQUEST)
+                ?.show()
+
+            return false
+        }
+    }
+
     override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
 
         super.onPostCreate(savedInstanceState, persistentState)
@@ -96,5 +132,7 @@ class CreatePlayoneActivity : BaseActivity(), TransitionHelper.Listener {
         // Default circular reveal from left top
         const val CIRCULAR_REVEAL_DEFAULT_X = 50
         const val CIRCULAR_REVEAL_DEFAULT_Y = 50
+
+        const val CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000
     }
 }

@@ -2,12 +2,15 @@ package com.playone.mobile.ui.injection.module
 
 import android.app.Application
 import android.content.Context
+import android.location.Geocoder
 import com.facebook.CallbackManager
 import com.facebook.FacebookSdk
 import com.facebook.login.LoginManager
 import com.facebook.stetho.Stetho
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.places.Places
 import com.playone.mobile.cache.PreferencesHelper
 import com.playone.mobile.cache.db.DbOpenHelper
 import com.playone.mobile.data.executor.JobExecutor
@@ -22,6 +25,7 @@ import com.squareup.leakcanary.LeakCanary
 import dagger.Module
 import dagger.Provides
 import org.modelmapper.ModelMapper
+import java.util.Locale
 
 /**
  * Module used to provide dependencies at an application-level.
@@ -102,4 +106,19 @@ open class ApplicationModule {
     @Provides
     @PerApplication
     internal fun provideFacebookLoginManager() = LoginManager.getInstance()
+
+    @Provides
+    @PerApplication
+    internal fun provideFusedLocationProviderClient(@ApplicationContext context: Context) =
+        LocationServices.getFusedLocationProviderClient(context)
+
+    @Provides
+    @PerApplication
+    internal fun provideGeoDataClient(@ApplicationContext context: Context) =
+        Places.getGeoDataClient(context, null)
+
+    @Provides
+    @PerApplication
+    internal fun provideGeocoder(@ApplicationContext context: Context) =
+        Geocoder(context, Locale.getDefault())
 }

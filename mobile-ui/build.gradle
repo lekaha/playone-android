@@ -120,7 +120,7 @@ dependencies {
     implementation mobileUiDependencies.javaxAnnotation
 
     implementation mobileUiDependencies.kotlin
-//    implementation mobileUiDependencies.coroutine
+    implementation mobileUiDependencies.coroutine
     implementation mobileUiDependencies.javaxInject
     implementation mobileUiDependencies.rxKotlin
     implementation mobileUiDependencies.androidAnnotations
@@ -186,6 +186,9 @@ dependencies {
     implementation mobileUiDependencies.facebook
 
     implementation mobileUiDependencies.googleMap
+    implementation mobileUiDependencies.googlePlaces
+    implementation mobileUiDependencies.googleLocation
+    implementation mobileUiDependencies.googleMapUtils
 
     implementation mobileUiDependencies.bubbleLayout
 

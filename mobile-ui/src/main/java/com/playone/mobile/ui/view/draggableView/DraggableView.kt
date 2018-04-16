@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ui.R
 
 class DraggableView : RelativeLayout {
@@ -211,21 +212,23 @@ class DraggableView : RelativeLayout {
      */
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-        when {
-            isInEditMode -> {
-            }
-            else -> {
-                if (originalX == 0 && originalY == 0) {
-                    originalX = left
-                    originalY = top
+        changed.ifTrue {
+            when {
+                isInEditMode -> {
                 }
+                else -> {
+                    if (originalX == 0 && originalY == 0) {
+                        originalX = left
+                        originalY = top
+                    }
 
-                if (isMaximized) {
-                    maximize()
-                }
+                    if (isMaximized) {
+                        maximize()
+                    }
 
-                if (isMinimized) {
-                    minimize()
+                    if (isMinimized) {
+                        minimize()
+                    }
                 }
             }
         }
