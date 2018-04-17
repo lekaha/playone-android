@@ -43,6 +43,7 @@ class CreatePlayoneViewModel(
     var currentNearby: MutableLiveData<List<AutocompletePrediction>> = MutableLiveData()
 
     private var map: GoogleMap? = null
+    private var cameraZoom: Float = DEFAULT_ZOOM_IN
 
     init {
 
@@ -60,6 +61,7 @@ class CreatePlayoneViewModel(
     override fun onCameraIdle() {
 
         map?.let {
+            cameraZoom = it.cameraPosition.zoom
             currentLatLng.value = it.cameraPosition.target
             val result = geocoder.getFromLocation(it.cameraPosition.target.latitude,
                                                   it.cameraPosition.target.longitude, 1)
@@ -91,7 +93,7 @@ class CreatePlayoneViewModel(
                     currentLatLng.value = LatLng(it.latitude, it.longitude)
                     animateCamera(CameraUpdateFactory.newLatLngZoom(
                         currentLatLng.value,
-                        DEFAULT_ZOOM_IN
+                        cameraZoom
                     ))
                 } ?: run {
                     val locationRequest = LocationRequest.create()
@@ -99,7 +101,7 @@ class CreatePlayoneViewModel(
 
                     animateCamera(CameraUpdateFactory.newLatLngZoom(
                         currentLatLng.value,
-                        DEFAULT_ZOOM_IN
+                        cameraZoom
                     ))
 
                     fusedLocationProviderClient.requestLocationUpdates(
@@ -113,7 +115,7 @@ class CreatePlayoneViewModel(
                                 currentLatLng.value = LatLng(location.latitude, location.longitude)
                                 animateCamera(CameraUpdateFactory.newLatLngZoom(
                                     currentLatLng.value,
-                                    DEFAULT_ZOOM_IN
+                                    cameraZoom
                                 ))
 
                                 fusedLocationProviderClient.removeLocationUpdates(this)
@@ -174,7 +176,7 @@ class CreatePlayoneViewModel(
                         if (it.count > 0) {
                             map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(
                                 it[0].latLng,
-                                DEFAULT_ZOOM_IN
+                                cameraZoom
                             ))
                         }
                     }
