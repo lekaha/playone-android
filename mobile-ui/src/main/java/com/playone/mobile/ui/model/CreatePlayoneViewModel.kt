@@ -89,7 +89,7 @@ class CreatePlayoneViewModel(
             fusedLocationProviderClient.lastLocation.addOnSuccessListener { it: Location? ->
                 it?.let {
                     currentLatLng.value = LatLng(it.latitude, it.longitude)
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    animateCamera(CameraUpdateFactory.newLatLngZoom(
                         currentLatLng.value,
                         DEFAULT_ZOOM_IN
                     ))
@@ -97,7 +97,7 @@ class CreatePlayoneViewModel(
                     val locationRequest = LocationRequest.create()
                     locationRequest.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
 
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    animateCamera(CameraUpdateFactory.newLatLngZoom(
                         currentLatLng.value,
                         DEFAULT_ZOOM_IN
                     ))
@@ -111,7 +111,7 @@ class CreatePlayoneViewModel(
 
                                 val location = locationResult.lastLocation
                                 currentLatLng.value = LatLng(location.latitude, location.longitude)
-                                moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                animateCamera(CameraUpdateFactory.newLatLngZoom(
                                     currentLatLng.value,
                                     DEFAULT_ZOOM_IN
                                 ))
@@ -172,7 +172,7 @@ class CreatePlayoneViewModel(
                     geoDataClient.getPlaceById(it[0].placeId).addOnSuccessListener {
 
                         if (it.count > 0) {
-                            map!!.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                            map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(
                                 it[0].latLng,
                                 DEFAULT_ZOOM_IN
                             ))
