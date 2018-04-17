@@ -6,18 +6,28 @@ import com.playone.mobile.ui.view.recycler.RecyclerViewAdapter
 import com.playone.mobile.ui.view.recycler.ViewHolderBinder
 import com.playone.mobile.ui.view.recycler.ViewHolderFactory
 
-class NearbyPlacesAdapter(itemComparator: ItemComparator,
-                          factoryMap: Map<Int, ViewHolderFactory>,
-                          binderMap: Map<Int, ViewHolderBinder>):
-        RecyclerViewAdapter(itemComparator, factoryMap, binderMap) {
+class NearbyPlacesAdapter(
+    itemComparator: ItemComparator,
+    factoryMap: Map<Int, ViewHolderFactory>,
+    binderMap: Map<Int, ViewHolderBinder>
+) :
+    RecyclerViewAdapter(itemComparator, factoryMap, binderMap) {
 
+    companion object {
 
-    class NearbyPlaceItemComparator: ItemComparator {
-        override fun areItemsTheSame(itemLeft: DisplayableItem<*>,
-                                     itemRight: DisplayableItem<*>) = itemLeft == itemRight
+        const val TYPE_NEAR_BY_PLACES = 0
+    }
 
-        override fun areContentsTheSame(itemLeft: DisplayableItem<*>,
-                                        itemRight: DisplayableItem<*>) = itemLeft == itemRight
+    class NearbyPlaceItemComparator : ItemComparator {
 
+        override fun areItemsTheSame(
+            itemLeft: DisplayableItem<*>,
+            itemRight: DisplayableItem<*>
+        ) = itemLeft == itemRight
+
+        override fun areContentsTheSame(
+            itemLeft: DisplayableItem<*>,
+            itemRight: DisplayableItem<*>
+        ) = itemLeft == itemRight
     }
 }

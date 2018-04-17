@@ -11,9 +11,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import com.google.android.gms.location.places.AutocompletePrediction
 import com.playone.mobile.ext.ifTrue
+import com.playone.mobile.ext.orString
 import com.playone.mobile.ui.BaseFragment
 import com.playone.mobile.ui.R
+import com.playone.mobile.ui.create.NearbyPlacesAdapter.Companion.TYPE_NEAR_BY_PLACES
 import com.playone.mobile.ui.model.CreatePlayoneViewModel
 import com.playone.mobile.ui.view.recycler.DisplayableItem
 import com.playone.mobile.ui.view.recycler.ViewHolderBinder
@@ -27,6 +30,7 @@ import javax.inject.Inject
 class SelectLocationFragment : BaseFragment() {
 
     companion object {
+
         const val MAPVIEW_BUNDLE_KEY = "MapViewBundleKey"
         const val PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 0x301
         fun newInstance() = SelectLocationFragment()
@@ -42,23 +46,21 @@ class SelectLocationFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-
         appCompatActivity?.let { activity ->
 
             viewModel =
                 ViewModelProviders.of(activity).get(CreatePlayoneViewModel::class.java).apply {
+
                     locationPermissionGranted.observe(this@SelectLocationFragment, Observer {
                         it.ifTrue {
-
                             // TODO update the map to current location
-
                         }
                     })
 
                     currentLatLng.observe(this@SelectLocationFragment, Observer {
                         it?.let {
-                            autocompleteAdapter.setCurrentLatLng(it)
-                            searchNearbyPlaces(actv_add_loc.text.toString())
+                            autocompleteAdapter.currentLatLng = it
+                            searchNearbyPlaces(actv_add_loc.text.toString().orString("park"))
                         }
                     })
 
@@ -69,20 +71,17 @@ class SelectLocationFragment : BaseFragment() {
                     currentNearby.observe(this@SelectLocationFragment, Observer {
                         it?.let {
                             nearByAdapter.update(it.map {
-                                DisplayableItem.toDisplayableItem(it,
-                                                                  0)
+                                DisplayableItem.toDisplayableItem(it, TYPE_NEAR_BY_PLACES, {
+                                    val prediction = AutocompletePrediction::class.java.cast(it)
+                                    viewModel.movePlaceByKeyword(prediction.getPrimaryText(null).toString())
+                                })
                             })
                             nearByAdapter.notifyDataSetChanged()
                         }
 
                     })
 
-                    var mapViewBundle: Bundle? = null
-                    if (savedInstanceState != null) {
-                        mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY)
-                    }
-
-                    map_select_location.onCreate(mapViewBundle)
+                    map_select_location.onCreate(savedInstanceState?.getBundle(MAPVIEW_BUNDLE_KEY))
                     map_select_location.getMapAsync(this)
 
                     lifecycle::addObserver
@@ -94,19 +93,19 @@ class SelectLocationFragment : BaseFragment() {
     }
 
     private fun setupViews() {
+
         actv_add_loc.setAdapter(autocompleteAdapter)
-        actv_add_loc.setOnItemClickListener { adapterView, view, i, l ->
-            //            this.playoneCreateTeamPresenter.updateLocationLatLng((this.actvAddressLocation as AutoCompleteTextView).text.toString())
+        actv_add_loc.setOnItemClickListener { _, view, _, _ ->
             viewModel.movePlaceByKeyword((view as TextView).text.toString())
             closeSoftKeyboard()
         }
 
         nearByAdapter = NearbyPlacesAdapter(
             NearbyPlacesAdapter.NearbyPlaceItemComparator(),
-            mapOf(Pair<Int, ViewHolderFactory>(0,
+            mapOf(Pair<Int, ViewHolderFactory>(TYPE_NEAR_BY_PLACES,
                                                NearbyPlacesViewHolder.NearbyPlacesViewHolderFactory(
                                                    appCompatActivity!!))),
-            mapOf(Pair<Int, ViewHolderBinder>(0,
+            mapOf(Pair<Int, ViewHolderBinder>(TYPE_NEAR_BY_PLACES,
                                               NearbyPlacesViewHolder.NearbyPlacesViewHolderBinder()))
         )
         rv_result_places.layoutManager = LinearLayoutManager(appCompatActivity)
@@ -114,6 +113,7 @@ class SelectLocationFragment : BaseFragment() {
     }
 
     private fun closeSoftKeyboard() {
+
         view?.let { v ->
             appCompatActivity?.let {
                 val imm = it.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -159,6 +159,7 @@ class SelectLocationFragment : BaseFragment() {
     }
 
     private fun getLocationPermission() {
+
         /*
          * Request location permission, so that we can get the location of the
          * device. The result of the permission request is handled by a callback,

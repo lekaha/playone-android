@@ -17,27 +17,36 @@ class AsyncPredictPlaces(
 
     @Synchronized
     override fun doInBackground(vararg constraint: String): ArrayList<AutocompletePrediction> {
-        val result = mutableListOf<AutocompletePrediction>()
-        var running = true
-        constraint.takeIf { it.isNotEmpty() }?.let {
-            geoDataClient.getAutocompletePredictions(
-                it[0],
-                LatLngUtils.createBoundsWithRectangle(currentLatLng, 1000.0),
-                autocompleteFilter
-            )
-                .addOnSuccessListener { responses ->
-                    responses.forEach {
-                        result.add(it)
-                    }
-                    running = false
-                }
-                .addOnFailureListener {
-                    running = false
-                }
-        }
 
-        while (running) {
-            Thread.sleep(10)
+        val lock = Object()
+        val result = mutableListOf<AutocompletePrediction>()
+
+        synchronized(lock) {
+
+            constraint.takeIf { it.isNotEmpty() }?.let {
+                geoDataClient.getAutocompletePredictions(
+                    it[0],
+                    LatLngUtils.createBoundsWithRectangle(currentLatLng, 1000.0),
+                    autocompleteFilter
+                )
+                    .addOnSuccessListener { responses ->
+                        synchronized(lock) {
+                            responses.forEach {
+                                result.add(it)
+                            }
+
+                            lock.notifyAll()
+                        }
+                    }
+                    .addOnFailureListener {
+                        synchronized(lock) {
+                            lock.notifyAll()
+                        }
+                    }
+            }
+
+            // TODO: Adjust as long as waiting time
+            lock.wait(1000)
         }
 
         return ArrayList(result)

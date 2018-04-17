@@ -18,18 +18,14 @@ class GooglePlacesAutocompleteAdapter(
     ArrayAdapter<String>(context, textViewResourceId), Filterable {
 
     private var resultList: ArrayList<String> = ArrayList()
-    private var currentLatLng: LatLng? = null
 
-    override fun getCount(): Int {
-        return resultList.size
-    }
+    var currentLatLng: LatLng? = null
 
-    override fun getItem(index: Int): String {
-        return resultList[index]
-    }
+    override fun getCount() = resultList.size
+    override fun getItem(index: Int) = resultList[index]
 
-    override fun getFilter(): Filter {
-        val filter = object : Filter() {
+    override fun getFilter() =
+        object : Filter() {
             override fun performFiltering(constraint: CharSequence?): Filter.FilterResults {
                 val filterResults = Filter.FilterResults()
                 // FIXME: Nothing will happen when users input the first word. * It might be not a bug.
@@ -45,7 +41,6 @@ class GooglePlacesAutocompleteAdapter(
                     predictions.forEach {
                         resultList.add(it.getPrimaryText(null).toString())
                     }
-
 
                     // Assign the data to the FilterResults
                     filterResults.values = resultList
@@ -64,10 +59,4 @@ class GooglePlacesAutocompleteAdapter(
                     notifyDataSetInvalidated()
             }
         }
-        return filter
-    }
-
-    fun setCurrentLatLng(latLng: LatLng) {
-        currentLatLng = latLng
-    }
 }

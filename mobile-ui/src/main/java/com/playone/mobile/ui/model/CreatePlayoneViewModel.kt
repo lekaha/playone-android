@@ -29,6 +29,7 @@ class CreatePlayoneViewModel(
 ) : BaseViewModel(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
 
     companion object {
+
         const val DEFAULT_ZOOM_IN: Float = 11f
         const val MIN_ZOOM: Float = 4f
         const val MAX_ZOOM: Float = 15f
@@ -44,18 +45,20 @@ class CreatePlayoneViewModel(
     private var map: GoogleMap? = null
 
     init {
+
         currentLatLng.value = LatLng(DEFAULT_LOCATION_LAT, DEFAULT_LOCATION_LNG)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
 
+        map = googleMap
         locationPermissionGranted.value.ifTrue {
             setUpMap()
         }
     }
 
     override fun onCameraIdle() {
+
         map?.let {
             currentLatLng.value = it.cameraPosition.target
             val result = geocoder.getFromLocation(it.cameraPosition.target.latitude,
@@ -76,12 +79,12 @@ class CreatePlayoneViewModel(
 
     @SuppressLint("MissingPermission")
     private fun setUpMap() {
+
         map?.apply {
             isMyLocationEnabled = true
             setMinZoomPreference(MIN_ZOOM)
             setMaxZoomPreference(MAX_ZOOM)
             uiSettings.isMyLocationButtonEnabled = true
-//            uiSettings.isZoomControlsEnabled = true
             uiSettings.isZoomGesturesEnabled = true
             fusedLocationProviderClient.lastLocation.addOnSuccessListener { it: Location? ->
                 it?.let {
@@ -103,6 +106,7 @@ class CreatePlayoneViewModel(
                         locationRequest,
                         object : LocationCallback() {
                             override fun onLocationResult(locationResult: LocationResult?) {
+
                                 locationResult ?: return
 
                                 val location = locationResult.lastLocation
@@ -111,7 +115,6 @@ class CreatePlayoneViewModel(
                                     currentLatLng.value,
                                     DEFAULT_ZOOM_IN
                                 ))
-
 
                                 fusedLocationProviderClient.removeLocationUpdates(this)
                             }
@@ -127,6 +130,7 @@ class CreatePlayoneViewModel(
 
     @SuppressLint("MissingPermission")
     private fun tearDownMap() {
+
         map?.apply {
             isMyLocationEnabled = false
             uiSettings.isMyLocationButtonEnabled = false
@@ -135,6 +139,7 @@ class CreatePlayoneViewModel(
 
     @SuppressLint("MissingPermission")
     fun setLocationPermissionGranted(isGranted: Boolean) {
+
         locationPermissionGranted.value = isGranted
 
         isGranted.ifTrue {
@@ -145,24 +150,27 @@ class CreatePlayoneViewModel(
     }
 
     fun searchNearbyPlaces(keyword: String) {
+
         AsyncPredictPlaces(
             geoDataClient,
             autocompleteFilter,
-            currentLatLng.value!!,
-            { predictions ->
+            // currentLatLng is must existed
+            currentLatLng.value!!, { predictions ->
                 currentNearby.value = predictions
             }
         ).execute(keyword)
     }
 
     fun movePlaceByKeyword(keyword: String) {
+
         AsyncPredictPlaces(
             geoDataClient,
             autocompleteFilter,
-            currentLatLng.value!!,
-            { predictions ->
+            // currentLatLng is must existed
+            currentLatLng.value!!, { predictions ->
                 predictions.takeIf { it.isNotEmpty() }?.let {
                     geoDataClient.getPlaceById(it[0].placeId).addOnSuccessListener {
+
                         if (it.count > 0) {
                             map!!.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                 it[0].latLng,
@@ -186,6 +194,7 @@ class CreatePlayoneViewModel(
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
             if (modelClass.isAssignableFrom(CreatePlayoneViewModel::class.java)) {
+
                 return CreatePlayoneViewModel(fusedLocationProviderClient,
                                               geoDataClient,
                                               geocoder,
