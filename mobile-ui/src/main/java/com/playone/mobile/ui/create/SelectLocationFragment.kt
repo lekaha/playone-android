@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import com.google.android.gms.location.places.AutocompletePrediction
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.orString
@@ -23,6 +24,7 @@ import com.playone.mobile.ui.view.recycler.ViewHolderBinder
 import com.playone.mobile.ui.view.recycler.ViewHolderFactory
 import kotlinx.android.synthetic.main.fragment_playone_create_select_map.actv_add_loc
 import kotlinx.android.synthetic.main.fragment_playone_create_select_map.rv_result_places
+import kotlinx.android.synthetic.main.merge_address_map.layout_current_location
 import kotlinx.android.synthetic.main.merge_address_map.map_select_location
 import kotlinx.android.synthetic.main.merge_address_map.txt_current_addr
 import javax.inject.Inject
@@ -110,6 +112,10 @@ class SelectLocationFragment : BaseFragment() {
         )
         rv_result_places.layoutManager = LinearLayoutManager(appCompatActivity)
         rv_result_places.adapter = nearByAdapter
+
+        layout_current_location.setOnClickListener {
+            Toast.makeText(appCompatActivity, "Navigate to next page", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun closeSoftKeyboard() {
