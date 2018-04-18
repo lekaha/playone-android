@@ -1,6 +1,7 @@
 package com.playone.mobile.ui.injection.module
 
 import com.playone.mobile.ui.browse.BrowseFragment
+import com.playone.mobile.ui.create.CreatePlayoneFragment
 import com.playone.mobile.ui.injection.module.mapper.ViewModule
 import com.playone.mobile.ui.create.SelectLocationFragment
 import com.playone.mobile.ui.onboarding.SignInFragment
@@ -39,4 +40,9 @@ abstract class FragmentBindingModule {
         modules = [
             CreatePlayoneModule::class])
     abstract fun provideSelectLocationFragment(): SelectLocationFragment
+
+    @ContributesAndroidInjector(
+        modules = [
+            CreatePlayoneModule::class])
+    abstract fun provideCreatePlayoneFragment(): CreatePlayoneFragment
 }

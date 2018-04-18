@@ -191,6 +191,7 @@ dependencies {
     implementation mobileUiDependencies.googleMapUtils
 
     implementation mobileUiDependencies.bubbleLayout
+    implementation mobileUiDependencies.circularProgressButton
 
     // Model Mapper
     implementation developmentDependencies.modelMapper

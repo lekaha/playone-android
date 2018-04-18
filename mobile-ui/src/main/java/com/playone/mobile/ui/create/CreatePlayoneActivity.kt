@@ -54,8 +54,15 @@ class CreatePlayoneActivity : BaseActivity(), TransitionHelper.Listener {
 
     override fun onBackPressed() {
 
-        transitionHelper.onBackPressed()
-        super.onBackPressed()
+        if (supportFragmentManager.backStackEntryCount == 0) {
+            transitionHelper.onBackPressed()
+            super.onBackPressed()
+            //additional code
+        }
+        else {
+            supportFragmentManager.popBackStack()
+        }
+
     }
 
     override fun onBeforeEnter(contentView: View) {
@@ -80,7 +87,10 @@ class CreatePlayoneActivity : BaseActivity(), TransitionHelper.Listener {
 
 
         navigator.navigateToFragment(this) {
-            replace(R.id.create_layout, SelectLocationFragment.newInstance())
+            val fragment = SelectLocationFragment.newInstance()
+            fragment.allowEnterTransitionOverlap = true
+            fragment.allowReturnTransitionOverlap = true
+            replace(R.id.fragment_content, fragment)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
