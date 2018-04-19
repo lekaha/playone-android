@@ -15,6 +15,7 @@ android {
         minSdkVersion globalConfiguration["androidMinSdkVersion"]
         targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
         multiDexEnabled = true
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "com.playone.mobile.ui.test.TestRunner"
 
         def CLIENT_ID = ""
