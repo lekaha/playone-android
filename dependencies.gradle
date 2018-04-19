@@ -239,9 +239,14 @@ ext {
             facebook:           "com.facebook.android:facebook-login:${facebookSDKVersion}",
 
             playAuth:           "com.google.android.gms:play-services-auth:${googleApiVersion}",
-            googleMap:           "com.google.android.gms:play-services-maps:${googleApiVersion}",
+            googleMap:          "com.google.android.gms:play-services-maps:${googleApiVersion}",
+            googlePlaces:       "com.google.android.gms:play-services-places:${googleApiVersion}",
+            googleLocation:     "com.google.android.gms:play-services-location:${googleApiVersion}",
+            googleMapUtils:     "com.google.maps.android:android-maps-utils:0.5",
 
-//            coroutine:          "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutine}",
+            coroutine:          "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutine}",
+
+            bubbleLayout: 'com.daasuu:BubbleLayout:1.2.0'
     ]
 
     mobileUiTestDependencies = [
