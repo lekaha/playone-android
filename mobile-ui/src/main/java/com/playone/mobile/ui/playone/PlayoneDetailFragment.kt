@@ -3,6 +3,7 @@ package com.playone.mobile.ui.playone
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import androidx.os.bundleOf
 import com.bumptech.glide.Glide
@@ -14,6 +15,7 @@ import com.playone.mobile.ui.model.PlayoneDetailViewModel
 import com.playone.mobile.ui.model.PlayoneParticipatorItemViewModel
 import com.playone.mobile.ui.view.recycler.DisplayableItem
 import kotlinx.android.synthetic.main.fragment_playone_detail.iv_team_map
+import kotlinx.android.synthetic.main.fragment_playone_detail.rv_participation
 import javax.inject.Inject
 
 class PlayoneDetailFragment : BaseInjectingFragment() {
@@ -86,10 +88,9 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
     }
 
     private fun setupRecycler() {
-
-//        rv_playone_list.apply {
-//            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-//            adapter = playoneAdapter
-//        }
+        rv_participation.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = playoneAdapter
+        }
     }
 }
