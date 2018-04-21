@@ -1,7 +1,7 @@
 package com.playone.mobile.remote
 
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import com.playone.mobile.data.model.BufferooEntity
 import com.playone.mobile.remote.mapper.BufferooEntityMapper
 import com.playone.mobile.remote.test.factory.BufferooFactory

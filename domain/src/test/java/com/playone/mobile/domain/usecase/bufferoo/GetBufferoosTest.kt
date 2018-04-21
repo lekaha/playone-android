@@ -1,15 +1,15 @@
 package com.playone.mobile.domain.usecase.bufferoo
 
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Single
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import com.playone.mobile.domain.executor.PostExecutionThread
 import com.playone.mobile.domain.executor.ThreadExecutor
 import com.playone.mobile.domain.interactor.browse.GetBufferoos
 import com.playone.mobile.domain.model.Bufferoo
 import com.playone.mobile.domain.repository.BufferooRepository
 import com.playone.mobile.domain.test.factory.BufferooFactory
+import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 

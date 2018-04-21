@@ -1,7 +1,7 @@
 package com.playone.mobile.data.source
 
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import com.playone.mobile.data.repository.BufferooCache
 import org.junit.Before
 import org.junit.Test
