@@ -6,14 +6,15 @@ import com.google.auto.value.AutoValue
 abstract class DisplayableItem<out T> {
 
     companion object {
-        fun <T> builder(): Builder<T> = AutoValue_DisplayableItem.Builder()
 
-        fun toDisplayableItem(model: Any, type: Int) =
-            builder<Any>().type(type).model(model).build()
+        fun <T> builder(): Builder<T> = AutoValue_DisplayableItem.Builder()
+        fun <T> toDisplayableItem(model: T, type: Int, click: OnItemClickedListener<Any> = {}) =
+            builder<T>().type(type).model(model).click(click).build()
     }
 
     abstract fun type(): Int
     abstract fun model(): T
+    abstract fun click(): OnItemClickedListener<Any>
 
     @AutoValue.Builder
     abstract class Builder<T> {
@@ -22,6 +23,10 @@ abstract class DisplayableItem<out T> {
 
         abstract fun model(model: T): Builder<T>
 
+        abstract fun click(onClicked: OnItemClickedListener<Any> = {}): Builder<T>
+
         abstract fun build(): DisplayableItem<T>
     }
 }
+
+typealias OnItemClickedListener<MODEL> = (model: MODEL) -> Unit

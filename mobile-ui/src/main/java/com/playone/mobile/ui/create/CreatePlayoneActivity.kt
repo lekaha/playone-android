@@ -1,25 +1,33 @@
 package com.playone.mobile.ui.create
 
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Build
 import android.os.Bundle
-import android.transition.Fade
+import android.os.PersistableBundle
 import android.view.View
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GooglePlayServicesUtil
 import com.playone.mobile.ui.BaseActivity
+import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
+import com.playone.mobile.ui.ext.v
+import com.playone.mobile.ui.model.CreatePlayoneViewModel
 import com.playone.mobile.ui.view.TransitionHelper
 import kotlinx.android.synthetic.main.activity_create.create_layout
+import javax.inject.Inject
 
 class CreatePlayoneActivity : BaseActivity(), TransitionHelper.Listener {
 
-    override fun onBeforeEnter(contentView: View) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    private var cx: Int = CIRCULAR_REVEAL_DEFAULT_X
+    private var cy: Int = CIRCULAR_REVEAL_DEFAULT_Y
 
-    lateinit var transitionHelper: TransitionHelper
+    private lateinit var transitionHelper: TransitionHelper
 
-    override fun onBeforeViewShows(contentView: View) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    @Inject
+    lateinit var navigator: Navigator
+
+    @Inject
+    lateinit var createPlayoneViewModelFactory: CreatePlayoneViewModel.CreatePlayoneViewModelFactory
 
     override fun onAfterEnter() {
 
@@ -50,17 +58,30 @@ class CreatePlayoneActivity : BaseActivity(), TransitionHelper.Listener {
         super.onBackPressed()
     }
 
+    override fun onBeforeEnter(contentView: View) {
+    }
+
+    override fun onBeforeViewShows(contentView: View) {
+    }
+
     override fun onBeforeReturn() {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getLayoutId() = R.layout.activity_create
 
-    var cx: Int = -1
-    var cy: Int = -1
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+
+        isGooglePlayServicesAvailable()
+
+        ViewModelProviders.of(this, createPlayoneViewModelFactory)
+            .get(CreatePlayoneViewModel::class.java)
+
+
+        navigator.navigateToFragment(this) {
+            replace(R.id.create_layout, SelectLocationFragment.newInstance())
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             TransitionHelper.excludeEnterTarget(this, R.id.action_bar, true)
@@ -68,13 +89,50 @@ class CreatePlayoneActivity : BaseActivity(), TransitionHelper.Listener {
             TransitionHelper.excludeEnterTarget(this, android.R.id.navigationBarBackground, true)
         }
 
-        cx = intent.getIntExtra("CX", -1)
-        cy = intent.getIntExtra("CY", -1)
+        cx = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_X, CIRCULAR_REVEAL_DEFAULT_X)
+        cy = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_Y, CIRCULAR_REVEAL_DEFAULT_Y)
 
         create_layout.visibility = View.INVISIBLE
         transitionHelper = TransitionHelper(this, savedInstanceState).also {
             it.addListener(this)
-            it.onViewCreated()
         }
+    }
+
+    private fun isGooglePlayServicesAvailable(): Boolean {
+        // Check that Google Play services is available
+        val resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this)
+        // If Google Play services is available
+        if (ConnectionResult.SUCCESS == resultCode) {
+            // In debug mode, log the status
+            v("Location Updates", "Google Play services is available.")
+            return true
+        }
+        else {
+            // Get the error dialog from Google Play services
+
+            // If Google Play services can provide an error dialog
+            GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                                                  CONNECTION_FAILURE_RESOLUTION_REQUEST)
+                ?.show()
+
+            return false
+        }
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+
+        super.onPostCreate(savedInstanceState, persistentState)
+        transitionHelper.onViewCreated()
+    }
+
+    companion object {
+        const val EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X"
+        const val EXTRA_CIRCULAR_REVEAL_Y = "EXTRA_CIRCULAR_REVEAL_Y"
+
+        // Default circular reveal from left top
+        const val CIRCULAR_REVEAL_DEFAULT_X = 50
+        const val CIRCULAR_REVEAL_DEFAULT_Y = 50
+
+        const val CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000
     }
 }

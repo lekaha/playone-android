@@ -8,6 +8,8 @@ import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.create.CreatePlayoneActivity
+import com.playone.mobile.ui.create.CreatePlayoneActivity.Companion.EXTRA_CIRCULAR_REVEAL_X
+import com.playone.mobile.ui.create.CreatePlayoneActivity.Companion.EXTRA_CIRCULAR_REVEAL_Y
 import com.playone.mobile.ui.model.PlayoneDetailViewModel
 import com.playone.mobile.ui.model.PlayoneListViewModel
 import com.playone.mobile.ui.navigateToActivityWithResult
@@ -70,9 +72,8 @@ class PlayoneActivity : BaseActivity() {
                 navigator.navigateToActivityWithResult<CreatePlayoneActivity>(
                     context = this@PlayoneActivity,
                     options = it) {
-                    this.putExtra("CX", cx)
-                    this.putExtra("CY", cy)
-//                    this@PlayoneActivity.overridePendingTransition(R.anim.scale_up, R.anim.scale_down)
+                    this.putExtra(EXTRA_CIRCULAR_REVEAL_X, cx)
+                    this.putExtra(EXTRA_CIRCULAR_REVEAL_Y, cy)
                 }
             }
         }
