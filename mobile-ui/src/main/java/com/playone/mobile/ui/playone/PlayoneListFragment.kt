@@ -36,8 +36,6 @@ class PlayoneListFragment : BaseInjectingFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
-        playoneAdapter.register(this)
         initViewModel()
     }
 
@@ -55,7 +53,6 @@ class PlayoneListFragment : BaseInjectingFragment() {
     fun navigateToDetail(playoneId: String) {
 
         val keyOfFragment = PlayoneDetailFragment::class.java.simpleName
-
         (activity as PlayoneActivity).gotoFragment(keyOfFragment,
                                                    hashMapOf(keyOfFragment to playoneId))
     }
@@ -66,7 +63,9 @@ class PlayoneListFragment : BaseInjectingFragment() {
             viewModel = ViewModelProviders.of(it).get(PlayoneListViewModel::class.java).apply {
                 fetchListData().observe(this@PlayoneListFragment, Observer {
                     it?.takeIf(List<PlayoneView>::isNotEmpty)?.let {
-                        playoneAdapter.update(mapper.mapToViewModels(it))
+                        playoneAdapter.update(mapper.mapToViewModels(it, {
+                            navigateToDetail(it.id)
+                        }))
                         playoneAdapter.notifyDataSetChanged()
                     }
                 })

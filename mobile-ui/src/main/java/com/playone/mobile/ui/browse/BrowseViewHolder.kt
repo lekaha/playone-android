@@ -45,8 +45,7 @@ class BrowseViewHolder(view: View): RecyclerView.ViewHolder(view) {
     class BrowseViewHolderBinder : ViewHolderBinder {
         override fun bind(
             viewHolder: RecyclerView.ViewHolder,
-            item: DisplayableItem<*>,
-            fragment: Fragment?
+            item: DisplayableItem<*>
         ) {
             var browseViewHolder = BrowseViewHolder::class.java.cast(viewHolder)
             var bufferooViewModel = BufferooViewModel::class.java.cast(item.model())

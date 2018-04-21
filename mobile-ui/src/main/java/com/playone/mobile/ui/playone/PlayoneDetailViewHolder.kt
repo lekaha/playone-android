@@ -34,8 +34,7 @@ class PlayoneDetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         override fun bind(
             viewHolder: RecyclerView.ViewHolder,
-            item: DisplayableItem<*>,
-            fragment: Fragment?
+            item: DisplayableItem<*>
         ) {
 
             val playoneViewHolder = PlayoneDetailViewHolder::class.java.cast(viewHolder)

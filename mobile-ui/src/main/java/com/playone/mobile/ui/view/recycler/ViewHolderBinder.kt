@@ -1,6 +1,5 @@
 package com.playone.mobile.ui.view.recycler
 
-import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView.ViewHolder
 
 /**
@@ -11,5 +10,5 @@ interface ViewHolderBinder {
     /**
      * Populates the passed [ViewHolder] with the details of the passed [DisplayableItem].
      */
-    fun bind(viewHolder: ViewHolder, item: DisplayableItem<*>, fragment: Fragment? = null)
+    fun bind(viewHolder: ViewHolder, item: DisplayableItem<*>)
 }
