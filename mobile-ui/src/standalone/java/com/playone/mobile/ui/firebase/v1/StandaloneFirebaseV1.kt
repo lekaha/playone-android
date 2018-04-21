@@ -21,14 +21,14 @@ class StandaloneFirebaseV1 : PlayoneFirebase() {
     ) = TODO()
 
     override fun createPlayone(
-        userId: Int,
+        playoneId: String,
         model: PlayoneModel,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     ) = TODO()
 
     override fun updatePlayone(
-        id: Int,
+        id: String,
         model: PlayoneModel,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
@@ -47,7 +47,7 @@ class StandaloneFirebaseV1 : PlayoneFirebase() {
     ) = TODO()
 
     override fun obtainPlayoneDetail(
-        userId: Int,
+        userId: String,
         callback: (model: PlayoneModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
     ) = TODO()
