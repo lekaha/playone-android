@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.create.AsyncPredictPlaces
+import java.io.IOException
 
 class CreatePlayoneViewModel(
     private val fusedLocationProviderClient: FusedLocationProviderClient,
@@ -63,19 +64,23 @@ class CreatePlayoneViewModel(
         map?.let {
             cameraZoom = it.cameraPosition.zoom
             currentLatLng.value = it.cameraPosition.target
-            val result = geocoder.getFromLocation(it.cameraPosition.target.latitude,
-                                                  it.cameraPosition.target.longitude, 1)
-            currentAddress.value = result.takeIf { it.isNotEmpty() }?.let {
-                val stringBuilder = StringBuilder()
-                for (index in 0..it[0].maxAddressLineIndex) {
-                    stringBuilder.append(it[0].getAddressLine(index))
-                    if (it[0].maxAddressLineIndex > index) {
-                        stringBuilder.append(", ")
+            try {
+                val result = geocoder.getFromLocation(it.cameraPosition.target.latitude,
+                                                      it.cameraPosition.target.longitude, 1)
+                currentAddress.value = result.takeIf { it.isNotEmpty() }?.let {
+                    val stringBuilder = StringBuilder()
+                    for (index in 0..it[0].maxAddressLineIndex) {
+                        stringBuilder.append(it[0].getAddressLine(index))
+                        if (it[0].maxAddressLineIndex > index) {
+                            stringBuilder.append(", ")
+                        }
                     }
-                }
 
-                stringBuilder.toString()
-            } ?: ""
+                    stringBuilder.toString()
+                } ?: ""
+            } catch (exception: IOException) {
+                currentAddress.value = null
+            }
         }
     }
 
