@@ -81,7 +81,7 @@
             app:layout_constraintGuide_end="349dp"/>
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/eTxtName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -105,7 +105,7 @@
             android:text="Team Name"
             android:textColor="#6d000000"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintStart_toStartOf="@+id/eTxtName"
             app:layout_constraintTop_toBottomOf="@+id/floatingActionButton"/>
 
         <TextView
@@ -116,11 +116,11 @@
             android:text="Team member number"
             android:textColor="#6d000000"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/editText2"
+            app:layout_constraintStart_toStartOf="@+id/eTxtPeople"
             app:layout_constraintTop_toBottomOf="@+id/floatingActionButton"/>
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/eTxtPeople"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -144,8 +144,8 @@
             android:text="Level"
             android:textColor="#6d000000"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/editText"
-            app:layout_constraintTop_toBottomOf="@+id/editText"/>
+            app:layout_constraintStart_toStartOf="@+id/eTxtName"
+            app:layout_constraintTop_toBottomOf="@+id/eTxtName"/>
 
         <TextView
             android:id="@+id/textView5"
@@ -161,7 +161,7 @@
             app:layout_constraintLeft_toRightOf="@+id/textView3"/>
 
         <SeekBar
-            android:id="@+id/seekBar"
+            android:id="@+id/seekBarLevel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
@@ -170,7 +170,7 @@
             android:max="10"
             android:progress="3"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintStart_toStartOf="@+id/eTxtName"
             app:layout_constraintTop_toBottomOf="@+id/textView3"/>
 
         <TextView
@@ -181,12 +181,12 @@
             android:text="Date"
             android:textColor="#6d000000"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/editText4"
+            app:layout_constraintStart_toStartOf="@+id/eTxtDate"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView3"
             />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/eTxtDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
@@ -209,12 +209,12 @@
             android:text="Time"
             android:textColor="#6d000000"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/editText5"
+            app:layout_constraintStart_toStartOf="@+id/eTxtTime"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView3"
             />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/eTxtTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -224,7 +224,7 @@
             android:focusable="false"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/editText4"
+            app:layout_constraintStart_toEndOf="@+id/eTxtDate"
             app:layout_constraintTop_toBottomOf="@+id/textView6"
             android:drawableEnd="@drawable/ic_arrow_drop_down_black"
             android:drawableRight="@drawable/ic_arrow_drop_down_black"/>
@@ -237,11 +237,11 @@
             android:text="Message"
             android:textColor="#6d000000"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/editText3"
-            app:layout_constraintTop_toBottomOf="@+id/seekBar"/>
+            app:layout_constraintStart_toStartOf="@+id/eTxtMessage"
+            app:layout_constraintTop_toBottomOf="@+id/seekBarLevel"/>
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/eTxtMessage"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
@@ -280,7 +280,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText3"
+            app:layout_constraintTop_toBottomOf="@+id/eTxtMessage"
             android:background="@color/colorPrimary"
             android:textColor="@color/white"
             android:visibility="invisible"

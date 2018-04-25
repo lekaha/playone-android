@@ -44,20 +44,20 @@ class PlayoneFirebaseV1(
                      errorCallback) { userSnapToPlayoneList(it, errorCallback, callback) }
 
     override fun createPlayone(
-        userId: Int,
+        userId: String,
         model: PlayoneModel,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
-    ) = playoneDsForCreation(userId.toString(), callback, errorCallback) {
-        snapToBooleanForPlayoneCreation(it, userId.toString(), model)
+    ) = playoneDsForCreation(userId, callback, errorCallback) {
+        snapToBooleanForPlayoneCreation(it, userId, model)
     }
 
     override fun updatePlayone(
-        id: Int,
+        id: String,
         model: PlayoneModel,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
-    ) = playoneDsForUpdate<Any>(id.toString(),
+    ) = playoneDsForUpdate<Any>(id,
                                 model,
                                 callback,
                                 errorCallback,

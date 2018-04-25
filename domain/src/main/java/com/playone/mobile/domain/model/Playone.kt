@@ -27,8 +27,8 @@ sealed class Playone {
         var name: String,
         var description: String,
         var playoneDate: Date,
-        val longitude: Long,
-        var latitude: Long,
+        val longitude: Double,
+        var latitude: Double,
         var address: String,
         var limitPeople: Int,
         var level: Int

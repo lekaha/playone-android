@@ -37,11 +37,14 @@ class PlayoneRemoteImpl constructor(
     override fun fetchPlayoneDetail(playoneId: Int) =
         service.retrievePlayoneDetail(playoneId).map(playoneMapper::mapToData)
 
-    override fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) =
-        service.createPlayoneDetail(userId, playoneEntity.toModel(playoneMapper))
+    override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
+        service.createPlayoneDetail(userId,
+                                    playoneEntity.toModel(playoneMapper))
+            .map(playoneMapper::mapToData)
 
-    override fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) =
+    override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
         service.updatePlayoneDetail(userId, playoneEntity.toModel(playoneMapper))
+            .map(playoneMapper::mapToData)
 
     override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) =
         service.joinTeamAsMember(playoneId, userId, isJoin)

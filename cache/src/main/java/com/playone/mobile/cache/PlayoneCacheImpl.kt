@@ -62,7 +62,10 @@ class PlayoneCacheImpl constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun savePlayoneDetail(playoneEntity: PlayoneEntity): Completable {
+    override fun savePlayoneDetail(
+        userId: String,
+        playoneEntity: PlayoneEntity
+    ): Single<PlayoneEntity> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -86,9 +89,9 @@ class PlayoneCacheImpl constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
+    override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) = TODO()
 
-    override fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
+    override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) = TODO()
 
     override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) = TODO()
 

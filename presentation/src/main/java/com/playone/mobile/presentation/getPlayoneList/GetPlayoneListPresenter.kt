@@ -49,7 +49,7 @@ class GetPlayoneListPresenter(
                     getPlayoneList.execute(GetListSubscriber())
                 }
                 else {
-                    getOwnPlayoneList.execute(GetListSubscriber(), t.id)
+                    getOwnPlayoneList.execute(GetListSubscriber(), t.id.toString())
                 }
             }
         })

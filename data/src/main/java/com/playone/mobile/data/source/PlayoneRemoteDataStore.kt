@@ -62,9 +62,10 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
      */
     override fun fetchUserEntity(email: String) = remote.fetchUserEntity(email)
 
-    override fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
+    override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
+        remote.createPlayoneDetail(userId, playoneEntity)
 
-    override fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) = TODO()
+    override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) = TODO()
 
     override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) = TODO()
 
@@ -116,8 +117,8 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
 
     override fun clearPlayoneDetail() = throw UnsupportedOperationException()
 
-    override fun savePlayoneDetail(playoneEntity: PlayoneEntity) =
-        throw UnsupportedOperationException()
+    override fun savePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
+        remote.updatePlayoneDetail(userId, playoneEntity)
 
     override fun clearUserEntity(userEntity: UserEntity) = throw UnsupportedOperationException()
 

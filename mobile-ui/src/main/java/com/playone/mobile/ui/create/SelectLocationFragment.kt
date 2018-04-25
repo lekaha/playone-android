@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import com.google.android.gms.location.places.AutocompletePrediction
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.orString
@@ -116,11 +115,14 @@ class SelectLocationFragment : BaseFragment() {
         rv_result_places.adapter = nearByAdapter
 
         layout_current_location.setOnClickListener {
-            viewModel.currentLatLng.value?.let {
+            viewModel.currentLatLng.value?.let { current ->
                 appCompatActivity?.let {
-                    Toast.makeText(it, "Navigate to next page", Toast.LENGTH_SHORT).show()
                     navigator.navigateToFragment(it) {
-                        add(R.id.fragment_content, CreatePlayoneFragment.newInstance())
+                        add(R.id.fragment_content, CreatePlayoneFragment.newInstance(
+                            current.latitude,
+                            current.longitude,
+                            viewModel.currentAddress.value.orEmpty()
+                        ))
                         hide(this@SelectLocationFragment)
                         addToBackStack(null)
                     }

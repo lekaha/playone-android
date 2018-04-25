@@ -1,8 +1,10 @@
 package com.playone.mobile.data
 
-import com.nhaarman.mockito_kotlin.*
-import io.reactivex.Completable
-import io.reactivex.Single
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.never
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import com.playone.mobile.data.mapper.BufferooMapper
 import com.playone.mobile.data.model.BufferooEntity
 import com.playone.mobile.data.repository.BufferooDataStore
@@ -11,6 +13,8 @@ import com.playone.mobile.data.source.BufferooDataStoreFactory
 import com.playone.mobile.data.source.BufferooRemoteDataStore
 import com.playone.mobile.data.test.factory.BufferooFactory
 import com.playone.mobile.domain.model.Bufferoo
+import io.reactivex.Completable
+import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

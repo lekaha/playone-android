@@ -3,7 +3,9 @@ package com.playone.mobile.data.repository
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.PlayoneItem
 import com.playone.mobile.data.model.UserEntity
+import com.playone.mobile.domain.model.Playone
 import io.reactivex.Completable
+import io.reactivex.Single
 
 /**
  * Interface defining methods for the caching of [PlayoneItem]. This is to be implemented by the
@@ -33,7 +35,7 @@ interface PlayoneCache : PlayoneRemote {
 
     fun clearPlayoneDetail(): Completable
 
-    fun savePlayoneDetail(playoneEntity: PlayoneEntity): Completable
+    fun savePlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<PlayoneEntity>
 
     fun clearUserEntity(userEntity: UserEntity): Completable
 
