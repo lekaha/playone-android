@@ -23,7 +23,6 @@ class SignUpAndSignIn constructor(
     UseCase(threadExecutor, postExecutionThread) {
 
     fun signInAnonymously(singleObserver: DisposableSingleObserver<User>) {
-
         authenticator.signInAnonymously(object : Authenticator.AuthResultCallBack {
 
             override fun onSuccessful(user: User) {

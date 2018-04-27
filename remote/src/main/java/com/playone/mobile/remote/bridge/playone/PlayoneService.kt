@@ -22,9 +22,9 @@ interface PlayoneService {
 
     fun retrievePlayoneDetail(playoneId: Int): Single<PlayoneModel>
 
-    fun createPlayoneDetail(userId: Int, playoneModel: PlayoneModel): Single<PlayoneRemote.Result>
+    fun createPlayoneDetail(userId: String, playoneModel: PlayoneModel): Single<PlayoneModel>
 
-    fun updatePlayoneDetail(userId: Int, playoneModel: PlayoneModel): Single<PlayoneRemote.Result>
+    fun updatePlayoneDetail(userId: String, playoneModel: PlayoneModel): Single<PlayoneModel>
 
     fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean): Single<PlayoneRemote.Result>
 

@@ -1,6 +1,7 @@
 package com.playone.mobile.data
 
 import com.playone.mobile.data.mapper.Mapper
+import com.playone.mobile.data.mapper.PlayoneMapper
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneDataStore
@@ -81,14 +82,16 @@ class PlayoneDataRepository constructor(
 
     override fun clearPlayoneDetail() = factory.getCacheDataStore().clearPlayoneDetail()
 
-    override fun savePlayoneDetail(playone: Playone) =
-        factory.getCacheDataStore()
-            .savePlayoneDetail(playoneMapper.mapToEntity(playone))
+    override fun savePlayoneDetail(userId: String, playone: Playone) =
+        factory.getRemoteDataStore().savePlayoneDetail(userId, playoneMapper.mapToEntity(playone))
+            .map { playoneMapper.mapFromEntity(it) }
 
     override fun getPlayoneDetail(playoneId: Int) = factory.obtainDataStore().run {
         fetchPlayoneDetail(playoneId)
             .flatMap { entity ->
-                (this as? PlayoneRemoteDataStore)?.savePlayoneDetail(entity) ?: Single.just(entity)
+                    // TODO:
+//                (this as? PlayoneRemoteDataStore)?.savePlayoneDetail(entity) ?: Single.just(entity)
+                Single.just(entity)
             }
             .map(playoneMapper::mapFromEntity)
     }
@@ -110,11 +113,13 @@ class PlayoneDataRepository constructor(
         fetchUserEntity(email).cacheUserEntity(this)
     }
 
-    override fun createPlayone(userId: Int, playone: Playone) =
-        singleBooleanRequest { createPlayoneDetail(userId, playoneMapper.mapToEntity(playone)) }
+    override fun createPlayone(userId: String, playone: Playone): Single<Playone> =
+        factory.getRemoteDataStore().createPlayoneDetail(userId, playoneMapper.mapToEntity(playone))
+            .map(playoneMapper::mapFromEntity)
 
-    override fun updatePlayone(userId: Int, playone: Playone) =
-        singleBooleanRequest { updatePlayoneDetail(userId, playoneMapper.mapToEntity(playone)) }
+    override fun updatePlayone(userId: String, playone: Playone): Single<Playone> =
+        factory.getRemoteDataStore().updatePlayoneDetail(userId, playoneMapper.mapToEntity(playone))
+            .map(playoneMapper::mapFromEntity)
 
     override fun joinTeam(playoneId: Int, userId: Int, isJoin: Boolean) =
         singleBooleanRequest { joinTeamAsMember(playoneId, userId, isJoin) }

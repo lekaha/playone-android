@@ -3,6 +3,7 @@ package com.playone.mobile.domain.interactor
 import com.playone.mobile.domain.executor.PostExecutionThread
 import com.playone.mobile.domain.executor.ThreadExecutor
 import io.reactivex.Completable
+import io.reactivex.CompletableObserver
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
@@ -22,9 +23,11 @@ abstract class CompletableUseCase<in Params> protected constructor(
     /**
      * Executes the current use case.
      */
-    fun execute(params: Params) = this.buildUseCaseObservable(params)
-        .subscribeOn(Schedulers.from(threadExecutor))
-        .observeOn(postExecutionThread.scheduler)
+    fun execute(params: Params, completableObserver: CompletableObserver) =
+        this.buildUseCaseObservable(params)
+            .subscribeOn(Schedulers.from(threadExecutor))
+            .observeOn(postExecutionThread.scheduler)
+            .subscribeWith(completableObserver)
 
     /**
      * Unsubscribes from current [Disposable].

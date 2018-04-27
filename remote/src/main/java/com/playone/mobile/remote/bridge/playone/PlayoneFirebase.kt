@@ -25,14 +25,14 @@ abstract class PlayoneFirebase {
     )
 
     abstract fun createPlayone(
-        userId: Int,
+        userId: String,
         model: PlayoneModel,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     )
 
     abstract fun updatePlayone(
-        id: Int,
+        id: String,
         model: PlayoneModel,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback

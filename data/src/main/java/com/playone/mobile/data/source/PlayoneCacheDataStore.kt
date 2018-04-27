@@ -38,7 +38,7 @@ open class PlayoneCacheDataStore(private val cache: PlayoneCache) : PlayoneDataS
 
     override fun clearPlayoneDetail() = cache.clearPlayoneDetail()
 
-    override fun savePlayoneDetail(playoneEntity: PlayoneEntity) = TODO()
+    override fun savePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) = TODO()
 //        cache.savePlayoneDetail(playoneEntity).doOnComplete { cache.keepLastCacheTime("") }
 
     override fun fetchPlayoneDetail(playoneId: Int) = cache.fetchPlayoneDetail(playoneId)
@@ -55,10 +55,10 @@ open class PlayoneCacheDataStore(private val cache: PlayoneCache) : PlayoneDataS
     //region Unsupported Operations
     override fun createUser(userEntity: UserEntity) = throw UnsupportedOperationException()
 
-    override fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) =
+    override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
         throw UnsupportedOperationException()
 
-    override fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity) =
+    override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
         throw UnsupportedOperationException()
 
     override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) =

@@ -22,9 +22,9 @@ interface PlayoneRemote {
 
     fun fetchPlayoneDetail(playoneId: Int): Single<PlayoneEntity>
 
-    fun createPlayoneDetail(userId: Int, playoneEntity: PlayoneEntity): Single<Result>
+    fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<PlayoneEntity>
 
-    fun updatePlayoneDetail(userId: Int, playoneEntity: PlayoneEntity): Single<Result>
+    fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<PlayoneEntity>
 
     fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean): Single<Result>
 
