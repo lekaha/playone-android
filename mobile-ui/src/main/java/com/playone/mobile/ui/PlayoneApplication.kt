@@ -6,7 +6,7 @@ import com.playone.mobile.ui.injection.component.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 
-class BufferooApplication : DaggerApplication() {
+class PlayoneApplication : DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         var appComponent = DaggerApplicationComponent

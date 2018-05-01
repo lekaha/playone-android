@@ -5,7 +5,7 @@ import com.playone.mobile.presentation.BaseView
 import com.playone.mobile.presentation.model.UserView
 
 /**
- * Defines a contract of operations between the Browse Presenter and Browse View
+ * Defines a contract of operations between the Login Presenter and Login View
  */
 interface LoginPlayoneContract {
 

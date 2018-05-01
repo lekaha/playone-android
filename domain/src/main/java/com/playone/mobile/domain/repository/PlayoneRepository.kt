@@ -50,6 +50,7 @@ interface PlayoneRepository {
     fun getUserById(userId: Int): Single<User>
     //endregion
 
+    //region For Playone API
     fun createPlayone(userId: String, playone: Playone): Single<Playone>
 
     fun updatePlayone(userId: String, playone: Playone): Single<Playone>
@@ -63,4 +64,5 @@ interface PlayoneRepository {
     fun isFavorite(playoneId: Int, userId: Int): Single<Boolean>
 
     fun isJoined(playoneId: Int, userId: Int): Single<Boolean>
+    //endregion
 }

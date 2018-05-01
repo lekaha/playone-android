@@ -2,7 +2,6 @@ package com.playone.mobile.ui.injection.module
 
 import android.content.Context
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.playone.mobile.remote.BufferooServiceFactory
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.bridge.playone.PlayoneServiceFactory
 import com.playone.mobile.ui.BuildConfig
@@ -21,21 +20,6 @@ open class NetModule {
         const val CONNECT_TIMEOUT = "CONNECT_TIMEOUT"
         const val READ_TIMEOUT = "READ_TIMEOUT"
     }
-
-    @Provides
-    @PerApplication
-    internal fun provideBufferooService(
-        @Named(BASE_URL) baseUrl: String,
-        @Named(CONNECT_TIMEOUT) connectTimeout: Long,
-        @Named(READ_TIMEOUT) readTimeout: Long,
-        chuckInterceptor: ChuckInterceptor,
-        stethoInterceptor: StethoInterceptor
-    ) = BufferooServiceFactory.makeService(
-        BuildConfig.DEBUG,
-        baseUrl,
-        connectTimeout,
-        readTimeout,
-        arrayOf(chuckInterceptor, stethoInterceptor))
 
     @Provides
     @PerApplication

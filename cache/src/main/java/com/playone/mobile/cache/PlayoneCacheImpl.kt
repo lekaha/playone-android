@@ -11,7 +11,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
- * Cached implementation for retrieving and saving Bufferoo instances. This class implements the
+ * Cached implementation for retrieving and saving Playone instances. This class implements the
  * [PlayoneCache] from the Data layer as it is that layers responsibility for defining the
  * operations in which data store implementation layers can carry out.
  */
