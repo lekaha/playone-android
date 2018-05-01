@@ -23,6 +23,6 @@ open class IsFavorite constructor(
 
     public override fun buildUseCaseObservable(params: HashMap<String, Any>) =
         params.let {
-            repository.isFavorite(it[PARAMS_PLAYONE_ID] as Int, it[PARAMS_USER_ID] as Int)
+            repository.isFavorite(it[PARAMS_PLAYONE_ID] as String, it[PARAMS_USER_ID] as String)
         }
 }

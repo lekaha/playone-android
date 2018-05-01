@@ -16,31 +16,31 @@ interface PlayoneRemote {
 
     fun fetchPlayoneList(userId: String): Single<List<PlayoneEntity>>
 
-    fun fetchJoinedPlayoneList(userId: Int): Single<List<PlayoneEntity>>
+    fun fetchJoinedPlayoneList(userId: String): Single<List<PlayoneEntity>>
 
-    fun fetchFavoritePlayoneList(userId: Int): Single<List<PlayoneEntity>>
+    fun fetchFavoritePlayoneList(userId: String): Single<List<PlayoneEntity>>
 
-    fun fetchPlayoneDetail(playoneId: Int): Single<PlayoneEntity>
+    fun fetchPlayoneDetail(playoneId: String): Single<PlayoneEntity>
 
     fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<PlayoneEntity>
 
     fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<PlayoneEntity>
 
-    fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean): Single<Result>
+    fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean): Single<Result>
 
-    fun sendJoinRequest(playoneId: Int, userId: Int, msg: String = ""): Single<Result>
+    fun sendJoinRequest(playoneId: String, userId: String, msg: String = ""): Single<Result>
 
-    fun toggleFavorite(playoneId: Int, userId: Int): Single<Boolean>
+    fun toggleFavorite(playoneId: String, userId: String): Single<Boolean>
 
-    fun isFavorite(playoneId: Int, userId: Int): Single<Boolean>
+    fun isFavorite(playoneId: String, userId: String): Single<Boolean>
 
-    fun isJoined(playoneId: Int, userId: Int): Single<Boolean>
+    fun isJoined(playoneId: String, userId: String): Single<Boolean>
     //endregion
 
     //region User for Auth
-    fun fetchUserEntity(userId: Int): Single<UserEntity>
+    fun fetchUserEntity(userId: String): Single<UserEntity>
 
-    fun fetchUserEntity(email: String): Single<UserEntity>
+    fun fetchUserEntityByEmail(email: String): Single<UserEntity>
 
     fun createUser(userEntity: UserEntity): Single<UserEntity>
 

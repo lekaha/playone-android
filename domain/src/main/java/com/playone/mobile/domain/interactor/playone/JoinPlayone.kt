@@ -24,8 +24,8 @@ open class JoinPlayone constructor(
 
     public override fun buildUseCaseObservable(params: HashMap<String, Any>) =
         params.let {
-            repository.joinTeam(it[PARAMS_PLAYONE_ID] as Int,
-                                it[PARAMS_USER_ID] as Int,
+            repository.joinTeam(it[PARAMS_PLAYONE_ID] as String,
+                                it[PARAMS_USER_ID] as String,
                                 it[PARAMS_IS_JOINED] as Boolean)
         }
 }

@@ -28,13 +28,13 @@ class PlayoneRemoteImpl constructor(
     override fun fetchPlayoneList(userId: String) =
         service.retrievePlayoneList(userId).mapPlayoneToEntity()
 
-    override fun fetchJoinedPlayoneList(userId: Int) =
+    override fun fetchJoinedPlayoneList(userId: String) =
         service.retrieveJoinedPlayoneList(userId).mapPlayoneToEntity()
 
-    override fun fetchFavoritePlayoneList(userId: Int) =
+    override fun fetchFavoritePlayoneList(userId: String) =
         service.retrieveFavoritePlayoneList(userId).mapPlayoneToEntity()
 
-    override fun fetchPlayoneDetail(playoneId: Int) =
+    override fun fetchPlayoneDetail(playoneId: String) =
         service.retrievePlayoneDetail(playoneId).map(playoneMapper::mapToData)
 
     override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
@@ -46,25 +46,25 @@ class PlayoneRemoteImpl constructor(
         service.updatePlayoneDetail(userId, playoneEntity.toModel(playoneMapper))
             .map(playoneMapper::mapToData)
 
-    override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) =
+    override fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean) =
         service.joinTeamAsMember(playoneId, userId, isJoin)
 
-    override fun sendJoinRequest(playoneId: Int, userId: Int, msg: String) =
+    override fun sendJoinRequest(playoneId: String, userId: String, msg: String) =
         service.sendJoinRequest(playoneId, userId, msg)
 
-    override fun toggleFavorite(playoneId: Int, userId: Int) =
+    override fun toggleFavorite(playoneId: String, userId: String) =
         service.toggleFavorite(playoneId, userId)
 
-    override fun isFavorite(playoneId: Int, userId: Int) =
+    override fun isFavorite(playoneId: String, userId: String) =
         service.isFavorite(playoneId, userId)
 
-    override fun isJoined(playoneId: Int, userId: Int) =
+    override fun isJoined(playoneId: String, userId: String) =
         service.isJoined(playoneId, userId)
 
     //region For Auth
-    override fun fetchUserEntity(userId: Int) = service.retrieveUserModel(userId).mapUserToEntity()
+    override fun fetchUserEntity(userId: String) = service.retrieveUserModel(userId).mapUserToEntity()
 
-    override fun fetchUserEntity(email: String) = service.retrieveUserModel(email).mapUserToEntity()
+    override fun fetchUserEntityByEmail(email: String) = service.retrieveUserModel(email).mapUserToEntity()
 
     override fun createUser(userEntity: UserEntity) =
         service.createUser(userEntity.toModel(userMapper)).mapUserToEntity()

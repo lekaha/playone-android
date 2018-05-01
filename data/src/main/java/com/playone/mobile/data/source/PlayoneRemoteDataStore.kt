@@ -30,21 +30,21 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
      *
      * @param userId user id.
      */
-    override fun fetchJoinedPlayoneList(userId: Int) = remote.fetchJoinedPlayoneList(userId)
+    override fun fetchJoinedPlayoneList(userId: String) = remote.fetchJoinedPlayoneList(userId)
 
     /**
      * Retrieve a list of the favorite [PlayoneEntity] instances from the API.
      *
      * @param userId user id.
      */
-    override fun fetchFavoritePlayoneList(userId: Int) = remote.fetchFavoritePlayoneList(userId)
+    override fun fetchFavoritePlayoneList(userId: String) = remote.fetchFavoritePlayoneList(userId)
 
     /**
      * Retrieve an entity [PlayoneEntity] detail instances from the API.
      *
      * @param playoneId playone id.
      */
-    override fun fetchPlayoneDetail(playoneId: Int) = remote.fetchPlayoneDetail(playoneId)
+    override fun fetchPlayoneDetail(playoneId: String) = remote.fetchPlayoneDetail(playoneId)
 
     override fun createUser(userEntity: UserEntity) = remote.createUser(userEntity)
 
@@ -53,29 +53,29 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
      *
      * @param userId user id.
      */
-    override fun fetchUserEntity(userId: Int) = remote.fetchUserEntity(userId)
+    override fun fetchUserEntity(userId: String) = remote.fetchUserEntity(userId)
 
     /**
      * Retrieve an entity [UserEntity] instances from the API by [email].
      *
      * @param email user's email.
      */
-    override fun fetchUserEntity(email: String) = remote.fetchUserEntity(email)
+    override fun fetchUserEntityByEmail(email: String) = remote.fetchUserEntity(email)
 
     override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
         remote.createPlayoneDetail(userId, playoneEntity)
 
     override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) = TODO()
 
-    override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) = TODO()
+    override fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean) = TODO()
 
-    override fun sendJoinRequest(playoneId: Int, userId: Int, msg: String) = TODO()
+    override fun sendJoinRequest(playoneId: String, userId: String, msg: String) = TODO()
 
-    override fun toggleFavorite(playoneId: Int, userId: Int) = TODO()
+    override fun toggleFavorite(playoneId: String, userId: String) = TODO()
 
-    override fun isFavorite(playoneId: Int, userId: Int) = TODO()
+    override fun isFavorite(playoneId: String, userId: String) = TODO()
 
-    override fun isJoined(playoneId: Int, userId: Int) = TODO()
+    override fun isJoined(playoneId: String, userId: String) = TODO()
 
     override fun updateUser(userEntity: UserEntity) = TODO()
 

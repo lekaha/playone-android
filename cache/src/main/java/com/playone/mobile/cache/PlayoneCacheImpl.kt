@@ -42,7 +42,7 @@ class PlayoneCacheImpl constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun fetchJoinedPlayoneList(userId: Int): Single<List<PlayoneEntity>> {
+    override fun fetchJoinedPlayoneList(userId: String): Single<List<PlayoneEntity>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -54,7 +54,7 @@ class PlayoneCacheImpl constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun fetchFavoritePlayoneList(userId: Int): Single<List<PlayoneEntity>> {
+    override fun fetchFavoritePlayoneList(userId: String): Single<List<PlayoneEntity>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -69,7 +69,7 @@ class PlayoneCacheImpl constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun fetchPlayoneDetail(playoneId: Int): Single<PlayoneEntity> {
+    override fun fetchPlayoneDetail(playoneId: String): Single<PlayoneEntity> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -81,11 +81,11 @@ class PlayoneCacheImpl constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun fetchUserEntity(userId: Int): Single<UserEntity> {
+    override fun fetchUserEntity(userId: String): Single<UserEntity> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun fetchUserEntity(email: String): Single<UserEntity> {
+    override fun fetchUserEntityByEmail(email: String): Single<UserEntity> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -93,15 +93,15 @@ class PlayoneCacheImpl constructor(
 
     override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) = TODO()
 
-    override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) = TODO()
+    override fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean) = TODO()
 
-    override fun sendJoinRequest(playoneId: Int, userId: Int, msg: String) = TODO()
+    override fun sendJoinRequest(playoneId: String, userId: String, msg: String) = TODO()
 
-    override fun toggleFavorite(playoneId: Int, userId: Int) = TODO()
+    override fun toggleFavorite(playoneId: String, userId: String) = TODO()
 
-    override fun isFavorite(playoneId: Int, userId: Int) = TODO()
+    override fun isFavorite(playoneId: String, userId: String) = TODO()
 
-    override fun isJoined(playoneId: Int, userId: Int) = TODO()
+    override fun isJoined(playoneId: String, userId: String) = TODO()
 
     override fun createUser(userEntity: UserEntity) = TODO()
 
