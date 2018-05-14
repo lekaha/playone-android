@@ -14,6 +14,7 @@ import com.dd.morphingbutton.MorphingButton
 import com.playone.mobile.ext.DEFAULT_STR
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
+import com.playone.mobile.ext.toIntOrZero
 import com.playone.mobile.presentation.createPlayone.CreatePlayoneContract
 import com.playone.mobile.ui.BaseFragment
 import com.playone.mobile.ui.R
@@ -187,7 +188,7 @@ class CreatePlayoneFragment : BaseFragment() {
             CreatePlayoneContract.PlayonePlace(createLocationLat,
                                                createLocationLng,
                                                createLocationAddr),
-            eTxtPeople.text.toString().toInt(),
+            eTxtPeople.text.toString().toIntOrZero(),
             seekBarLevel.progress
         )
 
