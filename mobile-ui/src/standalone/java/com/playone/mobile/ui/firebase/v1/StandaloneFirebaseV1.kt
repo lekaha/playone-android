@@ -35,30 +35,30 @@ class StandaloneFirebaseV1 : PlayoneFirebase() {
     ) = TODO()
 
     override fun obtainJoinedPlayoneList(
-        userId: Int,
+        userId: String,
         callback: PlayoneListCallback,
         errorCallback: FirebaseErrorCallback
     ) = TODO()
 
     override fun obtainFavoritePlayoneList(
-        userId: Int,
+        userId: String,
         callback: PlayoneListCallback,
         errorCallback: FirebaseErrorCallback
     ) = TODO()
 
     override fun obtainPlayoneDetail(
-        userId: Int,
+        userId: String,
         callback: (model: PlayoneModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
     ) = TODO()
 
     override fun obtainUser(
-        userId: Int,
+        userId: String,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
     ) = TODO()
 
-    override fun obtainUser(
+    override fun obtainUserByEmail(
         email: String,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
@@ -78,30 +78,30 @@ class StandaloneFirebaseV1 : PlayoneFirebase() {
     ) = TODO()
 
     override fun joinTeamAsMember(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         isJoin: Boolean,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     ) = TODO()
 
     override fun toggleFavorite(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     ) = TODO()
 
     override fun isFavorite(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     ) = TODO()
 
     override fun isJoined(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     ) = TODO()

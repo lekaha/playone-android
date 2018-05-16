@@ -25,21 +25,21 @@ class PlayoneServiceFirebaseImpl(
             playoneFirebase.obtainPlayoneList(userId, emitter::onSuccess, emitter::errorHandler)
         }
 
-    override fun retrieveJoinedPlayoneList(userId: Int) =
+    override fun retrieveJoinedPlayoneList(userId: String) =
         single<List<PlayoneModel>> { emitter ->
             playoneFirebase.obtainJoinedPlayoneList(userId,
                                                     emitter::onSuccess,
                                                     emitter::errorHandler)
         }
 
-    override fun retrieveFavoritePlayoneList(userId: Int) =
+    override fun retrieveFavoritePlayoneList(userId: String) =
         single<List<PlayoneModel>> { emitter ->
             playoneFirebase.obtainFavoritePlayoneList(userId,
                                                       emitter::onSuccess,
                                                       emitter::errorHandler)
         }
 
-    override fun retrievePlayoneDetail(playoneId: Int) =
+    override fun retrievePlayoneDetail(playoneId: String) =
         single<PlayoneModel> { emitter ->
             playoneFirebase.obtainPlayoneDetail(playoneId,
                                                 { it?.let(emitter::onSuccess) ?: emitter.errorNullObject() },
@@ -60,16 +60,16 @@ class PlayoneServiceFirebaseImpl(
             }, emitter::errorHandler)
         }
 
-    override fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean) =
+    override fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean) =
         single<PlayoneRemote.Result> { emitter ->
             playoneFirebase.joinTeamAsMember(playoneId, userId, isJoin, {
                 emitter.onSuccess(if (it) SUCCESS else ERROR)
             }, emitter::errorHandler)
         }
 
-    override fun sendJoinRequest(playoneId: Int, userId: Int, msg: String) = TODO()
+    override fun sendJoinRequest(playoneId: String, userId: String, msg: String) = TODO()
 
-    override fun toggleFavorite(playoneId: Int, userId: Int) =
+    override fun toggleFavorite(playoneId: String, userId: String) =
         single<Boolean> { emitter ->
             playoneFirebase.toggleFavorite(playoneId,
                                            userId,
@@ -77,25 +77,25 @@ class PlayoneServiceFirebaseImpl(
                                            emitter::errorHandler)
         }
 
-    override fun isFavorite(playoneId: Int, userId: Int) =
+    override fun isFavorite(playoneId: String, userId: String) =
         single<Boolean> { emitter ->
             playoneFirebase.isFavorite(playoneId, userId, emitter::onSuccess, emitter::errorHandler)
         }
 
-    override fun isJoined(playoneId: Int, userId: Int) =
+    override fun isJoined(playoneId: String, userId: String) =
         single<Boolean> { emitter ->
             playoneFirebase.isJoined(playoneId, userId, emitter::onSuccess, emitter::errorHandler)
         }
 
     //region For Auth0
-    override fun retrieveUserModel(userId: Int) =
+    override fun retrieveUserModel(userId: String) =
         single<UserModel> { emitter ->
             playoneFirebase.obtainUser(userId,
                                        { it?.let(emitter::onSuccess) ?: emitter.errorNullObject() },
                                        emitter::errorHandler)
         }
 
-    override fun retrieveUserModel(email: String) =
+    override fun retrieveUserModelByEmail(email: String) =
         single<UserModel> { emitter ->
             playoneFirebase.obtainUser(email,
                                        { it?.let(emitter::onSuccess) ?: emitter.errorNullObject() },

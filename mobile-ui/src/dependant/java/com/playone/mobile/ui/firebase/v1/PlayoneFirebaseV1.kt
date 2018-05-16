@@ -64,34 +64,34 @@ class PlayoneFirebaseV1(
                                 null)
 
     override fun obtainJoinedPlayoneList(
-        userId: Int,
+        userId: String,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = joinedDsAction(userId.toString(), {}, errorCallback) {
+    ) = joinedDsAction(userId, {}, errorCallback) {
         joinedSnapToPlayoneList(it, errorCallback, callback)
     }
 
     override fun obtainFavoritePlayoneList(
-        userId: Int,
+        userId: String,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = favoriteDsAction(userId.toString(), {}, errorCallback) {
+    ) = favoriteDsAction(userId, {}, errorCallback) {
         favoriteSnapToPlayoneList(it, errorCallback, callback)
     }
 
     override fun obtainPlayoneDetail(
-        userId: Int,
+        userId: String,
         callback: (model: PlayoneModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
-    ) = playoneDsAction(userId.toString(), callback, errorCallback, ::snapToPlayone)
+    ) = playoneDsAction(userId, callback, errorCallback, ::snapToPlayone)
 
     override fun obtainUser(
-        userId: Int,
+        userId: String,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
-    ) = userDsAction(userId.toString(), callback, errorCallback, ::snapToUser)
+    ) = userDsAction(userId, callback, errorCallback, ::snapToUser)
 
-    override fun obtainUser(
+    override fun obtainUserByEmail(
         email: String,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
@@ -115,13 +115,13 @@ class PlayoneFirebaseV1(
     ) = userDsForUpdate<Boolean>(model, lastDeviceToken, callback, errorCallback, null)
 
     override fun joinTeamAsMember(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         isJoin: Boolean,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     ) {
-        val (pId, uId) = playoneId.toString() to userId.toString()
+        val (pId, uId) = playoneId to userId
 
         memberSnapshot.child(pId).child(uId).setValue(isJoin)
         joinSnapshot.child(uId).child(pId).setValue(isJoin)
@@ -129,13 +129,13 @@ class PlayoneFirebaseV1(
     }
 
     override fun toggleFavorite(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
-    ) = favoriteDsAction(userId.toString(), {}, errorCallback) {
+    ) = favoriteDsAction(userId, {}, errorCallback) {
         var isFavorite = false
-        val (pId, uId) = playoneId.toString() to userId.toString()
+        val (pId, uId) = playoneId to userId
 
         when (it?.exists()) {
             true -> {
@@ -154,21 +154,21 @@ class PlayoneFirebaseV1(
     }
 
     override fun isFavorite(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
-    ) = favoriteDsAction(userId.toString(), {}, errorCallback) {
-        snapToRequestFavorite(it, playoneId.toString(), callback)
+    ) = favoriteDsAction(userId, {}, errorCallback) {
+        snapToRequestFavorite(it, playoneId, callback)
     }
 
     override fun isJoined(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
-    ) = joinedDsAction(userId.toString(), {}, errorCallback, {
-        snapToRequestJoined(it, playoneId.toString(), callback)
+    ) = joinedDsAction(userId, {}, errorCallback, {
+        snapToRequestJoined(it, playoneId, callback)
     })
 
     //region Fetching data from firebase database.

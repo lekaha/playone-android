@@ -23,6 +23,6 @@ open class IsJoined constructor(
 
     public override fun buildUseCaseObservable(params: HashMap<String, Any>) =
         params.let {
-            repository.isJoined(it[PARAMS_PLAYONE_ID] as Int, it[PARAMS_USER_ID] as Int)
+            repository.isJoined(it[PARAMS_PLAYONE_ID] as String, it[PARAMS_USER_ID] as String)
         }
 }
