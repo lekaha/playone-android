@@ -13,27 +13,27 @@ import io.reactivex.Single
 interface PlayoneRepository {
 
     //region For caching the data by the cache layer.
-    fun clearPlayoneList(): Completable
-
-    fun savePlayoneList(playoneList: List<Playone>): Completable
-
-    fun clearJoinedPlayoneList(): Completable
-
-    fun saveJoinedPlayoneList(playoneList: List<Playone>): Completable
-
-    fun clearFavoritePlayoneList(): Completable
-
-    fun saveFavoritePlayoneList(playoneList: List<Playone>): Completable
-
-    fun clearPlayoneDetail(): Completable
-
-    fun savePlayoneDetail(userId: String, playone: Playone): Single<Playone>
-
-    fun clearUser(user: User): Completable
-
-    fun createUser(user: User): Completable
-
-    fun saveUser(user: User): Completable
+//    fun clearPlayoneList(): Completable
+//
+//    fun savePlayoneList(playoneList: List<Playone>): Completable
+//
+//    fun clearJoinedPlayoneList(): Completable
+//
+//    fun saveJoinedPlayoneList(playoneList: List<Playone>): Completable
+//
+//    fun clearFavoritePlayoneList(): Completable
+//
+//    fun saveFavoritePlayoneList(playoneList: List<Playone>): Completable
+//
+//    fun clearPlayoneDetail(): Completable
+//
+//    fun savePlayoneDetail(userId: String, playone: Playone): Single<Playone>
+//
+//    fun clearUser(user: User): Completable
+//
+//    fun createUser(user: User): Completable
+//
+//    fun saveUser(user: User): Completable
     //endregion
 
     //region For Playone API

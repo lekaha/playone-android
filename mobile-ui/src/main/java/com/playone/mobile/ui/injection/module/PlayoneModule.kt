@@ -1,5 +1,6 @@
 package com.playone.mobile.ui.injection.module
 
+import com.playone.mobile.data.CacheChecker
 import com.playone.mobile.data.PlayoneDataRepository
 import com.playone.mobile.data.mapper.Mapper
 import com.playone.mobile.data.model.PlayoneEntity
@@ -36,10 +37,10 @@ class PlayoneModule {
 
     @Provides
     internal fun providePlayoneDataStoreFactory(
-        playoneCache: PlayoneCache,
-        playoneCacheDataStore: PlayoneCacheDataStore,
-        playoneRemoteDataStore: PlayoneRemoteDataStore
-    ) = PlayoneDataStoreFactory(playoneCache, playoneCacheDataStore, playoneRemoteDataStore)
+            playoneCacheChecker: CacheChecker,
+            playoneCacheDataStore: PlayoneCacheDataStore,
+            playoneRemoteDataStore: PlayoneRemoteDataStore
+    ) = PlayoneDataStoreFactory(playoneCacheChecker, playoneCacheDataStore, playoneRemoteDataStore)
 
     @Provides
     internal fun providePlayoneRepository(

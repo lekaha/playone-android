@@ -11,7 +11,7 @@ import io.reactivex.Single
  * Interface defining methods for the caching of [PlayoneItem]. This is to be implemented by the
  * cache layer, using this interface as a way of communicating.
  */
-interface PlayoneCache : PlayoneRemote {
+interface PlayoneCache {
 
     /**
      * Clear all elements from the cache.

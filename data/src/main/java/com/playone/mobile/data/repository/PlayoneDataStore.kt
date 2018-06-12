@@ -6,4 +6,4 @@ package com.playone.mobile.data.repository
  * data source layers, setting the requirements for the operations that need to
  * be implemented.
  */
-interface PlayoneDataStore : PlayoneCache
+interface PlayoneDataStore : PlayoneCache, PlayoneRemote

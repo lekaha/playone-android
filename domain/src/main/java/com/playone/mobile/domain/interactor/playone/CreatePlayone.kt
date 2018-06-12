@@ -25,9 +25,9 @@ class CreatePlayone constructor(
     override fun buildUseCaseObservable(params: Playone.CreateParameters): Single<Playone.Detail> =
         if (signUpAndSignIn.isSignedIn()) {
             getCurrentUser.buildUseCaseObservable().flatMap {
-                it.isVerified.ifFalse {
-                    throw NotVerifiedEmailException()
-                }
+//                it.isVerified.ifFalse {
+//                    throw NotVerifiedEmailException()
+//                }
 
                 repository.createPlayone(it.id, params)
             }.map {

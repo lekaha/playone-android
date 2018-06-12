@@ -18,41 +18,48 @@ open class PlayoneCacheDataStore(private val cache: PlayoneCache) : PlayoneDataS
     override fun savePlayoneList(playoneList: List<PlayoneEntity>) = TODO()
 //        cache.savePlayoneList(playoneList).doOnComplete { cache.keepLastCacheTime("") }
 
-    override fun fetchPlayoneList() = cache.fetchPlayoneList()
-
-    override fun fetchPlayoneList(userId: String) = cache.fetchPlayoneList(userId)
-
     override fun clearJoinedPlayoneList() = cache.clearJoinedPlayoneList()
 
     override fun saveJoinedPlayoneList(playoneList: List<PlayoneEntity>) = TODO()
 //        cache.saveJoinedPlayoneList(playoneList).doOnComplete { cache.keepLastCacheTime("") }
-
-    override fun fetchJoinedPlayoneList(userId: String) = cache.fetchJoinedPlayoneList(userId)
 
     override fun clearFavoritePlayoneList() = cache.clearFavoritePlayoneList()
 
     override fun saveFavoritePlayoneList(playoneList: List<PlayoneEntity>) = TODO()
 //        cache.saveFavoritePlayoneList(playoneList).doOnComplete { cache.keepLastCacheTime("") }
 
-    override fun fetchFavoritePlayoneList(userId: String) = cache.fetchFavoritePlayoneList(userId)
-
     override fun clearPlayoneDetail() = cache.clearPlayoneDetail()
 
     override fun savePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) = TODO()
 //        cache.savePlayoneDetail(playoneEntity).doOnComplete { cache.keepLastCacheTime("") }
-
-    override fun fetchPlayoneDetail(playoneId: String) = cache.fetchPlayoneDetail(playoneId)
 
     override fun clearUserEntity(userEntity: UserEntity) = cache.clearUserEntity(userEntity)
 
     override fun saveUserEntity(userEntity: UserEntity) = TODO()
 //        cache.saveUserEntity(userEntity).doOnComplete { cache.keepLastCacheTime("") }
 
-    override fun fetchUserEntity(userId: String) = cache.fetchUserEntity(userId)
-
-    override fun fetchUserEntityByEmail(email: String) = cache.fetchUserEntity(email)
-
     //region Unsupported Operations
+    override fun fetchPlayoneList() = throw UnsupportedOperationException()
+//        cache.fetchPlayoneList()
+
+    override fun fetchPlayoneList(userId: String) = throw UnsupportedOperationException()
+//        cache.fetchPlayoneList(userId)
+
+    override fun fetchJoinedPlayoneList(userId: String) = throw UnsupportedOperationException()
+//        cache.fetchJoinedPlayoneList(userId)
+
+    override fun fetchFavoritePlayoneList(userId: String) = throw UnsupportedOperationException()
+//        cache.fetchFavoritePlayoneList(userId)
+
+    override fun fetchUserEntity(userId: String) = throw UnsupportedOperationException()
+//        cache.fetchUserEntity(userId)
+
+    override fun fetchUserEntityByEmail(email: String) = throw UnsupportedOperationException()
+//        cache.fetchUserEntity(email)
+
+    override fun fetchPlayoneDetail(playoneId: String) = throw UnsupportedOperationException()
+//        cache.fetchPlayoneDetail(playoneId)
+
     override fun createUser(userEntity: UserEntity) = throw UnsupportedOperationException()
 
     override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =

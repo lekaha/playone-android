@@ -10,6 +10,7 @@ import com.playone.mobile.ui.R
 import com.playone.mobile.ui.create.CreatePlayoneActivity
 import com.playone.mobile.ui.create.CreatePlayoneActivity.Companion.EXTRA_CIRCULAR_REVEAL_X
 import com.playone.mobile.ui.create.CreatePlayoneActivity.Companion.EXTRA_CIRCULAR_REVEAL_Y
+import com.playone.mobile.ui.model.LoginViewModel
 import com.playone.mobile.ui.model.PlayoneListViewModel
 import com.playone.mobile.ui.navigateToActivityWithResult
 import com.playone.mobile.ui.view.TransitionHelper
@@ -22,8 +23,10 @@ class PlayoneActivity : BaseActivity() {
     @Inject lateinit var navigator: Navigator
 
     @Inject lateinit var viewModelFactory: PlayoneListViewModel.PlayoneListViewModelFactory
+    @Inject lateinit var loginViewModelFactory: LoginViewModel.LoginViewModelFactory
 
     private lateinit var viewModel: PlayoneListViewModel
+    private lateinit var loginViewModel: LoginViewModel
 
     override fun getLayoutId() = R.layout.activity_playone
 
@@ -40,6 +43,9 @@ class PlayoneActivity : BaseActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(PlayoneListViewModel::class.java)
 
+        loginViewModel = ViewModelProviders.of(this, loginViewModelFactory)
+            .get(LoginViewModel::class.java)
+
         navigator.navigateToFragment(this, {
             replace(R.id.list_content, PlayoneListFragment.newInstance())
         })
@@ -51,6 +57,10 @@ class PlayoneActivity : BaseActivity() {
                     finish()
                     true
 
+                }
+                R.id.action_schedules -> {
+                    loginViewModel.sendEmailVerification()
+                    true
                 }
                 else -> false
             }

@@ -23,10 +23,37 @@ class PlayoneDataRepository constructor(
     private val userMapper: Mapper<UserEntity, User>
 ) : PlayoneRepository {
 
-    override fun clearPlayoneList() = factory.getCacheDataStore().clearPlayoneList()
+    fun clearPlayoneList() = factory.getCacheDataStore().clearPlayoneList()
 
-    override fun savePlayoneList(playoneList: List<Playone>) =
+    fun savePlayoneList(playoneList: List<Playone>) =
         factory.getCacheDataStore().savePlayoneList(playoneList.map(playoneMapper::mapToEntity))
+
+    fun clearJoinedPlayoneList() = factory.getCacheDataStore().clearJoinedPlayoneList()
+
+    fun saveJoinedPlayoneList(playoneList: List<Playone>) =
+            factory.getCacheDataStore()
+                    .saveJoinedPlayoneList(playoneList.map(playoneMapper::mapToEntity))
+
+    fun clearFavoritePlayoneList() = factory.getCacheDataStore().clearFavoritePlayoneList()
+
+    fun saveFavoritePlayoneList(playoneList: List<Playone>) =
+            factory.getCacheDataStore()
+                    .saveFavoritePlayoneList(playoneList.map(playoneMapper::mapToEntity))
+
+    fun clearPlayoneDetail() = factory.getCacheDataStore().clearPlayoneDetail()
+
+    fun savePlayoneDetail(userId: String, playone: Playone) =
+            factory.getRemoteDataStore().savePlayoneDetail(userId, playoneMapper.mapToEntity(playone))
+                    .map { playoneMapper.mapFromEntity(it) }
+
+    fun clearUser(user: User) =
+            factory.getCacheDataStore().clearUserEntity(userMapper.mapToEntity(user))
+
+    fun saveUser(user: User) =
+            factory.getCacheDataStore().saveUserEntity(userMapper.mapToEntity(user))
+
+    fun createUser(user: User) =
+            factory.getRemoteDataStore().createUser(userMapper.mapToEntity(user)).toCompletable()
 
     override fun getPlayoneList() = factory.obtainDataStore().run {
         fetchPlayoneList().flatMap { playoneList ->
@@ -49,12 +76,6 @@ class PlayoneDataRepository constructor(
             .map { it.map(playoneMapper::mapFromEntity) }
     }
 
-    override fun clearJoinedPlayoneList() = factory.getCacheDataStore().clearJoinedPlayoneList()
-
-    override fun saveJoinedPlayoneList(playoneList: List<Playone>) =
-        factory.getCacheDataStore()
-            .saveJoinedPlayoneList(playoneList.map(playoneMapper::mapToEntity))
-
     override fun getJoinedPlayoneList(userId: String) = factory.obtainDataStore().run {
         fetchJoinedPlayoneList(userId)
             .flatMap { playoneList ->
@@ -63,12 +84,6 @@ class PlayoneDataRepository constructor(
             }
             .map { it.map(playoneMapper::mapFromEntity) }
     }
-
-    override fun clearFavoritePlayoneList() = factory.getCacheDataStore().clearFavoritePlayoneList()
-
-    override fun saveFavoritePlayoneList(playoneList: List<Playone>) =
-        factory.getCacheDataStore()
-            .saveFavoritePlayoneList(playoneList.map(playoneMapper::mapToEntity))
 
     override fun getFavoritePlayoneList(userId: String) = factory.obtainDataStore().run {
         fetchFavoritePlayoneList(userId)
@@ -79,12 +94,6 @@ class PlayoneDataRepository constructor(
             .map { it.map(playoneMapper::mapFromEntity) }
     }
 
-    override fun clearPlayoneDetail() = factory.getCacheDataStore().clearPlayoneDetail()
-
-    override fun savePlayoneDetail(userId: String, playone: Playone) =
-        factory.getRemoteDataStore().savePlayoneDetail(userId, playoneMapper.mapToEntity(playone))
-            .map { playoneMapper.mapFromEntity(it) }
-
     override fun getPlayoneDetail(playoneId: String) = factory.obtainDataStore().run {
         fetchPlayoneDetail(playoneId)
             .flatMap { entity ->
@@ -94,15 +103,6 @@ class PlayoneDataRepository constructor(
             }
             .map(playoneMapper::mapFromEntity)
     }
-
-    override fun clearUser(user: User) =
-        factory.getCacheDataStore().clearUserEntity(userMapper.mapToEntity(user))
-
-    override fun saveUser(user: User) =
-        factory.getCacheDataStore().saveUserEntity(userMapper.mapToEntity(user))
-
-    override fun createUser(user: User) =
-        factory.getRemoteDataStore().createUser(userMapper.mapToEntity(user)).toCompletable()
 
     override fun getUserById(userId: String) = factory.obtainDataStore().run {
         fetchUserEntity(userId).cacheUserEntity(this)

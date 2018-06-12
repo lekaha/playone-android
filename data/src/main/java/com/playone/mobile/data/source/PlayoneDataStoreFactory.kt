@@ -1,5 +1,6 @@
 package com.playone.mobile.data.source
 
+import com.playone.mobile.data.CacheChecker
 import com.playone.mobile.data.repository.PlayoneCache
 import com.playone.mobile.data.repository.PlayoneDataStore
 
@@ -7,7 +8,7 @@ import com.playone.mobile.data.repository.PlayoneDataStore
  * Create an instance of a [PlayoneDataStore].
  */
 open class PlayoneDataStoreFactory(
-    private val cache: PlayoneCache,
+    private val cacheChecker: CacheChecker,
     private val cacheDataStore: PlayoneCacheDataStore,
     private val remoteDataStore: PlayoneRemoteDataStore
 ) {
@@ -18,7 +19,7 @@ open class PlayoneDataStoreFactory(
      */
     open fun obtainDataStore() = getRemoteDataStore()
     // TODO(jieyi): 2018/03/10 Avoiding crashing becz the cache datastore we didn't implement yet.
-//        if (cache.isCached("") && !cache.isExpired("")) {
+//        if (cacheChecker.isCached("") && !cacheChecker.isExpired("")) {
 //            getCacheDataStore()
 //        }
 //        else {
