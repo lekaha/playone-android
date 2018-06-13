@@ -1,9 +1,9 @@
 package com.playone.mobile.remote.bridge.playone
 
 import com.playone.mobile.data.model.NotificationPayloadEntity
-import com.playone.mobile.data.repository.PlayoneRemote
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
+import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
@@ -26,9 +26,9 @@ interface PlayoneService {
 
     fun updatePlayoneDetail(userId: String, playoneModel: PlayoneModel): Single<PlayoneModel>
 
-    fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean): Single<PlayoneRemote.Result>
+    fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean): Completable
 
-    fun sendJoinRequest(playoneId: String, userId: String, msg: String = ""): Single<PlayoneRemote.Result>
+    fun sendJoinRequest(playoneId: String, userId: String, msg: String = ""): Completable
 
     fun toggleFavorite(playoneId: String, userId: String): Single<Boolean>
 
@@ -50,21 +50,21 @@ interface PlayoneService {
     //endregion
 
     //region Notification
-    fun applyNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun applyNotification(payload: NotificationPayloadEntity): Completable
 
-    fun acceptedNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun acceptedNotification(payload: NotificationPayloadEntity): Completable
 
-    fun acceptNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun acceptNotification(payload: NotificationPayloadEntity): Completable
 
-    fun dismissNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun dismissNotification(payload: NotificationPayloadEntity): Completable
 
-    fun kickNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun kickNotification(payload: NotificationPayloadEntity): Completable
 
-    fun quitNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun quitNotification(payload: NotificationPayloadEntity): Completable
 
-    fun rejectedNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun rejectedNotification(payload: NotificationPayloadEntity): Completable
 
-    fun rejectNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun rejectNotification(payload: NotificationPayloadEntity): Completable
     //endregion
 
 }

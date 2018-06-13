@@ -23,6 +23,66 @@ class PlayoneCacheImpl constructor(
 ) :
     PlayoneCache, CacheChecker {
 
+    override fun clearPlayoneList(): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun savePlayoneList(playoneList: List<PlayoneEntity>): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getPlayoneList(): Single<List<PlayoneEntity>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun clearJoinedPlayoneList(): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun saveJoinedPlayoneList(playoneList: List<PlayoneEntity>): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getJoinedPlayoneList(): Single<List<PlayoneEntity>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun clearFavoritePlayoneList(): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun saveFavoritePlayoneList(playoneList: List<PlayoneEntity>): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getFavoritePlayoneList(): Single<List<PlayoneEntity>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun clearPlayoneDetail(): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun savePlayoneDetail(playoneEntity: PlayoneEntity): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getPlayoneDetail(playoneId: String): Single<PlayoneEntity> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun clearUser(): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun saveUser(userEntity: UserEntity): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getUser(): Single<UserEntity> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun isCached(which: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -35,48 +95,48 @@ class PlayoneCacheImpl constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun clearPlayoneList(): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun savePlayoneList(playoneList: List<PlayoneEntity>): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun clearJoinedPlayoneList(): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun saveJoinedPlayoneList(playoneList: List<PlayoneEntity>): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun clearFavoritePlayoneList(): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun saveFavoritePlayoneList(playoneList: List<PlayoneEntity>): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun clearPlayoneDetail(): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun savePlayoneDetail(
-        userId: String,
-        playoneEntity: PlayoneEntity
-    ): Single<PlayoneEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun clearUserEntity(userEntity: UserEntity): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun saveUserEntity(userEntity: UserEntity): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+//    override fun clearPlayoneList(): Completable {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
+//
+//    override fun savePlayoneList(playoneList: List<PlayoneEntity>): Completable {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
+//
+//    override fun clearJoinedPlayoneList(): Completable {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
+//
+//    override fun saveJoinedPlayoneList(playoneList: List<PlayoneEntity>): Completable {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
+//
+//    override fun clearFavoritePlayoneList(): Completable {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
+//
+//    override fun saveFavoritePlayoneList(playoneList: List<PlayoneEntity>): Completable {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
+//
+//    override fun clearPlayoneDetail(): Completable {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
+//
+//    override fun savePlayoneDetail(
+//        userId: String,
+//        playoneEntity: PlayoneEntity
+//    ): Single<PlayoneEntity> {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
+//
+//    override fun clearUserEntity(userEntity: UserEntity): Completable {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
+//
+//    override fun saveUserEntity(userEntity: UserEntity): Completable {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
 
     private val EXPIRATION_TIME = (60 * 10 * 1000).toLong()
 

@@ -46,10 +46,10 @@ class GetPlayoneListPresenter(
             override fun onSuccess(t: User) {
 
                 if (t.isVerified) {
-                    getPlayoneList.execute(GetListSubscriber())
+                    getPlayoneList.execute(GetListSubscriber(), t.id)
                 }
                 else {
-                    getOwnPlayoneList.execute(GetListSubscriber(), t.id.toString())
+                    getOwnPlayoneList.execute(GetListSubscriber(), t.id)
                 }
             }
         })

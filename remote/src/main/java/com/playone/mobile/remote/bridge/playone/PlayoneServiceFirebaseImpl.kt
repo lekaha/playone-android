@@ -1,9 +1,7 @@
 package com.playone.mobile.remote.bridge.playone
 
 import com.playone.mobile.data.model.NotificationPayloadEntity
-import com.playone.mobile.data.repository.PlayoneRemote
-import com.playone.mobile.data.repository.PlayoneRemote.Result.ERROR
-import com.playone.mobile.data.repository.PlayoneRemote.Result.SUCCESS
+import com.playone.mobile.ext.reactive.completable
 import com.playone.mobile.ext.reactive.single
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
@@ -61,9 +59,9 @@ class PlayoneServiceFirebaseImpl(
         }
 
     override fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean) =
-        single<PlayoneRemote.Result> { emitter ->
+        completable { emitter ->
             playoneFirebase.joinTeamAsMember(playoneId, userId, isJoin, {
-                emitter.onSuccess(if (it) SUCCESS else ERROR)
+                emitter.onComplete()
             }, emitter::errorHandler)
         }
 

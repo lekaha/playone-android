@@ -61,8 +61,6 @@ interface PlayoneRepository {
 
     fun getJoinedPlayoneList(userId: String): Single<List<Playone>>
 
-    fun getPlayoneList(): Single<List<Playone>>
-
     fun getPlayoneList(userId: String): Single<List<Playone>>
     //endregion
 }

@@ -25,19 +25,29 @@ interface PlayoneCache {
      */
     fun savePlayoneList(playoneList: List<PlayoneEntity>): Completable
 
+    fun getPlayoneList(): Single<List<PlayoneEntity>>
+
     fun clearJoinedPlayoneList(): Completable
 
     fun saveJoinedPlayoneList(playoneList: List<PlayoneEntity>): Completable
+
+    fun getJoinedPlayoneList(): Single<List<PlayoneEntity>>
 
     fun clearFavoritePlayoneList(): Completable
 
     fun saveFavoritePlayoneList(playoneList: List<PlayoneEntity>): Completable
 
+    fun getFavoritePlayoneList(): Single<List<PlayoneEntity>>
+
     fun clearPlayoneDetail(): Completable
 
-    fun savePlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<PlayoneEntity>
+    fun savePlayoneDetail(playoneEntity: PlayoneEntity): Completable
 
-    fun clearUserEntity(userEntity: UserEntity): Completable
+    fun getPlayoneDetail(playoneId: String): Single<PlayoneEntity>
 
-    fun saveUserEntity(userEntity: UserEntity): Completable
+    fun clearUser(): Completable
+
+    fun saveUser(userEntity: UserEntity): Completable
+
+    fun getUser(): Single<UserEntity>
 }
