@@ -1,10 +1,10 @@
 package com.playone.mobile.data.source
 
-import com.playone.mobile.data.model.NotificationPayloadEntity
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneDataStore
 import com.playone.mobile.data.repository.PlayoneRemote
+import io.reactivex.Single
 
 /**
  * Implementation of the [PlayoneDataStore] interface to provide a means of communicating
@@ -12,118 +12,63 @@ import com.playone.mobile.data.repository.PlayoneRemote
  */
 open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDataStore {
 
+    override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
+            remote.createPlayoneDetail(userId, playoneEntity)
 
-    /**
-     * Retrieve a list of [PlayoneEntity] instances from the API.
-     */
-    override fun fetchPlayoneList() = remote.fetchPlayoneList()
+    override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
+            remote.updatePlayoneDetail(userId, playoneEntity)
 
-    /**
-     * Retrieve a list of [PlayoneEntity] instances from the API.
-     *
-     * @param userId user id.
-     */
+    override fun deletePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
+            remote.deletePlayoneDetail(userId, playoneEntity)
+
+    override fun fetchPlayoneDetail(userId: String, playoneId: String) =
+            remote.fetchPlayoneDetail(userId, playoneId)
+
     override fun fetchPlayoneList(userId: String) = remote.fetchPlayoneList(userId)
 
-    /**
-     * Retrieve a list of the joined [PlayoneEntity] instances from the API.
-     *
-     * @param userId user id.
-     */
-    override fun fetchJoinedPlayoneList(userId: String) = remote.fetchJoinedPlayoneList(userId)
-
-    /**
-     * Retrieve a list of the favorite [PlayoneEntity] instances from the API.
-     *
-     * @param userId user id.
-     */
     override fun fetchFavoritePlayoneList(userId: String) = remote.fetchFavoritePlayoneList(userId)
 
-    /**
-     * Retrieve an entity [PlayoneEntity] detail instances from the API.
-     *
-     * @param playoneId playone id.
-     */
-    override fun fetchPlayoneDetail(playoneId: String) = remote.fetchPlayoneDetail(playoneId)
+    override fun fetchJoinedPlayoneList(userId: String) = remote.fetchJoinedPlayoneList(userId)
 
     override fun createUser(userEntity: UserEntity) = remote.createUser(userEntity)
 
-    /**
-     * Retrieve an entity [UserEntity] instances from the API by [userId].
-     *
-     * @param userId user id.
-     */
-    override fun fetchUserEntity(userId: String) = remote.fetchUserEntity(userId)
+    override fun updateUser(userEntity: UserEntity) = remote.updateUser(userEntity)
 
-    /**
-     * Retrieve an entity [UserEntity] instances from the API by [email].
-     *
-     * @param email user's email.
-     */
-    override fun fetchUserEntityByEmail(email: String) = remote.fetchUserEntity(email)
+    override fun deleteUser(userEntity: UserEntity) = remote.deleteUser(userEntity)
 
-    override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
-        remote.createPlayoneDetail(userId, playoneEntity)
+    override fun fetchUserByEmail(email: String) = remote.fetchUserByEmail(email)
 
-    override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) = TODO()
+    fun joinPlayone(userId: String, playoneId: String, message: String) =
+            remote.sendJoinPlayoneRequest(userId, playoneId, message)
 
-    override fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean) = TODO()
+    fun responseJoinPlayoneRequest(playoneId: String, accept:Boolean, message: String) =
+            remote.responseJoinPlayoneRequest(playoneId, accept, message)
 
-    override fun sendJoinRequest(playoneId: String, userId: String, msg: String) = TODO()
+    override fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean) =
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 
-    override fun toggleFavorite(playoneId: String, userId: String) = TODO()
+    override fun isFavorite(playoneId: String, userId: String): Single<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
-    override fun isFavorite(playoneId: String, userId: String) = TODO()
+    fun isJoined(playoneId: String, userId: String) = remote.isJoined(playoneId, userId)
 
-    override fun isJoined(playoneId: String, userId: String) = TODO()
-
-    override fun updateUser(userEntity: UserEntity) = TODO()
-
-    override fun updateUser(userEntity: UserEntity, lastDeviceToken: String) = TODO()
-
-    //region Firebase Notification
-    override fun applyNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun acceptedNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun acceptNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun dismissNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun kickNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun quitNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun rejectedNotification(payload: NotificationPayloadEntity) = TODO()
-
-    override fun rejectNotification(payload: NotificationPayloadEntity) = TODO()
-    //endregion
-
-    //region Unsupported operation for the remote data store.
-    override fun clearPlayoneList() = throw UnsupportedOperationException()
-
-    override fun savePlayoneList(playoneList: List<PlayoneEntity>) =
-        throw UnsupportedOperationException()
-
-    override fun clearJoinedPlayoneList() = throw UnsupportedOperationException()
-
-    override fun saveJoinedPlayoneList(playoneList: List<PlayoneEntity>) =
-        throw UnsupportedOperationException()
-
-    override fun clearFavoritePlayoneList() = throw UnsupportedOperationException()
-
-    override fun saveFavoritePlayoneList(playoneList: List<PlayoneEntity>) =
-        throw UnsupportedOperationException()
-
-    override fun clearPlayoneDetail() = throw UnsupportedOperationException()
-
-    override fun savePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
-        remote.updatePlayoneDetail(userId, playoneEntity)
-
-    override fun clearUserEntity(userEntity: UserEntity) = throw UnsupportedOperationException()
-
-    override fun saveUserEntity(userEntity: UserEntity) =
-        throw UnsupportedOperationException()
-    //endregion
+//    //region Firebase Notification
+//    override fun applyNotification(payload: NotificationPayloadEntity) = TODO()
+//
+//    override fun acceptedNotification(payload: NotificationPayloadEntity) = TODO()
+//
+//    override fun acceptNotification(payload: NotificationPayloadEntity) = TODO()
+//
+//    override fun dismissNotification(payload: NotificationPayloadEntity) = TODO()
+//
+//    override fun kickNotification(payload: NotificationPayloadEntity) = TODO()
+//
+//    override fun quitNotification(payload: NotificationPayloadEntity) = TODO()
+//
+//    override fun rejectedNotification(payload: NotificationPayloadEntity) = TODO()
+//
+//    override fun rejectNotification(payload: NotificationPayloadEntity) = TODO()
+//    //endregion
 
 }

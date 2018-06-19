@@ -7,6 +7,7 @@ import com.google.android.gms.location.places.AutocompleteFilter
 import com.google.android.gms.location.places.AutocompleteFilter.TYPE_FILTER_NONE
 import com.google.android.gms.location.places.GeoDataClient
 import com.playone.mobile.domain.interactor.playone.CreatePlayone
+import com.playone.mobile.domain.interactor.playone.GetCurrentUser
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.presentation.createPlayone.CreatePlayoneContract
 import com.playone.mobile.presentation.createPlayone.CreatePlayonePresenter
@@ -26,10 +27,11 @@ class CreatePlayoneModule {
     @Provides
     @JvmSuppressWildcards
     internal fun provideCreatePlayonePresenter(
+        currentUser: GetCurrentUser,
         createPlayone: CreatePlayone,
         viewMapper: Mapper<PlayoneView, Playone>
     ): CreatePlayoneContract.Presenter =
-        CreatePlayonePresenter(createPlayone, viewMapper)
+        CreatePlayonePresenter(currentUser, createPlayone, viewMapper)
 
     @Provides
     internal fun provideCreatePlayoneViewModelFactory(

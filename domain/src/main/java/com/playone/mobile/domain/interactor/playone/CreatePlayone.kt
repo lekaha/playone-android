@@ -20,18 +20,15 @@ class CreatePlayone constructor(
     private val repository: PlayoneRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : SingleUseCase<Playone.Detail, Playone.CreateParameters>(threadExecutor, postExecutionThread) {
+): SingleUseCase<Playone, Playone.CreateParameters>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseObservable(params: Playone.CreateParameters): Single<Playone.Detail> =
+    override fun buildUseCaseObservable(params: Playone.CreateParameters): Single<Playone> =
         if (signUpAndSignIn.isSignedIn()) {
             getCurrentUser.buildUseCaseObservable().flatMap {
-                it.isVerified.ifFalse {
-                    throw NotVerifiedEmailException()
-                }
-
-                repository.createPlayone(it.id, params)
-            }.map {
-                it as Playone.Detail
+//                it.isVerified.ifFalse {
+//                    throw NotVerifiedEmailException()
+//                }
+                repository.createPlayone(params)
             }
         } else {
             Single.error(NotSignedInException())
