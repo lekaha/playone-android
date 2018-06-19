@@ -2,6 +2,7 @@ package com.playone.mobile.data.repository
 
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
+import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
@@ -49,21 +50,21 @@ interface PlayoneDataStore {
      *
      * @param userId who is fetching
      */
-    fun fetchPlayoneList(userId: String): Single<PlayoneEntity>
+    fun fetchPlayoneList(userId: String): Single<List<PlayoneEntity>>
 
     /**
      * fetch Favorite Playone list by user Id who has favorited Playones
      *
      * @param userId who is fetching
      */
-    fun fetchFavoritePlayoneList(userId: String): Single<PlayoneEntity>
+    fun fetchFavoritePlayoneList(userId: String): Single<List<PlayoneEntity>>
 
     /**
      * fetch Joined Playone list by user Id who has joined Playones
      *
      * @param userId who is fetching
      */
-    fun fetchJoinedPlayoneList(userId: String): Single<PlayoneEntity>
+    fun fetchJoinedPlayoneList(userId: String): Single<List<PlayoneEntity>>
 
     /**
      * create User
@@ -92,4 +93,21 @@ interface PlayoneDataStore {
      * @param email
      */
     fun fetchUserByEmail(email: String): Single<UserEntity>
+
+    /**
+     * set favorite playone
+     *
+     * @param playoneId Playone ID
+     * @param userId User ID
+     * @param isFavorite true or false
+     */
+    fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean): Completable
+
+    /**
+     * Get the result if favorite the playone
+     *
+     * @param playoneId Playone ID
+     * @param userId User ID
+     */
+    fun isFavorite(playoneId: String, userId: String): Single<Boolean>
 }

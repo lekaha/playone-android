@@ -4,10 +4,13 @@ import com.playone.mobile.data.mapper.Mapper
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.source.PlayoneDataStoreFactory
+import com.playone.mobile.domain.model.Join
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.model.User
 import com.playone.mobile.domain.repository.PlayoneRepository
+import io.reactivex.Completable
 import io.reactivex.Single
+import java.lang.IllegalArgumentException
 
 /**
  * Provides an implementation of the [PlayoneDataRepository] interface for communicating to and from
@@ -19,57 +22,72 @@ class PlayoneDataRepository constructor(
     private val userMapper: Mapper<UserEntity, User>
 ) : PlayoneRepository {
 
-    override fun createPlayone(userId: String, playone: Playone): Single<Playone> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun createPlayone(playone: Playone): Single<Playone> {
+        if (playone !is Playone.CreateParameters) {
+            throw IllegalArgumentException("Not Playone for creation")
+        }
+
+        return factory.getRemoteDataStore().createPlayoneDetail(
+                    playone.myUserId,
+                    playoneMapper.mapToEntity(playone)
+                ).map(playoneMapper::mapFromEntity)
     }
 
-    override fun updatePlayone(userId: String, playone: Playone): Single<Playone> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun updatePlayone(playone: Playone): Single<Playone> {
+        if (playone !is Playone.UpdateParameters) {
+            throw IllegalArgumentException("Not Playone for updating")
+        }
+
+        return factory.getRemoteDataStore().updatePlayoneDetail(
+                playone.myUserId,
+                playoneMapper.mapToEntity(playone)
+        ).map(playoneMapper::mapFromEntity)
     }
 
-    override fun joinTeam(playoneId: String, userId: String, isJoin: Boolean): Single<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun joinPlayone(join: Join): Completable {
+        if (join !is Join.Request) {
+            throw IllegalArgumentException("Not Join for request")
+        }
+
+        return factory.getRemoteDataStore().joinPlayone(
+                join.myUserId,
+                join.joinPlayoneId,
+                join.message
+        )
     }
 
-    override fun sendJoinRequest(playoneId: String, userId: String, msg: String): Single<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean) =
+            factory.obtainDataStore().favoritePlayone(playoneId, userId, isFavorite)
 
-    override fun toggleFavorite(playoneId: String, userId: String): Single<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun isFavorite(playoneId: String, userId: String) =
+            factory.obtainDataStore().isFavorite(playoneId, userId)
 
-    override fun isFavorite(playoneId: String, userId: String): Single<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun isJoined(playoneId: String, userId: String) =
+            factory.getRemoteDataStore().isJoined(playoneId, userId)
 
-    override fun isJoined(playoneId: String, userId: String): Single<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getUserByEmail(email: String): Single<User> =
+            factory.getRemoteDataStore().fetchUserByEmail(email).map(userMapper::mapFromEntity)
 
-    override fun getUserByEmail(email: String): Single<User> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getUserById(userId: String): Single<User> = TODO()
 
-    override fun getUserById(userId: String): Single<User> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getPlayoneDetail(userId: String, playoneId: String): Single<Playone> =
+            factory.obtainDataStore().fetchPlayoneDetail(userId, playoneId)
+                    .map(playoneMapper::mapFromEntity)
 
-    override fun getPlayoneDetail(playoneId: String): Single<Playone> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getFavoritePlayoneList(userId: String): Single<List<Playone>> =
+            factory.obtainDataStore().fetchFavoritePlayoneList(userId).map {
+                it.map(playoneMapper::mapFromEntity)
+            }
 
-    override fun getFavoritePlayoneList(userId: String): Single<List<Playone>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getJoinedPlayoneList(userId: String): Single<List<Playone>> =
+            factory.obtainDataStore().fetchJoinedPlayoneList(userId).map {
+                it.map(playoneMapper::mapFromEntity)
+            }
 
-    override fun getJoinedPlayoneList(userId: String): Single<List<Playone>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getPlayoneList(userId: String): Single<List<Playone>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getPlayoneList(userId: String): Single<List<Playone>> =
+            factory.obtainDataStore().fetchPlayoneList(userId).map {
+                it.map(playoneMapper::mapFromEntity)
+            }
 
 //    fun clearPlayoneList() = factory.getCacheDataStore().clearPlayoneList()
 //

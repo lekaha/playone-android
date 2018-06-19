@@ -3,6 +3,8 @@ package com.playone.mobile.domain.interactor.favorite
 import com.playone.mobile.domain.executor.PostExecutionThread
 import com.playone.mobile.domain.executor.ThreadExecutor
 import com.playone.mobile.domain.interactor.SingleUseCase
+import com.playone.mobile.domain.interactor.favorite.IsFavorite.Companion.PARAMS_PLAYONE_ID
+import com.playone.mobile.domain.interactor.favorite.IsFavorite.Companion.PARAMS_USER_ID
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.repository.PlayoneRepository
 
@@ -26,3 +28,10 @@ open class IsFavorite constructor(
             repository.isFavorite(it[PARAMS_PLAYONE_ID] as String, it[PARAMS_USER_ID] as String)
         }
 }
+
+
+fun FavoritePlayone.createParameter(playoneId: String, userId: String) =
+        HashMap<String, Any>().apply {
+            put(PARAMS_PLAYONE_ID, playoneId)
+            put(PARAMS_USER_ID, userId)
+        }

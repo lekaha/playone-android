@@ -12,119 +12,47 @@ import io.reactivex.Single
  */
 open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDataStore {
 
-    override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<PlayoneEntity> {
+    override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
+            remote.createPlayoneDetail(userId, playoneEntity)
+
+    override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
+            remote.updatePlayoneDetail(userId, playoneEntity)
+
+    override fun deletePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
+            remote.deletePlayoneDetail(userId, playoneEntity)
+
+    override fun fetchPlayoneDetail(userId: String, playoneId: String) =
+            remote.fetchPlayoneDetail(userId, playoneId)
+
+    override fun fetchPlayoneList(userId: String) = remote.fetchPlayoneList(userId)
+
+    override fun fetchFavoritePlayoneList(userId: String) = remote.fetchFavoritePlayoneList(userId)
+
+    override fun fetchJoinedPlayoneList(userId: String) = remote.fetchJoinedPlayoneList(userId)
+
+    override fun createUser(userEntity: UserEntity) = remote.createUser(userEntity)
+
+    override fun updateUser(userEntity: UserEntity) = remote.updateUser(userEntity)
+
+    override fun deleteUser(userEntity: UserEntity) = remote.deleteUser(userEntity)
+
+    override fun fetchUserByEmail(email: String) = remote.fetchUserByEmail(email)
+
+    fun joinPlayone(userId: String, playoneId: String, message: String) =
+            remote.sendJoinPlayoneRequest(userId, playoneId, message)
+
+    fun responseJoinPlayoneRequest(playoneId: String, accept:Boolean, message: String) =
+            remote.responseJoinPlayoneRequest(playoneId, accept, message)
+
+    override fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean) =
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+    override fun isFavorite(playoneId: String, userId: String): Single<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<PlayoneEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    fun isJoined(playoneId: String, userId: String) = remote.isJoined(playoneId, userId)
 
-    override fun deletePlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<PlayoneEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun fetchPlayoneDetail(userId: String, playoneId: String): Single<PlayoneEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun fetchPlayoneList(userId: String): Single<PlayoneEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun fetchFavoritePlayoneList(userId: String): Single<PlayoneEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun fetchJoinedPlayoneList(userId: String): Single<PlayoneEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun createUser(userEntity: UserEntity): Single<UserEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun updateUser(userEntity: UserEntity): Single<UserEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun deleteUser(userEntity: UserEntity): Single<UserEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun fetchUserByEmail(email: String): Single<UserEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-
-//    /**
-//     * Retrieve a list of [PlayoneEntity] instances from the API.
-//     */
-//    override fun fetchPlayoneList() = remote.fetchPlayoneList()
-//
-//    /**
-//     * Retrieve a list of [PlayoneEntity] instances from the API.
-//     *
-//     * @param userId user id.
-//     */
-//    override fun fetchPlayoneList(userId: String) = remote.fetchPlayoneList(userId)
-//
-//    /**
-//     * Retrieve a list of the joined [PlayoneEntity] instances from the API.
-//     *
-//     * @param userId user id.
-//     */
-//    override fun fetchJoinedPlayoneList(userId: String) = remote.fetchJoinedPlayoneList(userId)
-//
-//    /**
-//     * Retrieve a list of the favorite [PlayoneEntity] instances from the API.
-//     *
-//     * @param userId user id.
-//     */
-//    override fun fetchFavoritePlayoneList(userId: String) = remote.fetchFavoritePlayoneList(userId)
-//
-//    /**
-//     * Retrieve an entity [PlayoneEntity] detail instances from the API.
-//     *
-//     * @param playoneId playone id.
-//     */
-//    override fun fetchPlayoneDetail(playoneId: String) = remote.fetchPlayoneDetail(playoneId)
-//
-//    override fun createUser(userEntity: UserEntity) = remote.createUser(userEntity)
-//
-//    /**
-//     * Retrieve an entity [UserEntity] instances from the API by [userId].
-//     *
-//     * @param userId user id.
-//     */
-//    override fun fetchUserEntity(userId: String) = remote.fetchUserEntity(userId)
-//
-//    /**
-//     * Retrieve an entity [UserEntity] instances from the API by [email].
-//     *
-//     * @param email user's email.
-//     */
-//    override fun fetchUserEntityByEmail(email: String) = remote.fetchUserEntity(email)
-//
-//    override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
-//        remote.createPlayoneDetail(userId, playoneEntity)
-//
-//    override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) = TODO()
-//
-//    override fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean) = TODO()
-//
-//    override fun sendJoinRequest(playoneId: String, userId: String, msg: String) = TODO()
-//
-//    override fun toggleFavorite(playoneId: String, userId: String) = TODO()
-//
-//    override fun isFavorite(playoneId: String, userId: String) = TODO()
-//
-//    override fun isJoined(playoneId: String, userId: String) = TODO()
-//
-//    override fun updateUser(userEntity: UserEntity) = TODO()
-//
-//    override fun updateUser(userEntity: UserEntity, lastDeviceToken: String) = TODO()
-//
 //    //region Firebase Notification
 //    override fun applyNotification(payload: NotificationPayloadEntity) = TODO()
 //
@@ -141,33 +69,6 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
 //    override fun rejectedNotification(payload: NotificationPayloadEntity) = TODO()
 //
 //    override fun rejectNotification(payload: NotificationPayloadEntity) = TODO()
-//    //endregion
-//
-//    //region Unsupported operation for the remote data store.
-//    override fun clearPlayoneList() = throw UnsupportedOperationException()
-//
-//    override fun savePlayoneList(playoneList: List<PlayoneEntity>) =
-//        throw UnsupportedOperationException()
-//
-//    override fun clearJoinedPlayoneList() = throw UnsupportedOperationException()
-//
-//    override fun saveJoinedPlayoneList(playoneList: List<PlayoneEntity>) =
-//        throw UnsupportedOperationException()
-//
-//    override fun clearFavoritePlayoneList() = throw UnsupportedOperationException()
-//
-//    override fun saveFavoritePlayoneList(playoneList: List<PlayoneEntity>) =
-//        throw UnsupportedOperationException()
-//
-//    override fun clearPlayoneDetail() = throw UnsupportedOperationException()
-//
-//    override fun savePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
-//        remote.updatePlayoneDetail(userId, playoneEntity)
-//
-//    override fun clearUserEntity(userEntity: UserEntity) = throw UnsupportedOperationException()
-//
-//    override fun saveUserEntity(userEntity: UserEntity) =
-//        throw UnsupportedOperationException()
 //    //endregion
 
 }

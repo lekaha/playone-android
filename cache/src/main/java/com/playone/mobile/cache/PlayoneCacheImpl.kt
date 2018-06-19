@@ -83,13 +83,11 @@ class PlayoneCacheImpl constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun isCached(which: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    // TODO: implementation
+    override fun isCached(which: String) = false
 
-    override fun isExpired(which: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    // TODO: implementation
+    override fun isExpired(which: String) = true
 
     override fun keepLastCacheTime(which: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

@@ -24,6 +24,7 @@ sealed class Playone {
     }
 
     data class CreateParameters(
+        val myUserId: String,
         var name: String,
         var description: String,
         var playoneDate: Date,
@@ -32,5 +33,19 @@ sealed class Playone {
         var address: String,
         var limitPeople: Int,
         var level: Int
+    ) : Playone()
+
+    data class UpdateParameters(
+            var playoneId: String,
+            val myUserId: String,
+            var name: String,
+            var description: String,
+            var playoneDate: Date,
+            val longitude: Double,
+            var latitude: Double,
+            var address: String,
+            var limitPeople: Int,
+            var level: Int
+
     ) : Playone()
 }

@@ -1,5 +1,6 @@
 package com.playone.mobile.domain.repository
 
+import com.playone.mobile.domain.model.Join
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.model.User
 import io.reactivex.Completable
@@ -12,40 +13,13 @@ import io.reactivex.Single
  */
 interface PlayoneRepository {
 
-    //region For caching the data by the cache layer.
-//    fun clearPlayoneList(): Completable
-//
-//    fun savePlayoneList(playoneList: List<Playone>): Completable
-//
-//    fun clearJoinedPlayoneList(): Completable
-//
-//    fun saveJoinedPlayoneList(playoneList: List<Playone>): Completable
-//
-//    fun clearFavoritePlayoneList(): Completable
-//
-//    fun saveFavoritePlayoneList(playoneList: List<Playone>): Completable
-//
-//    fun clearPlayoneDetail(): Completable
-//
-//    fun savePlayoneDetail(userId: String, playone: Playone): Single<Playone>
-//
-//    fun clearUser(user: User): Completable
-//
-//    fun createUser(user: User): Completable
-//
-//    fun saveUser(user: User): Completable
-    //endregion
+    fun createPlayone(playone: Playone): Single<Playone>
 
-    //region For Playone API
-    fun createPlayone(userId: String, playone: Playone): Single<Playone>
+    fun updatePlayone(playone: Playone): Single<Playone>
 
-    fun updatePlayone(userId: String, playone: Playone): Single<Playone>
+    fun joinPlayone(join: Join): Completable
 
-    fun joinTeam(playoneId: String, userId: String, isJoin: Boolean): Single<Boolean>
-
-    fun sendJoinRequest(playoneId: String, userId: String, msg: String): Single<Boolean>
-
-    fun toggleFavorite(playoneId: String, userId: String): Single<Boolean>
+    fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean): Completable
 
     fun isFavorite(playoneId: String, userId: String): Single<Boolean>
 
@@ -55,12 +29,11 @@ interface PlayoneRepository {
 
     fun getUserById(userId: String): Single<User>
 
-    fun getPlayoneDetail(playoneId: String): Single<Playone>
+    fun getPlayoneDetail(userId: String, playoneId: String): Single<Playone>
 
     fun getFavoritePlayoneList(userId: String): Single<List<Playone>>
 
     fun getJoinedPlayoneList(userId: String): Single<List<Playone>>
 
     fun getPlayoneList(userId: String): Single<List<Playone>>
-    //endregion
 }

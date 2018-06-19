@@ -2,6 +2,7 @@ package com.playone.mobile.data.repository
 
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
+import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
@@ -47,21 +48,21 @@ interface PlayoneRemote {
      *
      * @param userId who is fetching
      */
-    fun fetchPlayoneList(userId: String): Single<PlayoneEntity>
+    fun fetchPlayoneList(userId: String): Single<List<PlayoneEntity>>
 
     /**
      * fetch Favorite Playone list by user Id who has favorited Playones
      *
      * @param userId who is fetching
      */
-    fun fetchFavoritePlayoneList(userId: String): Single<PlayoneEntity>
+    fun fetchFavoritePlayoneList(userId: String): Single<List<PlayoneEntity>>
 
     /**
      * fetch Joined Playone list by user Id who has joined Playones
      *
      * @param userId who is fetching
      */
-    fun fetchJoinedPlayoneList(userId: String): Single<PlayoneEntity>
+    fun fetchJoinedPlayoneList(userId: String): Single<List<PlayoneEntity>>
 
     /**
      * create User
@@ -91,33 +92,30 @@ interface PlayoneRemote {
      */
     fun fetchUserByEmail(email: String): Single<UserEntity>
 
+    /**
+     * send the request to join the playone
+     *
+     * @param userId
+     * @param playoneId
+     * @param msg
+     */
+    fun sendJoinPlayoneRequest(userId: String, playoneId: String, msg: String = ""): Completable
 
+    /**
+     * response the request of join request
+     *
+     * @param playoneId
+     * @param msg
+     */
+    fun responseJoinPlayoneRequest(playoneId: String, accept: Boolean, msg: String = ""): Completable
 
-//    //region Playone
-//    fun fetchPlayoneList(): Single<List<PlayoneEntity>>
-//
-//    fun fetchPlayoneList(userId: String): Single<List<PlayoneEntity>>
-//
-//    fun fetchJoinedPlayoneList(userId: String): Single<List<PlayoneEntity>>
-//
-//    fun fetchFavoritePlayoneList(userId: String): Single<List<PlayoneEntity>>
-//
-//    fun fetchPlayoneDetail(playoneId: String): Single<PlayoneEntity>
-//
-//    fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<PlayoneEntity>
-//
-//    fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<PlayoneEntity>
-//
-//    fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean): Single<Result>
-//
-//    fun sendJoinRequest(playoneId: String, userId: String, msg: String = ""): Single<Result>
-//
-//    fun toggleFavorite(playoneId: String, userId: String): Single<Boolean>
-//
-//    fun isFavorite(playoneId: String, userId: String): Single<Boolean>
-//
-//    fun isJoined(playoneId: String, userId: String): Single<Boolean>
-//    //endregion
+    /**
+     * Check whether or not joined the playone
+     *
+     * @param userId
+     * @param playoneId
+     */
+    fun isJoined(playoneId: String, userId: String): Single<Boolean>
 //
 //    //region User for Auth
 //    fun fetchUserEntity(userId: String): Single<UserEntity>
@@ -148,10 +146,5 @@ interface PlayoneRemote {
 //
 //    fun rejectNotification(payload: NotificationPayloadEntity): Single<Result>
     //endregion
-
-//    enum class Result {
-//        SUCCESS,
-//        ERROR
-//    }
 }
 
