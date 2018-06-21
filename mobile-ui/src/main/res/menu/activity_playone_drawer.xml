@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_my_playone"
+            android:icon="@drawable/ic_action_own_stars_black"
+            android:title="@string/my_playone"/>
+        <item
+            android:id="@+id/nav_joining"
+            android:icon="@drawable/ic_person_pin_circle_black_24dp"
+            android:title="@string/joining" />
+        <item
+            android:id="@+id/nav_favorites"
+            android:icon="@drawable/ic_action_favorite_black"
+            android:title="@string/favorites" />
+    </group>
+
+    <item android:title="@string/setting">
+        <menu>
+            <item
+                android:id="@+id/nav_your_profile"
+                android:icon="@drawable/ic_action_people_black"
+                android:title="@string/your_profile" />
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_action_settings_black"
+                android:title="@string/settings" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_action_logout_black"
+                android:title="@string/logout" />
+        </menu>
+    </item>
+
+</menu>

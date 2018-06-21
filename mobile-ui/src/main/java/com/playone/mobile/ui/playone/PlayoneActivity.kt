@@ -14,8 +14,7 @@ import com.playone.mobile.ui.model.LoginViewModel
 import com.playone.mobile.ui.model.PlayoneListViewModel
 import com.playone.mobile.ui.navigateToActivityWithResult
 import com.playone.mobile.ui.view.TransitionHelper
-import kotlinx.android.synthetic.main.activity_playone.bottom_navigation
-import kotlinx.android.synthetic.main.activity_playone.button_create
+import kotlinx.android.synthetic.main.app_bottom_bar.*
 import javax.inject.Inject
 
 class PlayoneActivity : BaseActivity() {
@@ -58,7 +57,7 @@ class PlayoneActivity : BaseActivity() {
                     true
 
                 }
-                R.id.action_schedules -> {
+                R.id.app_bar_search -> {
                     loginViewModel.sendEmailVerification()
                     true
                 }
