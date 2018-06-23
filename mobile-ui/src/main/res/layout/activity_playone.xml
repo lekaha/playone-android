@@ -1,20 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<!--<android.support.v4.widget.DrawerLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:id="@+id/playoneDrawerLayout"-->
+    <!--style="@style/MatchParentSize"-->
+    <!--android:fitsSystemWindows="true"-->
+    <!--tools:openDrawer="start">-->
+
+    <!--<include-->
+        <!--layout="@layout/app_bottom_bar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/navigation_view"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="start"-->
+        <!--app:menu="@menu/activity_playone_drawer" />-->
+
+<!--</android.support.v4.widget.DrawerLayout>-->
+
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/playoneDrawerLayout"
-    style="@style/MatchParentSize">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <include
-        layout="@layout/app_bottom_bar"
+    <FrameLayout
+        android:id="@+id/list_content"
+        style="@style/MatchParentSize"/>
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/activity_playone_drawer" />
+        <android.support.design.bottomappbar.BottomAppBar
+            android:id="@+id/bottomNavigation"
+            style="@style/BottomNavigationView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:navigationIcon="@drawable/ic_action_menu"
+            app:fabAlignmentMode="center"
+            app:fabAttached="true" />
 
-</android.support.v4.widget.DrawerLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnActionCreate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_create"
+            app:fabSize="normal"
+            app:layout_anchor="@id/bottomNavigation"
+            app:backgroundTint="@color/colorPrimary" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.constraint.ConstraintLayout>

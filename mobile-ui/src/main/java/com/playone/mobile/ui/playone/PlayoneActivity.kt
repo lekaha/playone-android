@@ -3,13 +3,10 @@ package com.playone.mobile.ui.playone
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.view.GravityCompat
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.widget.toast
 import com.google.firebase.auth.FirebaseAuth
-import com.playone.mobile.ext.ifTrue
-import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
@@ -19,9 +16,9 @@ import com.playone.mobile.ui.create.CreatePlayoneActivity.Companion.EXTRA_CIRCUL
 import com.playone.mobile.ui.model.LoginViewModel
 import com.playone.mobile.ui.model.PlayoneListViewModel
 import com.playone.mobile.ui.navigateToActivityWithResult
+import com.playone.mobile.ui.view.NavigationDrawerFragment
 import com.playone.mobile.ui.view.TransitionHelper
 import kotlinx.android.synthetic.main.activity_playone.*
-import kotlinx.android.synthetic.main.app_bottom_bar.*
 import javax.inject.Inject
 
 class PlayoneActivity : BaseActivity() {
@@ -33,6 +30,8 @@ class PlayoneActivity : BaseActivity() {
 
     private lateinit var viewModel: PlayoneListViewModel
     private lateinit var loginViewModel: LoginViewModel
+
+    private val navigationDrawer = NavigationDrawerFragment.create(R.menu.activity_playone_drawer)
 
     override fun getLayoutId() = R.layout.activity_playone
 
@@ -57,13 +56,13 @@ class PlayoneActivity : BaseActivity() {
         })
 
         // UI component setting up
-        setSupportActionBar(bottom_navigation)
-        button_create.setOnClickListener {
+        setSupportActionBar(bottomNavigation)
+        btnActionCreate.setOnClickListener {
             val options = TransitionHelper.makeOptionsCompat(
                 this).toBundle()
             options?.let {
-                val cx = button_create.left + button_create.width / 2
-                val cy = button_create.top + button_create.height / 2
+                val cx = btnActionCreate.left + btnActionCreate.width / 2
+                val cy = btnActionCreate.top + btnActionCreate.height / 2
 
                 navigator.navigateToActivityWithResult<CreatePlayoneActivity>(
                     context = this@PlayoneActivity,
@@ -71,6 +70,12 @@ class PlayoneActivity : BaseActivity() {
                     this.putExtra(EXTRA_CIRCULAR_REVEAL_X, cx)
                     this.putExtra(EXTRA_CIRCULAR_REVEAL_Y, cy)
                 }
+            }
+        }
+
+        navigationDrawer.navigationItemSelectedListener = {
+            when(it) {
+
             }
         }
     }
@@ -84,7 +89,12 @@ class PlayoneActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         item?.let {
             when (it.itemId) {
-                android.R.id.home -> playoneDrawerLayout.openDrawer(GravityCompat.START)
+                android.R.id.home -> {
+                    toast("Menu")
+                    navigationDrawer.show(
+                            supportFragmentManager,
+                            NavigationDrawerFragment::class.java.name)
+                }
                 R.id.app_bar_fav -> toast("Favorite")
                 R.id.app_bar_search -> {
                     // TODO: Just for developing
@@ -105,8 +115,8 @@ class PlayoneActivity : BaseActivity() {
         return true
     }
 
-    override fun onBackPressed() =
-        playoneDrawerLayout.isDrawerOpen(GravityCompat.START).ifTrue {
-            playoneDrawerLayout.closeDrawers()
-        }.otherwise { super.onBackPressed() }
+    override fun onDestroy() {
+        super.onDestroy()
+        navigationDrawer.destroy()
+    }
 }
