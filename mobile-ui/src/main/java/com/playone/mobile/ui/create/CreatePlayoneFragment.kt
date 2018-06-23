@@ -9,7 +9,7 @@ import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.SeekBar
-import androidx.os.postDelayed
+import androidx.core.os.postDelayed
 import com.dd.morphingbutton.MorphingButton
 import com.playone.mobile.ext.DEFAULT_STR
 import com.playone.mobile.ext.ifTrue

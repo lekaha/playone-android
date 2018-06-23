@@ -3,7 +3,13 @@ package com.playone.mobile.ui.playone
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.view.GravityCompat
+import android.view.Menu
+import android.view.MenuItem
+import androidx.core.widget.toast
 import com.google.firebase.auth.FirebaseAuth
+import com.playone.mobile.ext.ifTrue
+import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
@@ -14,6 +20,7 @@ import com.playone.mobile.ui.model.LoginViewModel
 import com.playone.mobile.ui.model.PlayoneListViewModel
 import com.playone.mobile.ui.navigateToActivityWithResult
 import com.playone.mobile.ui.view.TransitionHelper
+import kotlinx.android.synthetic.main.activity_playone.*
 import kotlinx.android.synthetic.main.app_bottom_bar.*
 import javax.inject.Inject
 
@@ -49,22 +56,8 @@ class PlayoneActivity : BaseActivity() {
             replace(R.id.list_content, PlayoneListFragment.newInstance())
         })
 
-        bottom_navigation.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.action_sign_out -> {
-                    FirebaseAuth.getInstance().signOut()
-                    finish()
-                    true
-
-                }
-                R.id.app_bar_search -> {
-                    loginViewModel.sendEmailVerification()
-                    true
-                }
-                else -> false
-            }
-        }
-
+        // UI component setting up
+        setSupportActionBar(bottom_navigation)
         button_create.setOnClickListener {
             val options = TransitionHelper.makeOptionsCompat(
                 this).toBundle()
@@ -81,4 +74,39 @@ class PlayoneActivity : BaseActivity() {
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_bottom_navigation, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item?.let {
+            when (it.itemId) {
+                android.R.id.home -> playoneDrawerLayout.openDrawer(GravityCompat.START)
+                R.id.app_bar_fav -> toast("Favorite")
+                R.id.app_bar_search -> {
+                    // TODO: Just for developing
+                    toast("sendEmailVerification")
+                    loginViewModel.sendEmailVerification()
+                }
+                R.id.action_sign_out -> {
+                    toast("Signing out")
+                    FirebaseAuth.getInstance().signOut()
+                    finish()
+                }
+                else -> {
+                    return false
+                }
+            }
+        }
+
+        return true
+    }
+
+    override fun onBackPressed() =
+        playoneDrawerLayout.isDrawerOpen(GravityCompat.START).ifTrue {
+            playoneDrawerLayout.closeDrawers()
+        }.otherwise { super.onBackPressed() }
 }

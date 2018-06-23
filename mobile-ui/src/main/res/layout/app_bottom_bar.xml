@@ -9,13 +9,16 @@
         android:id="@+id/list_content"
         style="@style/MatchParentSize"/>
 
-    <android.support.design.widget.BottomNavigationView
+    <android.support.design.bottomappbar.BottomAppBar
         android:id="@+id/bottom_navigation"
         style="@style/BottomNavigationView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:backgroundTint="@color/colorPrimaryDark"
         app:navigationIcon="@drawable/ic_action_menu"
-        app:menu="@menu/menu_bottom_navigation"/>
+        app:fabAlignmentMode="center"
+        app:fabAttached="true"
+        app:fabCradleVerticalOffset="10dp"
+        app:fabCradleRoundedCornerRadius="15dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/button_create"

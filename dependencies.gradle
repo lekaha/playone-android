@@ -11,8 +11,8 @@ ext {
     //Android
     androidBuildToolsVersion = "27.0.3"
     androidMinSdkVersion = 16
-    androidTargetSdkVersion = 26
-    androidCompileSdkVersion = 26
+    androidTargetSdkVersion = 28
+    androidCompileSdkVersion = 28
 
     //Libraries
     kotlinVersion = "$kotlin_version"
@@ -27,7 +27,8 @@ ext {
     okHttpVersion = '3.8.1'
     androidAnnotationsVersion = '21.0.3'
     retrofitVersion = '2.3.0'
-    supportLibraryVersion = '27.0.2'
+    supportLibraryVersion = '28.0.0-alpha1'
+    supportDesignLibraryVersion = '28.0.0-alpha1'
     timberVersion = '4.5.1'
     glideVersion = '4.6.1'
     daggerVersion = '2.14.1'
@@ -37,7 +38,7 @@ ext {
     autoValue = '1.5'
     autoValueGson = '0.7.0'
     autoValueAnnotation = autoValue
-    ktxVersion = '0.1'
+    ktxVersion = '0.3'
     googleApiVersion = '11.8.0'
     firebaseVersion = googleApiVersion
     modelMapperVersion = '1.1.0'
@@ -66,7 +67,7 @@ ext {
 
     extDependencies = [
             rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
-            kotlin  :           "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}",
+            kotlin  :           "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
     ]
 
     extTestDependencies = [
@@ -81,7 +82,7 @@ ext {
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
             rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
-            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}"
+            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
     ]
 
     domainTestDependencies = [
@@ -97,7 +98,7 @@ ext {
             okHttpLogger:       "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
             gson:               "com.google.code.gson:gson:${gsonVersion}",
             rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
-            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}",
+            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
             rxAndroid:          "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
@@ -132,7 +133,7 @@ ext {
             okHttpLogger:       "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
             gson:               "com.google.code.gson:gson:${gsonVersion}",
             rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
-            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}",
+            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
             rxAndroid:          "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
@@ -155,7 +156,7 @@ ext {
             dagger:             "com.google.dagger:dagger:${daggerVersion}",
             gson:               "com.google.code.gson:gson:${gsonVersion}",
             rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
-            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}",
+            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
             androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
@@ -181,7 +182,7 @@ ext {
             dagger:             "com.google.dagger:dagger:${daggerVersion}",
             gson:               "com.google.code.gson:gson:${gsonVersion}",
             rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
-            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}",
+            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
             androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
@@ -207,7 +208,7 @@ ext {
             rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
             rxAndroid:          "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             glide:              "com.github.bumptech.glide:glide:${glideVersion}",
-            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}",
+            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
             androidAnnotations: "com.android.support:support-annotations:${supportLibraryVersion}",
@@ -215,7 +216,7 @@ ext {
             androidSupportV13:  "com.android.support:support-v13:${supportLibraryVersion}",
             appCompatV7:        "com.android.support:appcompat-v7:${supportLibraryVersion}",
             supportRecyclerView:"com.android.support:recyclerview-v7:${supportLibraryVersion}",
-            supportDesign:      "com.android.support:design:${supportLibraryVersion}",
+            supportDesign:      "com.android.support:design:${supportDesignLibraryVersion}",
             timber:             "com.jakewharton.timber:timber:${timberVersion}",
             daggerSupport:      "com.google.dagger:dagger-android-support:${daggerVersion}",
             daggerProcessor:    "com.google.dagger:dagger-android-processor:${daggerVersion}",
