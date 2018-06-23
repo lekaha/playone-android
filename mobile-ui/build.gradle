@@ -125,7 +125,6 @@ dependencies {
     implementation mobileUiDependencies.javaxInject
     implementation mobileUiDependencies.rxKotlin
     implementation mobileUiDependencies.androidAnnotations
-    implementation mobileUiDependencies.androidSupportV4
     implementation mobileUiDependencies.androidSupportV13
     implementation mobileUiDependencies.appCompatV7
     implementation mobileUiDependencies.supportRecyclerView

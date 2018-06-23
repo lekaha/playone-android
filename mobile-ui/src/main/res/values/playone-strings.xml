@@ -2,4 +2,15 @@
 <resources>
     <string name="menu_list">List</string>
     <string name="menu_sign_out">SignOut</string>
+
+    <string name="filter_closing">Distance</string>
+    <string name="filter_level">Level</string>
+
+    <string name="your_profile">Your Profile</string>
+    <string name="logout">Signout</string>
+    <string name="joining">Joining</string>
+    <string name="favorites">Favorites</string>
+    <string name="my_playone">My Playone</string>
+    <string name="setting">Setting</string>
+    <string name="settings">Settings</string>
 </resources>

@@ -11,8 +11,8 @@ ext {
     //Android
     androidBuildToolsVersion = "27.0.3"
     androidMinSdkVersion = 16
-    androidTargetSdkVersion = 26
-    androidCompileSdkVersion = 26
+    androidTargetSdkVersion = 28
+    androidCompileSdkVersion = 28
 
     //Libraries
     kotlinVersion = "$kotlin_version"
@@ -27,7 +27,8 @@ ext {
     okHttpVersion = '3.8.1'
     androidAnnotationsVersion = '21.0.3'
     retrofitVersion = '2.3.0'
-    supportLibraryVersion = '27.0.2'
+    supportLibraryVersion = '28.0.0-alpha1'
+    supportDesignLibraryVersion = '28.0.0-alpha1'
     timberVersion = '4.5.1'
     glideVersion = '4.6.1'
     daggerVersion = '2.14.1'
@@ -37,7 +38,7 @@ ext {
     autoValue = '1.5'
     autoValueGson = '0.7.0'
     autoValueAnnotation = autoValue
-    ktxVersion = '0.1'
+    ktxVersion = '0.3'
     googleApiVersion = '11.8.0'
     firebaseVersion = googleApiVersion
     modelMapperVersion = '1.1.0'
@@ -215,7 +216,7 @@ ext {
             androidSupportV13:  "com.android.support:support-v13:${supportLibraryVersion}",
             appCompatV7:        "com.android.support:appcompat-v7:${supportLibraryVersion}",
             supportRecyclerView:"com.android.support:recyclerview-v7:${supportLibraryVersion}",
-            supportDesign:      "com.android.support:design:${supportLibraryVersion}",
+            supportDesign:      "com.android.support:design:${supportDesignLibraryVersion}",
             timber:             "com.jakewharton.timber:timber:${timberVersion}",
             daggerSupport:      "com.google.dagger:dagger-android-support:${daggerVersion}",
             daggerProcessor:    "com.google.dagger:dagger-android-processor:${daggerVersion}",

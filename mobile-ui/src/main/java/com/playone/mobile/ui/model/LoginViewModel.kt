@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.os.Handler
-import androidx.os.postDelayed
+import androidx.core.os.postDelayed
 import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.presentation.ViewResponse
 import com.playone.mobile.presentation.onBoarding.LoginPlayoneContract
