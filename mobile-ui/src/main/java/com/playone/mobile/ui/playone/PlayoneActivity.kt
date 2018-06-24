@@ -51,9 +51,9 @@ class PlayoneActivity : BaseActivity() {
         loginViewModel = ViewModelProviders.of(this, loginViewModelFactory)
             .get(LoginViewModel::class.java)
 
-        navigator.navigateToFragment(this, {
+        navigator.navigateToFragment(this) {
             replace(R.id.list_content, PlayoneListFragment.newInstance())
-        })
+        }
 
         // UI component setting up
         setSupportActionBar(bottomNavigation)
