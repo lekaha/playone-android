@@ -45,12 +45,14 @@ class GetPlayoneListPresenter(
 
             override fun onSuccess(t: User) {
 
-                if (t.isVerified) {
-                    getPlayoneList.execute(GetListSubscriber(), t.id)
-                }
-                else {
-                    getOwnPlayoneList.execute(GetListSubscriber(), t.id)
-                }
+                // TODO: check if verified email
+//                if (t.isVerified) {
+//                    getPlayoneList.execute(GetListSubscriber(), t.id)
+//                }
+//                else {
+//                    getOwnPlayoneList.execute(GetListSubscriber(), t.id)
+//                }
+                getPlayoneList.execute(GetListSubscriber(), t.id)
             }
         })
     }
