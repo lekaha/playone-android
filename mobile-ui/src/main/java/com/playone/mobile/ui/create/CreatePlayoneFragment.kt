@@ -15,24 +15,12 @@ import com.dd.morphingbutton.MorphingButton
 import com.playone.mobile.ext.DEFAULT_STR
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
-import com.playone.mobile.ext.toIntOrZero
 import com.playone.mobile.presentation.createPlayone.CreatePlayoneContract
 import com.playone.mobile.ui.BaseFragment
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.CreatePlayoneViewModel
 import com.playone.mobile.ui.view.DatePickerDialogFragment
 import com.playone.mobile.ui.view.TimePickerDialogFragment
-import kotlinx.android.synthetic.main.fragment_playone_create_fields.btn_create
-import kotlinx.android.synthetic.main.fragment_playone_create_fields.eTxtDate
-import kotlinx.android.synthetic.main.fragment_playone_create_fields.eTxtMessage
-import kotlinx.android.synthetic.main.fragment_playone_create_fields.eTxtName
-import kotlinx.android.synthetic.main.fragment_playone_create_fields.eTxtPeople
-import kotlinx.android.synthetic.main.fragment_playone_create_fields.eTxtTime
-import kotlinx.android.synthetic.main.fragment_playone_create_fields.floatingActionButton
-import kotlinx.android.synthetic.main.fragment_playone_create_fields.floatingActionButtonFromCamera
-import kotlinx.android.synthetic.main.fragment_playone_create_fields.floatingActionButtonFromPhotos
-import kotlinx.android.synthetic.main.fragment_playone_create_fields.seekBarLevel
-import kotlinx.android.synthetic.main.fragment_playone_create_fields.textView5
 import java.text.SimpleDateFormat
 import java.util.Date
 
