@@ -1,22 +1,34 @@
 package com.playone.mobile.data.model
 
-import kotlin.properties.Delegates
-
 /**
  * Representation for a [PlayoneEntity] fetched from an external layer data source.
  */
-class PlayoneEntity : PlayoneItem {
+sealed class PlayoneEntity {
 
-    lateinit var id: String
-    lateinit var name: String
-    lateinit var description: String
-    var date by Delegates.notNull<Long>()
-    var updated by Delegates.notNull<Long>()
-    lateinit var address: String
-    var longitude by Delegates.notNull<Double>()
-    var latitude by Delegates.notNull<Double>()
-    var limit by Delegates.notNull<Int>()
-    var level by Delegates.notNull<Int>()
-    lateinit var host: String
-    lateinit var userId: String
+    data class Create(
+        val name: String,
+        val description: String,
+        val date: Long,
+        val address: String,
+        var longitude: Double,
+        var latitude: Double,
+        var limit: Int,
+        var level: Int,
+        val host: String
+    ) : PlayoneEntity()
+
+    data class Entity(
+        val id: String,
+        val name: String,
+        val description: String,
+        var date: Long,
+        var updated: Long,
+        val address: String,
+        var longitude: Double,
+        var latitude: Double,
+        var limit: Int,
+        var level: Int,
+        val host: String,
+        val userId: String
+    ) : PlayoneEntity()
 }

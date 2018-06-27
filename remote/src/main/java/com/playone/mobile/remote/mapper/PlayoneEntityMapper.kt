@@ -13,8 +13,53 @@ class PlayoneEntityMapper(
 ) : EntityMapper<PlayoneModel, PlayoneEntity> {
 
     override fun mapToData(type: PlayoneModel) =
-        modelMapper.map(type, PlayoneEntity::class.java)
+        PlayoneEntity.Entity(
+            type.id,
+            type.name,
+            type.description,
+            type.date,
+            type.updated,
+            type.address,
+            type.longitude,
+            type.latitude,
+            type.limit,
+            type.level,
+            type.host,
+            type.userId)
 
-    override fun mapFromData(type: PlayoneEntity) =
-        modelMapper.map(type, PlayoneModel::class.java)
+    private fun mapFromPlayoneEntityForCreate(type: PlayoneEntity.Create) =
+        PlayoneModel(
+            _name = type.name,
+            _address =  type.address,
+            _date =  type.date,
+            _description = type.description,
+            _host = type.host,
+            _latitude = type.latitude,
+            _longitude = type.longitude,
+            _level = type.level,
+            _limit = type.limit
+        )
+
+    private fun mapFromPlayoneEntity(type: PlayoneEntity.Entity) =
+        PlayoneModel(
+            _id = type.id,
+            _name = type.name,
+            _address =  type.address,
+            _date =  type.date,
+            _description = type.description,
+            _host = type.host,
+            _latitude = type.latitude,
+            _longitude = type.longitude,
+            _level = type.level,
+            _limit = type.limit,
+            _updated = type.updated,
+            _userId = type.userId
+        )
+
+    override fun mapFromData(type: PlayoneEntity): PlayoneModel  =
+        when(type) {
+            is PlayoneEntity.Create -> mapFromPlayoneEntityForCreate(type)
+            is PlayoneEntity.Entity -> mapFromPlayoneEntity(type)
+            else -> throw IllegalArgumentException("Data type is wrong!!!")
+        }
 }

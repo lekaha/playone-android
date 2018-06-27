@@ -7,7 +7,7 @@ import io.reactivex.Single
 
 /**
  * Interface defining methods for the data operations related to
- * [com.playone.mobile.data.model.PlayoneItem]. This is to be implemented by external
+ * [com.playone.mobile.data.model.PlayoneEntity]. This is to be implemented by external
  * data source layers, setting the requirements for the operations that need to
  * be implemented.
  */

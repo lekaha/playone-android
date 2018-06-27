@@ -1,14 +1,12 @@
 package com.playone.mobile.data.repository
 
 import com.playone.mobile.data.model.PlayoneEntity
-import com.playone.mobile.data.model.PlayoneItem
 import com.playone.mobile.data.model.UserEntity
-import com.playone.mobile.domain.model.Playone
 import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
- * Interface defining methods for the caching of [PlayoneItem]. This is to be implemented by the
+ * Interface defining methods for the caching of [PlayoneEntity]. This is to be implemented by the
  * cache layer, using this interface as a way of communicating.
  */
 interface PlayoneCache {

@@ -5,7 +5,7 @@ import kotlin.properties.Delegates
 /**
  * Representation for a [UserEntity] fetched from an external layer data source.
  */
-class UserEntity : PlayoneItem {
+class UserEntity {
 
     lateinit var id: String
     lateinit var name: String

@@ -199,6 +199,9 @@ class PlayoneFirebaseV1(
         strategy: DataSnapStrategy<D>
     ) = favoriteSnapshot(userId).addStrategyListener(callback, errorCallback, strategy)
 
+    /**
+     * Create a node with Playone's ID at `users/[user id]/teams`
+     */
     private fun playoneDsForCreation(
         userId: String,
         callback: OperationResultCallback,
@@ -383,7 +386,7 @@ class PlayoneFirebaseV1(
 
         val copyModel = model.copy(_id = id, _host = name, _userId = userId)
 
-        dbReference.updateChildren(hashMapOf("/$GROUPS/" to copyModel.toMap()) as Map<String, Any>)
+        dbReference.updateChildren(hashMapOf("/$GROUPS/$id" to copyModel.toMap()) as Map<String, Any>)
 
         true
     }
@@ -472,5 +475,5 @@ class PlayoneFirebaseV1(
 
     private fun favoriteSnapshot(userId: String) = playoneSnapshot.child(userId).child(FAVORITES)
 
-    private fun teamSnapshot(userId: String) = playoneSnapshot.child(userId).child(TEAMS)
+    private fun teamSnapshot(userId: String) = userSnapshot.child(userId).child(TEAMS)
 }
