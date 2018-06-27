@@ -9,6 +9,7 @@ import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.SeekBar
+import androidx.core.os.bundleOf
 import androidx.core.os.postDelayed
 import com.dd.morphingbutton.MorphingButton
 import com.playone.mobile.ext.DEFAULT_STR
@@ -48,11 +49,11 @@ class CreatePlayoneFragment : BaseFragment() {
 
         fun newInstance(lat: Double, lng: Double, address: String) =
             CreatePlayoneFragment().apply {
-                Bundle().apply {
-                    putDouble(EXTRA_LATITUDE, lat)
-                    putDouble(EXTRA_LONGITUDE, lng)
-                    putString(EXTRA_ADDRESS, address)
-                }
+                arguments = bundleOf(
+                    EXTRA_LATITUDE to lat,
+                    EXTRA_LONGITUDE to lng,
+                    EXTRA_ADDRESS to address
+                )
             }
     }
 
