@@ -1,6 +1,7 @@
 package com.playone.mobile.ui.create
 
 import android.animation.Animator
+import android.app.Activity
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -92,7 +93,7 @@ class CreatePlayoneFragment : BaseFragment() {
                     })
 
                     isPlayoneCreated.observe(this@CreatePlayoneFragment, Observer {
-                        // TODO: Created, go back to list
+                        activity.setResult(Activity.RESULT_OK)
                         activity.finish()
                     })
                 }

@@ -7,7 +7,9 @@ import java.util.Date
 
 interface CreatePlayoneContract {
 
-    interface View : BaseView<CreatePlayoneContract.Presenter, PlayoneView>
+    interface View : BaseView<CreatePlayoneContract.Presenter, PlayoneView> {
+        fun onPlayoneCreated(playone: PlayoneView)
+    }
 
     interface Presenter : BasePresenter {
         fun setView(view: CreatePlayoneContract.View)

@@ -65,6 +65,10 @@ class CreatePlayoneViewModel(
         this.presenter.setView(this)
     }
 
+    override fun onPlayoneCreated(playone: PlayoneView) {
+        isPlayoneCreated.value = true
+    }
+
     override fun onResponse(response: ViewResponse<PlayoneView>) {
         when(response) {
             ViewResponse.Status.LOADING -> { isProgressing.value = true }
@@ -73,7 +77,7 @@ class CreatePlayoneViewModel(
                 occurredError.value = response.error
             }
             ViewResponse.Status.SUCCESS -> {
-                isPlayoneCreated.value = true
+                response.data?.let(::onPlayoneCreated)
             }
         }
     }
