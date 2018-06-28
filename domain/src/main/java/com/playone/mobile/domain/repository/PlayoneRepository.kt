@@ -25,6 +25,8 @@ interface PlayoneRepository {
 
     fun isJoined(playoneId: String, userId: String): Single<Boolean>
 
+    fun createUser(user: User): Single<User>
+
     fun getUserByEmail(email: String): Single<User>
 
     fun getUserById(userId: String): Single<User>

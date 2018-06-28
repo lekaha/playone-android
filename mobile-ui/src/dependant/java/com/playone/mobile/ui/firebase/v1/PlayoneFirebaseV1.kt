@@ -408,11 +408,9 @@ class PlayoneFirebaseV1(
         model: UserModel,
         block: (UserModel) -> Unit
     ) = dataSnapshot?.takeIf { it.exists() }?.run {
-        if (child(DEVICE_TOKENS).exists()) {
-            model.deviceToken = FirebaseInstanceId.getInstance().token.orEmpty()
-        }
-        block(model)
-    } ?: let {
+        val deviceToken = FirebaseInstanceId.getInstance().token.orEmpty()
+
+        model.deviceToken = deviceToken
         userSnapshot.child(model.id).apply {
             setValue(model)
             // Add device token.

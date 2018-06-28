@@ -65,6 +65,10 @@ class PlayoneDataRepository constructor(
     override fun isJoined(playoneId: String, userId: String) =
             factory.getRemoteDataStore().isJoined(playoneId, userId)
 
+    override fun createUser(user: User): Single<User> =
+            factory.getRemoteDataStore().createUser(
+                userMapper.mapToEntity(user)).map(userMapper::mapFromEntity)
+
     override fun getUserByEmail(email: String): Single<User> =
             factory.getRemoteDataStore().fetchUserByEmail(email).map(userMapper::mapFromEntity)
 

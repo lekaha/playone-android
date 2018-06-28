@@ -47,6 +47,10 @@ class SignUpAndSignIn constructor(
 
                 // TODO: should get the user from repository after implementing Cache
 //                val single = playoneRepository.getUserByEmail(user.email)
+                if (user.isVerified) {
+                    playoneRepository.createUser(user)
+                }
+
                 execute(Single.just(user), singleObserver)
             }
 
