@@ -1,6 +1,8 @@
 package com.playone.mobile.ui.playone
 
+import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -22,6 +24,10 @@ import kotlinx.android.synthetic.main.activity_playone.*
 import javax.inject.Inject
 
 class PlayoneActivity : BaseActivity() {
+
+    companion object {
+        const val REQUEST_CODE = 0x201
+    }
 
     @Inject lateinit var navigator: Navigator
 
@@ -66,6 +72,7 @@ class PlayoneActivity : BaseActivity() {
 
                 navigator.navigateToActivityWithResult<CreatePlayoneActivity>(
                     context = this@PlayoneActivity,
+                    resultCode = REQUEST_CODE,
                     options = it) {
                     this.putExtra(EXTRA_CIRCULAR_REVEAL_X, cx)
                     this.putExtra(EXTRA_CIRCULAR_REVEAL_Y, cy)
@@ -113,6 +120,15 @@ class PlayoneActivity : BaseActivity() {
         }
 
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (resultCode) {
+            Activity.RESULT_OK -> {
+                viewModel.load()
+            }
+        }
+
     }
 
     override fun onDestroy() {

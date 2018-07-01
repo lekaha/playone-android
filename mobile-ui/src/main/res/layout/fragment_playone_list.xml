@@ -5,7 +5,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".playone.PlayoneListFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_playone_list"
-        style="@style/ConstraintMatchParentSize"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        style="@style/ConstraintMatchParentSize">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_playone_list"
+            style="@style/MatchParentSize"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateBehavior="repeat"
+        android:visibility="gone"/>
+
 </android.support.constraint.ConstraintLayout>

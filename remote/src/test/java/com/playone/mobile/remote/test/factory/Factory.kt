@@ -36,20 +36,20 @@ object Factory {
         teams = DataFactory.makeHashMap(30)
     }
 
-    fun makePlayoneEntity() = PlayoneEntity().apply {
-        id = DataFactory.randomUuid()
-        name = DataFactory.randomUuid()
-        description = DataFactory.randomUuid()
-        date = DataFactory.randomLong()
-        updated = DataFactory.randomLong()
-        address = DataFactory.randomUuid()
-        longitude = DataFactory.randomDouble()
-        latitude = DataFactory.randomDouble()
-        limit = DataFactory.randomInt()
-        level = DataFactory.randomInt()
-        host = DataFactory.randomUuid()
+    fun makePlayoneEntity() = PlayoneEntity.Entity(
+        id = DataFactory.randomUuid(),
+        name = DataFactory.randomUuid(),
+        description = DataFactory.randomUuid(),
+        date = DataFactory.randomLong(),
+        updated = DataFactory.randomLong(),
+        address = DataFactory.randomUuid(),
+        longitude = DataFactory.randomDouble(),
+        latitude = DataFactory.randomDouble(),
+        limit = DataFactory.randomInt(),
+        level = DataFactory.randomInt(),
+        host = DataFactory.randomUuid(),
         userId = DataFactory.randomUuid()
-    }
+    )
 
     fun makeUserEntity() = UserEntity().apply {
         id = DataFactory.randomUuid()

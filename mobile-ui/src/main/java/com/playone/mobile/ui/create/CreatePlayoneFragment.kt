@@ -1,6 +1,7 @@
 package com.playone.mobile.ui.create
 
 import android.animation.Animator
+import android.app.Activity
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -20,6 +21,7 @@ import com.playone.mobile.presentation.createPlayone.CreatePlayoneContract
 import com.playone.mobile.ui.BaseFragment
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.model.CreatePlayoneViewModel
+import com.playone.mobile.ui.playone.PlayoneActivity
 import com.playone.mobile.ui.view.DatePickerDialogFragment
 import com.playone.mobile.ui.view.TimePickerDialogFragment
 import kotlinx.android.synthetic.main.fragment_playone_create_fields.btn_create
@@ -92,8 +94,10 @@ class CreatePlayoneFragment : BaseFragment() {
                     })
 
                     isPlayoneCreated.observe(this@CreatePlayoneFragment, Observer {
-                        // TODO: Created, go back to list
-                        activity.finish()
+                        it?.ifTrue {
+                            activity.setResult(Activity.RESULT_OK)
+                            activity.finish()
+                        }
                     })
                 }
 
