@@ -25,6 +25,10 @@ import javax.inject.Inject
 
 class PlayoneActivity : BaseActivity() {
 
+    companion object {
+        const val REQUEST_CODE = 0x201
+    }
+
     @Inject lateinit var navigator: Navigator
 
     @Inject lateinit var viewModelFactory: PlayoneListViewModel.PlayoneListViewModelFactory
@@ -68,6 +72,7 @@ class PlayoneActivity : BaseActivity() {
 
                 navigator.navigateToActivityWithResult<CreatePlayoneActivity>(
                     context = this@PlayoneActivity,
+                    resultCode = REQUEST_CODE,
                     options = it) {
                     this.putExtra(EXTRA_CIRCULAR_REVEAL_X, cx)
                     this.putExtra(EXTRA_CIRCULAR_REVEAL_Y, cy)

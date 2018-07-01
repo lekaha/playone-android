@@ -56,7 +56,7 @@ class CreatePlayoneViewModel(
     private var cameraZoom: Float = DEFAULT_ZOOM_IN
 
     init {
-
+        presenter.setView(this)
         currentLatLng.value = LatLng(DEFAULT_LOCATION_LAT, DEFAULT_LOCATION_LNG)
     }
 
@@ -70,7 +70,7 @@ class CreatePlayoneViewModel(
     }
 
     override fun onResponse(response: ViewResponse<PlayoneView>) {
-        when(response) {
+        when(response.status) {
             ViewResponse.Status.LOADING -> { isProgressing.value = true }
             ViewResponse.Status.ERROR -> {
                 isProgressing.value = false
