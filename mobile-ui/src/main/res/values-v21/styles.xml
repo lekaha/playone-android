@@ -16,4 +16,9 @@
         <item name="android:layout_height">@dimen/bottomappbar_height</item>
         <item name="android:layout_gravity">bottom</item>
     </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/white</item>
+    </style>
 </resources>

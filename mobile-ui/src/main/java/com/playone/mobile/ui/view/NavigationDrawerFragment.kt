@@ -24,6 +24,8 @@ class NavigationDrawerFragment: BottomSheetDialogFragment() {
 
     var navigationItemSelectedListener: ((MenuItem) -> Boolean)? = null
 
+    override fun getTheme() = R.style.BottomSheetDialogTheme
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
