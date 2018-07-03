@@ -133,4 +133,9 @@
         <item name="android:layout_marginRight">24dp</item>
         <item name="android:background">@color/silver</item>
     </style>
+
+    <style name="AppTheme.PlayoneItem">
+        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/colorPrimaryLight</item>
+    </style>
 </resources>
