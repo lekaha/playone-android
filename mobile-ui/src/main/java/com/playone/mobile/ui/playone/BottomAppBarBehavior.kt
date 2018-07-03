@@ -8,8 +8,6 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
-import com.playone.mobile.ui.view.ViewHelper
-import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
