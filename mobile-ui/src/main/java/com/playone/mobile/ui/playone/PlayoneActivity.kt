@@ -86,9 +86,10 @@ class PlayoneActivity : BaseActivity() {
             val options = TransitionHelper.makeOptionsCompat(
                 this).toBundle()
             options?.let {
-                val cx = btnActionCreate.left + btnActionCreate.width / 2
-                val cy = btnActionCreate.top + btnActionCreate.height / 2
-
+                val cx = (btnActionCreate.left + btnActionCreate.width / 2) +
+                         btnActionCreate.translationX.toInt()
+                val cy = btnActionCreate.top + btnActionCreate.height / 2 +
+                         btnActionCreate.translationY.toInt()
                 navigator.navigateToActivityWithResult<CreatePlayoneActivity>(
                     context = this@PlayoneActivity,
                     resultCode = REQUEST_CODE,
