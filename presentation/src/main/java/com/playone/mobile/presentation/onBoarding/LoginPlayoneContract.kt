@@ -19,6 +19,7 @@ interface LoginPlayoneContract {
         fun signIn(secretContent: Any)
         fun isSignedIn(): Boolean
         fun sendEmailVerificationToCurrentUser()
+        fun getCurrentUser()
     }
 
 }

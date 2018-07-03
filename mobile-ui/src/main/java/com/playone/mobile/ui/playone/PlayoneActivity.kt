@@ -1,6 +1,7 @@
 package com.playone.mobile.ui.playone
 
 import android.app.Activity
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Build
@@ -9,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.core.widget.toast
 import com.google.firebase.auth.FirebaseAuth
+import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
@@ -55,7 +57,24 @@ class PlayoneActivity : BaseActivity() {
             .get(PlayoneListViewModel::class.java)
 
         loginViewModel = ViewModelProviders.of(this, loginViewModelFactory)
-            .get(LoginViewModel::class.java)
+            .get(LoginViewModel::class.java).apply {
+                observeIsSignedIn(this@PlayoneActivity, Observer {
+
+                })
+
+                observeGetCurrentUser(this@PlayoneActivity, Observer {
+                    it?.let { user ->
+                        user.isVerified.ifTrue {
+                            navigationDrawer.arguments?.apply {
+                                putSerializable(NavigationDrawerFragment.ARGS_USER_INFO, user)
+                            }
+                        }
+                    }
+                })
+
+                getCurrentUser()
+                lifecycle::addObserver
+            }
 
         navigator.navigateToFragment(this) {
             replace(R.id.list_content, PlayoneListFragment.newInstance())
@@ -97,7 +116,6 @@ class PlayoneActivity : BaseActivity() {
         item?.let {
             when (it.itemId) {
                 android.R.id.home -> {
-                    toast("Menu")
                     navigationDrawer.show(
                             supportFragmentManager,
                             NavigationDrawerFragment::class.java.name)

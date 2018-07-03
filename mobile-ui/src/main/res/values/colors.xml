@@ -17,6 +17,5 @@
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
-    <color name="colorPrimary">#d5071c</color>
-    <color name="colorPrimaryDark">#8d0010</color>
+    <color name="navBarOnShowingMenu">#4e4e4e</color>
 </resources>
