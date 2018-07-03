@@ -74,10 +74,10 @@ class SelectLocationFragment : BaseFragment() {
                     currentNearby.observe(this@SelectLocationFragment, Observer {
                         it?.let {
                             nearByAdapter.update(it.map {
-                                DisplayableItem.toDisplayableItem(it, TYPE_NEAR_BY_PLACES, {
+                                DisplayableItem.toDisplayableItem(it, TYPE_NEAR_BY_PLACES) {
                                     val prediction = AutocompletePrediction::class.java.cast(it)
                                     viewModel.movePlaceByKeyword(prediction.getPrimaryText(null).toString())
-                                })
+                                }
                             })
                             nearByAdapter.notifyDataSetChanged()
                         }
