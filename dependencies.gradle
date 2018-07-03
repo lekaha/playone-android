@@ -208,6 +208,7 @@ ext {
             rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
             rxAndroid:          "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             glide:              "com.github.bumptech.glide:glide:${glideVersion}",
+            glideCompiler:      "com.github.bumptech.glide:compiler:${glideVersion}",
             kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",

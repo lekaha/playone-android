@@ -87,6 +87,10 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
+
 }
 
 kapt {
@@ -99,6 +103,10 @@ kotlin {
     experimental {
         coroutines 'enable'
     }
+}
+
+androidExtensions {
+    experimental = true
 }
 
 configurations.all {
@@ -133,6 +141,7 @@ dependencies {
     implementation mobileUiDependencies.timber
     implementation mobileUiDependencies.rxAndroid
     implementation mobileUiDependencies.glide
+    kapt mobileUiDependencies.glideCompiler
     implementation mobileUiDependencies.dagger
     implementation mobileUiDependencies.daggerSupport
 
