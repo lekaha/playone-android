@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name="com.playone.mobile.ui.BufferooApplication"
+        android:name="com.playone.mobile.ui.PlayoneApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -46,8 +46,6 @@
             android:name="com.playone.mobile.ui.create.CreatePlayoneActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize"/>
-
-        <activity android:name="com.playone.mobile.ui.browse.BrowseActivity"/>
 
         <activity
             android:name="com.facebook.FacebookActivity"

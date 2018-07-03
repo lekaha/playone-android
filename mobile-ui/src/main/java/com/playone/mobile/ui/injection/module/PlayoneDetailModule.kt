@@ -1,6 +1,7 @@
 package com.playone.mobile.ui.injection.module
 
 import android.content.Context
+import com.playone.mobile.domain.interactor.playone.GetCurrentUser
 import com.playone.mobile.domain.interactor.playone.GetPlayoneDetail
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.presentation.getPlayoneDetail.GetPlayoneDetailContract
@@ -27,9 +28,14 @@ class PlayoneDetailModule {
     @Provides
     @JvmSuppressWildcards
     internal fun providePlayoneDetailPresenter(
+        getCurrentUser: GetCurrentUser,
         getPlayoneDetail: GetPlayoneDetail,
         viewMapper: Mapper<PlayoneView, Playone>
-    ): GetPlayoneDetailContract.Presenter = GetPlayoneDetailPresenter(getPlayoneDetail, viewMapper)
+    ): GetPlayoneDetailContract.Presenter = GetPlayoneDetailPresenter(
+        getCurrentUser,
+        getPlayoneDetail,
+        viewMapper
+    )
 
     @Provides
     internal fun providePlayoneDetailViewModelFactory(presenter: GetPlayoneDetailContract.Presenter) =

@@ -34,11 +34,6 @@ class PlayoneViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         }
         tvName.text = playoneListItem.name
         tvLimit.text = playoneListItem.totalNumber.toString()
-
-//        Glide.with(itemView.context)
-//                .load(bufferoo.avatar)
-//                .apply(RequestOptions.circleCropTransform())
-//                .into(avatarImage)
     }
 
     class PlayoneViewHolderFactory constructor(context: Context) : ViewHolderFactory(context) {

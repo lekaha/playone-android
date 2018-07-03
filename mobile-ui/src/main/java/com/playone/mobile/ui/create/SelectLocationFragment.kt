@@ -11,11 +11,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import com.google.android.gms.location.places.AutocompletePrediction
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.orString
 import com.playone.mobile.ui.BaseFragment
+import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.create.NearbyPlacesAdapter.Companion.TYPE_NEAR_BY_PLACES
 import com.playone.mobile.ui.model.CreatePlayoneViewModel
@@ -39,6 +39,7 @@ class SelectLocationFragment : BaseFragment() {
     }
 
     @Inject lateinit var autocompleteAdapter: GooglePlacesAutocompleteAdapter
+    @Inject lateinit var navigator: Navigator
 
     private lateinit var viewModel: CreatePlayoneViewModel
     private lateinit var nearByAdapter: NearbyPlacesAdapter
@@ -114,7 +115,19 @@ class SelectLocationFragment : BaseFragment() {
         rv_result_places.adapter = nearByAdapter
 
         layout_current_location.setOnClickListener {
-            Toast.makeText(appCompatActivity, "Navigate to next page", Toast.LENGTH_SHORT).show()
+            viewModel.currentLatLng.value?.let { current ->
+                appCompatActivity?.let {
+                    navigator.navigateToFragment(it) {
+                        add(R.id.fragment_content, CreatePlayoneFragment.newInstance(
+                            current.latitude,
+                            current.longitude,
+                            viewModel.currentAddress.value.orEmpty()
+                        ))
+                        hide(this@SelectLocationFragment)
+                        addToBackStack(null)
+                    }
+                }
+            }
         }
     }
 

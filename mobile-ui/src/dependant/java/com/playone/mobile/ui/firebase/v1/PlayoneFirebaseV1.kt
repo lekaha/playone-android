@@ -44,12 +44,12 @@ class PlayoneFirebaseV1(
                      errorCallback) { userSnapToPlayoneList(it, errorCallback, callback) }
 
     override fun createPlayone(
-        playoneId: String,
+        userId: String,
         model: PlayoneModel,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
-    ) = playoneDsForCreation(playoneId, callback, errorCallback) {
-        snapToBooleanForPlayoneCreation(it, playoneId, model)
+    ) = playoneDsForCreation(userId, callback, errorCallback) {
+        snapToBooleanForPlayoneCreation(it, userId, model)
     }
 
     override fun updatePlayone(
@@ -64,34 +64,34 @@ class PlayoneFirebaseV1(
                                 null)
 
     override fun obtainJoinedPlayoneList(
-        userId: Int,
+        userId: String,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = joinedDsAction(userId.toString(), {}, errorCallback) {
+    ) = joinedDsAction(userId, {}, errorCallback) {
         joinedSnapToPlayoneList(it, errorCallback, callback)
     }
 
     override fun obtainFavoritePlayoneList(
-        userId: Int,
+        userId: String,
         callback: PlayoneCallback<List<PlayoneModel>>,
         errorCallback: FirebaseErrorCallback
-    ) = favoriteDsAction(userId.toString(), {}, errorCallback) {
+    ) = favoriteDsAction(userId, {}, errorCallback) {
         favoriteSnapToPlayoneList(it, errorCallback, callback)
     }
 
     override fun obtainPlayoneDetail(
-        playoneId: String,
+        userId: String,
         callback: (model: PlayoneModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
-    ) = playoneDsAction(playoneId, callback, errorCallback, ::snapToPlayone)
+    ) = playoneDsAction(userId, callback, errorCallback, ::snapToPlayone)
 
     override fun obtainUser(
-        userId: Int,
+        userId: String,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
-    ) = userDsAction(userId.toString(), callback, errorCallback, ::snapToUser)
+    ) = userDsAction(userId, callback, errorCallback, ::snapToUser)
 
-    override fun obtainUser(
+    override fun obtainUserByEmail(
         email: String,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
@@ -115,13 +115,13 @@ class PlayoneFirebaseV1(
     ) = userDsForUpdate<Boolean>(model, lastDeviceToken, callback, errorCallback, null)
 
     override fun joinTeamAsMember(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         isJoin: Boolean,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     ) {
-        val (pId, uId) = playoneId.toString() to userId.toString()
+        val (pId, uId) = playoneId to userId
 
         memberSnapshot.child(pId).child(uId).setValue(isJoin)
         joinSnapshot.child(uId).child(pId).setValue(isJoin)
@@ -129,13 +129,13 @@ class PlayoneFirebaseV1(
     }
 
     override fun toggleFavorite(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
-    ) = favoriteDsAction(userId.toString(), {}, errorCallback) {
+    ) = favoriteDsAction(userId, {}, errorCallback) {
         var isFavorite = false
-        val (pId, uId) = playoneId.toString() to userId.toString()
+        val (pId, uId) = playoneId to userId
 
         when (it?.exists()) {
             true -> {
@@ -154,21 +154,21 @@ class PlayoneFirebaseV1(
     }
 
     override fun isFavorite(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
-    ) = favoriteDsAction(userId.toString(), {}, errorCallback) {
-        snapToRequestFavorite(it, playoneId.toString(), callback)
+    ) = favoriteDsAction(userId, {}, errorCallback) {
+        snapToRequestFavorite(it, playoneId, callback)
     }
 
     override fun isJoined(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
-    ) = joinedDsAction(userId.toString(), {}, errorCallback, {
-        snapToRequestJoined(it, playoneId.toString(), callback)
+    ) = joinedDsAction(userId, {}, errorCallback, {
+        snapToRequestJoined(it, playoneId, callback)
     })
 
     //region Fetching data from firebase database.
@@ -199,6 +199,9 @@ class PlayoneFirebaseV1(
         strategy: DataSnapStrategy<D>
     ) = favoriteSnapshot(userId).addStrategyListener(callback, errorCallback, strategy)
 
+    /**
+     * Create a node with Playone's ID at `users/[user id]/teams`
+     */
     private fun playoneDsForCreation(
         userId: String,
         callback: OperationResultCallback,
@@ -383,7 +386,7 @@ class PlayoneFirebaseV1(
 
         val copyModel = model.copy(_id = id, _host = name, _userId = userId)
 
-        dbReference.updateChildren(hashMapOf("/$GROUPS/" to copyModel.toMap()) as Map<String, Any>)
+        dbReference.updateChildren(hashMapOf("/$GROUPS/$id" to copyModel.toMap()) as Map<String, Any>)
 
         true
     }
@@ -405,11 +408,9 @@ class PlayoneFirebaseV1(
         model: UserModel,
         block: (UserModel) -> Unit
     ) = dataSnapshot?.takeIf { it.exists() }?.run {
-        if (child(DEVICE_TOKENS).exists()) {
-            model.deviceToken = FirebaseInstanceId.getInstance().token.orEmpty()
-        }
-        block(model)
-    } ?: let {
+        val deviceToken = FirebaseInstanceId.getInstance().token.orEmpty()
+
+        model.deviceToken = deviceToken
         userSnapshot.child(model.id).apply {
             setValue(model)
             // Add device token.
@@ -472,5 +473,5 @@ class PlayoneFirebaseV1(
 
     private fun favoriteSnapshot(userId: String) = playoneSnapshot.child(userId).child(FAVORITES)
 
-    private fun teamSnapshot(userId: String) = playoneSnapshot.child(userId).child(TEAMS)
+    private fun teamSnapshot(userId: String) = userSnapshot.child(userId).child(TEAMS)
 }

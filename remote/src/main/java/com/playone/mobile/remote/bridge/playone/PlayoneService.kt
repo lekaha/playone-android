@@ -1,9 +1,9 @@
 package com.playone.mobile.remote.bridge.playone
 
 import com.playone.mobile.data.model.NotificationPayloadEntity
-import com.playone.mobile.data.repository.PlayoneRemote
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
+import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
@@ -16,37 +16,31 @@ interface PlayoneService {
 
     fun retrievePlayoneList(userId: String): Single<List<PlayoneModel>>
 
-    fun retrieveJoinedPlayoneList(userId: Int): Single<List<PlayoneModel>>
+    fun retrieveJoinedPlayoneList(userId: String): Single<List<PlayoneModel>>
 
-    fun retrieveFavoritePlayoneList(userId: Int): Single<List<PlayoneModel>>
+    fun retrieveFavoritePlayoneList(userId: String): Single<List<PlayoneModel>>
 
     fun retrievePlayoneDetail(playoneId: String): Single<PlayoneModel>
 
-    fun createPlayoneDetail(
-        playoneId: String,
-        playoneModel: PlayoneModel
-    ): Single<PlayoneRemote.Result>
+    fun createPlayoneDetail(userId: String, playoneModel: PlayoneModel): Single<PlayoneModel>
 
-    fun updatePlayoneDetail(
-        playoneId: String,
-        playoneModel: PlayoneModel
-    ): Single<PlayoneRemote.Result>
+    fun updatePlayoneDetail(userId: String, playoneModel: PlayoneModel): Single<PlayoneModel>
 
-    fun joinTeamAsMember(playoneId: Int, userId: Int, isJoin: Boolean): Single<PlayoneRemote.Result>
+    fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean): Completable
 
-    fun sendJoinRequest(playoneId: Int, userId: Int, msg: String = ""): Single<PlayoneRemote.Result>
+    fun sendJoinRequest(playoneId: String, userId: String, msg: String = ""): Completable
 
-    fun toggleFavorite(playoneId: Int, userId: Int): Single<Boolean>
+    fun toggleFavorite(playoneId: String, userId: String): Single<Boolean>
 
-    fun isFavorite(playoneId: Int, userId: Int): Single<Boolean>
+    fun isFavorite(playoneId: String, userId: String): Single<Boolean>
 
-    fun isJoined(playoneId: Int, userId: Int): Single<Boolean>
+    fun isJoined(playoneId: String, userId: String): Single<Boolean>
     //endregion
 
     //region User for Auth
-    fun retrieveUserModel(userId: Int): Single<UserModel>
+    fun retrieveUserModel(userId: String): Single<UserModel>
 
-    fun retrieveUserModel(email: String): Single<UserModel>
+    fun retrieveUserModelByEmail(email: String): Single<UserModel>
 
     fun createUser(userModel: UserModel): Single<UserModel>
 
@@ -56,21 +50,21 @@ interface PlayoneService {
     //endregion
 
     //region Notification
-    fun applyNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun applyNotification(payload: NotificationPayloadEntity): Completable
 
-    fun acceptedNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun acceptedNotification(payload: NotificationPayloadEntity): Completable
 
-    fun acceptNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun acceptNotification(payload: NotificationPayloadEntity): Completable
 
-    fun dismissNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun dismissNotification(payload: NotificationPayloadEntity): Completable
 
-    fun kickNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun kickNotification(payload: NotificationPayloadEntity): Completable
 
-    fun quitNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun quitNotification(payload: NotificationPayloadEntity): Completable
 
-    fun rejectedNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun rejectedNotification(payload: NotificationPayloadEntity): Completable
 
-    fun rejectNotification(payload: NotificationPayloadEntity): Single<PlayoneRemote.Result>
+    fun rejectNotification(payload: NotificationPayloadEntity): Completable
     //endregion
 
 }

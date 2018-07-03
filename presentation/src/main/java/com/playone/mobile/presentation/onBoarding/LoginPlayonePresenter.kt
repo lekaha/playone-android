@@ -2,6 +2,7 @@ package com.playone.mobile.presentation.onBoarding
 
 import com.playone.mobile.domain.Credential
 import com.playone.mobile.domain.interactor.auth.SignUpAndSignIn
+import com.playone.mobile.domain.interactor.playone.GetCurrentUser
 import com.playone.mobile.domain.model.User
 import com.playone.mobile.presentation.ViewResponse
 import com.playone.mobile.presentation.mapper.Mapper
@@ -10,6 +11,7 @@ import io.reactivex.observers.DisposableSingleObserver
 
 class LoginPlayonePresenter(
     val signUpAndSignIn: SignUpAndSignIn,
+    val getCurrentUser: GetCurrentUser,
     val viewMapper: Mapper<UserView, User>
 ) : LoginPlayoneContract.Presenter {
 
@@ -62,6 +64,10 @@ class LoginPlayonePresenter(
         signUpAndSignIn.sendEmailVerification(SignInUpSubscriber())
     }
 
+    override fun getCurrentUser() {
+        getCurrentUser.execute(GetCurrentUserSubscriber())
+    }
+
     inner class EmailPasswordCredential(
         private val email: String,
         private val password: String
@@ -92,5 +98,17 @@ class LoginPlayonePresenter(
 
             loginView?.onResponse(ViewResponse.error(e))
         }
+    }
+
+    inner class GetCurrentUserSubscriber: DisposableSingleObserver<User>() {
+
+        override fun onSuccess(t: User) {
+            loginView?.onResponse(ViewResponse.success(viewMapper.mapToView(t)))
+        }
+
+        override fun onError(e: Throwable) {
+            loginView?.onResponse(ViewResponse.error(e))
+        }
+
     }
 }

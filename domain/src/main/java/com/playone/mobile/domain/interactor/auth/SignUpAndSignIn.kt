@@ -23,7 +23,6 @@ class SignUpAndSignIn constructor(
     UseCase(threadExecutor, postExecutionThread) {
 
     fun signInAnonymously(singleObserver: DisposableSingleObserver<User>) {
-
         authenticator.signInAnonymously(object : Authenticator.AuthResultCallBack {
 
             override fun onSuccessful(user: User) {
@@ -48,6 +47,10 @@ class SignUpAndSignIn constructor(
 
                 // TODO: should get the user from repository after implementing Cache
 //                val single = playoneRepository.getUserByEmail(user.email)
+                if (user.isVerified) {
+                    playoneRepository.createUser(user)
+                }
+
                 execute(Single.just(user), singleObserver)
             }
 

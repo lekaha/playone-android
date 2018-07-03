@@ -5,8 +5,6 @@ import com.playone.mobile.domain.executor.ThreadExecutor
 import com.playone.mobile.domain.interactor.SingleUseCase
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.repository.PlayoneRepository
-import com.playone.mobile.ext.isNotNull
-import java.security.InvalidParameterException
 
 /**
  * Use case used for retrieving a [com.playone.mobile.domain.model.Playone]'s detail
@@ -16,10 +14,9 @@ open class GetPlayoneDetail constructor(
     private val repository: PlayoneRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : SingleUseCase<Playone, String?>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<Playone, Pair<String, String>>(threadExecutor, postExecutionThread) {
 
-    public override fun buildUseCaseObservable(params: String?) =
-        params
-            .takeIf(Any?::isNotNull)
-            ?.let(repository::getPlayoneDetail) ?: throw InvalidParameterException()
+    public override fun buildUseCaseObservable(params: Pair<String, String>) =
+        repository.getPlayoneDetail(params.first, params.second)
+
 }

@@ -1,7 +1,9 @@
 package com.playone.mobile.ui.model
 
 import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.playone.mobile.presentation.ViewResponse
@@ -39,6 +41,9 @@ class PlayoneListViewModel(private var getPlayoneListPresenter: GetPlayoneListCo
             }
         }
     }
+
+    fun observeProgress(owner: LifecycleOwner, observer: Observer<Boolean>) =
+            isProgressing.observe(owner, observer)
 
     fun load() {
 

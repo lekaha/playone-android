@@ -6,6 +6,13 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.places.AutocompleteFilter
 import com.google.android.gms.location.places.AutocompleteFilter.TYPE_FILTER_NONE
 import com.google.android.gms.location.places.GeoDataClient
+import com.playone.mobile.domain.interactor.playone.CreatePlayone
+import com.playone.mobile.domain.interactor.playone.GetCurrentUser
+import com.playone.mobile.domain.model.Playone
+import com.playone.mobile.presentation.createPlayone.CreatePlayoneContract
+import com.playone.mobile.presentation.createPlayone.CreatePlayonePresenter
+import com.playone.mobile.presentation.mapper.Mapper
+import com.playone.mobile.presentation.model.PlayoneView
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.create.GooglePlacesAutocompleteAdapter
 import com.playone.mobile.ui.injection.qualifier.ApplicationContext
@@ -18,12 +25,23 @@ import java.util.Locale
 class CreatePlayoneModule {
 
     @Provides
+    @JvmSuppressWildcards
+    internal fun provideCreatePlayonePresenter(
+        currentUser: GetCurrentUser,
+        createPlayone: CreatePlayone,
+        viewMapper: Mapper<PlayoneView, Playone>
+    ): CreatePlayoneContract.Presenter =
+        CreatePlayonePresenter(currentUser, createPlayone, viewMapper)
+
+    @Provides
     internal fun provideCreatePlayoneViewModelFactory(
+        presenter: CreatePlayoneContract.Presenter,
         fusedLocationProviderClient: FusedLocationProviderClient,
         geoDataClient: GeoDataClient,
         geocoder: Geocoder,
         autocompleteFilter: AutocompleteFilter
-    ) = CreatePlayoneViewModel.CreatePlayoneViewModelFactory(fusedLocationProviderClient,
+    ) = CreatePlayoneViewModel.CreatePlayoneViewModelFactory(presenter,
+                                                             fusedLocationProviderClient,
                                                              geoDataClient,
                                                              geocoder,
                                                              autocompleteFilter)

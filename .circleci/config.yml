@@ -16,6 +16,8 @@ jobs:
       ADB_INSTALL_TIMEOUT: 20 # minutes (2 minutes by default)
     docker:
       - image: circleci/android:api-26-alpha
+    test:
+        parallelism: 4
     steps:
       - checkout
       - run:

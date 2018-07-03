@@ -19,14 +19,23 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ext.otherwise
+import com.playone.mobile.presentation.ViewResponse
+import com.playone.mobile.presentation.createPlayone.CreatePlayoneContract
+import com.playone.mobile.presentation.model.PlayoneView
 import com.playone.mobile.ui.create.AsyncPredictPlaces
+import java.io.IOException
+import java.util.Date
 
 class CreatePlayoneViewModel(
+    private var presenter: CreatePlayoneContract.Presenter,
     private val fusedLocationProviderClient: FusedLocationProviderClient,
     private val geoDataClient: GeoDataClient,
     private val geocoder: Geocoder,
     private val autocompleteFilter: AutocompleteFilter
-) : BaseViewModel(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
+) : BaseViewModel(),
+    OnMapReadyCallback,
+    GoogleMap.OnCameraIdleListener,
+    CreatePlayoneContract.View {
 
     companion object {
 
@@ -41,13 +50,36 @@ class CreatePlayoneViewModel(
     var currentLatLng: MutableLiveData<LatLng> = MutableLiveData()
     var currentAddress: MutableLiveData<String> = MutableLiveData()
     var currentNearby: MutableLiveData<List<AutocompletePrediction>> = MutableLiveData()
+    var isPlayoneCreated: MutableLiveData<Boolean> = MutableLiveData()
 
     private var map: GoogleMap? = null
     private var cameraZoom: Float = DEFAULT_ZOOM_IN
 
     init {
-
+        presenter.setView(this)
         currentLatLng.value = LatLng(DEFAULT_LOCATION_LAT, DEFAULT_LOCATION_LNG)
+    }
+
+    override fun setPresenter(presenter: CreatePlayoneContract.Presenter) {
+        this.presenter = presenter
+        this.presenter.setView(this)
+    }
+
+    override fun onPlayoneCreated(playone: PlayoneView) {
+        isPlayoneCreated.value = true
+    }
+
+    override fun onResponse(response: ViewResponse<PlayoneView>) {
+        when(response.status) {
+            ViewResponse.Status.LOADING -> { isProgressing.value = true }
+            ViewResponse.Status.ERROR -> {
+                isProgressing.value = false
+                occurredError.value = response.error
+            }
+            ViewResponse.Status.SUCCESS -> {
+                response.data?.let(::onPlayoneCreated)
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -63,19 +95,24 @@ class CreatePlayoneViewModel(
         map?.let {
             cameraZoom = it.cameraPosition.zoom
             currentLatLng.value = it.cameraPosition.target
-            val result = geocoder.getFromLocation(it.cameraPosition.target.latitude,
-                                                  it.cameraPosition.target.longitude, 1)
-            currentAddress.value = result.takeIf { it.isNotEmpty() }?.let {
-                val stringBuilder = StringBuilder()
-                for (index in 0..it[0].maxAddressLineIndex) {
-                    stringBuilder.append(it[0].getAddressLine(index))
-                    if (it[0].maxAddressLineIndex > index) {
-                        stringBuilder.append(", ")
+            try {
+                val result = geocoder.getFromLocation(it.cameraPosition.target.latitude,
+                                                      it.cameraPosition.target.longitude, 1)
+                currentAddress.value = result.takeIf { it.isNotEmpty() }?.let {
+                    val stringBuilder = StringBuilder()
+                    for (index in 0..it[0].maxAddressLineIndex) {
+                        stringBuilder.append(it[0].getAddressLine(index))
+                        if (it[0].maxAddressLineIndex > index) {
+                            stringBuilder.append(", ")
+                        }
                     }
-                }
 
-                stringBuilder.toString()
-            } ?: ""
+                    stringBuilder.toString()
+                } ?: ""
+            }
+            catch (exception: IOException) {
+                currentAddress.value = null
+            }
         }
     }
 
@@ -186,18 +223,44 @@ class CreatePlayoneViewModel(
         ).execute(keyword)
     }
 
+    fun createPlayone(createPlayoneParameters: CreatePlayoneContract.CreatePlayoneParameters) {
+        presenter.create(createPlayoneParameters)
+    }
+
+    fun createPlayone(
+        name: String,
+        description: String,
+        playoneDate: Date,
+        latitude: Double,
+        longtitude: Double,
+        address: String,
+        limitPeople: Int,
+        level: Int
+    ) {
+        createPlayone(CreatePlayoneContract.CreatePlayoneParameters(
+            name,
+            description,
+            playoneDate,
+            CreatePlayoneContract.PlayonePlace(longtitude, latitude, address),
+            limitPeople,
+            level
+        ))
+    }
+
     class CreatePlayoneViewModelFactory(
+        private val presenter: CreatePlayoneContract.Presenter,
         private val fusedLocationProviderClient: FusedLocationProviderClient,
         private val geoDataClient: GeoDataClient,
         private val geocoder: Geocoder,
         private val autocompleteFilter: AutocompleteFilter
-        ) : ViewModelProvider.Factory {
+    ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
             if (modelClass.isAssignableFrom(CreatePlayoneViewModel::class.java)) {
 
-                return CreatePlayoneViewModel(fusedLocationProviderClient,
+                return CreatePlayoneViewModel(presenter,
+                                              fusedLocationProviderClient,
                                               geoDataClient,
                                               geocoder,
                                               autocompleteFilter) as T

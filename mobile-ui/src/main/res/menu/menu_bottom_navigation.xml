@@ -3,22 +3,25 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_favorites"
-        android:enabled="true"
-        android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+        android:id="@+id/app_bar_fav"
+        android:icon="@drawable/ic_action_favorite"
         android:title="@string/menu_list"
-        app:showAsAction="ifRoom" />
+        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"/>
+
     <item
-        android:id="@+id/action_schedules"
-        android:enabled="true"
-        android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+        android:id="@+id/app_bar_search"
+        android:icon="@drawable/ic_action_search"
         android:title="@string/menu_list"
-        app:showAsAction="ifRoom" />
+        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/action_sign_out"
         android:enabled="true"
-        android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+        android:icon="@drawable/ic_action_logout"
         android:title="@string/menu_sign_out"
-        app:showAsAction="ifRoom" />
+        android:showAsAction="never"
+        app:showAsAction="never" />
 
 </menu>

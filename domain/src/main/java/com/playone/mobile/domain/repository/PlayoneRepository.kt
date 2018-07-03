@@ -1,5 +1,6 @@
 package com.playone.mobile.domain.repository
 
+import com.playone.mobile.domain.model.Join
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.model.User
 import io.reactivex.Completable
@@ -12,55 +13,29 @@ import io.reactivex.Single
  */
 interface PlayoneRepository {
 
-    //region For caching the data by the cache layer.
-    fun clearPlayoneList(): Completable
+    fun createPlayone(playone: Playone): Single<Playone>
 
-    fun savePlayoneList(playoneList: List<Playone>): Completable
+    fun updatePlayone(playone: Playone): Single<Playone>
 
-    fun getPlayoneList(): Single<List<Playone>>
+    fun joinPlayone(join: Join): Completable
 
-    fun getPlayoneList(userId: String): Single<List<Playone>>
+    fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean): Completable
 
-    fun clearJoinedPlayoneList(): Completable
+    fun isFavorite(playoneId: String, userId: String): Single<Boolean>
 
-    fun saveJoinedPlayoneList(playoneList: List<Playone>): Completable
+    fun isJoined(playoneId: String, userId: String): Single<Boolean>
 
-    fun getJoinedPlayoneList(userId: Int): Single<List<Playone>>
-
-    fun clearFavoritePlayoneList(): Completable
-
-    fun saveFavoritePlayoneList(playoneList: List<Playone>): Completable
-
-    fun getFavoritePlayoneList(userId: Int): Single<List<Playone>>
-
-    fun clearPlayoneDetail(): Completable
-
-    fun savePlayoneDetail(playone: Playone): Completable
-
-    fun getPlayoneDetail(playoneId: String): Single<Playone>
-
-    fun clearUser(user: User): Completable
-
-    fun createUser(user: User): Completable
-
-    fun saveUser(user: User): Completable
+    fun createUser(user: User): Single<User>
 
     fun getUserByEmail(email: String): Single<User>
 
-    fun getUserById(userId: Int): Single<User>
-    //endregion
+    fun getUserById(userId: String): Single<User>
 
-    fun createPlayone(userId: String, playone: Playone): Single<Boolean>
+    fun getPlayoneDetail(userId: String, playoneId: String): Single<Playone>
 
-    fun updatePlayone(userId: String, playone: Playone): Single<Boolean>
+    fun getFavoritePlayoneList(userId: String): Single<List<Playone>>
 
-    fun joinTeam(playoneId: Int, userId: Int, isJoin: Boolean): Single<Boolean>
+    fun getJoinedPlayoneList(userId: String): Single<List<Playone>>
 
-    fun sendJoinRequest(playoneId: Int, userId: Int, msg: String): Single<Boolean>
-
-    fun toggleFavorite(playoneId: Int, userId: Int): Single<Boolean>
-
-    fun isFavorite(playoneId: Int, userId: Int): Single<Boolean>
-
-    fun isJoined(playoneId: Int, userId: Int): Single<Boolean>
+    fun getPlayoneList(userId: String): Single<List<Playone>>
 }

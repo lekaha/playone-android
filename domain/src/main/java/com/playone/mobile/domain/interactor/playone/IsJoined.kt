@@ -3,6 +3,8 @@ package com.playone.mobile.domain.interactor.playone
 import com.playone.mobile.domain.executor.PostExecutionThread
 import com.playone.mobile.domain.executor.ThreadExecutor
 import com.playone.mobile.domain.interactor.SingleUseCase
+import com.playone.mobile.domain.interactor.playone.IsJoined.Companion.PARAMS_PLAYONE_ID
+import com.playone.mobile.domain.interactor.playone.IsJoined.Companion.PARAMS_USER_ID
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.repository.PlayoneRepository
 
@@ -17,12 +19,19 @@ open class IsJoined constructor(
 ) : SingleUseCase<Boolean, HashMap<String, Any>>(threadExecutor, postExecutionThread) {
 
     companion object {
-        const val PARAMS_PLAYONE_ID = "playone id"
-        const val PARAMS_USER_ID = "user id"
+        internal const val PARAMS_PLAYONE_ID = "playone id"
+        internal const val PARAMS_USER_ID = "user id"
     }
 
     public override fun buildUseCaseObservable(params: HashMap<String, Any>) =
-        params.let {
-            repository.isJoined(it[PARAMS_PLAYONE_ID] as Int, it[PARAMS_USER_ID] as Int)
-        }
+        repository.isJoined(
+                params[PARAMS_PLAYONE_ID] as String,
+                params[PARAMS_USER_ID] as String
+        )
 }
+
+fun IsJoined.createParameter(playoneId: String, userId: String) =
+        HashMap<String, Any>().apply {
+            put(PARAMS_PLAYONE_ID, playoneId)
+            put(PARAMS_USER_ID, userId)
+        }

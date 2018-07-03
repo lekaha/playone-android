@@ -25,7 +25,7 @@ abstract class PlayoneFirebase {
     )
 
     abstract fun createPlayone(
-        playoneId: String,
+        userId: String,
         model: PlayoneModel,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
@@ -39,13 +39,13 @@ abstract class PlayoneFirebase {
     )
 
     abstract fun obtainJoinedPlayoneList(
-        userId: Int,
+        userId: String,
         callback: PlayoneListCallback,
         errorCallback: FirebaseErrorCallback
     )
 
     abstract fun obtainFavoritePlayoneList(
-        userId: Int,
+        userId: String,
         callback: PlayoneListCallback,
         errorCallback: FirebaseErrorCallback
     )
@@ -57,12 +57,12 @@ abstract class PlayoneFirebase {
     )
 
     abstract fun obtainUser(
-        userId: Int,
+        userId: String,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
     )
 
-    abstract fun obtainUser(
+    abstract fun obtainUserByEmail(
         email: String,
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
@@ -82,30 +82,30 @@ abstract class PlayoneFirebase {
     )
 
     abstract fun joinTeamAsMember(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         isJoin: Boolean,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     )
 
     abstract fun toggleFavorite(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     )
 
     abstract fun isFavorite(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     )
 
     abstract fun isJoined(
-        playoneId: Int,
-        userId: Int,
+        playoneId: String,
+        userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
     )

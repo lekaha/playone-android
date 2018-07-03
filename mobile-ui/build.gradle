@@ -15,6 +15,7 @@ android {
         minSdkVersion globalConfiguration["androidMinSdkVersion"]
         targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
         multiDexEnabled = true
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "com.playone.mobile.ui.test.TestRunner"
 
         def CLIENT_ID = ""
@@ -86,6 +87,10 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
+
 }
 
 kapt {
@@ -98,6 +103,10 @@ kotlin {
     experimental {
         coroutines 'enable'
     }
+}
+
+androidExtensions {
+    experimental = true
 }
 
 configurations.all {
@@ -124,7 +133,6 @@ dependencies {
     implementation mobileUiDependencies.javaxInject
     implementation mobileUiDependencies.rxKotlin
     implementation mobileUiDependencies.androidAnnotations
-    implementation mobileUiDependencies.androidSupportV4
     implementation mobileUiDependencies.androidSupportV13
     implementation mobileUiDependencies.appCompatV7
     implementation mobileUiDependencies.supportRecyclerView
@@ -134,6 +142,7 @@ dependencies {
     implementation mobileUiDependencies.timber
     implementation mobileUiDependencies.rxAndroid
     implementation mobileUiDependencies.glide
+    kapt mobileUiDependencies.glideCompiler
     implementation mobileUiDependencies.dagger
     implementation mobileUiDependencies.daggerSupport
 
@@ -192,6 +201,7 @@ dependencies {
     implementation mobileUiDependencies.googleMapUtils
 
     implementation mobileUiDependencies.bubbleLayout
+    implementation mobileUiDependencies.circularProgressButton
 
     // Model Mapper
     implementation developmentDependencies.modelMapper

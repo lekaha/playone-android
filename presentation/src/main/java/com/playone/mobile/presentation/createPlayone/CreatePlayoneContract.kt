@@ -7,14 +7,16 @@ import java.util.Date
 
 interface CreatePlayoneContract {
 
-    interface View : BaseView<CreatePlayoneContract.Presenter, PlayoneView>
+    interface View : BaseView<CreatePlayoneContract.Presenter, PlayoneView> {
+        fun onPlayoneCreated(playone: PlayoneView)
+    }
 
     interface Presenter : BasePresenter {
-
+        fun setView(view: CreatePlayoneContract.View)
         fun create(parameters: CreatePlayoneParameters)
     }
 
-    data class PlayonePlace(val longitude: Long, var latitude: Long, var address: String)
+    data class PlayonePlace(val longitude: Double, var latitude: Double, var address: String)
 
     data class CreatePlayoneParameters(
         var name: String,
@@ -23,5 +25,12 @@ interface CreatePlayoneContract {
         var location: PlayonePlace,
         var limitPeople: Int,
         var level: Int
-    )
+    ) {
+        override fun toString() =
+            "Name: $name, " +
+            "Date: $playoneDate, " +
+            "Place: ${location.address}, " +
+            "People: $limitPeople, " +
+            "Level: $level"
+    }
 }

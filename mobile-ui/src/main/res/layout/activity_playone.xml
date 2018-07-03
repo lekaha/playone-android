@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/MatchParentSize">
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        style="@style/BottomNavigationView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/menu_bottom_navigation"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <FrameLayout
         android:id="@+id/list_content"
         style="@style/MatchParentSize"/>
 
+    <android.support.design.bottomappbar.BottomAppBar
+        android:id="@+id/bottomNavigation"
+        style="@style/BottomNavigationView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:navigationIcon="@drawable/ic_action_menu"
+        app:fabAlignmentMode="center"
+        app:fabAttached="true"
+        app:fabCradleDiameter="0dp"
+        app:fabCradleVerticalOffset="8dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:layout_behavior="com.playone.mobile.ui.playone.BottomAppBarBehavior"/>
+
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/button_create"
+        android:id="@+id/btnActionCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/ic_action_create"
         app:fabSize="normal"
-        android:layout_width="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="24dp"
-        android:layout_marginRight="24dp"
-        android:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-        android:foregroundGravity="right|bottom"
-        android:layout_height="wrap_content" />
+        app:layout_anchor="@id/bottomNavigation"
+        app:backgroundTint="@color/colorPrimary"/>
 
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

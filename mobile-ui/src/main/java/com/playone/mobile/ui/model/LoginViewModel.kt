@@ -1,11 +1,13 @@
 package com.playone.mobile.ui.model
 
 import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.os.Handler
-import androidx.os.postDelayed
+import androidx.core.os.postDelayed
 import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.presentation.ViewResponse
 import com.playone.mobile.presentation.onBoarding.LoginPlayoneContract
@@ -20,6 +22,7 @@ class LoginViewModel(private var loginPresenter: LoginPlayoneContract.Presenter)
     val isSignedIn: MutableLiveData<Boolean> = MutableLiveData()
     val isVerifiedEmail: MutableLiveData<Boolean> = MutableLiveData()
     val occurredError: MutableLiveData<Throwable> = MutableLiveData()
+    val currentUser: MutableLiveData<UserView> = MutableLiveData()
 
     private var isSentEmailVerification = true
 
@@ -50,7 +53,23 @@ class LoginViewModel(private var loginPresenter: LoginPlayoneContract.Presenter)
                     sendEmailVerification()
                     isSentEmailVerification = true
                 }
+
+                if (response.data is UserView) {
+                    currentUser.value = response.data
+                }
             }
+        }
+    }
+
+    fun observeIsSignedIn(owner: LifecycleOwner, observer: Observer<Boolean>) {
+        isSignedIn.hasObservers().ifFalse {
+            isSignedIn.observe(owner, observer)
+        }
+    }
+
+    fun observeGetCurrentUser(owner: LifecycleOwner, observer: Observer<UserView>) {
+        currentUser.hasObservers().ifFalse {
+            currentUser.observe(owner, observer)
         }
     }
 
@@ -103,6 +122,10 @@ class LoginViewModel(private var loginPresenter: LoginPlayoneContract.Presenter)
         } otherwise {
             loginPresenter.signUp(email, password)
         }
+    }
+
+    fun getCurrentUser() {
+        loginPresenter.getCurrentUser()
     }
 
     override fun onCleared() {

@@ -13,8 +13,8 @@ class DbOpenHelper constructor(context: Context) :
         SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        val DATABASE_NAME = "buffer-clean-arch-boilerplate.db"
-        val DATABASE_VERSION = 1
+        const val DATABASE_NAME = "playone.db"
+        const val DATABASE_VERSION = 1
     }
 
     override fun onConfigure(db: SQLiteDatabase) {
@@ -29,7 +29,7 @@ class DbOpenHelper constructor(context: Context) :
     override fun onCreate(db: SQLiteDatabase) {
         db.beginTransaction()
         try {
-            db.execSQL(Db.BufferooTable.CREATE)
+            db.execSQL(Db.PlayoneTable.CREATE)
             db.setTransactionSuccessful()
         } finally {
             db.endTransaction()

@@ -14,15 +14,8 @@ open class ModifyPlayone constructor(
     private val repository: PlayoneRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : SingleUseCase<Boolean, HashMap<String, Any>>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<Playone, Playone.UpdateParameters>(threadExecutor, postExecutionThread) {
 
-    companion object {
-        const val PARAMS_ID = "user id"
-        const val PARAMS_PLAYONE = "playone"
-    }
-
-    public override fun buildUseCaseObservable(params: HashMap<String, Any>) =
-        params.let {
-            repository.updatePlayone(it[PARAMS_ID] as String, it[PARAMS_PLAYONE] as Playone)
-        }
+    override fun buildUseCaseObservable(params: Playone.UpdateParameters) =
+            repository.updatePlayone(params)
 }

@@ -1,6 +1,7 @@
 package com.playone.mobile.ui.injection.module
 
 import com.playone.mobile.domain.interactor.auth.SignUpAndSignIn
+import com.playone.mobile.domain.interactor.playone.GetCurrentUser
 import com.playone.mobile.domain.model.User
 import com.playone.mobile.presentation.mapper.Mapper
 import com.playone.mobile.presentation.model.UserView
@@ -21,8 +22,10 @@ class LoginModule {
     @JvmSuppressWildcards
     internal fun provideLoginPresenter(
         signUpAndSignIn: SignUpAndSignIn,
+        getCurrentUser: GetCurrentUser,
         viewMapper: Mapper<UserView, User>
-    ): LoginPlayoneContract.Presenter = LoginPlayonePresenter(signUpAndSignIn, viewMapper)
+    ): LoginPlayoneContract.Presenter =
+        LoginPlayonePresenter(signUpAndSignIn, getCurrentUser, viewMapper)
 
     @Provides
     internal fun provideLoginViewModelFactory(presenter: LoginPlayoneContract.Presenter) =

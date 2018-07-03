@@ -30,5 +30,5 @@ class SignOut constructor(
             })
         }
 
-    override fun buildUseCaseObservable(params: Nothing) = signOut()
+    override fun buildUseCaseObservable(params: Nothing): Completable = signOut()
 }

@@ -17,7 +17,7 @@ class EntityMapperTest {
 
     companion object {
 
-        fun assertTheSame(entity: PlayoneEntity, model: PlayoneModel) {
+        fun assertTheSame(entity: PlayoneEntity.Entity, model: PlayoneModel) {
 
             assertEquals(entity.id, model.id)
             assertEquals(entity.name, model.name)
