@@ -1,11 +1,14 @@
 package com.playone.mobile.ui.playone
 
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.support.annotation.IntDef
+import android.support.design.bottomappbar.BottomAppBar
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.widget.toast
@@ -23,13 +26,16 @@ import com.playone.mobile.ui.model.PlayoneListViewModel
 import com.playone.mobile.ui.navigateToActivityWithResult
 import com.playone.mobile.ui.view.NavigationDrawerFragment
 import com.playone.mobile.ui.view.TransitionHelper
-import kotlinx.android.synthetic.main.activity_playone.*
+import kotlinx.android.synthetic.main.activity_playone.bottomNavigation
+import kotlinx.android.synthetic.main.activity_playone.btnActionCreate
 import javax.inject.Inject
 
 class PlayoneActivity : BaseActivity() {
 
     companion object {
         const val REQUEST_CODE = 0x201
+        const val CONTENT_MODE_LIST = 0x301
+        const val CONTENT_MODE_DETAIL = 0x302
     }
 
     @Inject lateinit var navigator: Navigator
@@ -164,4 +170,30 @@ class PlayoneActivity : BaseActivity() {
         super.onDestroy()
         navigationDrawer.destroy()
     }
+
+    fun onChangeContentMode(@ContentMode mode: Int) {
+        val transitionY =
+            if (mode == CONTENT_MODE_DETAIL) {
+                bottomNavigation.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+                bottomNavigation.isEnabled = false
+                bottomNavigation.measuredHeight.toFloat()
+            }
+            else {
+                bottomNavigation.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+                bottomNavigation.isEnabled = true
+                0f
+            }
+
+        val animator =
+            ObjectAnimator.ofFloat(bottomNavigation,
+                                   "translationY",
+                                   transitionY)
+        animator.duration = 300
+        animator.start()
+    }
+
+    @IntDef(CONTENT_MODE_LIST, CONTENT_MODE_DETAIL)
+    @Retention(AnnotationRetention.SOURCE)
+    annotation class ContentMode
+
 }

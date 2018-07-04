@@ -66,6 +66,16 @@ class PlayoneListFragment : BaseInjectingFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        appCompatActivity?.let {
+            if(it is PlayoneActivity) {
+                it.onChangeContentMode(PlayoneActivity.CONTENT_MODE_LIST)
+            }
+        }
+    }
+
     private fun getListFragmentExitTransition(itemView: View, duration: Long = 300L): Transition =
         ExplodeFadeOut().apply {
             val epicCenterRect = Rect().apply {
@@ -119,6 +129,10 @@ class PlayoneListFragment : BaseInjectingFragment() {
                 allowReturnTransitionOverlap = true
 
                 addToBackStack(null)
+            }
+
+            if(it is PlayoneActivity) {
+                it.onChangeContentMode(PlayoneActivity.CONTENT_MODE_DETAIL)
             }
         }
     }
