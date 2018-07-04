@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.playone.mobile.ui.R
-import com.playone.mobile.ui.ext.w
 import com.playone.mobile.ui.model.PlayoneListItemViewModel
 import com.playone.mobile.ui.view.recycler.DisplayableItem
+import com.playone.mobile.ui.view.recycler.OnItemClickedListener
 import com.playone.mobile.ui.view.recycler.ViewHolderBinder
 import com.playone.mobile.ui.view.recycler.ViewHolderFactory
 import kotlinx.android.synthetic.main.item_playone_constraint.view.cl_playone
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_playone_constraint.view.tv_distance
 import kotlinx.android.synthetic.main.item_playone_constraint.view.tv_limit
 import kotlinx.android.synthetic.main.item_playone_constraint.view.tv_title
 
-class PlayoneViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class PlayoneViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
     //    var avatarImage: ImageView = view.findViewById(R.id.image_avatar)
     private val clPlayone by lazy { view.cl_playone }
@@ -24,10 +24,14 @@ class PlayoneViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val tvLimit by lazy { view.tv_limit }
     private val tvDistance by lazy { view.tv_distance }
 
-    fun bind(playoneListItem: PlayoneListItemViewModel) {
+    fun bind(
+        playoneListItem: PlayoneListItemViewModel,
+        listener: OnItemClickedListener<PlayoneListItemViewModel>
+    ) {
 
-        w(playoneListItem)
-        clPlayone.setOnClickListener { }
+        clPlayone.setOnClickListener {
+            listener(view, playoneListItem)
+        }
         tvName.text = playoneListItem.name
         tvLimit.text = playoneListItem.totalNumber.toString()
     }
@@ -47,10 +51,12 @@ class PlayoneViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             viewHolder: RecyclerView.ViewHolder,
             item: DisplayableItem<*>
         ) {
-
             val playoneViewHolder = PlayoneViewHolder::class.java.cast(viewHolder)
             val playoneViewModel = PlayoneListItemViewModel::class.java.cast(item.model())
-            playoneViewHolder.bind(playoneViewModel)
+            val itemClickedListener =
+                item.click() as OnItemClickedListener<PlayoneListItemViewModel>
+
+            playoneViewHolder.bind(playoneViewModel, itemClickedListener)
         }
 
     }

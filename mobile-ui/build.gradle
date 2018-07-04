@@ -31,6 +31,7 @@ android {
         
         buildConfigField "String", "CLIENT_ID", "\"${CLIENT_ID}\""
         buildConfigField "String", "FB_APP_ID", "\"${FB_APP_ID}\""
+        buildConfigField "String", "GOOGLE_MAP_API_KEY", "\"${GOOGLE_MAP_API_KEY}\""
 
         manifestPlaceholders = [googleMapApi: "${GOOGLE_MAP_API_KEY}"]
 
@@ -138,6 +139,7 @@ dependencies {
     implementation mobileUiDependencies.supportRecyclerView
     implementation mobileUiDependencies.supportDesign
     implementation mobileUiDependencies.constriantLayout
+    implementation mobileUiDependencies.googleMap
     implementation mobileUiDependencies.timber
     implementation mobileUiDependencies.rxAndroid
     implementation mobileUiDependencies.glide

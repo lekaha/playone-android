@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
     android:background="@drawable/item_background"
-    android:clickable="true"
     android:transitionName="@string/playone_item"
-    >
+    android:transitionGroup="true"
+    tools:targetApi="lollipop">
 
 
     <LinearLayout

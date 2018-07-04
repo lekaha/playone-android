@@ -4,6 +4,7 @@ import com.playone.mobile.presentation.model.PlayoneView
 import com.playone.mobile.ui.model.PlayoneListItemViewModel
 import com.playone.mobile.ui.model.PlayoneListItemViewModel.Companion.DISPLAY_TYPE_PLAYONE
 import com.playone.mobile.ui.view.recycler.DisplayableItem.Companion.toDisplayableItem
+import com.playone.mobile.ui.view.recycler.OnItemClickedListener
 import io.reactivex.Observable
 import org.modelmapper.ModelMapper
 
@@ -21,12 +22,18 @@ open class PlayoneMapper(
     override fun mapToViewModel(type: PlayoneView) = throw UnsupportedOperationException()
 
     @Throws(Exception::class)
-    fun mapToViewModels(views: List<PlayoneView>) = Observable.fromIterable(views)
+    fun mapToViewModels(
+        views: List<PlayoneView>,
+        onItemClickedListener: OnItemClickedListener<PlayoneListItemViewModel> = { _, _ -> }
+    ) = Observable.fromIterable(views)
         .map { modelMapper.map(it, PlayoneListItemViewModel::class.java) }
-        .map { wrapInDisplayableItem(it) }
+        .map { wrapInDisplayableItem(it, onItemClickedListener) }
         .toList()
         .blockingGet()
 
-    private fun wrapInDisplayableItem(viewEntity: PlayoneListItemViewModel) =
-        toDisplayableItem(viewEntity, DISPLAY_TYPE_PLAYONE)
+    private fun wrapInDisplayableItem(
+        viewEntity: PlayoneListItemViewModel,
+        onItemClickedListener: OnItemClickedListener<PlayoneListItemViewModel>
+    ) =
+        toDisplayableItem(viewEntity, DISPLAY_TYPE_PLAYONE, onItemClickedListener)
 }

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">PlayOne.Local</string>
+
+    <string name="static_map">https://maps.googleapis.com/maps/api/staticmap?center=%1$f,%2$f&amp;zoom=%3$d&amp;size=%4$dx%5$d&amp;markers=color:%6$s|label:|%1$f,%2$f</string>
+    <string name="map_mark_color">red</string>
+    <string name="map_width">600</string>
+    <string name="map_height">400</string>
+    <string name="map_zoom">12</string>
+    <string name="map_uri">geo:%1$f,%2$f?z=%3$d&amp;q=park</string>
 </resources>

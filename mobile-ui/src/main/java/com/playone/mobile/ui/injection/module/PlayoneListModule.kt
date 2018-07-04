@@ -19,15 +19,15 @@ import dagger.Provides
 class PlayoneListModule {
 
     @Provides
-    internal fun providePlayoneViewHolderFactory(@ApplicationContext context: Context) =
+    internal fun providePlayoneListViewHolderFactory(@ApplicationContext context: Context) =
         PlayoneViewHolder.PlayoneViewHolderFactory(context)
 
     @Provides
-    internal fun providePlayoneViewHolderBinder() = PlayoneViewHolder.PlayoneViewHolderBinder()
+    internal fun providePlayoneListViewHolderBinder() = PlayoneViewHolder.PlayoneViewHolderBinder()
 
     @Provides
     @JvmSuppressWildcards
-    internal fun provideLoginPresenter(
+    internal fun providePlayoneListPresenter(
         getCurrentUser: GetCurrentUser,
         getPlayoneList: GetPlayoneList,
         getOwnPlayoneList: GetOwnPlayoneList,

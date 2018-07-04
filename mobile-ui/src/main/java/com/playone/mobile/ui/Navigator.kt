@@ -2,12 +2,14 @@ package com.playone.mobile.ui
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import com.playone.mobile.ui.ext.start
 import com.playone.mobile.ui.ext.startForResult
+import com.playone.mobile.ui.ext.startWithUri
 import com.playone.mobile.ui.ext.transact
 
 /**
@@ -51,4 +53,15 @@ inline fun <reified T : AppCompatActivity> Navigator.navigateToActivity(
     noinline intent: Intent.() -> Unit = {}
 ) = (fragment.activity)?.let {
     (fragment.activity as? AppCompatActivity)?.start<T>(intent)
+}
+
+inline fun <reified T : AppCompatActivity> Navigator.navigateToUri(
+    fragment: Fragment,
+    action: String,
+    uri: Uri,
+    packageName: String
+) = (fragment.activity)?.let {
+    (fragment.activity as? AppCompatActivity)?.startWithUri<T>(action, uri) {
+        setPackage(packageName)
+    }
 }

@@ -1,5 +1,6 @@
 package com.playone.mobile.ui.view.recycler
 
+import android.support.v4.app.Fragment
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
