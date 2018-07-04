@@ -22,6 +22,7 @@ import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.mapper.PlayoneMapper
 import com.playone.mobile.ui.model.PlayoneListViewModel
+import com.playone.mobile.ui.model.PlayoneViewModel
 import com.playone.mobile.ui.view.ExplodeFadeOut
 import com.playone.mobile.ui.view.SlideFadeOut
 import kotlinx.android.synthetic.main.fragment_playone_list.rv_playone_list
@@ -42,9 +43,18 @@ class PlayoneListFragment : BaseInjectingFragment() {
     @Inject lateinit var mapper: PlayoneMapper
     @Inject lateinit var navigator: Navigator
 
-    private val viewModel by lazy { activity?.let {
-        ViewModelProviders.of(it).get(PlayoneListViewModel::class.java)
-    } }
+    private val viewModel by lazy {
+        activity?.let {
+            ViewModelProviders.of(it).get(PlayoneListViewModel::class.java)
+        }
+    }
+
+    private val playoneViewModel by lazy {
+        activity?.let {
+            ViewModelProviders.of(it).get(PlayoneViewModel::class.java)
+        }
+    }
+
     private val userId by lazy { arguments?.getString(PARAMETER_USER_ID) ?: DEFAULT_STR }
 
     override fun getLayoutId() = R.layout.fragment_playone_list
@@ -69,11 +79,7 @@ class PlayoneListFragment : BaseInjectingFragment() {
     override fun onResume() {
         super.onResume()
 
-        appCompatActivity?.let {
-            if(it is PlayoneActivity) {
-                it.onChangeContentMode(PlayoneActivity.CONTENT_MODE_LIST)
-            }
-        }
+        playoneViewModel?.changeMode(PlayoneViewModel.CONTENT_MODE_LIST)
     }
 
     private fun getListFragmentExitTransition(itemView: View, duration: Long = 300L): Transition =
@@ -131,9 +137,7 @@ class PlayoneListFragment : BaseInjectingFragment() {
                 addToBackStack(null)
             }
 
-            if(it is PlayoneActivity) {
-                it.onChangeContentMode(PlayoneActivity.CONTENT_MODE_DETAIL)
-            }
+            playoneViewModel?.changeMode(PlayoneViewModel.CONTENT_MODE_DETAIL)
         }
     }
 

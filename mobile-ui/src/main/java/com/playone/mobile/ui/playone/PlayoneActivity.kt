@@ -11,6 +11,7 @@ import android.support.annotation.IntDef
 import android.support.design.bottomappbar.BottomAppBar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.core.widget.toast
 import com.google.firebase.auth.FirebaseAuth
 import com.playone.mobile.ext.ifTrue
@@ -23,6 +24,8 @@ import com.playone.mobile.ui.create.CreatePlayoneActivity.Companion.EXTRA_CIRCUL
 import com.playone.mobile.ui.model.LoginViewModel
 import com.playone.mobile.ui.model.PlayoneDetailViewModel
 import com.playone.mobile.ui.model.PlayoneListViewModel
+import com.playone.mobile.ui.model.PlayoneViewModel
+import com.playone.mobile.ui.model.PlayoneViewModel.Companion.CONTENT_MODE_DETAIL
 import com.playone.mobile.ui.navigateToActivityWithResult
 import com.playone.mobile.ui.view.NavigationDrawerFragment
 import com.playone.mobile.ui.view.TransitionHelper
@@ -34,8 +37,6 @@ class PlayoneActivity : BaseActivity() {
 
     companion object {
         const val REQUEST_CODE = 0x201
-        const val CONTENT_MODE_LIST = 0x301
-        const val CONTENT_MODE_DETAIL = 0x302
     }
 
     @Inject lateinit var navigator: Navigator
@@ -50,6 +51,32 @@ class PlayoneActivity : BaseActivity() {
 
     private val navigationDrawer = NavigationDrawerFragment.create(R.menu.activity_playone_drawer)
 
+    val createActionListener by lazy {
+        View.OnClickListener {
+            val options = TransitionHelper.makeOptionsCompat(
+                this).toBundle()
+            options?.let {
+                val cx = (btnActionCreate.left + btnActionCreate.width / 2) +
+                         btnActionCreate.translationX.toInt()
+                val cy = btnActionCreate.top + btnActionCreate.height / 2 +
+                         btnActionCreate.translationY.toInt()
+                navigator.navigateToActivityWithResult<CreatePlayoneActivity>(
+                    context = this@PlayoneActivity,
+                    resultCode = REQUEST_CODE,
+                    options = it) {
+                    this.putExtra(EXTRA_CIRCULAR_REVEAL_X, cx)
+                    this.putExtra(EXTRA_CIRCULAR_REVEAL_Y, cy)
+                }
+            }
+        }
+    }
+
+    val joinActionListener by lazy {
+        View.OnClickListener {
+
+        }
+    }
+
     override fun getLayoutId() = R.layout.activity_playone
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +89,12 @@ class PlayoneActivity : BaseActivity() {
             TransitionHelper.excludeEnterTarget(this, android.R.id.navigationBarBackground, true)
         }
 
+        ViewModelProviders.of(this, PlayoneViewModel.PlayoneViewModelFactory())
+            .get(PlayoneViewModel::class.java).apply {
+                observeContentMode(this@PlayoneActivity, Observer {
+                    it?.apply(::onChangeContentMode)
+                })
+            }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(PlayoneListViewModel::class.java)
@@ -95,23 +128,7 @@ class PlayoneActivity : BaseActivity() {
 
         // UI component setting up
         setSupportActionBar(bottomNavigation)
-        btnActionCreate.setOnClickListener {
-            val options = TransitionHelper.makeOptionsCompat(
-                this).toBundle()
-            options?.let {
-                val cx = (btnActionCreate.left + btnActionCreate.width / 2) +
-                         btnActionCreate.translationX.toInt()
-                val cy = btnActionCreate.top + btnActionCreate.height / 2 +
-                         btnActionCreate.translationY.toInt()
-                navigator.navigateToActivityWithResult<CreatePlayoneActivity>(
-                    context = this@PlayoneActivity,
-                    resultCode = REQUEST_CODE,
-                    options = it) {
-                    this.putExtra(EXTRA_CIRCULAR_REVEAL_X, cx)
-                    this.putExtra(EXTRA_CIRCULAR_REVEAL_Y, cy)
-                }
-            }
-        }
+        btnActionCreate.setOnClickListener(createActionListener)
 
         navigationDrawer.navigationItemSelectedListener = {
             when(it) {
@@ -171,14 +188,25 @@ class PlayoneActivity : BaseActivity() {
         navigationDrawer.destroy()
     }
 
-    fun onChangeContentMode(@ContentMode mode: Int) {
+    private fun onSetupListContentMode() {
+        btnActionCreate.setOnClickListener(createActionListener)
+//        btnActionCreate.
+    }
+
+    private fun onSetupDetailContentMode() {
+        btnActionCreate.setOnClickListener(joinActionListener)
+    }
+
+    fun onChangeContentMode(mode: Int) {
         val transitionY =
             if (mode == CONTENT_MODE_DETAIL) {
+                onSetupDetailContentMode()
                 bottomNavigation.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
                 bottomNavigation.isEnabled = false
                 bottomNavigation.measuredHeight.toFloat()
             }
             else {
+                onSetupListContentMode()
                 bottomNavigation.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
                 bottomNavigation.isEnabled = true
                 0f
@@ -191,9 +219,5 @@ class PlayoneActivity : BaseActivity() {
         animator.duration = 300
         animator.start()
     }
-
-    @IntDef(CONTENT_MODE_LIST, CONTENT_MODE_DETAIL)
-    @Retention(AnnotationRetention.SOURCE)
-    annotation class ContentMode
 
 }
