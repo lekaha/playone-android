@@ -9,6 +9,7 @@ import androidx.core.os.bundleOf
 import com.bumptech.glide.Glide
 import com.playone.mobile.ext.DEFAULT_STR
 import com.playone.mobile.ui.BaseInjectingFragment
+import com.playone.mobile.ui.BuildConfig
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.mapper.PlayoneMapper
 import com.playone.mobile.ui.model.PlayoneDetailViewModel
@@ -71,12 +72,13 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
                     it.fetchDetailData().observe(this, Observer {
                         it?.let {
                             staticMapUri = getString(R.string.static_map,
-                                                     it.latitude,
-                                                     it.longitude,
                                                      getString(R.string.map_zoom).toInt(),
                                                      getString(R.string.map_width).toInt(),
                                                      getString(R.string.map_height).toInt(),
-                                                     getString(R.string.map_mark_color))
+                                                     getString(R.string.map_mark_color),
+                                                     it.longitude,
+                                                     it.latitude,
+                                                     BuildConfig.GOOGLE_MAP_API_KEY)
 
                             Glide.with(this)
                                 .load(staticMapUri)
