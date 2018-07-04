@@ -42,9 +42,11 @@ class NearbyPlacesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         ) {
             val nearbyPlacesViewHolder = NearbyPlacesViewHolder::class.java.cast(viewHolder)
             val model = AutocompletePrediction::class.java.cast(item.model())
-            val click = item.click() as (AutocompletePrediction) -> Unit
+            val click = item.click() as (Any, AutocompletePrediction) -> Unit
 
-            nearbyPlacesViewHolder.itemView.setOnClickListener{ click(model) }
+            nearbyPlacesViewHolder.itemView.setOnClickListener {
+                click(nearbyPlacesViewHolder.itemView, model)
+            }
             nearbyPlacesViewHolder.bind(model)
         }
 
