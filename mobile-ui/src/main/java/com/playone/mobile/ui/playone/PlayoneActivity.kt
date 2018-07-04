@@ -115,12 +115,14 @@ class PlayoneActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_bottom_navigation, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
         item?.let {
             when (it.itemId) {
                 android.R.id.home -> {
@@ -149,30 +151,17 @@ class PlayoneActivity : BaseActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
         when (resultCode) {
             Activity.RESULT_OK -> {
                 viewModel.load()
             }
         }
-
     }
 
     override fun onDestroy() {
+
         super.onDestroy()
         navigationDrawer.destroy()
-    }
-
-    fun gotoFragment(fragmentName: String, params: HashMap<String, Any>) {
-
-        when (fragmentName) {
-            PlayoneDetailFragment::class.java.simpleName -> {
-                navigator.navigateToFragment(this) {
-                    replace(R.id.list_content,
-                            PlayoneDetailFragment.newInstance(params[fragmentName] as String),
-                            fragmentName)
-                    addToBackStack(null)
-                }
-            }
-        }
     }
 }
