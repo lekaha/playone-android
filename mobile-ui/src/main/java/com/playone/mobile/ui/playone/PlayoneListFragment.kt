@@ -21,6 +21,7 @@ import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.mapper.PlayoneMapper
+import com.playone.mobile.ui.model.PlayoneListItemViewModel
 import com.playone.mobile.ui.model.PlayoneListViewModel
 import com.playone.mobile.ui.model.PlayoneViewModel
 import com.playone.mobile.ui.view.ExplodeFadeOut
@@ -116,11 +117,11 @@ class PlayoneListFragment : BaseInjectingFragment() {
             setDuration(duration)
         }
 
-    fun navigateToDetail(view: View, playoneId: String) {
+    fun navigateToDetail(view: View, model: PlayoneListItemViewModel) {
 
         appCompatActivity?.let {
             navigator.navigateToFragment(it) {
-                val fragment = PlayoneDetailFragment.newInstance(playoneId)
+                val fragment = PlayoneDetailFragment.newInstance(model.id)
                 replace(R.id.list_content,
                         fragment,
                         PlayoneDetailFragment::class.java.simpleName)
@@ -148,7 +149,7 @@ class PlayoneListFragment : BaseInjectingFragment() {
                 it?.takeIf(List<PlayoneView>::isNotEmpty)?.let {
                     playoneAdapter.update(mapper.mapToViewModels(it) { view, model ->
                         (view is View).ifTrue {
-                            navigateToDetail(view as View, model.id)
+                            navigateToDetail(view as View, model)
                         } otherwise {
                             throw IllegalArgumentException("Cannot solve the instance as View")
                         }
