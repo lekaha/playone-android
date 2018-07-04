@@ -8,8 +8,11 @@ abstract class DisplayableItem<out T> {
     companion object {
 
         fun <T> builder(): Builder<T> = AutoValue_DisplayableItem.Builder()
-        fun <T> toDisplayableItem(model: T, type: Int, click: OnItemClickedListener<*> = {}) =
-            builder<T>().type(type).model(model).click(click).build()
+        fun <T> toDisplayableItem(
+            model: T,
+            type: Int,
+            click: OnItemClickedListener<*> = { _, _  -> }
+        ) = builder<T>().type(type).model(model).click(click).build()
     }
 
     abstract fun type(): Int
@@ -23,10 +26,10 @@ abstract class DisplayableItem<out T> {
 
         abstract fun model(model: T): Builder<T>
 
-        abstract fun click(onClicked: OnItemClickedListener<*> = {}): Builder<T>
+        abstract fun click(onClicked: OnItemClickedListener<*> = { _, _  -> }): Builder<T>
 
         abstract fun build(): DisplayableItem<T>
     }
 }
 
-typealias OnItemClickedListener<MODEL> = (model: MODEL) -> Unit
+typealias OnItemClickedListener<MODEL> = (position: Any?, model: MODEL) -> Unit

@@ -2,17 +2,28 @@ package com.playone.mobile.ui.playone
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.Rect
 import android.os.Bundle
+import android.support.transition.Fade
+import android.support.transition.Slide
+import android.support.transition.Transition
+import android.support.transition.TransitionSet
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
 import com.playone.mobile.ext.DEFAULT_STR
+import com.playone.mobile.ext.ifTrue
+import com.playone.mobile.ext.otherwise
 import com.playone.mobile.presentation.model.PlayoneView
 import com.playone.mobile.ui.BaseInjectingFragment
+import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
 import com.playone.mobile.ui.mapper.PlayoneMapper
 import com.playone.mobile.ui.model.PlayoneListViewModel
+import com.playone.mobile.ui.view.ExplodeFadeOut
+import com.playone.mobile.ui.view.SlideFadeOut
 import kotlinx.android.synthetic.main.fragment_playone_list.rv_playone_list
 import kotlinx.android.synthetic.main.fragment_playone_list.swipeRefreshLayout
 import javax.inject.Inject
@@ -29,6 +40,7 @@ class PlayoneListFragment : BaseInjectingFragment() {
 
     @Inject lateinit var playoneAdapter: PlayoneAdapter
     @Inject lateinit var mapper: PlayoneMapper
+    @Inject lateinit var navigator: Navigator
 
     private val viewModel by lazy { activity?.let {
         ViewModelProviders.of(it).get(PlayoneListViewModel::class.java)
@@ -54,19 +66,74 @@ class PlayoneListFragment : BaseInjectingFragment() {
         }
     }
 
-    fun navigateToDetail(playoneId: String) {
+    private fun getListFragmentExitTransition(itemView: View, duration: Long = 300L): Transition =
+        ExplodeFadeOut().apply {
+            val epicCenterRect = Rect().apply {
 
-        val keyOfFragment = PlayoneDetailFragment::class.java.simpleName
-        (activity as PlayoneActivity).gotoFragment(keyOfFragment,
-                                                   hashMapOf(keyOfFragment to playoneId))
+                //itemView is the full-width inbox item's view
+                itemView.getGlobalVisibleRect(this)
+
+                // Set Epic center to a imaginary horizontal full width line under the clicked item,
+                // so the explosion happens vertically away from it
+                top = bottom
+            }
+
+            epicenterCallback = object : Transition.EpicenterCallback() {
+                override fun onGetEpicenter(transition: Transition) = epicCenterRect
+            }
+
+            setDuration(duration)
+        }
+
+    private fun getDetailFragmentExitTransition(duration: Long = 300L): Transition =
+        TransitionSet().apply {
+            addTransition(Slide(Gravity.BOTTOM))
+            addTransition(Fade().apply {
+                startDelay = duration / 2
+            })
+
+            setDuration(duration)
+        }
+
+    private fun getDetailFragmentReturnTransition(duration: Long = 300L): Transition =
+        SlideFadeOut().apply {
+            setDuration(duration)
+        }
+
+    fun navigateToDetail(view: View, playoneId: String) {
+
+        appCompatActivity?.let {
+            navigator.navigateToFragment(it) {
+                val fragment = PlayoneDetailFragment.newInstance(playoneId)
+                replace(R.id.list_content,
+                        fragment,
+                        PlayoneDetailFragment::class.java.simpleName)
+
+                exitTransition = getListFragmentExitTransition(view)
+                reenterTransition = exitTransition
+
+                fragment.enterTransition = getDetailFragmentExitTransition()
+                fragment.returnTransition = getDetailFragmentReturnTransition()
+
+                allowEnterTransitionOverlap = true
+                allowReturnTransitionOverlap = true
+
+                addToBackStack(null)
+            }
+        }
     }
 
     private fun initViewModel() {
+
         viewModel?.apply {
             fetchListData().observe(this@PlayoneListFragment, Observer {
                 it?.takeIf(List<PlayoneView>::isNotEmpty)?.let {
-                    playoneAdapter.update(mapper.mapToViewModels(it) {
-                        navigateToDetail(it.id)
+                    playoneAdapter.update(mapper.mapToViewModels(it) { view, model ->
+                        (view is View).ifTrue {
+                            navigateToDetail(view as View, model.id)
+                        } otherwise {
+                            throw IllegalArgumentException("Cannot solve the instance as View")
+                        }
                     })
                     playoneAdapter.notifyDataSetChanged()
                 }

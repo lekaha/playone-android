@@ -12,6 +12,8 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_playone_list"
+            android:transitionGroup="false"
+            android:clipChildren="false"
             style="@style/MatchParentSize"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>

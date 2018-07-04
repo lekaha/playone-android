@@ -24,7 +24,7 @@ open class PlayoneMapper(
     @Throws(Exception::class)
     fun mapToViewModels(
         views: List<PlayoneView>,
-        onItemClickedListener: OnItemClickedListener<PlayoneListItemViewModel> = {}
+        onItemClickedListener: OnItemClickedListener<PlayoneListItemViewModel> = { _, _ -> }
     ) = Observable.fromIterable(views)
         .map { modelMapper.map(it, PlayoneListItemViewModel::class.java) }
         .map { wrapInDisplayableItem(it, onItemClickedListener) }
