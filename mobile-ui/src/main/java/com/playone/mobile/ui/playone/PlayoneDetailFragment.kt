@@ -3,7 +3,6 @@ package com.playone.mobile.ui.playone
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.VisibleForTesting
@@ -11,10 +10,6 @@ import android.support.v4.widget.CircularProgressDrawable
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import androidx.core.os.bundleOf
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.playone.mobile.presentation.model.PlayoneView
 import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.BuildConfig
