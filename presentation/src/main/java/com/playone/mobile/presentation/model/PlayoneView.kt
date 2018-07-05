@@ -1,8 +1,9 @@
 package com.playone.mobile.presentation.model
 
+import java.io.Serializable
 import kotlin.properties.Delegates
 
-class PlayoneView {
+class PlayoneView: Serializable {
 
     lateinit var id: String
     lateinit var name: String

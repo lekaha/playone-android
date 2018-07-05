@@ -1,19 +1,19 @@
 package com.playone.mobile.ui.model
 
-import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.presentation.ViewResponse
 import com.playone.mobile.presentation.getPlayoneDetail.GetPlayoneDetailContract
 import com.playone.mobile.presentation.model.PlayoneView
 
 class PlayoneDetailViewModel(
     private var getPlayoneListPresenter: GetPlayoneDetailContract.Presenter
-) : ViewModel(), LifecycleObserver, GetPlayoneDetailContract.View {
+) : BaseViewModel(), GetPlayoneDetailContract.View {
 
-    private val isProgressing: MutableLiveData<Boolean> = MutableLiveData()
-    private val occurredError: MutableLiveData<Throwable> = MutableLiveData()
     private val playoneDetail: MutableLiveData<PlayoneView> = MutableLiveData()
 
     init {
@@ -50,7 +50,19 @@ class PlayoneDetailViewModel(
         getPlayoneListPresenter.getPlayoneDetail(playoneId)
     }
 
+    fun load(playone: PlayoneView) {
+
+        playoneDetail.value = playone
+    }
+
     fun fetchDetailData() = playoneDetail
+
+    fun observePlayoneDetail(owner: LifecycleOwner, observer: Observer<PlayoneView>) {
+
+        (playoneDetail.hasObservers()).ifFalse {
+            playoneDetail.observe(owner, observer)
+        }
+    }
 
     class PlayoneDetailViewModelFactory(
         private var presenter: GetPlayoneDetailContract.Presenter
