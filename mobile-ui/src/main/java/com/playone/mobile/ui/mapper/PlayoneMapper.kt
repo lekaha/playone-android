@@ -36,4 +36,7 @@ open class PlayoneMapper(
         onItemClickedListener: OnItemClickedListener<PlayoneListItemViewModel>
     ) =
         toDisplayableItem(viewEntity, DISPLAY_TYPE_PLAYONE, onItemClickedListener)
+
+    internal fun mapToView(viewModel: PlayoneListItemViewModel): PlayoneView =
+        modelMapper.map(viewModel, PlayoneView::class.java)
 }

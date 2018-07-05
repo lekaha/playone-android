@@ -121,7 +121,7 @@ class PlayoneListFragment : BaseInjectingFragment() {
 
         appCompatActivity?.let {
             navigator.navigateToFragment(it) {
-                val fragment = PlayoneDetailFragment.newInstance(model.id)
+                val fragment = PlayoneDetailFragment.newInstance(mapper.mapToView(model))
                 replace(R.id.list_content,
                         fragment,
                         PlayoneDetailFragment::class.java.simpleName)
