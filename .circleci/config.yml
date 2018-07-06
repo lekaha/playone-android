@@ -50,6 +50,11 @@ jobs:
           environment:
             TERM: dumb
       - run:
+          name: Attach into google-service.json
+          command: echo ${GOOGLE_SERVICE_KEY} | base64 --decode > ${HOME}/workspace/android/playone-android/mobile-ui/google-services.json
+          environment:
+            TERM: dumb
+      - run:
           name: Unit testing
           command: ./gradlew test
           environment:
