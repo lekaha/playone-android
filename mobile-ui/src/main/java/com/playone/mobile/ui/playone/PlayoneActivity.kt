@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.annotation.IntDef
 import android.support.design.bottomappbar.BottomAppBar
+import android.support.design.widget.Snackbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -31,6 +32,7 @@ import com.playone.mobile.ui.view.NavigationDrawerFragment
 import com.playone.mobile.ui.view.TransitionHelper
 import kotlinx.android.synthetic.main.activity_playone.bottomNavigation
 import kotlinx.android.synthetic.main.activity_playone.btnActionCreate
+import kotlinx.android.synthetic.main.activity_playone.rootLayout
 import javax.inject.Inject
 
 class PlayoneActivity : BaseActivity() {
@@ -153,7 +155,10 @@ class PlayoneActivity : BaseActivity() {
                             supportFragmentManager,
                             NavigationDrawerFragment::class.java.name)
                 }
-                R.id.app_bar_fav -> toast("Favorite")
+                R.id.app_bar_fav -> {
+                    Snackbar.make(rootLayout, "Favorite", Snackbar.LENGTH_SHORT)
+                        .show()
+                }
                 R.id.app_bar_search -> {
                     // TODO: Just for developing
                     toast("sendEmailVerification")
