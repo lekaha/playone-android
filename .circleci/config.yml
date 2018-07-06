@@ -31,10 +31,10 @@ jobs:
       - run:
           name: Setup emulator
           command: sdkmanager "system-images;android-22;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-22;default;armeabi-v7a"
-      - run:
-          name: Launch emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
-          background: true
+#      - run:
+#          name: Launch emulator
+#          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
+#          background: true
       - run:
           name: Change permission
           command: |
@@ -42,11 +42,16 @@ jobs:
             sudo chown circleci:circleci /bin/circle-android
           environment:
             TERM: dumb
+#      - run:
+#          name: Wait for emulator
+#          command: |
+#            circle-android wait-for-boot
+#            adb shell input keyevent 82
+#          environment:
+#            TERM: dumb
       - run:
-          name: Wait for emulator
-          command: |
-            circle-android wait-for-boot
-            adb shell input keyevent 82
+          name: Attach into google-service.json
+          command: echo ${GOOGLE_SERVICE_KEY} | base64 --decode > ${HOME}/workspace/mobile-ui/google-services.json
           environment:
             TERM: dumb
       - run:
