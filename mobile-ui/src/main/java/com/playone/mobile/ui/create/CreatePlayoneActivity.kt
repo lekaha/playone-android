@@ -3,7 +3,6 @@ package com.playone.mobile.ui.create
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -18,6 +17,7 @@ import com.playone.mobile.ui.ext.v
 import com.playone.mobile.ui.model.CreatePlayoneViewModel
 import com.playone.mobile.ui.view.TransitionHelper
 import kotlinx.android.synthetic.main.activity_create.create_layout
+import kotlinx.android.synthetic.main.activity_create.progress
 import javax.inject.Inject
 
 class CreatePlayoneActivity : BaseActivity(), TransitionHelper.Listener {
@@ -93,6 +93,16 @@ class CreatePlayoneActivity : BaseActivity(), TransitionHelper.Listener {
                         setResult(Activity.RESULT_OK)
                         finish()
                     }
+                })
+
+                isProgressing.observe(this@CreatePlayoneActivity, Observer {
+                    it?.let { isProgressing ->
+                        progress.visibility = if (isProgressing) View.VISIBLE else View.GONE
+                    } ?: run {
+                        progress.visibility = View.GONE
+                    }
+                    progress.isClickable = false
+                    progress.isEnabled = false
                 })
             }
 
