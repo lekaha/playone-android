@@ -22,6 +22,7 @@ import com.playone.mobile.ui.model.PlayoneParticipatorItemViewModel
 import com.playone.mobile.ui.navigateToUri
 import com.playone.mobile.ui.view.recycler.DisplayableItem
 import kotlinx.android.synthetic.main.fragment_playone_detail.dateTextView
+import kotlinx.android.synthetic.main.fragment_playone_detail.imageButton
 import kotlinx.android.synthetic.main.fragment_playone_detail.iv_team_map
 import kotlinx.android.synthetic.main.fragment_playone_detail.rv_participation
 import kotlinx.android.synthetic.main.fragment_playone_detail.textView2
@@ -131,6 +132,9 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
                 Intent.ACTION_VIEW,
                 gmmIntentUri,
                 "com.google.android.apps.maps")
+        }
+        imageButton.setOnClickListener {
+            // TODO(jieyi): 2018/07/10 adding into the favorite list.
         }
 
         // TODO: here is for demo should fix
