@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -21,6 +22,7 @@
         app:fabCradleDiameter="0dp"
         app:fabCradleVerticalOffset="8dp"
         app:layout_scrollFlags="scroll|enterAlways"
+        app:layout_dodgeInsetEdges="all"
         app:layout_behavior="com.playone.mobile.ui.playone.BottomAppBarBehavior"/>
 
     <android.support.design.widget.FloatingActionButton
