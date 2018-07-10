@@ -3,6 +3,7 @@ package com.playone.mobile.ui.injection.module
 import com.playone.mobile.domain.Authenticator
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.ui.firebase.StandaloneAuthenticator
+import com.playone.mobile.ui.firebase.v1.StandaloneFirebaseStorageV1
 import com.playone.mobile.ui.firebase.v1.StandaloneFirebaseV1
 import dagger.Module
 import dagger.Provides
