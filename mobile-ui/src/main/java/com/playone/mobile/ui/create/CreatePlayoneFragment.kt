@@ -5,9 +5,13 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
+import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.SeekBar
 import androidx.core.os.bundleOf
@@ -15,13 +19,16 @@ import androidx.core.os.postDelayed
 import com.dd.morphingbutton.MorphingButton
 import com.playone.mobile.ext.DEFAULT_STR
 import com.playone.mobile.ext.ifTrue
+import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.ext.otherwise
 import com.playone.mobile.ext.toIntOrZero
 import com.playone.mobile.presentation.createPlayone.CreatePlayoneContract
 import com.playone.mobile.ui.BaseFragment
+import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
+import com.playone.mobile.ui.injection.module.GlideApp
 import com.playone.mobile.ui.model.CreatePlayoneViewModel
-import com.playone.mobile.ui.playone.PlayoneActivity
+import com.playone.mobile.ui.navigateToActivityWithResult
 import com.playone.mobile.ui.view.DatePickerDialogFragment
 import com.playone.mobile.ui.view.TimePickerDialogFragment
 import kotlinx.android.synthetic.main.fragment_playone_create_fields.btn_create
@@ -34,9 +41,13 @@ import kotlinx.android.synthetic.main.fragment_playone_create_fields.floatingAct
 import kotlinx.android.synthetic.main.fragment_playone_create_fields.floatingActionButtonFromCamera
 import kotlinx.android.synthetic.main.fragment_playone_create_fields.floatingActionButtonFromPhotos
 import kotlinx.android.synthetic.main.fragment_playone_create_fields.seekBarLevel
+import kotlinx.android.synthetic.main.fragment_playone_create_fields.teamCoverImage
 import kotlinx.android.synthetic.main.fragment_playone_create_fields.textView5
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
+import javax.inject.Inject
 
 class CreatePlayoneFragment : BaseFragment() {
 
@@ -48,6 +59,9 @@ class CreatePlayoneFragment : BaseFragment() {
         private const val EXTRA_LATITUDE = "EXTRA_LATITUDE"
         private const val EXTRA_LONGITUDE = "EXTRA_LONGITUDE"
         private const val EXTRA_ADDRESS = "EXTRA_ADDRESS"
+
+        private const val ACTION_CAMERA_REQUEST_CODE = 0x202
+        private const val ACTION_ALBUM_REQUEST_CODE = 0x203
 
         fun newInstance(lat: Double, lng: Double, address: String) =
             CreatePlayoneFragment().apply {
@@ -81,6 +95,8 @@ class CreatePlayoneFragment : BaseFragment() {
     private val playoneDate = Date()
     private lateinit var viewModel: CreatePlayoneViewModel
 
+    @Inject lateinit var navigator: Navigator
+
     override fun getLayoutId() = R.layout.fragment_playone_create_fields
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -93,16 +109,38 @@ class CreatePlayoneFragment : BaseFragment() {
                         btn_create.blockTouch()
                     })
 
-                    isPlayoneCreated.observe(this@CreatePlayoneFragment, Observer {
-                        it?.ifTrue {
-                            activity.setResult(Activity.RESULT_OK)
-                            activity.finish()
-                        }
-                    })
+                    observePlayoneCoverImage(this@CreatePlayoneFragment) {
+                        GlideApp.with(this@CreatePlayoneFragment)
+                            .load(it)
+                            .into(teamCoverImage)
+                    }
                 }
 
             lifecycle::addObserver
         }
+    }
+
+    private fun onImageFromCameraWithIntent() {
+
+        navigator.navigateToActivityWithResult<AppCompatActivity>(
+            this,
+            resultCode = ACTION_CAMERA_REQUEST_CODE,
+            action = MediaStore.ACTION_IMAGE_CAPTURE
+        )
+    }
+
+    private fun onImageFromAlbumWithIntent() {
+
+        navigator.navigateToActivityWithResult<AppCompatActivity>(
+            this,
+            resultCode = ACTION_ALBUM_REQUEST_CODE,
+            action = Intent.ACTION_PICK,
+            uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+    }
+
+    private fun onFetchedCoverImage(bitmap: Bitmap) {
+        viewModel.setPlayoneCoverImage(bitmap)
     }
 
     private fun setupViews() {
@@ -117,10 +155,12 @@ class CreatePlayoneFragment : BaseFragment() {
 
         floatingActionButtonFromCamera.setOnClickListener {
             collapseFabMenu()
+            onImageFromCameraWithIntent()
         }
 
         floatingActionButtonFromPhotos.setOnClickListener {
             collapseFabMenu()
+            onImageFromAlbumWithIntent()
         }
 
         eTxtDate.setText(SimpleDateFormat.getDateInstance().format(playoneDate).toString())
@@ -180,7 +220,10 @@ class CreatePlayoneFragment : BaseFragment() {
     }
 
     private fun createPlayone(parameters: CreatePlayoneContract.CreatePlayoneParameters) {
-        viewModel.createPlayone(parameters)
+
+        appCompatActivity?.apply {
+            viewModel.createPlayone(parameters, this.cacheDir)
+        }
     }
 
     private fun showConfirmationDialog() {
@@ -201,13 +244,13 @@ class CreatePlayoneFragment : BaseFragment() {
             AlertDialog.Builder(it)
                 .setTitle("Confirm to Create Playone")
                 .setMessage(parameters.toString())
-                .setPositiveButton("Confirm", { dialog, _ ->
+                .setPositiveButton("Confirm") { dialog, _ ->
                     createPlayone(parameters)
                     dialog.dismiss()
-                })
-                .setNegativeButton("Cancel", { dialog, _ ->
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
                     dialog.dismiss()
-                })
+                }
                 .setCancelable(false)
                 .show()
         }
@@ -241,6 +284,38 @@ class CreatePlayoneFragment : BaseFragment() {
             .translationY(0f)
             .rotation(90f).setListener(FabAnimatorListener(floatingActionButtonFromCamera,
                                                            floatingActionButtonFromPhotos))
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+        appCompatActivity?.let {
+            context ->
+
+            when (requestCode) {
+                ACTION_ALBUM_REQUEST_CODE -> {
+                    (resultCode == Activity.RESULT_OK).ifTrue {
+                        data?.let {
+                            val resolver = context.contentResolver
+                            val bitmap = MediaStore.Images.Media.getBitmap(resolver, it.data)
+                            onFetchedCoverImage(bitmap)
+                        }
+
+                    }
+                }
+                ACTION_CAMERA_REQUEST_CODE -> {
+                    (resultCode == Activity.RESULT_OK).ifTrue {
+                        data?.let {
+                            onFetchedCoverImage(it.extras.get("data") as Bitmap)
+                        }
+                    }
+
+                }
+                else -> {
+                }
+            }
+        }
     }
 
     inner class FabAnimatorListener(private vararg val views: View) : Animator.AnimatorListener {

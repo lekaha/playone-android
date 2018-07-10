@@ -14,7 +14,8 @@ sealed class PlayoneEntity {
         var latitude: Double,
         var limit: Int,
         var level: Int,
-        val host: String
+        val host: String,
+        val coverPath: String
     ) : PlayoneEntity()
 
     data class Entity(
@@ -29,6 +30,7 @@ sealed class PlayoneEntity {
         var limit: Int,
         var level: Int,
         val host: String,
-        val userId: String
+        val userId: String,
+        val coverUrl: String
     ) : PlayoneEntity()
 }

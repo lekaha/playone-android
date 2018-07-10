@@ -51,7 +51,8 @@ class CreatePlayonePresenter(
                                 parameters.location.latitude,
                                 parameters.location.address,
                                 parameters.limitPeople,
-                                parameters.level
+                                parameters.level,
+                                parameters.coverImagePath
                         )
                 )
             }

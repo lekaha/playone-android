@@ -1,9 +1,12 @@
 package com.playone.mobile.ui.model
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import android.graphics.Bitmap
 import android.location.Geocoder
 import android.location.Location
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -23,8 +26,13 @@ import com.playone.mobile.presentation.ViewResponse
 import com.playone.mobile.presentation.createPlayone.CreatePlayoneContract
 import com.playone.mobile.presentation.model.PlayoneView
 import com.playone.mobile.ui.create.AsyncPredictPlaces
+import com.playone.mobile.ui.ext.observe
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class CreatePlayoneViewModel(
     private var presenter: CreatePlayoneContract.Presenter,
@@ -51,6 +59,7 @@ class CreatePlayoneViewModel(
     var currentAddress: MutableLiveData<String> = MutableLiveData()
     var currentNearby: MutableLiveData<List<AutocompletePrediction>> = MutableLiveData()
     var isPlayoneCreated: MutableLiveData<Boolean> = MutableLiveData()
+    var playoneCoverImage: MutableLiveData<Bitmap> = MutableLiveData()
 
     private var map: GoogleMap? = null
     private var cameraZoom: Float = DEFAULT_ZOOM_IN
@@ -194,10 +203,10 @@ class CreatePlayoneViewModel(
             geoDataClient,
             autocompleteFilter,
             // currentLatLng is must existed
-            currentLatLng.value!!, { predictions ->
+            currentLatLng.value!!) { predictions ->
                 currentNearby.value = predictions
             }
-        ).execute(keyword)
+        .execute(keyword)
     }
 
     fun movePlaceByKeyword(keyword: String) {
@@ -206,7 +215,7 @@ class CreatePlayoneViewModel(
             geoDataClient,
             autocompleteFilter,
             // currentLatLng is must existed
-            currentLatLng.value!!, { predictions ->
+            currentLatLng.value!!) { predictions ->
                 predictions.takeIf { it.isNotEmpty() }?.let {
                     geoDataClient.getPlaceById(it[0].placeId).addOnSuccessListener {
 
@@ -220,12 +229,44 @@ class CreatePlayoneViewModel(
 
                 }
             }
-        ).execute(keyword)
+        .execute(keyword)
     }
 
-    fun createPlayone(createPlayoneParameters: CreatePlayoneContract.CreatePlayoneParameters) {
+    fun createPlayone(
+        createPlayoneParameters: CreatePlayoneContract.CreatePlayoneParameters,
+        destination: File
+    ) {
+        createPlayoneParameters.coverImagePath = saveTempImage(destination)
         presenter.create(createPlayoneParameters)
     }
+
+    fun setPlayoneCoverImage(bitmap: Bitmap) {
+        playoneCoverImage.value = bitmap
+    }
+
+    fun observePlayoneCoverImage(owner: LifecycleOwner, body:(v: Bitmap?) -> Unit) {
+        playoneCoverImage.observe(owner, body)
+    }
+
+    private fun writeBitmapToFile(path: String, bitmap: Bitmap) {
+        val fos = FileOutputStream(File(path))
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+    }
+
+    private fun saveTempImage(destination: File) = playoneCoverImage.value?.run {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss",
+                                         Locale.getDefault()).format(Date())
+        val imageFileName = "IMG_" + timeStamp + "_"
+
+        val path = File.createTempFile(
+            imageFileName,
+            ".jpg",
+            destination
+        ).absolutePath
+
+        writeBitmapToFile(path, this)
+        path
+    } ?: ""
 
     fun createPlayone(
         name: String,
@@ -235,7 +276,8 @@ class CreatePlayoneViewModel(
         longtitude: Double,
         address: String,
         limitPeople: Int,
-        level: Int
+        level: Int,
+        destination: File
     ) {
         createPlayone(CreatePlayoneContract.CreatePlayoneParameters(
             name,
@@ -244,7 +286,7 @@ class CreatePlayoneViewModel(
             CreatePlayoneContract.PlayonePlace(longtitude, latitude, address),
             limitPeople,
             level
-        ))
+        ), destination)
     }
 
     class CreatePlayoneViewModelFactory(

@@ -15,4 +15,7 @@ class FirebaseModule {
 
     @Provides
     internal fun provideAuthenticator(): Authenticator = StandaloneAuthenticator()
+
+    @Provides
+    internal fun provideStorage() = StandaloneFirebaseStorageV1()
 }

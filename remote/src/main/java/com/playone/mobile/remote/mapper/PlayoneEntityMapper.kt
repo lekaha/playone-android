@@ -25,7 +25,8 @@ class PlayoneEntityMapper(
             type.limit,
             type.level,
             type.host,
-            type.userId)
+            type.userId,
+            type.cover)
 
     private fun mapFromPlayoneEntityForCreate(type: PlayoneEntity.Create) =
         PlayoneModel(
@@ -37,7 +38,8 @@ class PlayoneEntityMapper(
             _latitude = type.latitude,
             _longitude = type.longitude,
             _level = type.level,
-            _limit = type.limit
+            _limit = type.limit,
+            _cover = type.coverPath
         )
 
     private fun mapFromPlayoneEntity(type: PlayoneEntity.Entity) =
@@ -53,7 +55,8 @@ class PlayoneEntityMapper(
             _level = type.level,
             _limit = type.limit,
             _updated = type.updated,
-            _userId = type.userId
+            _userId = type.userId,
+            _cover = type.coverUrl
         )
 
     override fun mapFromData(type: PlayoneEntity): PlayoneModel  =

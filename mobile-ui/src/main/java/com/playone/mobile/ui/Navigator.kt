@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import com.playone.mobile.ui.ext.start
 import com.playone.mobile.ui.ext.startForResult
-import com.playone.mobile.ui.ext.startWithUri
 import com.playone.mobile.ui.ext.transact
 
 /**
@@ -33,6 +32,13 @@ class Navigator constructor(activityContext: Context) {
 }
 
 inline fun <reified T : AppCompatActivity> Navigator.navigateToActivity(
+    fragment: Fragment,
+    noinline intent: Intent.() -> Unit = {}
+) = fragment.start<T> {
+    intent()
+}
+
+inline fun <reified T : AppCompatActivity> Navigator.navigateToActivity(
     context: AppCompatActivity,
     noinline intent: Intent.() -> Unit = {}
 ) = context.start<T> {
@@ -43,16 +49,22 @@ inline fun <reified T : AppCompatActivity> Navigator.navigateToActivityWithResul
     context: AppCompatActivity,
     resultCode: Int = -1,
     options: Bundle = Bundle(),
+    action: String? = null,
+    uri: Uri? = null,
     noinline intent: Intent.() -> Unit = {}
-) = context.startForResult<T>(resultCode, options) {
+) = context.startForResult<T>(resultCode, options, action, uri) {
     intent()
 }
 
-inline fun <reified T : AppCompatActivity> Navigator.navigateToActivity(
+inline fun <reified T : AppCompatActivity> Navigator.navigateToActivityWithResult(
     fragment: Fragment,
+    resultCode: Int = -1,
+    options: Bundle = Bundle(),
+    action: String? = null,
+    uri: Uri? = null,
     noinline intent: Intent.() -> Unit = {}
-) = (fragment.activity)?.let {
-    (fragment.activity as? AppCompatActivity)?.start<T>(intent)
+) = fragment.startForResult<T>(resultCode, options, action, uri) {
+    intent()
 }
 
 inline fun <reified T : AppCompatActivity> Navigator.navigateToUri(
@@ -61,7 +73,7 @@ inline fun <reified T : AppCompatActivity> Navigator.navigateToUri(
     uri: Uri,
     packageName: String
 ) = (fragment.activity)?.let {
-    (fragment.activity as? AppCompatActivity)?.startWithUri<T>(action, uri) {
+    (fragment.activity as? AppCompatActivity)?.start<T>(action, uri) {
         setPackage(packageName)
     }
 }

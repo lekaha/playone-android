@@ -1,12 +1,16 @@
 package com.playone.mobile.ui.create
 
+import android.app.Activity
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GooglePlayServicesUtil
+import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ui.BaseActivity
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
@@ -83,7 +87,14 @@ class CreatePlayoneActivity : BaseActivity(), TransitionHelper.Listener {
         isGooglePlayServicesAvailable()
 
         ViewModelProviders.of(this, createPlayoneViewModelFactory)
-            .get(CreatePlayoneViewModel::class.java)
+            .get(CreatePlayoneViewModel::class.java).apply {
+                isPlayoneCreated.observe(this@CreatePlayoneActivity, Observer {
+                    it?.ifTrue {
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }
+                })
+            }
 
 
         navigator.navigateToFragment(this) {

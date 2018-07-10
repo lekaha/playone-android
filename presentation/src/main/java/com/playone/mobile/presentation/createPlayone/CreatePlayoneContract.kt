@@ -24,7 +24,8 @@ interface CreatePlayoneContract {
         var playoneDate: Date,
         var location: PlayonePlace,
         var limitPeople: Int,
-        var level: Int
+        var level: Int,
+        var coverImagePath: String = ""
     ) {
         override fun toString() =
             "Name: $name, " +

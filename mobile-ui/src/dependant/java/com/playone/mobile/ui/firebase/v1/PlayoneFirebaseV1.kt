@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.storage.StorageReference
 import com.playone.mobile.ext.DEFAULT_INT
 import com.playone.mobile.ext.isNotNull
 import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
@@ -17,9 +18,13 @@ import com.playone.mobile.ui.firebase.OperationResultCallback
 import com.playone.mobile.ui.firebase.PlayoneCallback
 import com.playone.mobile.ui.firebase.TransactionDataSnapStrategy
 import com.playone.mobile.ui.firebase.ext.addListenerForSingleValueEvent
+import com.playone.mobile.ui.firebase.ext.putBytes
+import java.io.File
 
 class PlayoneFirebaseV1(
-    private val dbReference: DatabaseReference
+    private val dbReference: DatabaseReference,
+    // TODO: Should not be part of database
+    private val storageReference: StorageReference
 ) : PlayoneFirebase() {
 
     override fun obtainPlayoneList(
@@ -215,6 +220,11 @@ class PlayoneFirebaseV1(
             onCancelled = { it.makeCallback(errorCallback) }
         }
 
+    private fun playoneUploadCoverImage(
+        userId: String,
+        playoneId: String
+    ) = storageReference.child(userId).child(playoneId)
+
     private fun <D> playoneDsForUpdate(
         id: String,
         model: PlayoneModel,
@@ -386,10 +396,24 @@ class PlayoneFirebaseV1(
 
         val copyModel = model.copy(_id = id, _host = name, _userId = userId)
 
-        dbReference.updateChildren(hashMapOf("/$GROUPS/$id" to copyModel.toMap()) as Map<String, Any>)
+        // TODO: Should not be part of database
+        val ref = playoneUploadCoverImage(userId, id)
+        ref.putBytes(getFileBytes(model.cover),
+                     scb = {
+                         copyModel.cover = it.downloadUrl.toString()
+                         dbReference.updateChildren(
+                             hashMapOf("/$GROUPS/$id" to copyModel.toMap()) as Map<String, Any>)
+                     },
+                     ecb = {
+                         // TODO: implementation of error
+                     }
+        )
 
         true
     }
+
+    // TODO: Should not be part of database
+    private fun getFileBytes(path: String) = File(path).readBytes()
 
     private fun snapToUser(dataSnapshot: DataSnapshot?) =
         dataSnapshot?.getValue(UserModel::class.java)
