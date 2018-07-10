@@ -238,6 +238,7 @@ ext {
             firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseVersion}",
             firebaseAuth:       "com.google.firebase:firebase-auth:${firebaseVersion}",
             firebaseInvites:    "com.google.firebase:firebase-invites:${firebaseVersion}",
+            firebaseStorage:    "com.google.firebase:firebase-storage:${firebaseVersion}",
             facebook:           "com.facebook.android:facebook-login:${facebookSDKVersion}",
 
             playAuth:           "com.google.android.gms:play-services-auth:${googleApiVersion}",

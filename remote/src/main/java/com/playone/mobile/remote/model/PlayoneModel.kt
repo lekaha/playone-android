@@ -21,7 +21,8 @@ data class PlayoneModel(
     private var _limit: Int = DEFAULT_INT,
     private var _level: Int = DEFAULT_INT,
     private var _host: String = DEFAULT_STR,
-    private var _userId: String = DEFAULT_STR
+    private var _userId: String = DEFAULT_STR,
+    private var _cover: String = DEFAULT_STR
 ) {
 
     var id by NotValidVar(if (_id != DEFAULT_STR) _id else DEFAULT_STR)
@@ -36,6 +37,7 @@ data class PlayoneModel(
     var level by NotValidVar(if (_level != DEFAULT_INT) _level else DEFAULT_INT)
     var host by NotValidVar(if (_host != DEFAULT_STR) _host else DEFAULT_STR)
     var userId by NotValidVar(if (_userId != DEFAULT_STR) _userId else DEFAULT_STR)
+    var cover by NotValidVar(if (_cover != DEFAULT_STR) _cover else DEFAULT_STR)
 
     fun toMap() = hashMapOf("name" to name,
                             "name" to name,
@@ -48,5 +50,6 @@ data class PlayoneModel(
                             "longitude" to longitude,
                             "limit" to limit,
                             "level" to level,
-                            "userId" to userId)
+                            "userId" to userId,
+                            "cover" to cover)
 }

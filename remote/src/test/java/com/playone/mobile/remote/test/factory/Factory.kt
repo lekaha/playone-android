@@ -48,7 +48,8 @@ object Factory {
         limit = DataFactory.randomInt(),
         level = DataFactory.randomInt(),
         host = DataFactory.randomUuid(),
-        userId = DataFactory.randomUuid()
+        userId = DataFactory.randomUuid(),
+        coverUrl = DataFactory.randomUuid()
     )
 
     fun makeUserEntity() = UserEntity().apply {

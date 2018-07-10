@@ -21,6 +21,7 @@ sealed class Playone {
         var level by Delegates.notNull<Int>()
         lateinit var host: String
         lateinit var userId: String
+        lateinit var coverUrl: String
     }
 
     data class CreateParameters(
@@ -32,7 +33,8 @@ sealed class Playone {
         var latitude: Double,
         var address: String,
         var limitPeople: Int,
-        var level: Int
+        var level: Int,
+        val coverImagePath: String
     ) : Playone()
 
     data class UpdateParameters(
@@ -45,7 +47,8 @@ sealed class Playone {
             var latitude: Double,
             var address: String,
             var limitPeople: Int,
-            var level: Int
+            var level: Int,
+            val coverImagePath: String
 
     ) : Playone()
 }

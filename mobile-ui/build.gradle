@@ -150,6 +150,7 @@ dependencies {
     implementation mobileUiDependencies.firebaseCore
     implementation mobileUiDependencies.firebaseDb
     implementation mobileUiDependencies.firebaseMsging
+    implementation mobileUiDependencies.firebaseStorage
 
     releaseImplementation developmentDependencies.chuckNoOp
     debugImplementation developmentDependencies.chuck

@@ -33,7 +33,8 @@ open class PlayoneMapper(
         playone.latitude,
         playone.limitPeople,
         playone.level,
-        playone.myUserId
+        playone.myUserId,
+        playone.coverImagePath
     )
 
     private fun mapToPlayoneEntity(playone: Playone.Detail): PlayoneEntity.Entity =
@@ -49,7 +50,8 @@ open class PlayoneMapper(
             playone.limit,
             playone.level,
             playone.host,
-            playone.userId)
+            playone.userId,
+            playone.coverUrl)
 
     /**
      * Map a [Playone] instance to a [PlayoneEntity] instance.
