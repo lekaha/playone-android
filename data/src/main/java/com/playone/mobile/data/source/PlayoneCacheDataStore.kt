@@ -4,7 +4,6 @@ import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneCache
 import com.playone.mobile.data.repository.PlayoneDataStore
-import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
@@ -57,13 +56,11 @@ open class PlayoneCacheDataStore(private val cache: PlayoneCache) : PlayoneDataS
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean): Completable {
+    override fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean) =
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
-    override fun isFavorite(playoneId: String, userId: String): Single<Boolean> {
+    override fun isFavorite(playoneId: String, userId: String) =
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
 //    override fun clearPlayoneList() = cache.clearPlayoneList()
 //

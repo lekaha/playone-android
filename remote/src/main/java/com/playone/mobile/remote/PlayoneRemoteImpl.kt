@@ -75,7 +75,13 @@ class PlayoneRemoteImpl constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-//    override fun fetchPlayoneList() = service.retrievePlayoneList().mapPlayoneToEntity()
+    override fun toggleFavorite(playoneId: String, userId: String) =
+        service.toggleFavorite(playoneId, userId)
+
+    override fun isFavorited(playoneId: String, userId: String) =
+        service.isFavorite(playoneId, userId)
+
+    //    override fun fetchPlayoneList() = service.retrievePlayoneList().mapPlayoneToEntity()
 //
 //    override fun fetchPlayoneList(userId: String) =
 //        service.retrievePlayoneList(userId).mapPlayoneToEntity()

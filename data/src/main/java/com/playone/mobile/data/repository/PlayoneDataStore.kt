@@ -2,7 +2,6 @@ package com.playone.mobile.data.repository
 
 import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
-import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
@@ -101,7 +100,7 @@ interface PlayoneDataStore {
      * @param userId User ID
      * @param isFavorite true or false
      */
-    fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean): Completable
+    fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean): Single<Boolean>
 
     /**
      * Get the result if favorite the playone

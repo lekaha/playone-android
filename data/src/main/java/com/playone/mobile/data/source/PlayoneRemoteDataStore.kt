@@ -4,7 +4,6 @@ import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneDataStore
 import com.playone.mobile.data.repository.PlayoneRemote
-import io.reactivex.Single
 
 /**
  * Implementation of the [PlayoneDataStore] interface to provide a means of communicating
@@ -41,15 +40,14 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
     fun joinPlayone(userId: String, playoneId: String, message: String) =
             remote.sendJoinPlayoneRequest(userId, playoneId, message)
 
-    fun responseJoinPlayoneRequest(playoneId: String, accept:Boolean, message: String) =
+    fun responseJoinPlayoneRequest(playoneId: String, accept: Boolean, message: String) =
             remote.responseJoinPlayoneRequest(playoneId, accept, message)
 
     override fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean) =
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            remote.toggleFavorite(playoneId, userId)
 
-    override fun isFavorite(playoneId: String, userId: String): Single<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun isFavorite(playoneId: String, userId: String) =
+            remote.isFavorited(playoneId, userId)
 
     fun isJoined(playoneId: String, userId: String) = remote.isJoined(playoneId, userId)
 

@@ -135,6 +135,7 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
         }
         imageButton.setOnClickListener {
             // TODO(jieyi): 2018/07/10 adding into the favorite list.
+
         }
 
         // TODO: here is for demo should fix
@@ -142,6 +143,10 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
 
         playoneAdapter.update(list)
         playoneAdapter.notifyDataSetChanged()
+    }
+
+    private fun changeFavoriteIcon() {
+
     }
 
     @VisibleForTesting

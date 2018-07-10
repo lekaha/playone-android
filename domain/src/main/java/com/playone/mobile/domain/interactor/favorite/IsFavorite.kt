@@ -13,9 +13,9 @@ import com.playone.mobile.domain.repository.PlayoneRepository
  * [com.playone.mobile.domain.repository.PlayoneRepository].
  */
 open class IsFavorite constructor(
-    private val repository: PlayoneRepository,
-    threadExecutor: ThreadExecutor,
-    postExecutionThread: PostExecutionThread
+        private val repository: PlayoneRepository,
+        threadExecutor: ThreadExecutor,
+        postExecutionThread: PostExecutionThread
 ) : SingleUseCase<Boolean, HashMap<String, Any>>(threadExecutor, postExecutionThread) {
 
     companion object {
@@ -24,11 +24,10 @@ open class IsFavorite constructor(
     }
 
     public override fun buildUseCaseObservable(params: HashMap<String, Any>) =
-        params.let {
-            repository.isFavorite(it[PARAMS_PLAYONE_ID] as String, it[PARAMS_USER_ID] as String)
-        }
+            params.let {
+                repository.isFavorite(it[PARAMS_PLAYONE_ID] as String, it[PARAMS_USER_ID] as String)
+            }
 }
-
 
 fun FavoritePlayone.createParameter(playoneId: String, userId: String) =
         HashMap<String, Any>().apply {

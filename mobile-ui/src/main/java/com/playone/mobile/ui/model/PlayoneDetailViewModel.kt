@@ -64,6 +64,12 @@ class PlayoneDetailViewModel(
         }
     }
 
+    fun addToFavorite() {
+    }
+
+    fun removeFromFavorite() {
+    }
+
     class PlayoneDetailViewModelFactory(
         private var presenter: GetPlayoneDetailContract.Presenter
     ) : ViewModelProvider.Factory {
