@@ -9,6 +9,7 @@ typealias FirebaseErrorCallback = (code: Int, msg: String, detail: String) -> Un
 typealias OperationResultCallback = (isSuccess: Boolean) -> Unit
 
 typealias DataSnapStrategy<D> = ((DataSnapshot?) -> D)?
+typealias DataSnapStrategy2 = ((DataSnapshot?, OperationResultCallback) -> Unit)?
 typealias TransactionDataSnapStrategy<D> = ((DatabaseError, Boolean, DataSnapshot?) -> D)?
 
 typealias UploadTaskFailureCallback = (e: Exception) -> Unit

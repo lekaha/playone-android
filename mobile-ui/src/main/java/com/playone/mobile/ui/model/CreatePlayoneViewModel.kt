@@ -3,7 +3,6 @@ package com.playone.mobile.ui.model
 import android.annotation.SuppressLint
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.graphics.Bitmap
@@ -27,6 +26,8 @@ import com.playone.mobile.presentation.createPlayone.CreatePlayoneContract
 import com.playone.mobile.presentation.model.PlayoneView
 import com.playone.mobile.ui.create.AsyncPredictPlaces
 import com.playone.mobile.ui.ext.observe
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -86,6 +87,7 @@ class CreatePlayoneViewModel(
                 occurredError.value = response.error
             }
             ViewResponse.Status.SUCCESS -> {
+                isProgressing.value = false
                 response.data?.let(::onPlayoneCreated)
             }
         }
@@ -232,12 +234,23 @@ class CreatePlayoneViewModel(
         .execute(keyword)
     }
 
+    private val uiContext = kotlinx.coroutines.experimental.android.UI
+    private val bgContext = kotlinx.coroutines.experimental.CommonPool
+    private val job = kotlinx.coroutines.experimental.Job()
+
     fun createPlayone(
         createPlayoneParameters: CreatePlayoneContract.CreatePlayoneParameters,
         destination: File
     ) {
-        createPlayoneParameters.coverImagePath = saveTempImage(destination)
-        presenter.create(createPlayoneParameters)
+        launch(uiContext, parent = job) {
+            isProgressing.value = true
+
+            withContext(bgContext) {
+                createPlayoneParameters.coverImagePath = saveTempImage(destination)
+            }
+
+            presenter.create(createPlayoneParameters)
+        }
     }
 
     fun setPlayoneCoverImage(bitmap: Bitmap) {

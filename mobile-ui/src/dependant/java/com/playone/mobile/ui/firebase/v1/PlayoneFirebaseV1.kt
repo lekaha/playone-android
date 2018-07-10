@@ -13,6 +13,7 @@ import com.playone.mobile.remote.bridge.playone.PlayoneFirebase
 import com.playone.mobile.remote.model.PlayoneModel
 import com.playone.mobile.remote.model.UserModel
 import com.playone.mobile.ui.firebase.DataSnapStrategy
+import com.playone.mobile.ui.firebase.DataSnapStrategy2
 import com.playone.mobile.ui.firebase.FirebaseErrorCallback
 import com.playone.mobile.ui.firebase.OperationResultCallback
 import com.playone.mobile.ui.firebase.PlayoneCallback
@@ -53,8 +54,8 @@ class PlayoneFirebaseV1(
         model: PlayoneModel,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback
-    ) = playoneDsForCreation(userId, callback, errorCallback) {
-        snapToBooleanForPlayoneCreation(it, userId, model)
+    ) = playoneDsForCreation(userId, callback, errorCallback) { ds, cb ->
+        snapToBooleanForPlayoneCreation(ds, userId, model, cb)
     }
 
     override fun updatePlayone(
@@ -107,9 +108,9 @@ class PlayoneFirebaseV1(
         callback: (mode: UserModel?) -> Unit,
         errorCallback: FirebaseErrorCallback
     ) = userDsAction(model.id, {}, errorCallback) {
-        snapToBooleanForUserCreation(it, model, { user ->
+        snapToBooleanForUserCreation(it, model) { user ->
             updateUser(user, null, { callback(user) }, errorCallback)
-        })
+        }
     }
 
     override fun updateUser(
@@ -211,12 +212,16 @@ class PlayoneFirebaseV1(
         userId: String,
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback,
-        strategy: DataSnapStrategy<Boolean>
+        strategy: DataSnapStrategy2
     ) = userSnapshot
         .child(userId)
         .child(NAME)
         .addListenerForSingleValueEvent {
-            onDataChange = { strategy?.apply { callback(this(it)) } }
+            onDataChange = { dataSnapshot ->
+                strategy?.let {
+                    it(dataSnapshot, callback)
+                } ?: callback(true)
+            }
             onCancelled = { it.makeCallback(errorCallback) }
         }
 
@@ -387,7 +392,8 @@ class PlayoneFirebaseV1(
     private fun snapToBooleanForPlayoneCreation(
         dataSnapshot: DataSnapshot?,
         userId: String,
-        model: PlayoneModel
+        model: PlayoneModel,
+        cb: OperationResultCallback
     ) = let {
         val id = playoneSnapshot.push().key
         val name = dataSnapshot?.getValue(String::class.java).orEmpty()
@@ -400,16 +406,20 @@ class PlayoneFirebaseV1(
         val ref = playoneUploadCoverImage(userId, id)
         ref.putBytes(getFileBytes(model.cover),
                      scb = {
+                         // Cover image has been uploaded and fetch its url
                          copyModel.cover = it.downloadUrl.toString()
+
+                         // Update the database
                          dbReference.updateChildren(
                              hashMapOf("/$GROUPS/$id" to copyModel.toMap()) as Map<String, Any>)
+
+                         // callback it is successful
+                         cb(true)
                      },
                      ecb = {
-                         // TODO: implementation of error
+                         cb(false)
                      }
         )
-
-        true
     }
 
     // TODO: Should not be part of database
