@@ -3,7 +3,6 @@ package com.playone.mobile.presentation.createPlayone
 import com.playone.mobile.presentation.BasePresenter
 import com.playone.mobile.presentation.BaseView
 import com.playone.mobile.presentation.model.PlayoneView
-import java.io.File
 import java.util.Date
 
 interface CreatePlayoneContract {

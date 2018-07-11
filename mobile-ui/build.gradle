@@ -102,7 +102,7 @@ kapt {
 
 kotlin {
     experimental {
-        coroutines 'enable'
+        
     }
 }
 
@@ -130,8 +130,6 @@ dependencies {
     implementation mobileUiDependencies.javaxAnnotation
 
     implementation mobileUiDependencies.kotlin
-    implementation mobileUiDependencies.coroutine
-    implementation mobileUiDependencies.coroutineAndroid
     implementation mobileUiDependencies.javaxInject
     implementation mobileUiDependencies.rxKotlin
     implementation mobileUiDependencies.androidAnnotations

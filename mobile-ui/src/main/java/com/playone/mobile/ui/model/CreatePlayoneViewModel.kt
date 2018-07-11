@@ -8,6 +8,9 @@ import android.arch.lifecycle.ViewModelProvider
 import android.graphics.Bitmap
 import android.location.Geocoder
 import android.location.Location
+import android.os.Handler
+import android.os.HandlerThread
+import android.os.Looper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -26,8 +29,6 @@ import com.playone.mobile.presentation.createPlayone.CreatePlayoneContract
 import com.playone.mobile.presentation.model.PlayoneView
 import com.playone.mobile.ui.create.AsyncPredictPlaces
 import com.playone.mobile.ui.ext.observe
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -53,6 +54,8 @@ class CreatePlayoneViewModel(
         const val MAX_ZOOM: Float = 15f
         const val DEFAULT_LOCATION_LAT: Double = 35.6895
         const val DEFAULT_LOCATION_LNG: Double = 139.6917
+
+        const val MSG_FINISH_SAVED_TMP_FILE = 0x11
     }
 
     var locationPermissionGranted: MutableLiveData<Boolean> = MutableLiveData()
@@ -65,6 +68,29 @@ class CreatePlayoneViewModel(
     private var map: GoogleMap? = null
     private var cameraZoom: Float = DEFAULT_ZOOM_IN
 
+    private val bgHandlerThread = HandlerThread("CreatePlayoneViewModelBgThread")
+    private val bgHandler by lazy {
+        bgHandlerThread.start()
+        Handler(bgHandlerThread.looper)
+    }
+
+    private val fgHandler by lazy {
+        Handler(Looper.getMainLooper()) {
+            when (it.what) {
+                MSG_FINISH_SAVED_TMP_FILE -> {
+                    if (it.obj is CreatePlayoneContract.CreatePlayoneParameters) {
+                        val playone = it.obj as CreatePlayoneContract.CreatePlayoneParameters
+                        presenter.create(playone)
+                    }
+                     true
+                }
+                else -> {
+                    true
+                }
+            }
+        }
+    }
+
     init {
         presenter.setView(this)
         currentLatLng.value = LatLng(DEFAULT_LOCATION_LAT, DEFAULT_LOCATION_LNG)
@@ -73,6 +99,11 @@ class CreatePlayoneViewModel(
     override fun setPresenter(presenter: CreatePlayoneContract.Presenter) {
         this.presenter = presenter
         this.presenter.setView(this)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        bgHandlerThread.looper.quit()
     }
 
     override fun onPlayoneCreated(playone: PlayoneView) {
@@ -234,22 +265,15 @@ class CreatePlayoneViewModel(
         .execute(keyword)
     }
 
-    private val uiContext = kotlinx.coroutines.experimental.android.UI
-    private val bgContext = kotlinx.coroutines.experimental.CommonPool
-    private val job = kotlinx.coroutines.experimental.Job()
-
     fun createPlayone(
         createPlayoneParameters: CreatePlayoneContract.CreatePlayoneParameters,
         destination: File
     ) {
-        launch(uiContext, parent = job) {
-            isProgressing.value = true
-
-            withContext(bgContext) {
-                createPlayoneParameters.coverImagePath = saveTempImage(destination)
-            }
-
-            presenter.create(createPlayoneParameters)
+        isProgressing.value = true
+        bgHandler.post {
+            createPlayoneParameters.coverImagePath = saveTempImage(destination)
+            val msg = fgHandler.obtainMessage(MSG_FINISH_SAVED_TMP_FILE, createPlayoneParameters)
+            fgHandler.sendMessage(msg)
         }
     }
 
