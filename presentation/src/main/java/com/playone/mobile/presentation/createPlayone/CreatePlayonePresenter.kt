@@ -33,13 +33,14 @@ class CreatePlayonePresenter(
     }
 
     override fun create(parameters: CreatePlayoneContract.CreatePlayoneParameters) {
+
+        createPlayoneView?.onResponse(ViewResponse.loading())
         currentUser.execute(object : DisposableSingleObserver<User>() {
             override fun onError(e: Throwable) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onSuccess(t: User) {
-                createPlayoneView?.onResponse(ViewResponse.loading())
                 createPlayone.execute(
                         CreateSubscriber(),
                         Playone.CreateParameters(
