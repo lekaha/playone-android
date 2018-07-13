@@ -12,5 +12,6 @@ interface GetPlayoneDetailContract {
 
         fun setView(view: GetPlayoneDetailContract.View)
         fun getPlayoneDetail(playoneId: String)
+        fun setFavorite(playoneId: String, isFavorite: Boolean)
     }
 }

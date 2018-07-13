@@ -1,5 +1,7 @@
 package com.playone.mobile.presentation.getPlayoneDetail
 
+import com.playone.mobile.domain.interactor.favorite.FavoritePlayone
+import com.playone.mobile.domain.interactor.favorite.createParameter
 import com.playone.mobile.domain.interactor.playone.GetCurrentUser
 import com.playone.mobile.domain.interactor.playone.GetPlayoneDetail
 import com.playone.mobile.domain.model.Playone
@@ -12,10 +14,13 @@ import io.reactivex.observers.DisposableSingleObserver
 class GetPlayoneDetailPresenter(
     val getCurrentUser: GetCurrentUser,
     val getPlayoneDetail: GetPlayoneDetail,
+    val favoritePlayone: FavoritePlayone,
     val viewMapper: Mapper<PlayoneView, Playone>
 ) : GetPlayoneDetailContract.Presenter {
 
     var getPlayoneDetailView: GetPlayoneDetailContract.View? = null
+
+    var currentUser: User? = null
 
     override fun setView(view: GetPlayoneDetailContract.View) {
 
@@ -33,16 +38,44 @@ class GetPlayoneDetailPresenter(
     }
 
     override fun getPlayoneDetail(playoneId: String) {
+
         getCurrentUser.execute(object : DisposableSingleObserver<User>() {
             override fun onSuccess(t: User) {
+
+                currentUser = t
                 getPlayoneDetail.execute(GetDetailSubscriber(), Pair(t.id, playoneId))
             }
 
             override fun onError(e: Throwable) {
+
                 getPlayoneDetailView?.onResponse(ViewResponse.error(e))
             }
 
         })
+    }
+
+    override fun setFavorite(playoneId: String, isFavorite: Boolean) {
+
+        currentUser?.apply {
+            favoritePlayone.execute(
+                FavoritePlayoneSubscriber(),
+                favoritePlayone.createParameter(playoneId, id, isFavorite)
+            )
+        } ?: getCurrentUser.execute(object : DisposableSingleObserver<User>() {
+                override fun onSuccess(t: User) {
+
+                    favoritePlayone.execute(
+                        FavoritePlayoneSubscriber(),
+                        favoritePlayone.createParameter(playoneId, t.id, isFavorite)
+                    )
+                }
+
+                override fun onError(e: Throwable) {
+
+                    getPlayoneDetailView?.onResponse(ViewResponse.error(e))
+                }
+
+            })
     }
 
     inner class GetDetailSubscriber : DisposableSingleObserver<Playone>() {
@@ -56,5 +89,19 @@ class GetPlayoneDetailPresenter(
 
             getPlayoneDetailView?.onResponse(ViewResponse.error(e))
         }
+    }
+
+    inner class FavoritePlayoneSubscriber : DisposableSingleObserver<Boolean>() {
+
+        override fun onSuccess(t: Boolean) {
+
+
+        }
+
+        override fun onError(e: Throwable) {
+
+            getPlayoneDetailView?.onResponse(ViewResponse.error(e))
+        }
+
     }
 }

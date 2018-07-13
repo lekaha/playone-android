@@ -203,6 +203,7 @@ dependencies {
 
     implementation mobileUiDependencies.bubbleLayout
     implementation mobileUiDependencies.circularProgressButton
+    implementation mobileUiDependencies.clapfab
 
     // Model Mapper
     implementation developmentDependencies.modelMapper

@@ -116,6 +116,23 @@ interface PlayoneRemote {
      * @param playoneId
      */
     fun isJoined(playoneId: String, userId: String): Single<Boolean>
+
+    /**
+     * Toggling the team into my favorite.
+     *
+     * @param playoneId
+     * @param userId
+     */
+    fun toggleFavorite(playoneId: String, userId: String): Single<Boolean>
+
+    /**
+     * Check the team whether is in my favorite list or not.
+     *
+     * @param playoneId
+     * @param userId
+     */
+    fun isFavorited(playoneId: String, userId: String): Single<Boolean>
+
 //
 //    //region User for Auth
 //    fun fetchUserEntity(userId: String): Single<UserEntity>

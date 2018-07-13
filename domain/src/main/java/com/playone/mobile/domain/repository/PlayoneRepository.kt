@@ -19,7 +19,7 @@ interface PlayoneRepository {
 
     fun joinPlayone(join: Join): Completable
 
-    fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean): Completable
+    fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean): Single<Boolean>
 
     fun isFavorite(playoneId: String, userId: String): Single<Boolean>
 

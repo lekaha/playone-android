@@ -43,6 +43,7 @@ ext {
     modelMapperVersion = '1.1.0'
     facebookSDKVersion = '[4,5)'
     constraintLayoutVersion = '1.0.2'
+    clapfabVersion = '0.2.3'
 
     //Testing
     robolectricVersion = '3.4.2'
@@ -222,6 +223,7 @@ ext {
             daggerProcessor:    "com.google.dagger:dagger-android-processor:${daggerVersion}",
             glassfishAnnotation: "org.glassfish:javax.annotation:${glassfishAnnotationVersion}",
             constriantLayout:   "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            clapfab:            "com.github.jd-alexander:LikeButton:${clapfabVersion}",
 
             // architecture component
             archLifecycleRuntime        : "android.arch.lifecycle:runtime:${archLifecycle}",
