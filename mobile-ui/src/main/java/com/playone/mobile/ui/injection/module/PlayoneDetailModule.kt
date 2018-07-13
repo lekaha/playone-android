@@ -1,6 +1,7 @@
 package com.playone.mobile.ui.injection.module
 
 import android.content.Context
+import com.playone.mobile.domain.interactor.favorite.FavoritePlayone
 import com.playone.mobile.domain.interactor.playone.GetCurrentUser
 import com.playone.mobile.domain.interactor.playone.GetPlayoneDetail
 import com.playone.mobile.domain.model.Playone
@@ -30,10 +31,12 @@ class PlayoneDetailModule {
     internal fun providePlayoneDetailPresenter(
         getCurrentUser: GetCurrentUser,
         getPlayoneDetail: GetPlayoneDetail,
+        favoritePlayone: FavoritePlayone,
         viewMapper: Mapper<PlayoneView, Playone>
     ): GetPlayoneDetailContract.Presenter = GetPlayoneDetailPresenter(
         getCurrentUser,
         getPlayoneDetail,
+        favoritePlayone,
         viewMapper
     )
 

@@ -147,8 +147,10 @@ class PlayoneFirebaseV1(
             true -> {
                 // OPTIMIZE(jieyi): 2018/02/27 `getValue` may be null point, this case it will
                 // be false temporally.
-                isFavorite = it.getValue(Boolean::class.java) ?: false
-                favoriteSnapshot(uId).child(pId).setValue(!isFavorite)
+                if (it.value is HashMap<*, *>) {
+                    isFavorite = (it.value as HashMap<*, *>)[pId] as Boolean? ?: false
+                    favoriteSnapshot(uId).child(pId).setValue(!isFavorite)
+                }
             }
             false -> favoriteSnapshot(uId).child(pId).setValue(true)
             null -> {
@@ -505,7 +507,7 @@ class PlayoneFirebaseV1(
 
     private val memberSnapshot get() = dbReference.child(MEMBERS)
 
-    private fun favoriteSnapshot(userId: String) = playoneSnapshot.child(userId).child(FAVORITES)
+    private fun favoriteSnapshot(userId: String) = userSnapshot.child(userId).child(FAVORITES)
 
     private fun teamSnapshot(userId: String) = userSnapshot.child(userId).child(TEAMS)
 }
