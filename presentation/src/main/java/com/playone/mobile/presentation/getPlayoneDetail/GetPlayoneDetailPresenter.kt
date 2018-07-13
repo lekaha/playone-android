@@ -33,6 +33,7 @@ class GetPlayoneDetailPresenter(
     }
 
     override fun getPlayoneDetail(playoneId: String) {
+
         getCurrentUser.execute(object : DisposableSingleObserver<User>() {
             override fun onSuccess(t: User) {
                 getPlayoneDetail.execute(GetDetailSubscriber(), Pair(t.id, playoneId))
@@ -43,6 +44,11 @@ class GetPlayoneDetailPresenter(
             }
 
         })
+    }
+
+    override fun setFavorite(playoneId: String, isFavorite: Boolean) {
+
+
     }
 
     inner class GetDetailSubscriber : DisposableSingleObserver<Playone>() {

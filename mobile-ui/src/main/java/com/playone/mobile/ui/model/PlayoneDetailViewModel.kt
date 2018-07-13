@@ -5,16 +5,26 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import android.util.Log
 import com.playone.mobile.ext.ifFalse
 import com.playone.mobile.presentation.ViewResponse
 import com.playone.mobile.presentation.getPlayoneDetail.GetPlayoneDetailContract
 import com.playone.mobile.presentation.model.PlayoneView
+import com.playone.mobile.ui.view.ToggleDebouncer
+import java.util.concurrent.TimeUnit
 
 class PlayoneDetailViewModel(
     private var getPlayoneListPresenter: GetPlayoneDetailContract.Presenter
 ) : BaseViewModel(), GetPlayoneDetailContract.View {
 
     private val playoneDetail: MutableLiveData<PlayoneView> = MutableLiveData()
+    private val isFavorited: MutableLiveData<Boolean> = MutableLiveData()
+
+    private val toggleObject = ToggleDebouncer.ToggleObject()
+    private val toggleDebouncer =
+        ToggleDebouncer(toggleObject, 1, TimeUnit.SECONDS) {
+            postFavorite()
+        }
 
     init {
 
@@ -64,10 +74,23 @@ class PlayoneDetailViewModel(
         }
     }
 
-    fun addToFavorite() {
+    fun postFavorite() {
+        Log.d("postFavorite", "isFavorite: ${isFavorited.value ?: false}")
+        playoneDetail.value?.apply {
+            getPlayoneListPresenter.setFavorite(id, isFavorited.value ?: false)
+        }
     }
 
-    fun removeFromFavorite() {
+    fun setFavorite(isFavorite: Boolean) {
+
+        toggleObject.toggle()
+        isFavorited.value = isFavorite
+    }
+
+    override fun onCleared() {
+
+        super.onCleared()
+        toggleDebouncer.stop()
     }
 
     class PlayoneDetailViewModelFactory(

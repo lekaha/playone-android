@@ -10,6 +10,8 @@ import android.support.v4.widget.CircularProgressDrawable
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import androidx.core.os.bundleOf
+import com.like.LikeButton
+import com.like.OnLikeListener
 import com.playone.mobile.presentation.model.PlayoneView
 import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.BuildConfig
@@ -22,7 +24,7 @@ import com.playone.mobile.ui.model.PlayoneParticipatorItemViewModel
 import com.playone.mobile.ui.navigateToUri
 import com.playone.mobile.ui.view.recycler.DisplayableItem
 import kotlinx.android.synthetic.main.fragment_playone_detail.dateTextView
-import kotlinx.android.synthetic.main.fragment_playone_detail.imageButton
+import kotlinx.android.synthetic.main.fragment_playone_detail.favoriteButton
 import kotlinx.android.synthetic.main.fragment_playone_detail.iv_team_map
 import kotlinx.android.synthetic.main.fragment_playone_detail.rv_participation
 import kotlinx.android.synthetic.main.fragment_playone_detail.textView2
@@ -133,9 +135,15 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
                 gmmIntentUri,
                 "com.google.android.apps.maps")
         }
-        imageButton.setOnClickListener {
-            // TODO(jieyi): 2018/07/10 adding into the favorite list.
 
+        favoriteButton.setOnLikeListener {
+            liked = {
+                viewModel?.setFavorite(it.isLiked)
+            }
+
+            unLiked = {
+                viewModel?.setFavorite(it.isLiked)
+            }
         }
 
         // TODO: here is for demo should fix
@@ -179,3 +187,16 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
         }
     }
 }
+
+class OnLikeListenerBuilder {
+    var liked: (LikeButton) -> Unit = {}
+    var unLiked: (LikeButton) -> Unit = {}
+
+    fun build() = object: OnLikeListener {
+        override fun liked(var1: LikeButton) = this@OnLikeListenerBuilder.liked(var1)
+        override fun unLiked(var1: LikeButton) = this@OnLikeListenerBuilder.unLiked(var1)
+    }
+}
+
+fun LikeButton.setOnLikeListener(builder: OnLikeListenerBuilder.() -> Unit) =
+    this.setOnLikeListener(OnLikeListenerBuilder().apply(builder).build())
