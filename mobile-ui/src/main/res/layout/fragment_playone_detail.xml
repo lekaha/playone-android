@@ -86,8 +86,6 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1.5dp"
-        android:layout_marginBottom="@dimen/md_two_unit"
-        android:layout_marginTop="@dimen/md_two_unit"
         android:background="@color/silver"
         app:layout_constraintBottom_toTopOf="@+id/rv_participation"
         app:layout_constraintEnd_toEndOf="parent"
@@ -105,4 +103,16 @@
         tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:listitem="@layout/item_participation"
         tools:orientation="horizontal"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
 </android.support.constraint.ConstraintLayout>

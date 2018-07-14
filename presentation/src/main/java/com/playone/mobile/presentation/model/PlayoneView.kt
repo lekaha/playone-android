@@ -1,5 +1,8 @@
 package com.playone.mobile.presentation.model
 
+import com.playone.mobile.ext.DEFAULT_DOUBLE
+import com.playone.mobile.ext.DEFAULT_INT
+import com.playone.mobile.ext.DEFAULT_LONG
 import java.io.Serializable
 import kotlin.properties.Delegates
 
@@ -8,13 +11,14 @@ class PlayoneView: Serializable {
     lateinit var id: String
     lateinit var name: String
     lateinit var description: String
-    var date by Delegates.notNull<Long>()
-    var updated by Delegates.notNull<Long>()
+    var date: Long = DEFAULT_LONG
+    var updated: Long = DEFAULT_LONG
     lateinit var address: String
-    var longitude by Delegates.notNull<Double>()
-    var latitude by Delegates.notNull<Double>()
-    var limit by Delegates.notNull<Int>()
-    var level by Delegates.notNull<Int>()
+    var longitude: Double = DEFAULT_DOUBLE
+    var latitude: Double = DEFAULT_DOUBLE
+    var limit: Int = DEFAULT_INT
+    var level: Int = DEFAULT_INT
     lateinit var host: String
     lateinit var userId: String
+    var isFavorited: Boolean = false
 }

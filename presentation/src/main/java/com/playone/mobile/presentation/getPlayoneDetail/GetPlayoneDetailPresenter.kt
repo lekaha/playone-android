@@ -39,6 +39,7 @@ class GetPlayoneDetailPresenter(
 
     override fun getPlayoneDetail(playoneId: String) {
 
+        getPlayoneDetailView?.onResponse(ViewResponse.loading())
         getCurrentUser.execute(object : DisposableSingleObserver<User>() {
             override fun onSuccess(t: User) {
 

@@ -12,6 +12,8 @@ import android.view.View
 import androidx.core.os.bundleOf
 import com.like.LikeButton
 import com.like.OnLikeListener
+import com.playone.mobile.ext.ifTrue
+import com.playone.mobile.ext.otherwise
 import com.playone.mobile.presentation.model.PlayoneView
 import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.BuildConfig
@@ -26,6 +28,7 @@ import com.playone.mobile.ui.view.recycler.DisplayableItem
 import kotlinx.android.synthetic.main.fragment_playone_detail.dateTextView
 import kotlinx.android.synthetic.main.fragment_playone_detail.favoriteButton
 import kotlinx.android.synthetic.main.fragment_playone_detail.iv_team_map
+import kotlinx.android.synthetic.main.fragment_playone_detail.progressBar
 import kotlinx.android.synthetic.main.fragment_playone_detail.rv_participation
 import kotlinx.android.synthetic.main.fragment_playone_detail.textView2
 import kotlinx.android.synthetic.main.item_playone_constraint.tv_limit
@@ -78,12 +81,30 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        favoriteButton.isLiked = false
+    }
+
     private fun initViewModel() {
 
         activity?.let {
             viewModel =
                 ViewModelProviders.of(it).get(PlayoneDetailViewModel::class.java).also {
                     it.observePlayoneDetail(this, observer)
+                    it.observeIsProgressing(this) {
+                        it.ifTrue {
+                            progressBar.visibility = View.VISIBLE
+                            iv_team_map.visibility = View.GONE
+                            favoriteButton.visibility = View.GONE
+                        } otherwise  {
+                            progressBar.visibility = View.GONE
+                            iv_team_map.visibility = View.VISIBLE
+                            favoriteButton.visibility = View.VISIBLE
+                        }
+
+                    }
+
                     lifecycle::addObserver
                 }
         }
@@ -136,6 +157,7 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
                 "com.google.android.apps.maps")
         }
 
+        favoriteButton.isLiked = playoneView.isFavorited
         favoriteButton.setOnLikeListener {
             liked = {
                 viewModel?.setFavorite(it.isLiked)

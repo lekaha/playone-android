@@ -62,9 +62,10 @@ class PlayoneModule {
     @Provides
     internal fun provideGetCurrentUser(
         authenticator: Authenticator,
+        playoneRepository: PlayoneRepository,
         threadExecutor: ThreadExecutor,
         postExecutionThread: PostExecutionThread
-    ) = GetCurrentUser(authenticator, threadExecutor, postExecutionThread)
+    ) = GetCurrentUser(authenticator, playoneRepository, threadExecutor, postExecutionThread)
 
     @Provides
     internal fun provideGetPlayoneList(

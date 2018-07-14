@@ -22,6 +22,7 @@ sealed class Playone {
         lateinit var host: String
         lateinit var userId: String
         lateinit var coverUrl: String
+        var isFavorited: Boolean = false
     }
 
     data class CreateParameters(
