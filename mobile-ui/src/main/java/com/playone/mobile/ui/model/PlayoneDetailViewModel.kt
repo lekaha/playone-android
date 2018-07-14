@@ -56,13 +56,12 @@ class PlayoneDetailViewModel(
 
     fun load(playoneId: String) {
 
-        isProgressing.value = true
         getPlayoneListPresenter.getPlayoneDetail(playoneId)
     }
 
     fun load(playone: PlayoneView) {
 
-        playoneDetail.value = playone
+        getPlayoneListPresenter.getPlayoneDetail(playone.id)
     }
 
     fun fetchDetailData() = playoneDetail
@@ -77,7 +76,8 @@ class PlayoneDetailViewModel(
     fun postFavorite() {
         Log.d("postFavorite", "isFavorite: ${isFavorited.value ?: false}")
         playoneDetail.value?.apply {
-            getPlayoneListPresenter.setFavorite(id, isFavorited.value ?: false)
+            val favorited = this@PlayoneDetailViewModel.isFavorited.value
+            getPlayoneListPresenter.setFavorite(id, favorited ?: false)
         }
     }
 

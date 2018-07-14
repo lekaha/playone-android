@@ -75,8 +75,16 @@ class PlayoneDataRepository constructor(
     override fun getUserById(userId: String): Single<User> = TODO()
 
     override fun getPlayoneDetail(userId: String, playoneId: String): Single<Playone> =
+        isFavorite(playoneId, userId).flatMap { favorited ->
             factory.obtainDataStore().fetchPlayoneDetail(userId, playoneId)
-                    .map(playoneMapper::mapFromEntity)
+                .map {
+                    playoneMapper.mapFromEntity(it)
+                        .takeIf { it is Playone.Detail }
+                        .let { it as Playone.Detail }
+                        .apply { isFavorited = favorited }
+                }
+        }
+
 
     override fun getFavoritePlayoneList(userId: String): Single<List<Playone>> =
             factory.obtainDataStore().fetchFavoritePlayoneList(userId).map {

@@ -18,4 +18,5 @@ class UserModel {
     var level by Delegates.notNull<Int>()
     var years by Delegates.notNull<Int>()
     lateinit var teams: HashMap<String, Any>
+    lateinit var favorites: HashMap<String, Boolean>
 }
