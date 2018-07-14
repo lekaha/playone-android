@@ -103,7 +103,7 @@ class CreatePlayoneViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        bgHandlerThread.looper.quit()
+        bgHandlerThread.looper?.quit()
     }
 
     override fun onPlayoneCreated(playone: PlayoneView) {
