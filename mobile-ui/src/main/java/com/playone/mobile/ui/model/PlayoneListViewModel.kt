@@ -50,7 +50,7 @@ class PlayoneListViewModel(private var getPlayoneListPresenter: GetPlayoneListCo
         when(type) {
             PlayoneListViewModel.FilterType.ALL -> getPlayoneListPresenter.getAllPlayoneList()
             PlayoneListViewModel.FilterType.FAVORITE -> getPlayoneListPresenter.getFavoritePlayoneList()
-            PlayoneListViewModel.FilterType.JOIN -> TODO()
+            PlayoneListViewModel.FilterType.JOIN -> getPlayoneListPresenter.getJoinedPlayoneList()
         }
     }
 

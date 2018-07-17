@@ -137,6 +137,9 @@ class PlayoneActivity : BaseActivity() {
                 R.id.nav_favorites -> {
                     onLoadFavoriteList()
                 }
+                R.id.nav_joining -> {
+                    onLoadJoinedList()
+                }
             }
             navigationDrawer.dismiss()
             true
@@ -213,6 +216,10 @@ class PlayoneActivity : BaseActivity() {
 
     private fun onLoadFavoriteList() {
         viewModel.load(PlayoneListViewModel.FilterType.FAVORITE)
+    }
+
+    private fun onLoadJoinedList() {
+        viewModel.load(PlayoneListViewModel.FilterType.JOIN)
     }
 
     private fun onSetupListContentMode() {

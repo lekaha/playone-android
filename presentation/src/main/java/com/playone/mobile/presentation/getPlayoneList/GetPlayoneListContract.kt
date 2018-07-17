@@ -13,5 +13,6 @@ interface GetPlayoneListContract {
         fun setView(view: GetPlayoneListContract.View)
         fun getAllPlayoneList()
         fun getFavoritePlayoneList()
+        fun getJoinedPlayoneList()
     }
 }

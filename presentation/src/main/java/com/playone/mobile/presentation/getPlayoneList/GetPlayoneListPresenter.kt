@@ -2,6 +2,7 @@ package com.playone.mobile.presentation.getPlayoneList
 
 import com.playone.mobile.domain.interactor.playone.GetCurrentUser
 import com.playone.mobile.domain.interactor.playone.GetFavotitePlayoneList
+import com.playone.mobile.domain.interactor.playone.GetJoinedPlayoneList
 import com.playone.mobile.domain.interactor.playone.GetOwnPlayoneList
 import com.playone.mobile.domain.interactor.playone.GetPlayoneList
 import com.playone.mobile.domain.model.Playone
@@ -15,6 +16,7 @@ class GetPlayoneListPresenter(
     val getCurrentUser: GetCurrentUser,
     val getPlayoneList: GetPlayoneList,
     val getFavotitePlayoneList: GetFavotitePlayoneList,
+    val getJoinedPlayoneList: GetJoinedPlayoneList,
     val getOwnPlayoneList: GetOwnPlayoneList,
     val viewMapper: Mapper<PlayoneView, Playone>
 ) : GetPlayoneListContract.Presenter {
@@ -46,6 +48,20 @@ class GetPlayoneListPresenter(
 
             override fun onSuccess(t: User) {
                 getFavotitePlayoneList.execute(GetListSubscriber(), t.id)
+            }
+        })
+    }
+
+    override fun getJoinedPlayoneList() {
+        getCurrentUser.execute(object : DisposableSingleObserver<User>() {
+
+            override fun onError(e: Throwable) {
+
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onSuccess(t: User) {
+                getJoinedPlayoneList.execute(GetListSubscriber(), t.id)
             }
         })
     }
