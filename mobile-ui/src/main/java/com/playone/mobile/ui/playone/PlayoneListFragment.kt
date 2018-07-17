@@ -73,7 +73,6 @@ class PlayoneListFragment : BaseInjectingFragment() {
         // get ViewModel from activity
         activity?.let {
             setupRecycler()
-            viewModel?.load()
         }
     }
 
@@ -163,6 +162,8 @@ class PlayoneListFragment : BaseInjectingFragment() {
                     swipeRefreshLayout.isRefreshing = it
                 }
             })
+
+            (playoneList.value?.isEmpty() != false).ifTrue { load() }
         }
     }
 

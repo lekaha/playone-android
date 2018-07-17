@@ -133,9 +133,13 @@ class PlayoneActivity : BaseActivity() {
         btnActionCreate.setOnClickListener(createActionListener)
 
         navigationDrawer.navigationItemSelectedListener = {
-            when(it) {
-
+            when(it.itemId) {
+                R.id.nav_favorites -> {
+                    onLoadFavoriteList()
+                }
             }
+            navigationDrawer.dismiss()
+            true
         }
     }
 
@@ -158,6 +162,7 @@ class PlayoneActivity : BaseActivity() {
                 R.id.app_bar_fav -> {
                     Snackbar.make(rootLayout, "Favorite", Snackbar.LENGTH_SHORT)
                         .show()
+                    onLoadFavoriteList()
                 }
                 R.id.app_bar_search -> {
                     // TODO: Just for developing
@@ -178,6 +183,19 @@ class PlayoneActivity : BaseActivity() {
         return true
     }
 
+    override fun onBackPressed() {
+
+        if(supportFragmentManager.backStackEntryCount == 0) {
+            if (viewModel.listFilterType.value != PlayoneListViewModel.FilterType.ALL) {
+                viewModel.load()
+            } else {
+                super.onBackPressed()
+            }
+        } else {
+            supportFragmentManager.popBackStack()
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         when (resultCode) {
@@ -191,6 +209,10 @@ class PlayoneActivity : BaseActivity() {
 
         super.onDestroy()
         navigationDrawer.destroy()
+    }
+
+    private fun onLoadFavoriteList() {
+        viewModel.load(PlayoneListViewModel.FilterType.FAVORITE)
     }
 
     private fun onSetupListContentMode() {

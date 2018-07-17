@@ -74,7 +74,7 @@ class PlayoneDetailViewModel(
     }
 
     fun postFavorite() {
-        Log.d("postFavorite", "isFavorite: ${isFavorited.value ?: false}")
+
         playoneDetail.value?.apply {
             val favorited = this@PlayoneDetailViewModel.isFavorited.value
             getPlayoneListPresenter.setFavorite(id, favorited ?: false)

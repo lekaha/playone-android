@@ -1,6 +1,5 @@
 package com.playone.mobile.ui.model
 
-import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
@@ -11,11 +10,10 @@ import com.playone.mobile.presentation.getPlayoneList.GetPlayoneListContract
 import com.playone.mobile.presentation.model.PlayoneView
 
 class PlayoneListViewModel(private var getPlayoneListPresenter: GetPlayoneListContract.Presenter) :
-    ViewModel(), LifecycleObserver, GetPlayoneListContract.View {
+    BaseViewModel(), GetPlayoneListContract.View {
 
-    private val isProgressing: MutableLiveData<Boolean> = MutableLiveData()
-    private val occurredError: MutableLiveData<Throwable> = MutableLiveData()
-    private val playoneList: MutableLiveData<List<PlayoneView>> = MutableLiveData()
+    val playoneList: MutableLiveData<List<PlayoneView>> = MutableLiveData()
+    val listFilterType: MutableLiveData<FilterType> = MutableLiveData()
 
     init {
         getPlayoneListPresenter.setView(this)
@@ -45,10 +43,15 @@ class PlayoneListViewModel(private var getPlayoneListPresenter: GetPlayoneListCo
     fun observeProgress(owner: LifecycleOwner, observer: Observer<Boolean>) =
             isProgressing.observe(owner, observer)
 
-    fun load() {
-
+    fun load(type: FilterType = FilterType.ALL) {
+        playoneList.value
         isProgressing.value = true
-        getPlayoneListPresenter.getAllPlayoneList()
+        listFilterType.value = type
+        when(type) {
+            PlayoneListViewModel.FilterType.ALL -> getPlayoneListPresenter.getAllPlayoneList()
+            PlayoneListViewModel.FilterType.FAVORITE -> getPlayoneListPresenter.getFavoritePlayoneList()
+            PlayoneListViewModel.FilterType.JOIN -> TODO()
+        }
     }
 
     fun fetchListData() = playoneList
@@ -65,5 +68,9 @@ class PlayoneListViewModel(private var getPlayoneListPresenter: GetPlayoneListCo
             throw IllegalArgumentException("Illegal ViewModel class")
         }
 
+    }
+
+    enum class FilterType {
+        ALL, FAVORITE, JOIN
     }
 }

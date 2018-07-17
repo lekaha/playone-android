@@ -1,6 +1,7 @@
 package com.playone.mobile.presentation.getPlayoneList
 
 import com.playone.mobile.domain.interactor.playone.GetCurrentUser
+import com.playone.mobile.domain.interactor.playone.GetFavotitePlayoneList
 import com.playone.mobile.domain.interactor.playone.GetOwnPlayoneList
 import com.playone.mobile.domain.interactor.playone.GetPlayoneList
 import com.playone.mobile.domain.model.Playone
@@ -13,6 +14,7 @@ import io.reactivex.observers.DisposableSingleObserver
 class GetPlayoneListPresenter(
     val getCurrentUser: GetCurrentUser,
     val getPlayoneList: GetPlayoneList,
+    val getFavotitePlayoneList: GetFavotitePlayoneList,
     val getOwnPlayoneList: GetOwnPlayoneList,
     val viewMapper: Mapper<PlayoneView, Playone>
 ) : GetPlayoneListContract.Presenter {
@@ -32,6 +34,20 @@ class GetPlayoneListPresenter(
     override fun stop() {
 
         getPlayoneListView = null
+    }
+
+    override fun getFavoritePlayoneList() {
+        getCurrentUser.execute(object : DisposableSingleObserver<User>() {
+
+            override fun onError(e: Throwable) {
+
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onSuccess(t: User) {
+                getFavotitePlayoneList.execute(GetListSubscriber(), t.id)
+            }
+        })
     }
 
     override fun getAllPlayoneList() {
