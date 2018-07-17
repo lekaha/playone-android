@@ -130,7 +130,7 @@ class PlayoneFirebaseV1(
         val (pId, uId) = playoneId to userId
 
         memberSnapshot.child(pId).child(uId).setValue(isJoin)
-        joinSnapshot.child(uId).child(pId).setValue(isJoin)
+        joinSnapshot(userId).child(uId).child(pId).setValue(isJoin)
         playoneOfUserDsAction<Boolean>(pId, uId, isJoin, callback, errorCallback, null)
     }
 
@@ -198,7 +198,7 @@ class PlayoneFirebaseV1(
         callback: PlayoneCallback<D>,
         errorCallback: FirebaseErrorCallback,
         strategy: DataSnapStrategy<D>
-    ) = joinSnapshot.child(userId).addStrategyListener(callback, errorCallback, strategy)
+    ) = joinSnapshot(userId).addStrategyListener(callback, errorCallback, strategy)
 
     private fun <D> favoriteDsAction(
         userId: String,
@@ -330,7 +330,7 @@ class PlayoneFirebaseV1(
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback,
         strategy: TransactionDataSnapStrategy<D>
-    ) = joinSnapshot
+    ) = joinSnapshot(userId)
         .child(userId)
         .child(playoneId)
         .runTransaction(callback, errorCallback, strategy) { mutableData ->
@@ -503,9 +503,9 @@ class PlayoneFirebaseV1(
 
     private val userSnapshot get() = dbReference.child(USERS)
 
-    private val joinSnapshot get() = dbReference.child(JOINED)
-
     private val memberSnapshot get() = dbReference.child(MEMBERS)
+
+    private fun joinSnapshot(userId: String) = dbReference.child(JOINED).child(userId)
 
     private fun favoriteSnapshot(userId: String) = userSnapshot.child(userId).child(FAVORITES)
 

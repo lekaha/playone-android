@@ -3,6 +3,7 @@ package com.playone.mobile.ui.injection.module
 import android.content.Context
 import com.playone.mobile.domain.interactor.playone.GetCurrentUser
 import com.playone.mobile.domain.interactor.playone.GetFavotitePlayoneList
+import com.playone.mobile.domain.interactor.playone.GetJoinedPlayoneList
 import com.playone.mobile.domain.interactor.playone.GetOwnPlayoneList
 import com.playone.mobile.domain.interactor.playone.GetPlayoneList
 import com.playone.mobile.domain.model.Playone
@@ -32,6 +33,7 @@ class PlayoneListModule {
         getCurrentUser: GetCurrentUser,
         getPlayoneList: GetPlayoneList,
         getFavotitePlayoneList: GetFavotitePlayoneList,
+        getJoinedPlayoneList: GetJoinedPlayoneList,
         getOwnPlayoneList: GetOwnPlayoneList,
         viewMapper: Mapper<PlayoneView, Playone>
     ): GetPlayoneListContract.Presenter =
@@ -39,6 +41,7 @@ class PlayoneListModule {
             getCurrentUser,
             getPlayoneList,
             getFavotitePlayoneList,
+            getJoinedPlayoneList,
             getOwnPlayoneList,
             viewMapper
         )

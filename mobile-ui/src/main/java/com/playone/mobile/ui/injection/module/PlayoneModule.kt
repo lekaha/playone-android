@@ -17,6 +17,7 @@ import com.playone.mobile.domain.interactor.favorite.FavoritePlayone
 import com.playone.mobile.domain.interactor.playone.CreatePlayone
 import com.playone.mobile.domain.interactor.playone.GetCurrentUser
 import com.playone.mobile.domain.interactor.playone.GetFavotitePlayoneList
+import com.playone.mobile.domain.interactor.playone.GetJoinedPlayoneList
 import com.playone.mobile.domain.interactor.playone.GetOwnPlayoneList
 import com.playone.mobile.domain.interactor.playone.GetPlayoneDetail
 import com.playone.mobile.domain.interactor.playone.GetPlayoneList
@@ -81,6 +82,13 @@ class PlayoneModule {
         threadExecutor: ThreadExecutor,
         postExecutionThread: PostExecutionThread
     ) = GetFavotitePlayoneList(playoneRepository, threadExecutor, postExecutionThread)
+
+    @Provides
+    internal fun provideGetJoinedPlayoneList(
+        playoneRepository: PlayoneRepository,
+        threadExecutor: ThreadExecutor,
+        postExecutionThread: PostExecutionThread
+    ) = GetJoinedPlayoneList(playoneRepository, threadExecutor, postExecutionThread)
 
     @Provides
     internal fun provideGetOwnPlayoneList(
