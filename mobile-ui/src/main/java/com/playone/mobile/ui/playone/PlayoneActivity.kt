@@ -7,9 +7,10 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.IntDef
 import android.support.design.bottomappbar.BottomAppBar
 import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -146,10 +147,45 @@ class PlayoneActivity : BaseActivity() {
         }
     }
 
+    private fun onShowFloatActionButton() = btnActionCreate.show()
+
+    private fun onHideFloatActionButton() = btnActionCreate.hide()
+
+    private fun setupSearchView(searchView: SearchView) {
+
+//        searchView.isIconified = false
+//        searchView.setIconifiedByDefault(false)
+
+        searchView.findViewById<SearchView.SearchAutoComplete>(
+            R.id.search_src_text
+        ).apply {
+            setHintTextColor(ContextCompat.getColor(this@PlayoneActivity, R.color.gray))
+            setTextColor(ContextCompat.getColor(this@PlayoneActivity, R.color.white))
+        }
+
+        searchView.setOnCloseListener {
+            onShowFloatActionButton()
+            false
+        }
+
+        searchView.setOnSearchClickListener {
+            onHideFloatActionButton()
+        }
+
+        searchView.setOnQueryTextListener {
+            onTextChange = {
+                viewModel.listFilterString.postValue(it)
+                true
+            }
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_bottom_navigation, menu)
+        val searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
+        setupSearchView(searchView)
         return true
     }
 
@@ -169,8 +205,8 @@ class PlayoneActivity : BaseActivity() {
                 }
                 R.id.app_bar_search -> {
                     // TODO: Just for developing
-                    toast("sendEmailVerification")
-                    loginViewModel.sendEmailVerification()
+//                    toast("sendEmailVerification")
+//                    loginViewModel.sendEmailVerification()
                 }
                 R.id.action_sign_out -> {
                     toast("Signing out")
@@ -224,7 +260,6 @@ class PlayoneActivity : BaseActivity() {
 
     private fun onSetupListContentMode() {
         btnActionCreate.setOnClickListener(createActionListener)
-//        btnActionCreate.
     }
 
     private fun onSetupDetailContentMode() {
@@ -255,3 +290,15 @@ class PlayoneActivity : BaseActivity() {
     }
 
 }
+
+class SearchViewOnQueryTextListenerBuilder {
+    var onTextChange: (String?) -> Boolean = { false }
+    var onTextSubmit: (String?) -> Boolean = { false }
+
+    fun build() = object: SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?) =  onTextSubmit(query)
+        override fun onQueryTextChange(newText: String?) = onTextChange(newText)
+    }
+}
+fun SearchView.setOnQueryTextListener(builder: SearchViewOnQueryTextListenerBuilder.() -> Unit) =
+    setOnQueryTextListener(SearchViewOnQueryTextListenerBuilder().apply(builder).build())

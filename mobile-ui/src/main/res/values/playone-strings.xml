@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="menu_list">List</string>
+    <string name="menu_search">Search</string>
     <string name="menu_sign_out">SignOut</string>
 
     <string name="filter_closing">Distance</string>
