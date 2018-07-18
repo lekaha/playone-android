@@ -8,6 +8,7 @@ import android.support.transition.Fade
 import android.support.transition.Slide
 import android.support.transition.Transition
 import android.support.transition.TransitionSet
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
@@ -20,6 +21,7 @@ import com.playone.mobile.presentation.model.PlayoneView
 import com.playone.mobile.ui.BaseInjectingFragment
 import com.playone.mobile.ui.Navigator
 import com.playone.mobile.ui.R
+import com.playone.mobile.ui.ext.observe
 import com.playone.mobile.ui.mapper.PlayoneMapper
 import com.playone.mobile.ui.model.PlayoneListItemViewModel
 import com.playone.mobile.ui.model.PlayoneListViewModel
@@ -162,6 +164,21 @@ class PlayoneListFragment : BaseInjectingFragment() {
                     swipeRefreshLayout.isRefreshing = it
                 }
             })
+
+            listFilterString.observe(this@PlayoneListFragment) { query ->
+
+                filterByName(query.orEmpty()) {
+                    mapper.mapToViewModels(it) { view, model ->
+                        (view is View).ifTrue {
+                            navigateToDetail(view as View, model)
+                        } otherwise {
+                            throw IllegalArgumentException("Cannot solve the instance as View")
+                        }
+                    }.also {
+                        playoneAdapter.update(it)
+                    }
+                }
+            }
 
             (playoneList.value?.isEmpty() != false).ifTrue { load() }
         }

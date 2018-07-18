@@ -66,7 +66,7 @@ class NavigationDrawerFragment: BottomSheetDialogFragment() {
 
             it[ARGS_USER_INFO]?.let {
                 onSignedIn(it as UserView)
-            } ?: kotlin.run {
+            } ?: run {
                 onUnsignedIn()
             }
         }

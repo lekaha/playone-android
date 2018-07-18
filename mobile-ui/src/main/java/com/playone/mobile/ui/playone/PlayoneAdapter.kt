@@ -11,7 +11,6 @@ class PlayoneAdapter(itemComparator: ItemComparator,
                      binderMap: Map<Int, ViewHolderBinder>):
         RecyclerViewAdapter(itemComparator, factoryMap, binderMap) {
 
-
     class PlayoneItemComparator: ItemComparator {
         override fun areItemsTheSame(itemLeft: DisplayableItem<*>,
                                      itemRight: DisplayableItem<*>) = itemLeft == itemRight

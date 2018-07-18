@@ -5,6 +5,9 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import android.os.Handler
+import android.os.HandlerThread
+import android.os.Looper
 import com.playone.mobile.presentation.ViewResponse
 import com.playone.mobile.presentation.getPlayoneList.GetPlayoneListContract
 import com.playone.mobile.presentation.model.PlayoneView
@@ -14,6 +17,13 @@ class PlayoneListViewModel(private var getPlayoneListPresenter: GetPlayoneListCo
 
     val playoneList: MutableLiveData<List<PlayoneView>> = MutableLiveData()
     val listFilterType: MutableLiveData<FilterType> = MutableLiveData()
+    val listFilterString: MutableLiveData<String> = MutableLiveData()
+
+    private val bgHandlerThread = HandlerThread("PlayoneAdapter")
+    private val bgHandler by lazy {
+        bgHandlerThread.start()
+        Handler(bgHandlerThread.looper)
+    }
 
     init {
         getPlayoneListPresenter.setView(this)
@@ -40,6 +50,11 @@ class PlayoneListViewModel(private var getPlayoneListPresenter: GetPlayoneListCo
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        bgHandlerThread.looper?.quit()
+    }
+
     fun observeProgress(owner: LifecycleOwner, observer: Observer<Boolean>) =
             isProgressing.observe(owner, observer)
 
@@ -55,6 +70,21 @@ class PlayoneListViewModel(private var getPlayoneListPresenter: GetPlayoneListCo
     }
 
     fun fetchListData() = playoneList
+
+    fun filterByName(query: String, post: (List<PlayoneView>) -> Unit) {
+        bgHandler.post {
+            playoneList.value?.filter {
+                it.name.contains(query)
+            }.also {
+                it?.takeIf(List<PlayoneView>::isNotEmpty)?.let {
+                    Handler(Looper.getMainLooper()).post {
+                        post(it)
+                    }
+                }
+            }
+
+        }
+    }
 
     class PlayoneListViewModelFactory(private var presenter: GetPlayoneListContract.Presenter) :
         ViewModelProvider.Factory {
