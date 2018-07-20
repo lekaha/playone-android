@@ -64,8 +64,12 @@ class PlayoneRemoteImpl constructor(
     override fun createUser(userEntity: UserEntity): Single<UserEntity> =
             service.createUser(userEntity.toModel(userMapper)).mapUserToEntity()
 
-    override fun updateUser(userEntity: UserEntity): Single<UserEntity> =
-            service.updateUser(userEntity.toModel(userMapper)).mapUserToEntity()
+    override fun updateUser(userId: String, userEntity: UserEntity): Single<UserEntity> =
+        userEntity.toModel(userMapper).apply {
+            id = userId
+        }.let {
+            service.updateUser(it).mapUserToEntity()
+        }
 
     override fun deleteUser(userEntity: UserEntity): Single<UserEntity> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

@@ -77,7 +77,7 @@ interface PlayoneDataStore {
      *
      * @param userEntity User info
      */
-    fun updateUser(userEntity: UserEntity): Single<UserEntity>
+    fun updateUser(userId: String, userEntity: UserEntity): Single<UserEntity>
 
     /**
      * delete User

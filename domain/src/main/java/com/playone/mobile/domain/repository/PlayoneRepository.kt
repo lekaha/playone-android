@@ -27,6 +27,8 @@ interface PlayoneRepository {
 
     fun createUser(user: User): Single<User>
 
+    fun updateUser(userId: String, user: User): Single<User>
+
     fun getUserByEmail(email: String): Single<User>
 
     fun getUserById(userId: String): Single<User>

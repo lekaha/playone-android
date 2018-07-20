@@ -31,7 +31,8 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
 
     override fun createUser(userEntity: UserEntity) = remote.createUser(userEntity)
 
-    override fun updateUser(userEntity: UserEntity) = remote.updateUser(userEntity)
+    override fun updateUser(userId: String, userEntity: UserEntity) =
+        remote.updateUser(userId, userEntity)
 
     override fun deleteUser(userEntity: UserEntity) = remote.deleteUser(userEntity)
 
