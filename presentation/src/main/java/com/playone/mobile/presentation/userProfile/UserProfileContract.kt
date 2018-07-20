@@ -13,7 +13,7 @@ interface UserProfileContract {
 
     interface Presenter : BasePresenter {
         fun setView(view: View)
-        fun getCurrentUser()
+        fun getUserById(userId: String)
     }
 
 }

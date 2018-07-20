@@ -8,6 +8,10 @@ class UserProfileViewModel(
     private var userProfilePresenter: UserProfileContract.Presenter
 ) : BaseViewModel() {
 
+    fun getCurrentUser() {}
+
+    fun getUserById(userId: String) {}
+
     class UserProfileViewModelFactory(
         private var userProfilePresenter: UserProfileContract.Presenter
     ) : ViewModelProvider.Factory {
