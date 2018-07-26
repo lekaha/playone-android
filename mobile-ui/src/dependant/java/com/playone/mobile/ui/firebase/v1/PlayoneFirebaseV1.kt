@@ -272,7 +272,8 @@ class PlayoneFirebaseV1(
         callback: PlayoneCallback<D>,
         errorCallback: FirebaseErrorCallback,
         strategy: DataSnapStrategy<D>
-    ) = userSnapshot.child(email).addStrategyListener(callback, errorCallback, strategy)
+    ) = userSnapshot.orderByChild(EMAIL)
+        .equalTo(email).addStrategyListener(callback, errorCallback, strategy)
 
     private fun <D> userDsForUpdate(
         model: UserModel,

@@ -7,6 +7,7 @@ import com.playone.mobile.ui.onboarding.SignInFragment
 import com.playone.mobile.ui.onboarding.SignUpFragment
 import com.playone.mobile.ui.playone.PlayoneDetailFragment
 import com.playone.mobile.ui.playone.PlayoneListFragment
+import com.playone.mobile.ui.user.UserProfileFragment
 import com.playone.mobile.ui.view.DatePickerDialogFragment
 import com.playone.mobile.ui.view.TimePickerDialogFragment
 import dagger.Module
@@ -59,4 +60,10 @@ abstract class FragmentBindingModule {
         modules = []
     )
     abstract fun provideTimePickerDialogFragment(): TimePickerDialogFragment
+
+    @ContributesAndroidInjector(
+        modules = [
+            UserProfileModule::class])
+    abstract fun provideUserProfileFragment(): UserProfileFragment
+
 }

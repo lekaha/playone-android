@@ -67,6 +67,12 @@ inline fun <reified T : Any> AppCompatActivity.start(
     }
 }
 
+inline fun <reified T : Any> AppCompatActivity.start(intent: Intent) {
+    checkResolveActivity(intent, packageManager).ifTrue {
+        startActivity(intent)
+    }
+}
+
 inline fun <reified T : Any> AppCompatActivity.start(
     noinline init: Intent.() -> Unit = {}
 ) {

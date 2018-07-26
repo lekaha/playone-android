@@ -2,7 +2,8 @@ package com.playone.mobile.domain.model
 
 import kotlin.properties.Delegates
 
-class User {
+// TODO: use sealed class
+open class User {
 
     lateinit var id: String
     lateinit var name: String
@@ -16,4 +17,8 @@ class User {
     var years by Delegates.notNull<Int>()
     lateinit var teams: HashMap<String, Any>
     var isVerified by Delegates.notNull<Boolean>()
+
+    data class Update(
+        val userId: String
+    ) : User()
 }

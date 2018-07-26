@@ -72,7 +72,7 @@ class GetPlayoneListPresenter(
 
             override fun onError(e: Throwable) {
 
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onSuccess(t: User) {

@@ -44,7 +44,7 @@ open class PlayoneCacheDataStore(private val cache: PlayoneCache) : PlayoneDataS
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun updateUser(userEntity: UserEntity): Single<UserEntity> {
+    override fun updateUser(userId: String, userEntity: UserEntity): Single<UserEntity> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -53,6 +53,10 @@ open class PlayoneCacheDataStore(private val cache: PlayoneCache) : PlayoneDataS
     }
 
     override fun fetchUserByEmail(email: String): Single<UserEntity> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun fetchUserById(userId: String): Single<UserEntity> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

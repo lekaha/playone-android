@@ -45,6 +45,11 @@ inline fun <reified T : AppCompatActivity> Navigator.navigateToActivity(
     intent()
 }
 
+inline fun <reified T : AppCompatActivity> Navigator.navigateToActivity(
+    context: AppCompatActivity,
+    intent: Intent
+) = context.start<T>(intent)
+
 inline fun <reified T : AppCompatActivity> Navigator.navigateToActivityWithResult(
     context: AppCompatActivity,
     resultCode: Int = -1,

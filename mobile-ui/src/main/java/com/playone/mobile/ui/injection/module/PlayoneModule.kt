@@ -21,6 +21,8 @@ import com.playone.mobile.domain.interactor.playone.GetJoinedPlayoneList
 import com.playone.mobile.domain.interactor.playone.GetOwnPlayoneList
 import com.playone.mobile.domain.interactor.playone.GetPlayoneDetail
 import com.playone.mobile.domain.interactor.playone.GetPlayoneList
+import com.playone.mobile.domain.interactor.user.GetUser
+import com.playone.mobile.domain.interactor.user.UpdateUserProfile
 import com.playone.mobile.domain.model.Playone
 import com.playone.mobile.domain.model.User
 import com.playone.mobile.domain.repository.PlayoneRepository
@@ -123,4 +125,18 @@ class PlayoneModule {
         threadExecutor: ThreadExecutor,
         postExecutionThread: PostExecutionThread
     ) = FavoritePlayone(playoneRepository, threadExecutor, postExecutionThread)
+
+    @Provides
+    internal fun provideGetUser(
+        playoneRepository: PlayoneRepository,
+        threadExecutor: ThreadExecutor,
+        postExecutionThread: PostExecutionThread
+    ) = GetUser(playoneRepository, threadExecutor, postExecutionThread)
+
+    @Provides
+    internal fun provideUpdateUserProfile(
+        playoneRepository: PlayoneRepository,
+        threadExecutor: ThreadExecutor,
+        postExecutionThread: PostExecutionThread
+    ) = UpdateUserProfile(playoneRepository, threadExecutor, postExecutionThread)
 }

@@ -42,9 +42,15 @@
         <activity
             android:name="com.playone.mobile.ui.playone.PlayoneActivity"
             android:theme="@style/AppTheme"/>
+
         <activity
             android:name="com.playone.mobile.ui.create.CreatePlayoneActivity"
             android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize"/>
+
+        <activity
+            android:name="com.playone.mobile.ui.user.UserProfileActivity"
+            android:theme="@style/AppThemeActionBar"
             android:windowSoftInputMode="adjustResize"/>
 
         <activity

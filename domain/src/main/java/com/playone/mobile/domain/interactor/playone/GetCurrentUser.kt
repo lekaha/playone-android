@@ -19,5 +19,9 @@ open class GetCurrentUser constructor(
 ) : SingleUseCaseWithoutParams<User>(threadExecutor, postExecutionThread) {
 
     public override fun buildUseCaseObservable(): Single<User> =
-        Single.just(authenticator.getCurrentUser())
+        Single.just(authenticator.getCurrentUser()).flatMap { user ->
+            repository.getUserByEmail(user.email).doAfterSuccess {
+                it.isVerified = user.isVerified
+            }
+        }
 }

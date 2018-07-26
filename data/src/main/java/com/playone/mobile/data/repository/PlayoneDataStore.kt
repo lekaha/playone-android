@@ -77,7 +77,7 @@ interface PlayoneDataStore {
      *
      * @param userEntity User info
      */
-    fun updateUser(userEntity: UserEntity): Single<UserEntity>
+    fun updateUser(userId: String, userEntity: UserEntity): Single<UserEntity>
 
     /**
      * delete User
@@ -92,6 +92,13 @@ interface PlayoneDataStore {
      * @param email
      */
     fun fetchUserByEmail(email: String): Single<UserEntity>
+
+    /**
+     * fetch User info through User ID
+     *
+     * @param userId
+     */
+    fun fetchUserById(userId: String): Single<UserEntity>
 
     /**
      * set favorite playone

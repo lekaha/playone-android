@@ -95,7 +95,7 @@ class PlayoneServiceFirebaseImpl(
 
     override fun retrieveUserModelByEmail(email: String) =
         single<UserModel> { emitter ->
-            playoneFirebase.obtainUser(email,
+            playoneFirebase.obtainUserByEmail(email,
                                        { it?.let(emitter::onSuccess) ?: emitter.errorNullObject() },
                                        emitter::errorHandler)
         }

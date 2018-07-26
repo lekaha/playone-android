@@ -13,7 +13,19 @@ class UserEntityMapper(
 ) : EntityMapper<UserModel, UserEntity> {
 
     override fun mapToData(type: UserModel) =
-        modelMapper.map(type, UserEntity::class.java)
+        UserEntity().apply {
+            id = type.id
+            email = type.email
+            name = type.name
+            pictureURL = type.pictureURL
+//            description = type.description.orEmpty()
+//            grade = type.grade.orEmpty()
+            age = type.age
+            deviceToken = type.deviceToken
+            level = type.level
+            years = type.years
+            teams = type.teams
+        }
 
     override fun mapFromData(type: UserEntity) =
         modelMapper.map(type, UserModel::class.java)

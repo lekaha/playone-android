@@ -13,6 +13,18 @@
         <!--<item name="android:windowExitTransition">@transition/default_window_fade</item>-->
     </style>
 
+    <style name="AppThemeActionBar" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:textColorSecondary">#ffffff</item>
+        <item name="searchViewStyle">@style/Widget.SearchView</item>
+        <!--<item name="android:windowEnterTransition">@transition/default_window_fade</item>-->
+        <!--<item name="android:windowExitTransition">@transition/default_window_fade</item>-->
+    </style>
+
     <style name="BottomNavigationView" parent="Widget.MaterialComponents.BottomAppBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/bottomappbar_height</item>
