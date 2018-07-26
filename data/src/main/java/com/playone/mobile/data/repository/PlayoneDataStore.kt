@@ -94,6 +94,13 @@ interface PlayoneDataStore {
     fun fetchUserByEmail(email: String): Single<UserEntity>
 
     /**
+     * fetch User info through User ID
+     *
+     * @param userId
+     */
+    fun fetchUserById(userId: String): Single<UserEntity>
+
+    /**
      * set favorite playone
      *
      * @param playoneId Playone ID

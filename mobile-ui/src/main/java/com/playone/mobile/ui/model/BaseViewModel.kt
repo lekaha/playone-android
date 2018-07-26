@@ -12,11 +12,14 @@ abstract class BaseViewModel: ViewModel(), LifecycleObserver {
     val isProgressing: MutableLiveData<Boolean> = MutableLiveData()
     val occurredError: MutableLiveData<Throwable> = MutableLiveData()
 
-    fun observeIsProgressing(owner: LifecycleOwner, observer: Observer<Boolean>) =
-        isProgressing.observe(owner, observer)
-
     fun observeIsProgressing(owner: LifecycleOwner, block: (Boolean?) -> Unit) =
         isProgressing.observe(owner, block)
+
+    fun observeoccurredError(owner: LifecycleOwner, block: (Throwable?) -> Unit) =
+        occurredError.observe(owner, block)
+
+    fun <T> observe(liveData: LiveData<T>, owner: LifecycleOwner, observer: (T?) -> Unit) =
+        liveData.observe(owner, observer)
 }
 
 fun <T> LiveData<T>.observe(owner: LifecycleOwner, block: (T?) -> Unit) {

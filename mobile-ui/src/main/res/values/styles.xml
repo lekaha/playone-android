@@ -11,6 +11,28 @@
         <item name="autoCompleteTextViewStyle">@style/Widget.SearchAutoCompleteView</item>
     </style>
 
+    <style name="AppThemeActionBar" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorSecondary">#ffffff</item>
+        <item name="searchViewStyle">@style/Widget.SearchView</item>
+
+        <item name="android:actionBarStyle">@style/ThemeActionBar</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/ThemeActionBar</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="ThemeActionBar"
+           parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:background">@null</item>
+        <!-- Support library compatibility -->
+        <item name="background">@null</item>
+    </style>
+
     <style name="Widget.SearchView" parent="Widget.AppCompat.SearchView">
         <item name="defaultQueryHint">Playone Name</item>
         <item name="searchIcon">@drawable/ic_action_search</item>

@@ -11,6 +11,7 @@ abstract class PlayoneFirebase {
     protected val FAVORITES = "favorites"
     protected val TEAMS = "teams"
     protected val NAME = "name"
+    protected val EMAIL = "email"
     protected val DEVICE_TOKENS = "device_tokens"
 
     abstract fun obtainPlayoneList(

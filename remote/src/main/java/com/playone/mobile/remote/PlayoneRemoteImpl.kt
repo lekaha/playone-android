@@ -75,9 +75,11 @@ class PlayoneRemoteImpl constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun fetchUserByEmail(email: String): Single<UserEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun fetchUserByEmail(email: String) =
+        service.retrieveUserModelByEmail(email).mapUserToEntity()
+
+    override fun fetchUserById(userId: String) =
+        service.retrieveUserModel(userId).mapUserToEntity()
 
     override fun toggleFavorite(playoneId: String, userId: String) =
         service.toggleFavorite(playoneId, userId)

@@ -78,7 +78,8 @@ class PlayoneDataRepository constructor(
     override fun getUserByEmail(email: String): Single<User> =
             factory.getRemoteDataStore().fetchUserByEmail(email).map(userMapper::mapFromEntity)
 
-    override fun getUserById(userId: String): Single<User> = TODO()
+    override fun getUserById(userId: String): Single<User> =
+        factory.getRemoteDataStore().fetchUserById(userId).map(userMapper::mapFromEntity)
 
     override fun getPlayoneDetail(userId: String, playoneId: String): Single<Playone> =
         isFavorite(playoneId, userId).flatMap { favorited ->

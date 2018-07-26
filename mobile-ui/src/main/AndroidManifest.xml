@@ -50,7 +50,7 @@
 
         <activity
             android:name="com.playone.mobile.ui.user.UserProfileActivity"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppThemeActionBar"
             android:windowSoftInputMode="adjustResize"/>
 
         <activity

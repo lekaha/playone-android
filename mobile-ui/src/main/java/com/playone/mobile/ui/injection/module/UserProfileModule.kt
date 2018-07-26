@@ -1,5 +1,6 @@
 package com.playone.mobile.ui.injection.module
 
+import com.playone.mobile.domain.interactor.playone.GetCurrentUser
 import com.playone.mobile.domain.interactor.user.GetUser
 import com.playone.mobile.domain.interactor.user.UpdateUserProfile
 import com.playone.mobile.domain.model.User
@@ -18,10 +19,11 @@ class UserProfileModule {
     @JvmSuppressWildcards
     internal fun provideUserProfilePresenter(
         getUser: GetUser,
+        getCurrentUser: GetCurrentUser,
         updateUserProfile: UpdateUserProfile,
         viewMapper: Mapper<UserView, User>
     ): UserProfileContract.Presenter =
-        UserProfilePresenter(getUser, updateUserProfile, viewMapper)
+        UserProfilePresenter(getUser, getCurrentUser, updateUserProfile, viewMapper)
 
     @Provides
     internal fun provideUserProfileViewModelFactory(presenter: UserProfileContract.Presenter) =

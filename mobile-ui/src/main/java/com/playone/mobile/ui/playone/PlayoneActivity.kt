@@ -28,7 +28,9 @@ import com.playone.mobile.ui.model.PlayoneDetailViewModel
 import com.playone.mobile.ui.model.PlayoneListViewModel
 import com.playone.mobile.ui.model.PlayoneViewModel
 import com.playone.mobile.ui.model.PlayoneViewModel.Companion.CONTENT_MODE_DETAIL
+import com.playone.mobile.ui.navigateToActivity
 import com.playone.mobile.ui.navigateToActivityWithResult
+import com.playone.mobile.ui.user.UserProfileActivity
 import com.playone.mobile.ui.view.NavigationDrawerFragment
 import com.playone.mobile.ui.view.TransitionHelper
 import kotlinx.android.synthetic.main.activity_playone.bottomNavigation
@@ -140,6 +142,12 @@ class PlayoneActivity : BaseActivity() {
                 }
                 R.id.nav_joining -> {
                     onLoadJoinedList()
+                }
+                R.id.nav_your_profile -> {
+                    navigator.navigateToActivity<UserProfileActivity>(
+                        this,
+                        UserProfileActivity.create(this@PlayoneActivity)
+                    )
                 }
             }
             navigationDrawer.dismiss()

@@ -15,22 +15,25 @@ import com.playone.mobile.ui.injection.module.GlideApp
 import com.playone.mobile.ui.model.UserProfileViewModel
 import com.playone.mobile.ui.view.CircleViewOutlineProvider
 import com.playone.mobile.ui.view.supportsLollipop
+import kotlinx.android.synthetic.main.fragment_user_profile.email
+import kotlinx.android.synthetic.main.fragment_user_profile.head
+import kotlinx.android.synthetic.main.fragment_user_profile.name
 
 class UserProfileFragment: BaseFragment() {
 
     companion object {
-        private const val EXTRA_USER_ID = "EXTRA_USER_ID"
+        private const val ARG_USER_ID = "ARG_USER_ID"
 
         fun newInstance(userId: String) =
             UserProfileFragment().apply {
-                arguments = bundleOf(EXTRA_USER_ID to userId)
+                arguments = bundleOf(ARG_USER_ID to userId)
             }
     }
 
     private lateinit var viewModel: UserProfileViewModel
 
     private val profileUserId
-        by lazy { arguments?.takeIf { it.isNotNull() }?.let {it.getString(EXTRA_USER_ID)} ?: "" }
+        by lazy { arguments?.takeIf { it.isNotNull() }?.let {it.getString(ARG_USER_ID)} ?: "" }
 
     override fun getLayoutId() = R.layout.fragment_user_profile
 
@@ -43,6 +46,7 @@ class UserProfileFragment: BaseFragment() {
     }
 
     private fun initViewModel(activity: AppCompatActivity) {
+
         viewModel = ViewModelProviders.of(activity).get(UserProfileViewModel::class.java)
             .apply {
                 profileUserId.isEmpty().ifTrue {
@@ -50,10 +54,18 @@ class UserProfileFragment: BaseFragment() {
                 } otherwise {
                     getUserById(profileUserId)
                 }
+
+                observe(userProfile, this@UserProfileFragment) {
+                    it?.let {
+                        name.text = it.name
+                        email.text = it.email
+                        onBindUserImage(head, it.pictureURL)
+                    }
+                }
             }
     }
 
-    private fun onBindHeadView(imageView: ImageView, imageUrl: String) {
+    private fun onBindUserImage(imageView: ImageView, imageUrl: String) {
 
         supportsLollipop {
             imageView.outlineProvider = CircleViewOutlineProvider()

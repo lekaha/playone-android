@@ -4,6 +4,7 @@ import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneDataStore
 import com.playone.mobile.data.repository.PlayoneRemote
+import io.reactivex.Single
 
 /**
  * Implementation of the [PlayoneDataStore] interface to provide a means of communicating
@@ -37,6 +38,8 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
     override fun deleteUser(userEntity: UserEntity) = remote.deleteUser(userEntity)
 
     override fun fetchUserByEmail(email: String) = remote.fetchUserByEmail(email)
+
+    override fun fetchUserById(userId: String) = remote.fetchUserById(userId)
 
     fun joinPlayone(userId: String, playoneId: String, message: String) =
             remote.sendJoinPlayoneRequest(userId, playoneId, message)

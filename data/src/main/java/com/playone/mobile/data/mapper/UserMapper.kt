@@ -16,7 +16,19 @@ open class UserMapper(
      * Map a [UserEntity] instance to a [User] instance.
      */
     override fun mapFromEntity(type: UserEntity) =
-        modelMapper.map(type, User::class.java)
+        User().apply {
+            id = type.id
+            email = type.email
+            name = type.name
+            pictureURL = type.pictureURL
+//            description = type.description.orEmpty()
+//            grade = type.grade.orEmpty()
+            age = type.age
+            deviceToken = type.deviceToken
+            level = type.level
+            years = type.years
+            teams = type.teams
+        }
 
     /**
      * Map a [User] instance to a [UserEntity] instance.

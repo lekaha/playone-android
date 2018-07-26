@@ -6,5 +6,12 @@ import org.modelmapper.ModelMapper
 
 class UserViewMapper(private val modelMapper: ModelMapper) : Mapper<UserView, User> {
 
-    override fun mapToView(type: User) = modelMapper.map(type, UserView::class.java)
+    override fun mapToView(type: User) =
+        UserView().apply {
+            name = type.name
+            email = type.email
+            pictureURL = type.pictureURL
+            isVerified = type.isVerified
+        }
+//        modelMapper.map(type, UserView::class.java)
 }

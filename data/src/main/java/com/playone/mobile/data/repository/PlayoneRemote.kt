@@ -93,6 +93,13 @@ interface PlayoneRemote {
     fun fetchUserByEmail(email: String): Single<UserEntity>
 
     /**
+     * fetch User info through User Id
+     *
+     * @param userId
+     */
+    fun fetchUserById(userId: String): Single<UserEntity>
+
+    /**
      * send the request to join the playone
      *
      * @param userId
