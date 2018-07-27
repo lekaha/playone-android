@@ -254,6 +254,7 @@ ext {
 
             bubbleLayout:           'com.daasuu:BubbleLayout:1.2.0',
             circularProgressButton: 'com.github.dmytrodanylyk:android-morphing-button:98a4986e56',
+            recyclerViewAnimators:  "jp.wasabeef:recyclerview-animators:2.3.0"
     ]
 
     mobileUiTestDependencies = [

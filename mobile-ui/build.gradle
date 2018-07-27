@@ -204,6 +204,7 @@ dependencies {
     implementation mobileUiDependencies.bubbleLayout
     implementation mobileUiDependencies.circularProgressButton
     implementation mobileUiDependencies.clapfab
+    implementation mobileUiDependencies.recyclerViewAnimators
 
     // Model Mapper
     implementation developmentDependencies.modelMapper
