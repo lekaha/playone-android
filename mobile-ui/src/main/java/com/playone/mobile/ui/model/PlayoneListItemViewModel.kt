@@ -18,6 +18,7 @@ class PlayoneListItemViewModel {
     var level by Delegates.notNull<Int>()
     lateinit var host: String
     lateinit var userId: String
+    lateinit var coverUrl: String
 
     companion object {
         const val DISPLAY_TYPE_PLAYONE: Int = 4
