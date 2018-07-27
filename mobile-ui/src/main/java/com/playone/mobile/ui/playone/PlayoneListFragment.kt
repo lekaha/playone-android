@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
+import android.view.animation.OvershootInterpolator
 import androidx.core.os.bundleOf
 import com.playone.mobile.ext.DEFAULT_STR
 import com.playone.mobile.ext.ifTrue
@@ -28,6 +29,8 @@ import com.playone.mobile.ui.model.PlayoneListViewModel
 import com.playone.mobile.ui.model.PlayoneViewModel
 import com.playone.mobile.ui.view.ExplodeFadeOut
 import com.playone.mobile.ui.view.SlideFadeOut
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.android.synthetic.main.fragment_playone_list.rv_playone_list
 import kotlinx.android.synthetic.main.fragment_playone_list.swipeRefreshLayout
 import javax.inject.Inject
@@ -188,7 +191,10 @@ class PlayoneListFragment : BaseInjectingFragment() {
 
         rv_playone_list.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = playoneAdapter
+            itemAnimator = SlideInUpAnimator(OvershootInterpolator())
+            adapter = AlphaInAnimationAdapter(playoneAdapter).apply {
+                setInterpolator(OvershootInterpolator())
+            }
 
             addOnScrollListener(object: RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
