@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.playone.mobile.ui.R
+import com.playone.mobile.ui.injection.module.GlideApp
 import com.playone.mobile.ui.model.PlayoneListItemViewModel
 import com.playone.mobile.ui.view.recycler.DisplayableItem
 import com.playone.mobile.ui.view.recycler.OnItemClickedListener
 import com.playone.mobile.ui.view.recycler.ViewHolderBinder
 import com.playone.mobile.ui.view.recycler.ViewHolderFactory
 import kotlinx.android.synthetic.main.item_playone_constraint.view.cl_playone
+import kotlinx.android.synthetic.main.item_playone_constraint.view.teamCoverThumb
 import kotlinx.android.synthetic.main.item_playone_constraint.view.tv_distance
 import kotlinx.android.synthetic.main.item_playone_constraint.view.tv_limit
 import kotlinx.android.synthetic.main.item_playone_constraint.view.tv_title
@@ -23,6 +25,7 @@ class PlayoneViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     private val tvName by lazy { view.tv_title }
     private val tvLimit by lazy { view.tv_limit }
     private val tvDistance by lazy { view.tv_distance }
+    private val teamCoverThumb by lazy { view.teamCoverThumb }
 
     fun bind(
         playoneListItem: PlayoneListItemViewModel,
@@ -34,6 +37,12 @@ class PlayoneViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         }
         tvName.text = playoneListItem.name
         tvLimit.text = playoneListItem.totalNumber.toString()
+
+        GlideApp.with(teamCoverThumb)
+            .load(playoneListItem.coverUrl)
+            .placeholder(R.drawable.team_pic)
+            .error(R.drawable.team_pic)
+            .into(teamCoverThumb)
     }
 
     class PlayoneViewHolderFactory constructor(context: Context) : ViewHolderFactory(context) {

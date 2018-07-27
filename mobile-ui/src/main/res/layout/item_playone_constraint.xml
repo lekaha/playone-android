@@ -12,13 +12,30 @@
     tools:context=".playone.PlayoneListFragment"
     tools:ignore="UseCompoundDrawables">
 
+    <android.support.constraint.Guideline
+        android:id="@+id/coverImageLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_begin="@dimen/list_item_height"
+        android:orientation="vertical"/>
+
+    <ImageView
+        android:id="@+id/teamCoverThumb"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/coverImageLine"/>
+
     <ImageView
         android:id="@+id/iv_playone_shirt"
         style="@style/PlayoneIconTShirt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_title"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/coverImageLine"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
@@ -37,7 +54,8 @@
         app:layout_constraintEnd_toStartOf="@+id/tv_distance"
         app:layout_constraintStart_toEndOf="@+id/iv_playone_shirt"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="test_title"/>
+        android:ellipsize="end"
+        tools:text="lonnnnnng_test_title"/>
 
     <TextView
         android:id="@+id/tv_distance"
@@ -46,5 +64,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_title"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="500    KM"/>
+        android:text="500 KM"
+        tools:text="500 KM"/>
 </android.support.constraint.ConstraintLayout>

@@ -21,4 +21,5 @@ class PlayoneView: Serializable {
     lateinit var host: String
     lateinit var userId: String
     var isFavorited: Boolean = false
+    lateinit var coverUrl: String
 }

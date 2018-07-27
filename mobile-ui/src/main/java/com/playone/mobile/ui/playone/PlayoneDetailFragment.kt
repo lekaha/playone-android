@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.fragment_playone_detail.iv_team_map
 import kotlinx.android.synthetic.main.fragment_playone_detail.progressBar
 import kotlinx.android.synthetic.main.fragment_playone_detail.rv_participation
 import kotlinx.android.synthetic.main.fragment_playone_detail.textView2
+import kotlinx.android.synthetic.main.item_playone_constraint.teamCoverThumb
 import kotlinx.android.synthetic.main.item_playone_constraint.tv_limit
 import kotlinx.android.synthetic.main.item_playone_constraint.tv_title
 import java.util.Random
@@ -115,6 +116,12 @@ class PlayoneDetailFragment : BaseInjectingFragment() {
         tv_limit.text = playoneView.limit.toString()
         tv_title.text = playoneView.name
         dateTextView.text = playoneView.date.toString()
+
+        GlideApp.with(teamCoverThumb)
+            .load(playoneView.coverUrl)
+            .placeholder(R.drawable.team_pic)
+            .error(R.drawable.team_pic)
+            .into(teamCoverThumb)
 
         // TODO: for demo
         val text = makeRandomText()
