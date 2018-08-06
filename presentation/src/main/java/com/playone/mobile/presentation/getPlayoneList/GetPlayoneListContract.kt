@@ -11,6 +11,7 @@ interface GetPlayoneListContract {
     interface Presenter : BasePresenter {
 
         fun setView(view: GetPlayoneListContract.View)
+        fun getMyPlayoneList()
         fun getAllPlayoneList()
         fun getFavoritePlayoneList()
         fun getJoinedPlayoneList()

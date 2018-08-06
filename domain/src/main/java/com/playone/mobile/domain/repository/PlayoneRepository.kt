@@ -40,4 +40,6 @@ interface PlayoneRepository {
     fun getJoinedPlayoneList(userId: String): Single<List<Playone>>
 
     fun getPlayoneList(userId: String): Single<List<Playone>>
+
+    fun getOwnPlayoneList(userId: String): Single<List<Playone>>
 }

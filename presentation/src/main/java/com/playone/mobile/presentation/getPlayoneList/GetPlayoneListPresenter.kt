@@ -38,6 +38,20 @@ class GetPlayoneListPresenter(
         getPlayoneListView = null
     }
 
+    override fun getMyPlayoneList() {
+        getCurrentUser.execute(object : DisposableSingleObserver<User>() {
+
+            override fun onError(e: Throwable) {
+
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onSuccess(t: User) {
+                getOwnPlayoneList.execute(GetListSubscriber(), t.id)
+            }
+        })
+    }
+
     override fun getFavoritePlayoneList() {
         getCurrentUser.execute(object : DisposableSingleObserver<User>() {
 

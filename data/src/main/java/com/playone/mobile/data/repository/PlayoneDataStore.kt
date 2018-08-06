@@ -66,6 +66,13 @@ interface PlayoneDataStore {
     fun fetchJoinedPlayoneList(userId: String): Single<List<PlayoneEntity>>
 
     /**
+     * fetch All Playone list by user Id
+     *
+     * @param userId who is fetching
+     */
+    fun fetchAllPlayoneList(userId: String): Single<List<PlayoneEntity>>
+
+    /**
      * create User
      *
      * @param userEntity User info

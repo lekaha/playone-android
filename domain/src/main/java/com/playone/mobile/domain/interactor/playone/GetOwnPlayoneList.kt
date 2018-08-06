@@ -17,5 +17,5 @@ open class GetOwnPlayoneList constructor(
 ) : SingleUseCase<List<Playone>, String>(threadExecutor, postExecutionThread) {
 
     public override fun buildUseCaseObservable(params: String) =
-        repository.getPlayoneList(params)
+        repository.getOwnPlayoneList(params)
 }

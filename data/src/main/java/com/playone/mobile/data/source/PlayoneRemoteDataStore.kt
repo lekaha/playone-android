@@ -4,7 +4,6 @@ import com.playone.mobile.data.model.PlayoneEntity
 import com.playone.mobile.data.model.UserEntity
 import com.playone.mobile.data.repository.PlayoneDataStore
 import com.playone.mobile.data.repository.PlayoneRemote
-import io.reactivex.Single
 
 /**
  * Implementation of the [PlayoneDataStore] interface to provide a means of communicating
@@ -29,6 +28,8 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
     override fun fetchFavoritePlayoneList(userId: String) = remote.fetchFavoritePlayoneList(userId)
 
     override fun fetchJoinedPlayoneList(userId: String) = remote.fetchJoinedPlayoneList(userId)
+
+    override fun fetchAllPlayoneList(userId: String) = remote.fetchAllPlayoneList(userId)
 
     override fun createUser(userEntity: UserEntity) = remote.createUser(userEntity)
 

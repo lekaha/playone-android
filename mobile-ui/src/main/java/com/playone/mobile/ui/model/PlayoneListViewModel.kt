@@ -64,6 +64,7 @@ class PlayoneListViewModel(private var getPlayoneListPresenter: GetPlayoneListCo
         listFilterType.value = type
         when(type) {
             PlayoneListViewModel.FilterType.ALL -> getPlayoneListPresenter.getAllPlayoneList()
+            PlayoneListViewModel.FilterType.MY -> getPlayoneListPresenter.getMyPlayoneList()
             PlayoneListViewModel.FilterType.FAVORITE -> getPlayoneListPresenter.getFavoritePlayoneList()
             PlayoneListViewModel.FilterType.JOIN -> getPlayoneListPresenter.getJoinedPlayoneList()
         }
@@ -101,6 +102,6 @@ class PlayoneListViewModel(private var getPlayoneListPresenter: GetPlayoneListCo
     }
 
     enum class FilterType {
-        ALL, FAVORITE, JOIN
+        ALL, MY, FAVORITE, JOIN
     }
 }
