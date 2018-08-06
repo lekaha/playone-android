@@ -12,16 +12,16 @@ import com.playone.mobile.data.repository.PlayoneRemote
 open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDataStore {
 
     override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
-            remote.createPlayoneDetail(userId, playoneEntity)
+        remote.createPlayoneDetail(userId, playoneEntity)
 
     override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
-            remote.updatePlayoneDetail(userId, playoneEntity)
+        remote.updatePlayoneDetail(userId, playoneEntity)
 
     override fun deletePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
-            remote.deletePlayoneDetail(userId, playoneEntity)
+        remote.deletePlayoneDetail(userId, playoneEntity)
 
     override fun fetchPlayoneDetail(userId: String, playoneId: String) =
-            remote.fetchPlayoneDetail(userId, playoneId)
+        remote.fetchPlayoneDetail(userId, playoneId)
 
     override fun fetchPlayoneList(userId: String) = remote.fetchPlayoneList(userId)
 
@@ -43,35 +43,17 @@ open class PlayoneRemoteDataStore(private val remote: PlayoneRemote) : PlayoneDa
     override fun fetchUserById(userId: String) = remote.fetchUserById(userId)
 
     fun joinPlayone(userId: String, playoneId: String, message: String) =
-            remote.sendJoinPlayoneRequest(userId, playoneId, message)
+        remote.sendJoinPlayoneRequest(userId, playoneId, message)
 
     fun responseJoinPlayoneRequest(playoneId: String, accept: Boolean, message: String) =
-            remote.responseJoinPlayoneRequest(playoneId, accept, message)
+        remote.responseJoinPlayoneRequest(playoneId, accept, message)
 
     override fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean) =
-            remote.toggleFavorite(playoneId, userId)
+        remote.toggleFavorite(playoneId, userId)
 
     override fun isFavorite(playoneId: String, userId: String) =
-            remote.isFavorited(playoneId, userId)
+        remote.isFavorited(playoneId, userId)
 
     fun isJoined(playoneId: String, userId: String) = remote.isJoined(playoneId, userId)
-
-//    //region Firebase Notification
-//    override fun applyNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun acceptedNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun acceptNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun dismissNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun kickNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun quitNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun rejectedNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun rejectNotification(payload: NotificationPayloadEntity) = TODO()
-//    //endregion
 
 }
