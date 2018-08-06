@@ -35,37 +35,37 @@ class PlayoneRemoteImpl constructor(
     }
 
     override fun createPlayoneDetail(userId: String, playoneEntity: PlayoneEntity)
-            : Single<PlayoneEntity> =
-            service.createPlayoneDetail(userId,
-                    playoneEntity.toModel(playoneMapper))
-                    .map(playoneMapper::mapToData)
+        : Single<PlayoneEntity> =
+        service.createPlayoneDetail(userId,
+                playoneEntity.toModel(playoneMapper))
+                .map(playoneMapper::mapToData)
 
     override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity)
-            : Single<PlayoneEntity> =
-            service.updatePlayoneDetail(userId, playoneEntity.toModel(playoneMapper))
-                    .map(playoneMapper::mapToData)
+        : Single<PlayoneEntity> =
+        service.updatePlayoneDetail(userId, playoneEntity.toModel(playoneMapper))
+                .map(playoneMapper::mapToData)
 
     override fun deletePlayoneDetail(userId: String, playoneEntity: PlayoneEntity): Single<PlayoneEntity> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun fetchPlayoneDetail(userId: String, playoneId: String): Single<PlayoneEntity> =
-            service.retrievePlayoneDetail(playoneId).map(playoneMapper::mapToData)
+        service.retrievePlayoneDetail(playoneId).map(playoneMapper::mapToData)
 
     override fun fetchPlayoneList(userId: String): Single<List<PlayoneEntity>> =
-            service.retrievePlayoneList(userId).mapPlayoneToEntity()
+        service.retrievePlayoneList(userId).mapPlayoneToEntity()
 
     override fun fetchFavoritePlayoneList(userId: String): Single<List<PlayoneEntity>> =
-            service.retrieveFavoritePlayoneList(userId).mapPlayoneToEntity()
+        service.retrieveFavoritePlayoneList(userId).mapPlayoneToEntity()
 
     override fun fetchJoinedPlayoneList(userId: String): Single<List<PlayoneEntity>> =
-            service.retrieveJoinedPlayoneList(userId).mapPlayoneToEntity()
+        service.retrieveJoinedPlayoneList(userId).mapPlayoneToEntity()
 
     override fun fetchAllPlayoneList(userId: String): Single<List<PlayoneEntity>> =
-            service.retrievePlayoneList().mapPlayoneToEntity()
+        service.retrievePlayoneList().mapPlayoneToEntity()
 
     override fun createUser(userEntity: UserEntity): Single<UserEntity> =
-            service.createUser(userEntity.toModel(userMapper)).mapUserToEntity()
+        service.createUser(userEntity.toModel(userMapper)).mapUserToEntity()
 
     override fun updateUser(userId: String, userEntity: UserEntity): Single<UserEntity> =
         userEntity.toModel(userMapper).apply {
@@ -89,56 +89,6 @@ class PlayoneRemoteImpl constructor(
 
     override fun isFavorited(playoneId: String, userId: String) =
         service.isFavorite(playoneId, userId)
-
-    //    override fun fetchPlayoneList() = service.retrievePlayoneList().mapPlayoneToEntity()
-//
-//    override fun fetchPlayoneList(userId: String) =
-//        service.retrievePlayoneList(userId).mapPlayoneToEntity()
-//
-//    override fun fetchJoinedPlayoneList(userId: String) =
-//        service.retrieveJoinedPlayoneList(userId).mapPlayoneToEntity()
-//
-//    override fun fetchFavoritePlayoneList(userId: String) =
-//        service.retrieveFavoritePlayoneList(userId).mapPlayoneToEntity()
-//
-//    override fun fetchPlayoneDetail(playoneId: String) =
-//        service.retrievePlayoneDetail(playoneId).map(playoneMapper::mapToData)
-//
-//
-//    override fun updatePlayoneDetail(userId: String, playoneEntity: PlayoneEntity) =
-//        service.updatePlayoneDetail(userId, playoneEntity.toModel(playoneMapper))
-//            .map(playoneMapper::mapToData)
-//
-//    override fun joinTeamAsMember(playoneId: String, userId: String, isJoin: Boolean) =
-//        service.joinTeamAsMember(playoneId, userId, isJoin)
-//
-//    override fun sendJoinRequest(playoneId: String, userId: String, msg: String) =
-//        service.sendJoinRequest(playoneId, userId, msg)
-//
-//    override fun toggleFavorite(playoneId: String, userId: String) =
-//        service.toggleFavorite(playoneId, userId)
-//
-//    override fun isFavorite(playoneId: String, userId: String) =
-//        service.isFavorite(playoneId, userId)
-//
-//    override fun isJoined(playoneId: String, userId: String) =
-//        service.isJoined(playoneId, userId)
-//
-//    override fun applyNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun acceptedNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun acceptNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun dismissNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun kickNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun quitNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun rejectedNotification(payload: NotificationPayloadEntity) = TODO()
-//
-//    override fun rejectNotification(payload: NotificationPayloadEntity) = TODO()
 
     private fun Single<List<PlayoneModel>>.mapPlayoneToEntity() =
         map { it.map(playoneMapper::mapToData) }

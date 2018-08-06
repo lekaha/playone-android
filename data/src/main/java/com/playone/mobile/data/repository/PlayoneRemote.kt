@@ -146,36 +146,5 @@ interface PlayoneRemote {
      * @param userId
      */
     fun isFavorited(playoneId: String, userId: String): Single<Boolean>
-
-//
-//    //region User for Auth
-//    fun fetchUserEntity(userId: String): Single<UserEntity>
-//
-//    fun fetchUserEntityByEmail(email: String): Single<UserEntity>
-//
-//    fun createUser(userEntity: UserEntity): Single<UserEntity>
-//
-//    fun updateUser(userEntity: UserEntity): Single<UserEntity>
-//
-//    fun updateUser(userEntity: UserEntity, lastDeviceToken: String): Single<UserEntity>
-//    //endregion
-
-//    //region Notification
-//    fun applyNotification(payload: NotificationPayloadEntity): Single<Result>
-//
-//    fun acceptedNotification(payload: NotificationPayloadEntity): Single<Result>
-//
-//    fun acceptNotification(payload: NotificationPayloadEntity): Single<Result>
-//
-//    fun dismissNotification(payload: NotificationPayloadEntity): Single<Result>
-//
-//    fun kickNotification(payload: NotificationPayloadEntity): Single<Result>
-//
-//    fun quitNotification(payload: NotificationPayloadEntity): Single<Result>
-//
-//    fun rejectedNotification(payload: NotificationPayloadEntity): Single<Result>
-//
-//    fun rejectNotification(payload: NotificationPayloadEntity): Single<Result>
-    //endregion
 }
 
