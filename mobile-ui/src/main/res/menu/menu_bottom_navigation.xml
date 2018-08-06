@@ -15,12 +15,4 @@
         android:title="@string/menu_search"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/action_sign_out"
-        android:enabled="true"
-        android:icon="@drawable/ic_action_logout"
-        android:title="@string/menu_sign_out"
-        android:showAsAction="never"
-        app:showAsAction="never" />
-
 </menu>

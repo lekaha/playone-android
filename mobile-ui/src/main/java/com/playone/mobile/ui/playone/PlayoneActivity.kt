@@ -14,7 +14,6 @@ import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.core.widget.toast
 import com.google.firebase.auth.FirebaseAuth
 import com.playone.mobile.ext.ifTrue
 import com.playone.mobile.ui.BaseActivity
@@ -149,6 +148,10 @@ class PlayoneActivity : BaseActivity() {
                         UserProfileActivity.create(this@PlayoneActivity)
                     )
                 }
+                R.id.nav_logout -> {
+                    FirebaseAuth.getInstance().signOut()
+                    finish()
+                }
             }
             navigationDrawer.dismiss()
             true
@@ -210,16 +213,6 @@ class PlayoneActivity : BaseActivity() {
                     Snackbar.make(rootLayout, "Favorite", Snackbar.LENGTH_SHORT)
                         .show()
                     onLoadFavoriteList()
-                }
-                R.id.app_bar_search -> {
-                    // TODO: Just for developing
-//                    toast("sendEmailVerification")
-//                    loginViewModel.sendEmailVerification()
-                }
-                R.id.action_sign_out -> {
-                    toast("Signing out")
-                    FirebaseAuth.getInstance().signOut()
-                    finish()
                 }
                 else -> {
                     return false
