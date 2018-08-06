@@ -57,26 +57,26 @@ class PlayoneDataRepository constructor(
     }
 
     override fun favoritePlayone(playoneId: String, userId: String, isFavorite: Boolean) =
-            factory.obtainDataStore().favoritePlayone(playoneId, userId, isFavorite)
+        factory.obtainDataStore().favoritePlayone(playoneId, userId, isFavorite)
 
     override fun isFavorite(playoneId: String, userId: String) =
-            factory.obtainDataStore().isFavorite(playoneId, userId)
+        factory.obtainDataStore().isFavorite(playoneId, userId)
 
     override fun isJoined(playoneId: String, userId: String) =
-            factory.getRemoteDataStore().isJoined(playoneId, userId)
+        factory.getRemoteDataStore().isJoined(playoneId, userId)
 
     override fun createUser(user: User): Single<User> =
-            factory.getRemoteDataStore().createUser(
-                userMapper.mapToEntity(user)).map(userMapper::mapFromEntity)
+        factory.getRemoteDataStore().createUser(
+            userMapper.mapToEntity(user)).map(userMapper::mapFromEntity)
 
     override fun updateUser(userId: String, user: User): Single<User> =
-            factory.obtainDataStore().updateUser(
-                userId,
-                userMapper.mapToEntity(user)
-            ).map(userMapper::mapFromEntity)
+        factory.obtainDataStore().updateUser(
+            userId,
+            userMapper.mapToEntity(user)
+        ).map(userMapper::mapFromEntity)
 
     override fun getUserByEmail(email: String): Single<User> =
-            factory.getRemoteDataStore().fetchUserByEmail(email).map(userMapper::mapFromEntity)
+        factory.getRemoteDataStore().fetchUserByEmail(email).map(userMapper::mapFromEntity)
 
     override fun getUserById(userId: String): Single<User> =
         factory.getRemoteDataStore().fetchUserById(userId).map(userMapper::mapFromEntity)
@@ -94,19 +94,24 @@ class PlayoneDataRepository constructor(
 
 
     override fun getFavoritePlayoneList(userId: String): Single<List<Playone>> =
-            factory.obtainDataStore().fetchFavoritePlayoneList(userId).map {
-                it.map(playoneMapper::mapFromEntity)
-            }
+        factory.obtainDataStore().fetchFavoritePlayoneList(userId).map {
+            it.map(playoneMapper::mapFromEntity)
+        }
 
     override fun getJoinedPlayoneList(userId: String): Single<List<Playone>> =
-            factory.obtainDataStore().fetchJoinedPlayoneList(userId).map {
-                it.map(playoneMapper::mapFromEntity)
-            }
+        factory.obtainDataStore().fetchJoinedPlayoneList(userId).map {
+            it.map(playoneMapper::mapFromEntity)
+        }
 
     override fun getPlayoneList(userId: String): Single<List<Playone>> =
-            factory.obtainDataStore().fetchPlayoneList(userId).map {
-                it.map(playoneMapper::mapFromEntity)
-            }
+        factory.obtainDataStore().fetchAllPlayoneList(userId).map {
+            it.map(playoneMapper::mapFromEntity)
+        }
+
+    override fun getOwnPlayoneList(userId: String): Single<List<Playone>> =
+        factory.obtainDataStore().fetchPlayoneList(userId).map {
+            it.map(playoneMapper::mapFromEntity)
+        }
 
 //    fun clearPlayoneList() = factory.getCacheDataStore().clearPlayoneList()
 //

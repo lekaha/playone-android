@@ -53,13 +53,16 @@ class PlayoneRemoteImpl constructor(
             service.retrievePlayoneDetail(playoneId).map(playoneMapper::mapToData)
 
     override fun fetchPlayoneList(userId: String): Single<List<PlayoneEntity>> =
-            service.retrievePlayoneList().mapPlayoneToEntity()
+            service.retrievePlayoneList(userId).mapPlayoneToEntity()
 
     override fun fetchFavoritePlayoneList(userId: String): Single<List<PlayoneEntity>> =
             service.retrieveFavoritePlayoneList(userId).mapPlayoneToEntity()
 
     override fun fetchJoinedPlayoneList(userId: String): Single<List<PlayoneEntity>> =
-            service.retrievePlayoneList(userId).mapPlayoneToEntity()
+            service.retrieveJoinedPlayoneList(userId).mapPlayoneToEntity()
+
+    override fun fetchAllPlayoneList(userId: String): Single<List<PlayoneEntity>> =
+            service.retrievePlayoneList().mapPlayoneToEntity()
 
     override fun createUser(userEntity: UserEntity): Single<UserEntity> =
             service.createUser(userEntity.toModel(userMapper)).mapUserToEntity()

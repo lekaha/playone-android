@@ -136,6 +136,9 @@ class PlayoneActivity : BaseActivity() {
 
         navigationDrawer.navigationItemSelectedListener = {
             when(it.itemId) {
+                R.id.nav_my_playone -> {
+                    onLoadMyList()
+                }
                 R.id.nav_favorites -> {
                     onLoadFavoriteList()
                 }
@@ -249,6 +252,10 @@ class PlayoneActivity : BaseActivity() {
 
         super.onDestroy()
         navigationDrawer.destroy()
+    }
+
+    private fun onLoadMyList() {
+        viewModel.load(PlayoneListViewModel.FilterType.MY)
     }
 
     private fun onLoadFavoriteList() {

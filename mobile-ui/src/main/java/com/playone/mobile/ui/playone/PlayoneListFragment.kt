@@ -8,7 +8,6 @@ import android.support.transition.Fade
 import android.support.transition.Slide
 import android.support.transition.Transition
 import android.support.transition.TransitionSet
-import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
