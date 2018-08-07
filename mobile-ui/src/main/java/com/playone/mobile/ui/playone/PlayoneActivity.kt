@@ -5,6 +5,7 @@ import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.graphics.drawable.Animatable
 import android.os.Build
 import android.os.Bundle
 import android.support.design.bottomappbar.BottomAppBar
@@ -281,13 +282,14 @@ class PlayoneActivity : BaseActivity() {
                 bottomNavigation.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
                 bottomNavigation.isEnabled = false
                 bottomNavigation.measuredHeight.toFloat()
-            }
-            else {
+            } else {
                 onSetupListContentMode()
                 bottomNavigation.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
                 bottomNavigation.isEnabled = true
                 0f
             }
+
+        onChangeFabIcon(mode)
 
         val animator =
             ObjectAnimator.ofFloat(bottomNavigation,
@@ -295,6 +297,21 @@ class PlayoneActivity : BaseActivity() {
                                    transitionY)
         animator.duration = 300
         animator.start()
+    }
+
+    fun onChangeFabIcon(mode: Int) {
+        if (mode == CONTENT_MODE_DETAIL) {
+            btnActionCreate.isSelected = true
+            btnActionCreate.setImageResource(R.drawable.ic_action_join)
+        } else {
+            btnActionCreate.isSelected = false
+            btnActionCreate.setImageResource(R.drawable.ic_action_create)
+        }
+
+        if (btnActionCreate.drawable is Animatable) {
+            // TODO: fix the animation
+//            (btnActionCreate.drawable as Animatable).start()
+        }
     }
 
 }
