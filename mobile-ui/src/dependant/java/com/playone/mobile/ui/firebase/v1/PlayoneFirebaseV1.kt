@@ -238,25 +238,27 @@ class PlayoneFirebaseV1(
         callback: OperationResultCallback,
         errorCallback: FirebaseErrorCallback,
         strategy: TransactionDataSnapStrategy<D>
-    ) = playoneSnapshot.child(id).runTransaction(callback, errorCallback, strategy) { mutableData ->
-        val pm = mutableData?.getValue(PlayoneModel::class.java)
+    ) = playoneSnapshot.child(id).runTransaction(callback, errorCallback, strategy) {
+        it?.let { mutableData ->
+            val pm = mutableData.getValue(PlayoneModel::class.java)
 
-        pm?.let {
-            // Assign data from the parameter model to the remote playone model.
-            model.apply {
-                it.name = name
-                it.description = description
-                it.address = address
-                it.date = date
-                it.updated = updated
-                it.latitude = latitude
-                it.longitude = longitude
-                it.limit = limit
-                it.level = level
-            }
+            pm?.let {
+                // Assign data from the parameter model to the remote playone model.
+                model.apply {
+                    it.name = name
+                    it.description = description
+                    it.address = address
+                    it.date = date
+                    it.updated = updated
+                    it.latitude = latitude
+                    it.longitude = longitude
+                    it.limit = limit
+                    it.level = level
+                }
 
-            mutableData.apply { value = it }
-        }?.let(Transaction::success) ?: Transaction.success(mutableData)
+                mutableData.apply { value = it }
+            }?.let(Transaction::success) ?: Transaction.success(mutableData)
+        } ?: Transaction.abort()
     }
 
     private fun <D> userDsAction(
@@ -284,18 +286,20 @@ class PlayoneFirebaseV1(
     ) = userSnapshot
         .child(model.id)
         .runTransaction(object : Transaction.Handler {
-            override fun onComplete(de: DatabaseError, p1: Boolean, ds: DataSnapshot?) {
-                if (!p1) {
-                    de.makeCallback(errorCallback)
-                }
-                else {
-                    strategy?.invoke(de, p1, ds)
-                    callback(model)
+            override fun onComplete(de: DatabaseError?, p1: Boolean, ds: DataSnapshot?) {
+                de?.let {
+                    if (!p1) {
+                        it.makeCallback(errorCallback)
+                    }
+                    else {
+                        strategy?.invoke(it, p1, ds)
+                        callback(model)
+                    }
                 }
             }
 
-            override fun doTransaction(mutableData: MutableData?): Transaction.Result {
-                val um = mutableData?.getValue(UserModel::class.java)
+            override fun doTransaction(mutableData: MutableData): Transaction.Result {
+                val um = mutableData.getValue(UserModel::class.java)
 
                 return um?.let {
                     model.apply {
@@ -311,7 +315,7 @@ class PlayoneFirebaseV1(
                         value = it
                         // Remove out of date device token.
                         if (lastDeviceToken.isNotNull()) {
-                            child(DEVICE_TOKENS).child(lastDeviceToken).value = null
+                            child(DEVICE_TOKENS).child(lastDeviceToken!!).value = null
                             model.deviceToken
                                 .takeIf { it.isNotBlank() }
                                 ?.let { child(DEVICE_TOKENS).child(it).value = true }
@@ -334,11 +338,13 @@ class PlayoneFirebaseV1(
     ) = joinSnapshot(userId)
         .child(userId)
         .child(playoneId)
-        .runTransaction(callback, errorCallback, strategy) { mutableData ->
-            val join = mutableData?.getValue(Boolean::class.java)
-            // [mutableData] must not be null here.
-            if (join.isNotNull()) mutableData?.value = isJoin
-            Transaction.success(mutableData)
+        .runTransaction(callback, errorCallback, strategy) {
+            it?.let { mutableData ->
+                val join = mutableData.getValue(Boolean::class.java)
+                // [mutableData] must not be null here.
+                if (join.isNotNull()) mutableData.value = isJoin
+                Transaction.success(mutableData)
+            } ?: Transaction.abort()
         }
     //endregion
 
@@ -369,7 +375,9 @@ class PlayoneFirebaseV1(
         ?.getValue(UserModel::class.java)
         ?.teams
         ?.keys
-        ?.run { byThruId(errorCallback, block) }
+        ?.let {
+            (it as MutableSet<String?>).byThruId(errorCallback, block)
+        }
 
     private fun joinedSnapToPlayoneList(
         dataSnapshot: DataSnapshot?,
@@ -398,7 +406,7 @@ class PlayoneFirebaseV1(
         model: PlayoneModel,
         cb: OperationResultCallback
     ) = let {
-        val id = playoneSnapshot.push().key
+        val id = playoneSnapshot.push().key!!
         val name = dataSnapshot?.getValue(String::class.java).orEmpty()
 
         teamSnapshot(userId).child(id).setValue(true)
@@ -410,7 +418,7 @@ class PlayoneFirebaseV1(
         ref.putBytes(getFileBytes(model.cover),
                      scb = {
                          // Cover image has been uploaded and fetch its url
-                         copyModel.cover = it.downloadUrl.toString()
+                         copyModel.cover = ref.downloadUrl.toString()
 
                          // Update the database
                          dbReference.updateChildren(
@@ -476,20 +484,22 @@ class PlayoneFirebaseV1(
         block(isJoined)
     }
 
-    private fun MutableSet<String>.byThruId(
+    private fun MutableSet<String?>.byThruId(
         errorCallback: FirebaseErrorCallback,
         block: (List<PlayoneModel>) -> Unit
     ) {
         val list = mutableListOf<PlayoneModel>()
         forEachIndexed { index, id ->
-            playoneDsAction(id,
-                            {
-                                it.takeIf(PlayoneModel?::isNotNull)?.let(list::add)
-                                // Finish the loop.
-                                if (index == size - 1) block(list)
-                            },
-                            errorCallback,
-                            ::snapToPlayone)
+            id?.let { it ->
+                playoneDsAction(it,
+                                {
+                                    it.takeIf(PlayoneModel?::isNotNull)?.let(list::add)
+                                    // Finish the loop.
+                                    if (index == size - 1) block(list)
+                                },
+                                errorCallback,
+                                ::snapToPlayone)
+            }
         }
     }
     //endregion
@@ -497,7 +507,7 @@ class PlayoneFirebaseV1(
     private fun toPlayoneModel(dataSnapshot: DataSnapshot) = dataSnapshot.run {
         getValue(PlayoneModel::class.java)
             .takeIf { it.isNotNull() && key.isNotNull() }
-            ?.also { it.id = key }
+            ?.also { it.id = key!! }
     }
 
     private val playoneSnapshot get() = dbReference.child(GROUPS)

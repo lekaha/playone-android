@@ -32,14 +32,17 @@ internal fun <D> DatabaseReference.runTransaction(
     block: (MutableData?) -> Transaction.Result
 ) = runTransaction(object : Transaction.Handler {
 
-    override fun onComplete(de: DatabaseError, p1: Boolean, ds: DataSnapshot?) =
-        if (!p1) {
-            de.makeCallback(errorCallback)
+    override fun onComplete(de: DatabaseError?, p1: Boolean, ds: DataSnapshot?) {
+        de?.also {
+            if (!p1) {
+                it.makeCallback(errorCallback)
+            }
+            else {
+                strategy?.invoke(it, p1, ds)
+                callback(p1)
+            }
         }
-        else {
-            strategy?.invoke(de, p1, ds)
-            callback(p1)
-        }
+    }
 
-    override fun doTransaction(mutableData: MutableData?) = block(mutableData)
+    override fun doTransaction(mutableData: MutableData) = block(mutableData)
 })

@@ -39,7 +39,14 @@ ext {
     autoValueAnnotation = autoValue
     ktxVersion = '0.3'
     googleApiVersion = '11.8.0'
-    firebaseVersion = googleApiVersion
+    googleServiceMap = '15.0.1'
+    googleServiceLocation = '15.0.1'
+    googleServicePlace = '15.0.1'
+    googleServiceAuth = '16.0.0'
+    firebaseVersion = '16.0.1'
+    firebaseStorage = '16.0.1'
+    firebaseAuth = '16.0.3'
+    firebaseMessaging = '17.3.0'
     modelMapperVersion = '1.1.0'
     facebookSDKVersion = '[4,5)'
     constraintLayoutVersion = '1.0.2'
@@ -237,16 +244,16 @@ ext {
             // Firebase
             firebaseCore:       "com.google.firebase:firebase-core:${firebaseVersion}",
             firebaseDb:         "com.google.firebase:firebase-database:${firebaseVersion}",
-            firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseVersion}",
-            firebaseAuth:       "com.google.firebase:firebase-auth:${firebaseVersion}",
+            firebaseMsging:     "com.google.firebase:firebase-messaging:${firebaseMessaging}",
+            firebaseAuth:       "com.google.firebase:firebase-auth:${firebaseAuth}",
             firebaseInvites:    "com.google.firebase:firebase-invites:${firebaseVersion}",
-            firebaseStorage:    "com.google.firebase:firebase-storage:${firebaseVersion}",
+            firebaseStorage:    "com.google.firebase:firebase-storage:${firebaseStorage}",
             facebook:           "com.facebook.android:facebook-login:${facebookSDKVersion}",
 
-            playAuth:           "com.google.android.gms:play-services-auth:${googleApiVersion}",
-            googleMap:          "com.google.android.gms:play-services-maps:${googleApiVersion}",
-            googlePlaces:       "com.google.android.gms:play-services-places:${googleApiVersion}",
-            googleLocation:     "com.google.android.gms:play-services-location:${googleApiVersion}",
+            playAuth:           "com.google.android.gms:play-services-auth:${googleServiceAuth}",
+            googleMap:          "com.google.android.gms:play-services-maps:${googleServiceMap}",
+            googlePlaces:       "com.google.android.gms:play-services-places:${googleServicePlace}",
+            googleLocation:     "com.google.android.gms:play-services-location:${googleServiceLocation}",
             googleMapUtils:     "com.google.maps.android:android-maps-utils:0.5",
 
             coroutine:          "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutine}",

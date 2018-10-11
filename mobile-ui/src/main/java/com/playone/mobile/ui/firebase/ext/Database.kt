@@ -29,7 +29,7 @@ fun Query.addListenerForSingleValueEvent(wrapper: WrapperValueEventListener.() -
         addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) = it.onCancelled.invoke(error)
 
-            override fun onDataChange(dataSnapshot: DataSnapshot?) =
+            override fun onDataChange(dataSnapshot: DataSnapshot) =
                 it.onDataChange.invoke(dataSnapshot)
         })
     }
@@ -39,7 +39,7 @@ fun Query.addValueEventListener(wrapper: WrapperValueEventListener.() -> Unit) =
         addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) = it.onCancelled.invoke(error)
 
-            override fun onDataChange(dataSnapshot: DataSnapshot?) =
+            override fun onDataChange(dataSnapshot: DataSnapshot) =
                 it.onDataChange.invoke(dataSnapshot)
         })
     }
@@ -49,16 +49,16 @@ fun Query.addChildEventListener(wrapper: WrapperChildEventListener.() -> Unit) =
         addChildEventListener(object : ChildEventListener {
             override fun onCancelled(error: DatabaseError) = it.onCancelled.invoke(error)
 
-            override fun onChildMoved(dataSnapshot: DataSnapshot?, p1: String) =
-                it.onChildMoved.invoke(dataSnapshot, p1)
+            override fun onChildMoved(dataSnapshot: DataSnapshot, p1: String?) =
+                it.onChildMoved.invoke(dataSnapshot, p1!!)
 
-            override fun onChildChanged(dataSnapshot: DataSnapshot?, p1: String) =
-                it.onChildChanged.invoke(dataSnapshot, p1)
+            override fun onChildChanged(dataSnapshot: DataSnapshot, p1: String?) =
+                it.onChildChanged.invoke(dataSnapshot, p1!!)
 
-            override fun onChildAdded(dataSnapshot: DataSnapshot?, p1: String) =
-                it.onChildAdded.invoke(dataSnapshot, p1)
+            override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) =
+                it.onChildAdded.invoke(dataSnapshot, p1!!)
 
-            override fun onChildRemoved(dataSnapshot: DataSnapshot?) =
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) =
                 it.onChildRemoved.invoke(dataSnapshot)
         })
     }
